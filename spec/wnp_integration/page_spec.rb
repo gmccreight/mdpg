@@ -1,4 +1,6 @@
+require "wnp/env"
 require "wnp/data"
+require "wnp/user"
 require "wnp/page"
 
 require "tmpdir"
@@ -19,11 +21,13 @@ describe "Integration" do
 
     before do
       page_data = {:id => 1, :name => "orig-name", :revision => 0}
-      @data.set "page-1-0", page_data
+      @data.set "page-1-1-0", page_data
     end
 
     def get_page_1
-      page = Wnp::Page.new(@data, 1)
+      user = Wnp::User.new(nil, 1)
+      env = Wnp::Env.new(@data, user)
+      page = Wnp::Page.new(env, 1)
       page.load
       page
     end
