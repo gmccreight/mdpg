@@ -13,7 +13,7 @@ module Wnp
 
       new_revision = revision + 1
       data.set "#{DATA_PREFIX}-#{id}-#{new_revision}", {:id => id, :name => name, :text => text, :revision => new_revision}
-      data.set "#{DATA_PREFIX}-#{id}-revision", new_revision
+      data.set get_revision_filename(), new_revision
       true
     end
 
@@ -21,11 +21,21 @@ module Wnp
       Wnp::Token.new(name).validate
     end
 
-    def self.get(data, id)
-      revision = data.get("#{DATA_PREFIX}-#{id}-revision") || 0
+    def load
+      revision = get_revision()
       page_name = "#{DATA_PREFIX}-#{id}-#{revision}"
       attrs = data.get(page_name)
-      self.new(data, attrs[:id], attrs[:name], attrs[:text], attrs[:revision])
+      self.name = attrs[:name]
+      self.text = attrs[:text]
+      self.revision = attrs[:revision]
+    end
+
+    def get_revision
+      data.get(get_revision_filename()) || 0
+    end
+
+    def get_revision_filename
+      "#{DATA_PREFIX}-#{id}-revision"
     end
 
   end

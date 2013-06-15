@@ -22,30 +22,36 @@ describe "Integration" do
       @data.set "page-1-0", page_data
     end
 
+    def get_page_1
+      page = Wnp::Page.new(@data, 1)
+      page.load
+      page
+    end
+
     it "should load a page from data ok" do
-      page = Wnp::Page.get(@data, 1)
+      page = get_page_1
       assert_equal "orig-name", page.name
     end
 
     it "should be able to update with an acceptable name" do
-      page = Wnp::Page.get(@data, 1)
+      page = get_page_1
       assert_equal "orig-name", page.name
       assert_equal 0, page.revision
       page.name = "new-name"
       page.save
 
-      page_reloaded = Wnp::Page.get(@data, 1)
+      page_reloaded = get_page_1
       assert_equal "new-name", page_reloaded.name
       assert_equal 1, page_reloaded.revision
     end
 
     it "should not update with an invalid name" do
-      page = Wnp::Page.get(@data, 1)
+      page = get_page_1
       assert_equal "orig-name", page.name
       page.name = "Bad New Name"
       assert_equal false, page.save
 
-      page_reloaded = Wnp::Page.get(@data, 1)
+      page_reloaded = get_page_1
       assert_equal "orig-name", page_reloaded.name
     end
 
