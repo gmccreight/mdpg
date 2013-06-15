@@ -1,25 +1,29 @@
-class Wnppage < Struct.new(:name)
+module Wnp
 
-  def validate_name
-    return "blank" if ! name || name.empty?
-    return "too_short" if name.size < 3
-    return "too_long" if name.size > 60
-    if name !~ /^[a-z0-9-]+$/
-      return "only_a_z_0_9_and_hyphens_ok"
+  class Page < Struct.new(:name)
+
+    def validate_name
+      return "blank" if ! name || name.empty?
+      return "too_short" if name.size < 3
+      return "too_long" if name.size > 60
+      if name !~ /^[a-z0-9-]+$/
+        return "only_a_z_0_9_and_hyphens_ok"
+      end
+      nil
     end
-    nil
+
   end
 
 end
 
 require "minitest/autorun"
 
-describe Wnppage do
+describe Wnp::Page do
 
   describe "validate_name" do
 
     def validate_name(name)
-      page = Wnppage.new(name)
+      page = Wnp::Page.new(name)
       page.validate_name
     end
 
