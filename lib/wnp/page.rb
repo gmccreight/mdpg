@@ -2,7 +2,7 @@ require 'wnp/token'
 
 module Wnp
 
-  class Page < Struct.new(:data, :id, :name, :text)
+  class Page < Struct.new(:data, :id, :name, :text, :revision)
 
     DATA_PREFIX = "page"
 
@@ -11,7 +11,9 @@ module Wnp
         return false
       end
 
-      data.set "#{DATA_PREFIX}-#{id}", {:id => id, :name => name, :text => text}
+      new_revision = revision + 1
+      data.set "#{DATA_PREFIX}-#{id}-#{new_revision}", {:id => id, :name => name, :text => text, :revision => new_revision}
+      data.set "#{DATA_PREFIX}-#{id}-revision", new_revision
       true
     end
 
@@ -20,8 +22,10 @@ module Wnp
     end
 
     def self.get(data, id)
-      attrs = data.get "#{DATA_PREFIX}-#{id}"
-      self.new(data, attrs[:id], attrs[:name], attrs[:text])
+      revision = data.get("#{DATA_PREFIX}-#{id}-revision") || 0
+      page_name = "#{DATA_PREFIX}-#{id}-#{revision}"
+      attrs = data.get(page_name)
+      self.new(data, attrs[:id], attrs[:name], attrs[:text], attrs[:revision])
     end
 
   end
