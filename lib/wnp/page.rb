@@ -6,15 +6,28 @@ module Wnp
 
     DATA_PREFIX = "page"
 
+    def persistable_attributes
+      [:id, :name, :text, :revision]
+    end
+
     def save
       if error = validate_name()
         return false
       end
 
-      new_revision = revision + 1
-      env.data.set "#{DATA_PREFIX}-#{user_id}-#{id}-#{new_revision}", {:id => id, :name => name, :text => text, :revision => new_revision}
-      env.data.set get_revision_filename(), new_revision
+      self.revision += 1
+      env.data.set page_filename, hash_representation
+      env.data.set revision_number_filename(), revision
       true
+    end
+
+    # look into using .hash which is part of struct
+    def hash_representation
+      h = {}
+      persistable_attributes.each do |attr|
+        h[attr] = self.send attr
+      end
+      h
     end
 
     def validate_name
@@ -22,24 +35,30 @@ module Wnp
     end
 
     def load
-      revision = get_revision()
-      page_name = "#{DATA_PREFIX}-#{user_id}-#{id}-#{revision}"
-      attrs = env.data.get(page_name)
+      self.revision = get_revision()
+      attrs = env.data.get(page_filename)
+
+      # for some reason I can't seem to get these to work when looping through
+      # the persistable_attributes... so I'm leaving them like this for now.
       self.name = attrs[:name]
       self.text = attrs[:text]
       self.revision = attrs[:revision]
     end
 
     def get_revision
-      env.data.get(get_revision_filename()) || 0
+      env.data.get(revision_number_filename()) || 0
     end
 
     def user_id
       env.user.id
     end
 
-    def get_revision_filename
+    def revision_number_filename
       "#{DATA_PREFIX}-#{user_id}-#{id}-revision"
+    end
+
+    def page_filename
+      "#{DATA_PREFIX}-#{user_id}-#{id}-#{revision}"
     end
 
   end
