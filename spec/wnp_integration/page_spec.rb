@@ -17,11 +17,34 @@ describe "Integration" do
 
   describe "page" do
 
-    it "should load a page from data ok" do
-      page_data = {:id => 1, :name => "cool-name"}
+    before do
+      page_data = {:id => 1, :name => "orig-name"}
       @data.set "page-1", page_data
+    end
+
+    it "should load a page from data ok" do
       page = Wnp::Page.get(@data, 1)
-      assert_equal "cool-name", page.name
+      assert_equal "orig-name", page.name
+    end
+
+    it "should be able to update with an acceptable name" do
+      page = Wnp::Page.get(@data, 1)
+      assert_equal "orig-name", page.name
+      page.name = "new-name"
+      page.save
+
+      page_reloaded = Wnp::Page.get(@data, 1)
+      assert_equal "new-name", page_reloaded.name
+    end
+
+    it "should not update with an invalid name" do
+      page = Wnp::Page.get(@data, 1)
+      assert_equal "orig-name", page.name
+      page.name = "Bad New Name"
+      assert_equal false, page.save
+
+      page_reloaded = Wnp::Page.get(@data, 1)
+      assert_equal "orig-name", page_reloaded.name
     end
 
   end
