@@ -6,28 +6,15 @@ module Wnp
 
     DATA_PREFIX = "page"
 
-    def persistable_attributes
-      [:id, :name, :text, :revision]
-    end
-
     def save
       if error = validate_name()
         return false
       end
 
       self.revision += 1
-      env.data.set page_filename, hash_representation
+      env.data.set page_filename, self.to_h
       env.data.set revision_number_filename(), revision
       true
-    end
-
-    # look into using .hash which is part of struct
-    def hash_representation
-      h = {}
-      persistable_attributes.each do |attr|
-        h[attr] = self.send attr
-      end
-      h
     end
 
     def validate_name
