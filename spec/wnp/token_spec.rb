@@ -13,11 +13,11 @@ describe Wnp::Token do
     describe "nil or blank" do
 
       it "when nil" do
-        assert_equal validate(nil), :blank
+        assert_equal :blank, validate(nil)
       end
 
       it "when blank" do
-        assert_equal validate(""), :blank
+        assert_equal :blank, validate("")
       end
 
     end
@@ -25,15 +25,15 @@ describe Wnp::Token do
     describe "length" do
 
       it "when too short" do
-        assert_equal validate("x"), :too_short
+        assert_equal :too_short, validate("x")
       end
 
       it "when too long" do
-        assert_equal validate("x" * 100), :too_long
+        assert_equal :too_long, validate("x" * 100)
       end
 
       it "when just right" do
-        assert_equal validate("hello-there"), nil
+        assert_equal nil, validate("hello-there")
       end
 
     end
@@ -41,19 +41,19 @@ describe Wnp::Token do
     describe "character set" do
 
       it "should not allow underscores" do
-        assert_equal validate("hellothere_"), :only_a_z_0_9_and_hyphens_ok
+        assert_equal :only_a_z_0_9_and_hyphens_ok, validate("hellothere_")
       end
 
       it "should not allow spaces" do
-        assert_equal validate("hello there"), :only_a_z_0_9_and_hyphens_ok
+        assert_equal :only_a_z_0_9_and_hyphens_ok, validate("hello there")
       end
 
       it "should allow numbers" do
-        assert_equal validate("hello-there-89"), nil
+        assert_equal nil, validate("hello-there-89")
       end
 
       it "should allow a-z and hyphens" do
-        assert_equal validate("hello-there"), nil
+        assert_equal nil, validate("hello-there")
       end
 
     end

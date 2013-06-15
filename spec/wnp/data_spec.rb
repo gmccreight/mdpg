@@ -19,7 +19,7 @@ describe Wnp::Data do
     it "sets the data" do
       @data.set "somekey", {:hello => "what", :goodbye => "when"}
       hash = @data.get "somekey"
-      assert_equal hash[:hello], "what"
+      assert_equal "what", hash[:hello]
     end
 
   end
