@@ -4,7 +4,14 @@ module Wnp
 
     def load
       attrs = env.data.get("user_#{id}")
-      self.page_ids_for_names = attrs[:page_ids_for_names]
+    end
+
+    def add_page(id)
+
+    end
+
+    def get_pages
+
     end
 
   end
