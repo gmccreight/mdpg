@@ -25,7 +25,7 @@ describe "Integration" do
     end
 
     def get_page_1
-      user = Wnp::User.new(nil, 1)
+      user = Wnp::User.new(@data, 1)
       env = Wnp::Env.new(@data, user)
       page = Wnp::Page.new(env, 1)
       page.load

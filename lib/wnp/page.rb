@@ -12,6 +12,7 @@ module Wnp
       end
 
       self.revision += 1
+      #a struct to_h is a [tag:ruby2:gem] feature!
       env.data.set page_filename, self.to_h
       env.data.set revision_number_filename(), revision
       true
