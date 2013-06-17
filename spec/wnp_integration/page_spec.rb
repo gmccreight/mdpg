@@ -3,18 +3,12 @@ require "wnp/data"
 require "wnp/user"
 require "wnp/page"
 
-require "tmpdir"
 require "minitest/autorun"
 
 describe "Integration" do
 
   before do
-    @temp_dir = Dir.mktmpdir
-    @data = Wnp::Data.new @temp_dir
-  end
-
-  after do
-    FileUtils.remove_entry @temp_dir
+    @data = Wnp::Data.new :memory
   end
 
   describe "page" do
