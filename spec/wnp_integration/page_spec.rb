@@ -34,6 +34,14 @@ describe "Integration" do
         assert_equal "hello-there", reloaded_page.name
       end
 
+      it "should add each of the newly created page to the user's pages" do
+        assert_equal [], @user.get_page_ids()
+        @page.create("first-page-created")
+        assert_equal [1], @user.get_page_ids()
+        @page.create("second-page-created")
+        assert_equal [1,2], @user.get_page_ids()
+      end
+
       describe "pages-max-page-id" do
 
         it "should be created and incremented from 0 the first time it's used" do

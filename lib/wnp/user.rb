@@ -7,11 +7,16 @@ module Wnp
     end
 
     def add_page(id)
-
+      page_ids = get_page_ids() + [id]
+      set_page_ids(page_ids.uniq.sort)
     end
 
-    def get_pages
+    def set_page_ids(page_ids)
+      data.set("user-#{id}-page-ids", page_ids)
+    end
 
+    def get_page_ids
+      data.get("user-#{id}-page-ids") || []
     end
 
   end

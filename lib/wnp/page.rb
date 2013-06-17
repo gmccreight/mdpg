@@ -8,6 +8,7 @@ module Wnp
       new_page_id = get_max_page_id() + 1
       new_page = Page.new(env, new_page_id, name, "", 0)
       if new_page.save()
+        env.user.add_page(new_page.id)
         set_max_page_id(new_page_id)
       end
     end
