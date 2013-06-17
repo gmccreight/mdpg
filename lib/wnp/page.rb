@@ -14,14 +14,14 @@ module Wnp
     end
 
     def set_max_page_id(val)
-      env.data.set('pages-max-page-id', val)
+      env.data.set('pagedata-max-page-id', val)
     end
 
     def get_max_page_id
-      env.data.get('pages-max-page-id') || 0
+      env.data.get('pagedata-max-page-id') || 0
     end
 
-    DATA_PREFIX = "page"
+    DATA_PREFIX = "pagedata"
 
     def save
       if error = validate_name()

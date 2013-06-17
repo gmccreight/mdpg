@@ -36,22 +36,22 @@ describe "Integration" do
         assert_equal [1,2], @user.get_page_ids()
       end
 
-      describe "pages-max-page-id" do
+      describe "pagedata-max-page-id" do
 
         it "should be created and incremented from 0 the first time it's used" do
           @page.create("hello-there")
-          assert_equal 1, @data.get("pages-max-page-id")
+          assert_equal 1, @data.get("pagedata-max-page-id")
         end
 
         it "should incremented for every new page" do
-          @data.set("pages-max-page-id", 3)
+          @data.set("pagedata-max-page-id", 3)
           @page.create("hello-there")
-          assert_equal 4, @data.get("pages-max-page-id")
+          assert_equal 4, @data.get("pagedata-max-page-id")
         end
 
         it "should not create a page with a bad name" do
           @page.create("Bad Name")
-          assert_equal nil, @data.get("pages-max-page-id")
+          assert_equal nil, @data.get("pagedata-max-page-id")
         end
 
       end
@@ -62,7 +62,7 @@ describe "Integration" do
 
       before do
         page_data = {:id => 1, :name => "orig-name", :revision => 0}
-        @data.set "page-1-0", page_data
+        @data.set "pagedata-1-0", page_data
       end
 
       def get_page_1
