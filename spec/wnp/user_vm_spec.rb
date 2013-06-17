@@ -1,4 +1,3 @@
-require "wnp/user"
 require "wnp/user_vm"
 
 require "minitest/autorun"

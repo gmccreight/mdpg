@@ -1,6 +1,7 @@
 require 'wnp/data'
 
 require 'tmpdir'
+
 require "minitest/autorun"
 
 describe Wnp::Data do

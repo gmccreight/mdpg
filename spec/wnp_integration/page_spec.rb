@@ -1,5 +1,4 @@
 require "wnp/env"
-require "wnp/data"
 require "wnp/user"
 require "wnp/page"
 
