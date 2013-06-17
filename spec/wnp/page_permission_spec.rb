@@ -21,38 +21,38 @@ describe Wnp::PagePermission do
     @page3 = Wnp::Page.new(@data, 3)
   end
 
-  def can_view?(user, page)
-    Wnp::PagePermission.new(user, page).can_view?
+  def can_read?(user, page)
+    Wnp::PagePermission.new(user, page).can_read?
   end
 
-  def can_edit?(user, page)
-    Wnp::PagePermission.new(user, page).can_edit?
+  def can_write?(user, page)
+    Wnp::PagePermission.new(user, page).can_write?
   end
 
   describe "owner" do
 
-    it "should be able to view one of their pages" do
-      assert can_view?(@user1, @page1)
+    it "should be able to read one of their pages" do
+      assert can_read?(@user1, @page1)
     end
 
-    it "should be able to edit one of their pages" do
-      assert can_edit?(@user1, @page1)
+    it "should be able to write one of their pages" do
+      assert can_write?(@user1, @page1)
     end
 
   end
 
   describe "unrelated person" do
 
-    it "should not be able to view one of user 1's pages" do
-      refute can_view?(@user2, @page1)
+    it "should not be able to read one of user 1's pages" do
+      refute can_read?(@user2, @page1)
     end
 
-    it "should not be able to edit one of user 1's pages" do
-      refute can_edit?(@user2, @page1)
+    it "should not be able to write one of user 1's pages" do
+      refute can_write?(@user2, @page1)
     end
 
-    it "user 1 should not be able to view an unrelated page" do
-      refute can_view?(@user1, @page3)
+    it "user 1 should not be able to read an unrelated page" do
+      refute can_read?(@user1, @page3)
     end
 
   end

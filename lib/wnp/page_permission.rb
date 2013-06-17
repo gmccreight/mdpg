@@ -5,11 +5,11 @@ module Wnp
 
   class PagePermission < Struct.new(:user, :page)
 
-    def can_view?
+    def can_read?
       is_owned_by?
     end
 
-    def can_edit?
+    def can_write?
       is_owned_by?
     end
 
