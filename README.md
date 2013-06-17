@@ -5,7 +5,26 @@
 First and foremost, I want the tests to run extremely quickly.  Even the
 integration tests.  This is the primarly design goal.  All else is secondary.
 If the tests take more than a second to run on a top-of-the-line computer,
-then we're not succeeding in this goal.
+then we're not meeting our goal.
+
+## Readily Refactorable
+
+A secondary, but also critically important, goal is that the codebase be
+ready-to-refactor at all times.  I guess this means aiming for 100% test
+coverage, but I'm not going to be pedantic about it.  Basically, the point of
+this goal is that I can't often get several hours of hacking time set aside,
+but I can get half and hour here and half an hour there.  I want the code to
+facilitate making very quick changes and refactorings.
+
+## Fun!
+
+This can't be overstated.  Nobody's paying me to work on this, so it had better
+be gosh-darn fun!
+
+## Easily installable
+
+I'm going to try to get all of this done with Ruby 2 core and Sinatra.  We'll
+see how that goes.
 
 ## Easy to back up
 
