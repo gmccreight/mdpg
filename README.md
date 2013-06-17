@@ -23,6 +23,10 @@ be gosh-darn fun!
 
 ## Easily installable
 
+Readily consumable via command line and HTTP, as well as with a browser.
+
+## Easily installable
+
 I'm going to try to get all of this done with Ruby 2 core and Sinatra.  We'll
 see how that goes.
 
