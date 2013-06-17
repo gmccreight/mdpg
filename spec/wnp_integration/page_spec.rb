@@ -68,7 +68,7 @@ describe "Integration" do
 
       before do
         page_data = {:id => 1, :name => "orig-name", :revision => 0}
-        @data.set "page-1-1-0", page_data
+        @data.set "page-1-0", page_data
       end
 
       def get_page_1

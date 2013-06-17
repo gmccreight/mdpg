@@ -54,16 +54,12 @@ module Wnp
       env.data.get(revision_number_filename()) || 0
     end
 
-    def user_id
-      env.user.id
-    end
-
     def revision_number_filename
-      "#{DATA_PREFIX}-#{user_id}-#{id}-revision"
+      "#{DATA_PREFIX}-#{id}-revision"
     end
 
     def page_filename
-      "#{DATA_PREFIX}-#{user_id}-#{id}-#{revision}"
+      "#{DATA_PREFIX}-#{id}-#{revision}"
     end
 
   end
