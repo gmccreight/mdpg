@@ -4,6 +4,8 @@ module Wnp
 
   class Page < Struct.new(:env, :id, :name, :text, :revision)
 
+    DATA_PREFIX = "pagedata"
+
     def create(name)
       new_page_id = get_max_page_id() + 1
       new_page = Page.new(env, new_page_id, name, "", 0)
@@ -14,14 +16,12 @@ module Wnp
     end
 
     def set_max_page_id(val)
-      env.data.set('pagedata-max-page-id', val)
+      env.data.set("#{DATA_PREFIX}-max-page-id", val)
     end
 
     def get_max_page_id
-      env.data.get('pagedata-max-page-id') || 0
+      env.data.get("#{DATA_PREFIX}-max-page-id") || 0
     end
-
-    DATA_PREFIX = "pagedata"
 
     def save
       if error = validate_name()
