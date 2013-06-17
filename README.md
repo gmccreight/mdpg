@@ -21,7 +21,7 @@ facilitate making very quick changes and refactorings.
 This can't be overstated.  Nobody's paying me to work on this, so it had better
 be gosh-darn fun!
 
-## Easily installable
+## Consumable from multiple clients
 
 Readily consumable via command line and HTTP, as well as with a browser.
 
