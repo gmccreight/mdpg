@@ -1,3 +1,5 @@
+require_relative "../spec_helper"
+
 require "wnp/user"
 
 require "minitest/autorun"

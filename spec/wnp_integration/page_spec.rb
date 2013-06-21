@@ -1,3 +1,5 @@
+require_relative "../spec_helper"
+
 require "wnp/env"
 require "wnp/user"
 require "wnp/page"

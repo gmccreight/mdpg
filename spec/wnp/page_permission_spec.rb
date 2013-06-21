@@ -1,3 +1,5 @@
+require_relative "../spec_helper"
+
 require "wnp/page_permission"
 
 require "minitest/autorun"
@@ -7,18 +9,17 @@ describe Wnp::PagePermission do
   before do
     @data = Wnp::Data.new :memory
 
-    @data.set "userdata-1-page-ids", [1,2]
-    @data.set "userdata-2-page-ids", []
-    @data.set "pagedata-1-0", {:name => "owned-by-user-1"}
-    @data.set "pagedata-2-0", {:name => "also-owned-by-user-1"}
-    @data.set "pagedata-3-0", {:name => "not-owned-by-user-1"}
+    @page1 = create_page 1
+    @page2 = create_page 2
+    @page3 = create_page 3
 
-    @user1 = Wnp::User.new(@data, 1)
-    @user2 = Wnp::User.new(@data, 2)
+    @user1 = create_user 1
 
-    @page1 = Wnp::Page.new(@data, 1)
-    @page2 = Wnp::Page.new(@data, 2)
-    @page3 = Wnp::Page.new(@data, 3)
+    @user1.add_page 1
+    @user1.add_page 2
+
+    @user2 = create_user 2
+
   end
 
   def can_read?(user, page)
