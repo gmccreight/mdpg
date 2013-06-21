@@ -8,17 +8,13 @@ require "minitest/autorun"
 
 describe "Integration" do
 
-  before do
-    @data = Wnp::Data.new :memory
-  end
-
   describe "page" do
 
     describe "creation" do
 
       before do
-        @user = Wnp::User.new(@data, 1)
-        @env = Wnp::Env.new(@data, @user)
+        @user = create_user 1
+        @env = Wnp::Env.new(get_data(), @user)
         @page = Wnp::Page.new(@env)
       end
 
@@ -41,18 +37,18 @@ describe "Integration" do
 
         it "should be created and incremented from 0 the first time it's used" do
           @page.create("hello-there")
-          assert_equal 1, @data.get("pagedata-max-page-id")
+          assert_equal 1, get_data().get("pagedata-max-page-id")
         end
 
         it "should incremented for every new page" do
-          @data.set("pagedata-max-page-id", 3)
+          get_data().set("pagedata-max-page-id", 3)
           @page.create("hello-there")
-          assert_equal 4, @data.get("pagedata-max-page-id")
+          assert_equal 4, get_data().get("pagedata-max-page-id")
         end
 
         it "should not create a page with a bad name" do
           @page.create("Bad Name")
-          assert_equal nil, @data.get("pagedata-max-page-id")
+          assert_equal nil, get_data().get("pagedata-max-page-id")
         end
 
       end
@@ -62,13 +58,12 @@ describe "Integration" do
     describe "loading and saving" do
 
       before do
-        page_data = {:id => 1, :name => "orig-name", :revision => 0}
-        @data.set "pagedata-1-0", page_data
+        create_page 1, {:id => 1, :name => "orig-name", :revision => 0}
       end
 
       def get_page_1
-        user = Wnp::User.new(@data, 1)
-        env = Wnp::Env.new(@data, user)
+        user = create_user 1
+        env = Wnp::Env.new(get_data(), user)
         page = Wnp::Page.new(env, 1)
         page.load
         page
