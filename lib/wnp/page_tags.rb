@@ -9,17 +9,19 @@ module Wnp
         return false
       end
 
-      set_tags (get_tags + [name]).uniq.sort
+      set_tags get_tags + [name]
+    end
+
+    def remove_tag(name)
+      set_tags get_tags - [name]
     end
 
     def set_tags(tags)
-      tags_hash = {}
-      tags.each{|tag| tags_hash[tag] = true}
-      data.set key, tags_hash
+      data.set key, Hash[tags.map {|x| [x,true]}]
     end
 
     def get_tags
-      get_tags_hash().keys
+      get_tags_hash().keys.sort
     end
 
     def has_tag?(tag)
