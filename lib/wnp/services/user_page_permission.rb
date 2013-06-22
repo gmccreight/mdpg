@@ -1,9 +1,9 @@
 require 'wnp/user'
 require 'wnp/page'
 
-module Wnp
+module Wnp::Services
 
-  class PagePermission < Struct.new(:user, :page)
+  class UserPagePermission < Struct.new(:user, :page)
 
     def can_read?
       is_owned_by?

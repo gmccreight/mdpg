@@ -1,10 +1,10 @@
-require_relative "../spec_helper"
+require_relative "../../spec_helper"
 
-require "wnp/page_permission"
+require "wnp/services/user_page_permission"
 
 require "minitest/autorun"
 
-describe Wnp::PagePermission do
+describe Wnp::Services::UserPagePermission do
 
   before do
     @data = Wnp::Data.new :memory
@@ -23,11 +23,11 @@ describe Wnp::PagePermission do
   end
 
   def can_read?(user, page)
-    Wnp::PagePermission.new(user, page).can_read?
+    Wnp::Services::UserPagePermission.new(user, page).can_read?
   end
 
   def can_write?(user, page)
-    Wnp::PagePermission.new(user, page).can_write?
+    Wnp::Services::UserPagePermission.new(user, page).can_write?
   end
 
   describe "owner" do
