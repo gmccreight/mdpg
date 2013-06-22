@@ -9,8 +9,11 @@ module Wnp
     private
 
       def page_ids_and_names
-        user.get_page_ids().
-          map{|x| page = Page.new(env, x); page.load; [page.id, page.name]}
+        pages.map{|x| [x.id, x.name]}
+      end
+
+      def pages
+        user.get_page_ids().map{|x| page = Page.new(env, x); page.load; page}
       end
 
   end
