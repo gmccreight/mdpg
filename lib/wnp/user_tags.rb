@@ -2,7 +2,7 @@ require 'wnp/token'
 
 module Wnp
 
-  class PageTags < Struct.new(:data, :page_id)
+  class UserTags < Struct.new(:data, :user_id)
 
     def add_tag(name)
       if error = Wnp::Token.new(name).validate
@@ -10,7 +10,6 @@ module Wnp
       end
 
       set_tags get_tags + [name]
-      set_page_ids_associated_with_tag(name, (get_page_ids_associated_with_tag(name) + [page_id]).uniq)
     end
 
     def remove_tag(name)
@@ -18,19 +17,10 @@ module Wnp
         return false
       end
       set_tags get_tags - [name]
-      set_page_ids_associated_with_tag(name, get_page_ids_associated_with_tag(name) - [page_id])
     end
 
     def set_tags(tags)
       data.set key, Hash[tags.map {|x| [x,true]}]
-    end
-
-    def get_page_ids_associated_with_tag(tag_name)
-      data.get("pagetagsdata-#{tag_name}-page-ids") || []
-    end
-
-    def set_page_ids_associated_with_tag(tag_name, page_ids)
-      data.set "pagetagsdata-#{tag_name}-page-ids", page_ids
     end
 
     def get_tags
@@ -48,7 +38,7 @@ module Wnp
       end
 
       def key
-        "pagetagsdata-#{page_id}-tags"
+        "usertagsdata-#{user_id}-tags"
       end
 
   end
