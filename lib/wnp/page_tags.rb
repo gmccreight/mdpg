@@ -8,6 +8,8 @@ module Wnp
       if error = Wnp::Token.new(name).validate
         return false
       end
+      
+      return false if has_tag?(name)
 
       set_tags get_tags + [name]
       set_page_ids_associated_with_tag(name, (get_page_ids_associated_with_tag(name) + [page_id]).uniq)
@@ -17,6 +19,9 @@ module Wnp
       if error = Wnp::Token.new(name).validate
         return false
       end
+
+      return false if ! has_tag?(name)
+
       set_tags get_tags - [name]
       set_page_ids_associated_with_tag(name, get_page_ids_associated_with_tag(name) - [page_id])
     end

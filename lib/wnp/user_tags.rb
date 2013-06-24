@@ -4,23 +4,38 @@ module Wnp
 
   class UserTags < Struct.new(:data, :user_id)
 
-    def add_tag(name)
-      if error = Wnp::Token.new(name).validate
+    def add_tag(tag_name, page_id)
+      if error = Wnp::Token.new(tag_name).validate
         return false
       end
 
-      set_tags get_tags + [name]
+      h = get_tags_hash()
+      if ! h.has_key?(tag_name)
+        h[tag_name] = {}
+      end
+      h[tag_name][page_id.to_s] = true
+      data.set key, h
     end
 
-    def remove_tag(name)
-      if error = Wnp::Token.new(name).validate
+    def remove_tag(tag_name, page_id)
+      if error = Wnp::Token.new(tag_name).validate
         return false
       end
-      set_tags get_tags - [name]
-    end
 
-    def set_tags(tags)
-      data.set key, Hash[tags.map {|x| [x,true]}]
+      h = get_tags_hash()
+      if ! h.has_key?(tag_name)
+        return
+      else
+        if h[tag_name].has_key?(page_id.to_s)
+          h[tag_name].delete(page_id.to_s)
+          if h[tag_name].keys.size == 0
+            h.delete(tag_name)
+          end
+        end
+      end
+
+      data.set key, h
+
     end
 
     def get_tags
@@ -31,10 +46,18 @@ module Wnp
       get_tags_hash().has_key?(tag)
     end
 
+    def tag_count(tag)
+      h = get_tags_hash()
+      return 0 if ! h.has_key?(tag)
+      return h[tag].keys.size
+    end
+
     private
 
       def get_tags_hash
-        data.get(key) || {}
+        h = data.get(key) || {}
+        h.default = {}
+        h
       end
 
       def key
