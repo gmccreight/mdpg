@@ -13,8 +13,8 @@ describe Wnp::PageVm do
     @page_1_vm = Wnp::PageVm.new(@env, page)
   end
 
-  def user_1_tags
-    Wnp::UserTags.new(get_data(), 1)
+  def user_1_page_tags
+    Wnp::UserPageTags.new(get_data(), 1)
   end
 
   def page_1_tags
@@ -30,16 +30,16 @@ describe Wnp::PageVm do
     it "should add a new tag to both page and user" do
       @page_1_vm.add_tag("good-stuff")
       assert page_1_tags.has_tag?("good-stuff")
-      assert user_1_tags.has_tag?("good-stuff")
-      assert 1, user_1_tags.tag_count("good-stuff")
+      assert user_1_page_tags.has_tag?("good-stuff")
+      assert 1, user_1_page_tags.tag_count("good-stuff")
     end
 
     it "should be able to remove an existing tag" do
       @page_1_vm.add_tag("good-stuff")
       @page_1_vm.remove_tag("good-stuff")
       refute page_1_tags.has_tag?("good-stuff")
-      refute user_1_tags.has_tag?("good-stuff")
-      assert 0, user_1_tags.tag_count("good-stuff")
+      refute user_1_page_tags.has_tag?("good-stuff")
+      assert 0, user_1_page_tags.tag_count("good-stuff")
     end
 
   end
@@ -55,7 +55,7 @@ describe Wnp::PageVm do
     end
 
     it "should increment the user's tags count to 2" do
-      assert 2, user_1_tags.tag_count("good-stuff")
+      assert 2, user_1_page_tags.tag_count("good-stuff")
     end
 
   end
@@ -65,12 +65,12 @@ describe Wnp::PageVm do
     it "should not add the same tag again" do
       @page_1_vm.add_tag("good-stuff")
       assert page_1_tags.has_tag?("good-stuff")
-      assert user_1_tags.has_tag?("good-stuff")
-      assert 1, user_1_tags.tag_count("good-stuff")
+      assert user_1_page_tags.has_tag?("good-stuff")
+      assert 1, user_1_page_tags.tag_count("good-stuff")
 
       @page_1_vm.add_tag("good-stuff")
-      assert user_1_tags.has_tag?("good-stuff")
-      assert 1, user_1_tags.tag_count("good-stuff")
+      assert user_1_page_tags.has_tag?("good-stuff")
+      assert 1, user_1_page_tags.tag_count("good-stuff")
     end
 
   end
