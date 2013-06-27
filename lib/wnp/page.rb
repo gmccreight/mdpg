@@ -8,6 +8,10 @@ module Wnp
       text.include?(query)
     end
 
+    def name_contains(query)
+      name.include?(query)
+    end
+
     DATA_PREFIX = "pagedata"
 
     def create(name)
