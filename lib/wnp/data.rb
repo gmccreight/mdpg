@@ -1,4 +1,5 @@
 require 'digest'
+require 'json'
 
 module Wnp
 
@@ -12,7 +13,7 @@ module Wnp
         filename = full_path_for_key key
         if File.exists? filename
           File.open(filename) do |file|
-            data = Marshal.load(file)
+            data = JSON.parse(file.read, :symbolize_names => true)
           end
         end
       end
@@ -25,7 +26,7 @@ module Wnp
       else
         FileUtils.mkdir_p(data_dir_or_memory() + "/" + directory_for_key(key))
         File.open(full_path_for_key(key), 'w') do |file|
-          Marshal.dump(data, file)
+          file.write data.to_json
         end
       end
     end
