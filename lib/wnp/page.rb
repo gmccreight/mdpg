@@ -4,6 +4,10 @@ module Wnp
 
   class Page < Struct.new(:env, :id, :name, :text, :revision)
 
+    def content_contains(query)
+      text.include?(query)
+    end
+
     DATA_PREFIX = "pagedata"
 
     def create(name)
