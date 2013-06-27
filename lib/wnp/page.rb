@@ -4,7 +4,7 @@ module Wnp
 
   class Page < Struct.new(:env, :id, :name, :text, :revision)
 
-    def content_contains(query)
+    def text_contains(query)
       text.include?(query)
     end
 

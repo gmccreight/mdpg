@@ -38,6 +38,10 @@ module Wnp
 
     end
 
+    def search(query)
+      get_tags.select{|tag| tag.include?(query)}
+    end
+
     def get_tags
       get_tags_hash().keys.sort
     end

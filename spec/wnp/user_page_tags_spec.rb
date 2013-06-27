@@ -56,4 +56,23 @@ describe Wnp::UserPageTags do
 
   end
 
+  describe "searching" do
+
+    before do
+      @user_page_tags.add_tag "trombone", 1
+      @user_page_tags.add_tag "food", 1
+      @user_page_tags.add_tag "green", 1
+    end
+
+    it "should find all tags that have the query as a substring" do
+      assert_equal ["food", "trombone"], @user_page_tags.search("o")
+    end
+
+    it "should not return any results if no matches" do
+      assert_equal [], @user_page_tags.search("what")
+    end
+
+  end
+
+
 end

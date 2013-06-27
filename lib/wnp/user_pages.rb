@@ -2,8 +2,8 @@ module Wnp
 
   class UserPages < Struct.new(:env, :user)
 
-    def search_content(query)
-      pages.select{|page| page.content_contains(query)}
+    def pages_containing_text(query)
+      pages.select{|page| page.text_contains(query)}
     end
 
     def page_ids_and_names_sorted_by_name
