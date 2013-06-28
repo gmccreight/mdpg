@@ -3,6 +3,10 @@ require 'sinatra'
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 require 'wnp'
 
+get '/about' do
+  "about this"
+end
+
 get '/' do
   redirect "/p/foobar", 303
 end
