@@ -1,4 +1,5 @@
-require 'wnp/token'
+require 'wnp/modules/incrementing_id'
+include Wnp::Modules::IncrementingId
 
 module Wnp
 
@@ -12,23 +13,13 @@ module Wnp
       name.include?(query)
     end
 
-    DATA_PREFIX = "pagedata"
-
     def create(name)
-      new_page_id = get_max_page_id() + 1
+      new_page_id = get_max_id() + 1
       new_page = Page.new(env, new_page_id, name, "", 0)
       if new_page.save()
         env.user.add_page(new_page.id)
-        set_max_page_id(new_page_id)
+        set_max_id(new_page_id)
       end
-    end
-
-    def set_max_page_id(val)
-      env.data.set("#{DATA_PREFIX}-max-id", val)
-    end
-
-    def get_max_page_id
-      env.data.get("#{DATA_PREFIX}-max-id") || 0
     end
 
     def save
@@ -38,7 +29,7 @@ module Wnp
 
       self.revision += 1
       #a struct to_h is a [tag:ruby2:gem] feature!
-      env.data.set page_filename, self.to_h
+      env.data.set data_key, self.to_h
       env.data.set revision_number_filename(), revision
       true
     end
@@ -49,7 +40,7 @@ module Wnp
 
     def load
       self.revision = get_revision()
-      attrs = env.data.get(page_filename)
+      attrs = env.data.get(data_key)
 
       # for some reason I can't seem to get these to work when looping through
       # the persistable_attributes... so I'm leaving them like this for now.
@@ -63,12 +54,18 @@ module Wnp
     end
 
     def revision_number_filename
-      "#{DATA_PREFIX}-#{id}-revision"
+      "#{get_data_prefix()}-#{id}-revision"
     end
 
-    def page_filename
-      "#{DATA_PREFIX}-#{id}-#{revision}"
-    end
+    private
+
+      def data_key
+        "#{get_data_prefix()}-#{id}-#{revision}"
+      end
+
+      def get_data_prefix
+        "pagedata"
+      end
 
   end
 

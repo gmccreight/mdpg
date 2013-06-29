@@ -1,10 +1,9 @@
-require 'wnp/token'
+require 'wnp/modules/incrementing_id'
+include Wnp::Modules::IncrementingId
 
 module Wnp
 
   class Group < Struct.new(:env, :id, :name, :admins, :members)
-
-    DATA_PREFIX = "groupdata"
 
     def create(name)
       new_group_id = get_max_id() + 1
@@ -20,7 +19,7 @@ module Wnp
         return false
       end
 
-      env.data.set data_filename(), self.to_h
+      env.data.set data_key, self.to_h
       true
     end
 
@@ -29,7 +28,7 @@ module Wnp
     end
 
     def load
-      attrs = env.data.get(data_filename())
+      attrs = env.data.get(data_key)
 
       # for some reason I can't seem to get these to work when looping through
       # the persistable_attributes... so I'm leaving them like this for now.
@@ -40,16 +39,12 @@ module Wnp
 
     private
 
-      def data_filename
-        "#{DATA_PREFIX}-#{id}"
+      def data_key
+        "#{get_data_prefix()}-#{id}"
       end
 
-      def set_max_id(val)
-        env.data.set("#{DATA_PREFIX}-max-id", val)
-      end
-
-      def get_max_id
-        env.data.get("#{DATA_PREFIX}-max-id") || 0
+      def get_data_prefix
+        "groupdata"
       end
 
   end

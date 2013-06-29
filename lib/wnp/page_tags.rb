@@ -27,7 +27,7 @@ module Wnp
     end
 
     def set_tags(tags)
-      data.set key, Hash[tags.map {|x| [x,true]}]
+      data.set data_key, Hash[tags.map {|x| [x,true]}]
     end
 
     def get_page_ids_associated_with_tag(tag_name)
@@ -49,10 +49,10 @@ module Wnp
     private
 
       def get_tags_hash
-        data.get(key) || {}
+        data.get(data_key) || {}
       end
 
-      def key
+      def data_key
         "pagetagsdata-#{page_id}-tags"
       end
 
