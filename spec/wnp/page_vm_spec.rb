@@ -1,9 +1,5 @@
 require_relative "../spec_helper"
 
-require "wnp/page_vm"
-
-require "minitest/autorun"
-
 describe Wnp::PageVm do
 
   before do

@@ -1,11 +1,5 @@
 require_relative "../spec_helper"
 
-require "wnp/env"
-require "wnp/user"
-require "wnp/page"
-
-require "minitest/autorun"
-
 describe "Integration" do
 
   describe "page" do

@@ -1,9 +1,5 @@
 require_relative "../../spec_helper"
 
-require "wnp/services/user_page_permission"
-
-require "minitest/autorun"
-
 describe Wnp::Services::UserPagePermission do
 
   before do

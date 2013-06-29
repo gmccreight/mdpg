@@ -1,9 +1,5 @@
 require_relative "../spec_helper"
 
-require "wnp/token"
-
-require "minitest/autorun"
-
 describe Wnp::Token do
 
   describe "validate" do

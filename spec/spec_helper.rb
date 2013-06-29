@@ -1,3 +1,7 @@
+require "wnp"
+
+require "minitest/autorun"
+
 def get_data
   @data ||= Wnp::Data.new :memory
 end

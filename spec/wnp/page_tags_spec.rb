@@ -1,9 +1,5 @@
 require_relative "../spec_helper"
 
-require "wnp/page_tags"
-
-require "minitest/autorun"
-
 describe Wnp::PageTags do
 
   before do

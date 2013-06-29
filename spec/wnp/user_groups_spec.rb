@@ -1,9 +1,5 @@
 require_relative "../spec_helper"
 
-require "wnp/user_groups"
-
-require "minitest/autorun"
-
 describe Wnp::UserGroups do
 
   before do
