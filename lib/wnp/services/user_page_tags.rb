@@ -1,6 +1,6 @@
 require 'wnp/token'
 
-module Wnp
+module Wnp::Services
 
   class UserPageTags < Struct.new(:data, :user_id)
 

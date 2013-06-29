@@ -1,13 +1,13 @@
-require_relative "../spec_helper"
+require_relative "../../spec_helper"
 
-require "wnp/user_page_tags"
+require "wnp/services/user_page_tags"
 
 require "minitest/autorun"
 
-describe Wnp::UserPageTags do
+describe Wnp::Services::UserPageTags do
 
   before do
-    @user_page_tags = Wnp::UserPageTags.new(get_data(), 1)
+    @user_page_tags = Wnp::Services::UserPageTags.new(get_data(), 1)
   end
 
   describe "adding" do

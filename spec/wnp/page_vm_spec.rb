@@ -14,7 +14,7 @@ describe Wnp::PageVm do
   end
 
   def user_1_page_tags
-    Wnp::UserPageTags.new(get_data(), 1)
+    Wnp::Services::UserPageTags.new(get_data(), 1)
   end
 
   def page_1_tags
