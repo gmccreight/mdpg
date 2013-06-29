@@ -4,7 +4,7 @@ module Wnp::Services
 
   class UserPageTags < Struct.new(:data, :user_id)
 
-    def add_tag(tag_name, page_id)
+    def add_tag tag_name, page_id
       if error = Wnp::Token.new(tag_name).validate
         return false
       end
@@ -17,7 +17,7 @@ module Wnp::Services
       data.set key, h
     end
 
-    def remove_tag(tag_name, page_id)
+    def remove_tag tag_name, page_id
       if error = Wnp::Token.new(tag_name).validate
         return false
       end
@@ -38,7 +38,7 @@ module Wnp::Services
 
     end
 
-    def search(query)
+    def search query
       get_tags.select{|tag| tag.include?(query)}
     end
 
@@ -46,11 +46,11 @@ module Wnp::Services
       get_tags_hash().keys.sort
     end
 
-    def has_tag?(tag)
+    def has_tag? tag
       get_tags_hash().has_key?(tag)
     end
 
-    def tag_count(tag)
+    def tag_count tag
       h = get_tags_hash()
       return 0 if ! h.has_key?(tag)
       return h[tag].keys.size

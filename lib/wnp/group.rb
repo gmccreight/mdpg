@@ -5,7 +5,7 @@ module Wnp
 
   class Group < Struct.new(:env, :id, :name, :admins, :members)
 
-    def create(name)
+    def create name
       new_group_id = get_max_id() + 1
       new_group = Group.new(env, new_group_id, name, [env.user.id], [env.user.id])
       if new_group.save()

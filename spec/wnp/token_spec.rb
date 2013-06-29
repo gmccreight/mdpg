@@ -4,7 +4,7 @@ describe Wnp::Token do
 
   describe "validate" do
 
-    def validate(text)
+    def validate text
       Wnp::Token.new(text).validate
     end
 

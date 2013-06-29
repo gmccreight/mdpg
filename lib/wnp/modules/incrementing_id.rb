@@ -2,7 +2,7 @@ module Wnp::Modules
   
   module IncrementingId
 
-    def set_max_id(val)
+    def set_max_id val
       env.data.set("#{get_data_prefix()}-max-id", val)
     end
 

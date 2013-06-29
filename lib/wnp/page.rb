@@ -5,15 +5,15 @@ module Wnp
 
   class Page < Struct.new(:env, :id, :name, :text, :revision)
 
-    def text_contains(query)
+    def text_contains query
       text.include?(query)
     end
 
-    def name_contains(query)
+    def name_contains query
       name.include?(query)
     end
 
-    def create(name)
+    def create name
       new_page_id = get_max_id() + 1
       new_page = Page.new(env, new_page_id, name, "", 0)
       if new_page.save()

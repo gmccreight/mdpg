@@ -18,11 +18,11 @@ describe Wnp::Services::UserPagePermission do
 
   end
 
-  def can_read?(user, page)
+  def can_read? user, page
     Wnp::Services::UserPagePermission.new(user, page).can_read?
   end
 
-  def can_write?(user, page)
+  def can_write? user, page
     Wnp::Services::UserPagePermission.new(user, page).can_write?
   end
 

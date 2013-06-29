@@ -2,11 +2,11 @@ module Wnp
 
   class UserPages < Struct.new(:env, :user)
 
-    def pages_with_names_containing_text(query)
+    def pages_with_names_containing_text query
       pages.select{|page| page.name_contains(query)}
     end
 
-    def pages_with_text_containing_text(query)
+    def pages_with_text_containing_text query
       pages.select{|page| page.text_contains(query)}
     end
 

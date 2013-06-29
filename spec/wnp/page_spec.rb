@@ -4,7 +4,7 @@ describe Wnp::Page do
 
   describe "validate_name" do
 
-    def validate_name(name)
+    def validate_name name
       page = Wnp::Page.new(nil, 1, name)
       page.validate_name
     end

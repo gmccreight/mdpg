@@ -4,7 +4,7 @@ module Wnp
 
   class PageTags < Struct.new(:data, :page_id)
 
-    def add_tag(name)
+    def add_tag name
       if error = Wnp::Token.new(name).validate
         return false
       end
@@ -15,7 +15,7 @@ module Wnp
       set_page_ids_associated_with_tag(name, (get_page_ids_associated_with_tag(name) + [page_id]).uniq)
     end
 
-    def remove_tag(name)
+    def remove_tag name
       if error = Wnp::Token.new(name).validate
         return false
       end
@@ -26,15 +26,15 @@ module Wnp
       set_page_ids_associated_with_tag(name, get_page_ids_associated_with_tag(name) - [page_id])
     end
 
-    def set_tags(tags)
+    def set_tags tags
       data.set data_key, Hash[tags.map {|x| [x,true]}]
     end
 
-    def get_page_ids_associated_with_tag(tag_name)
+    def get_page_ids_associated_with_tag tag_name
       data.get("pagetagsdata-#{tag_name}-page-ids") || []
     end
 
-    def set_page_ids_associated_with_tag(tag_name, page_ids)
+    def set_page_ids_associated_with_tag tag_name, page_ids
       data.set "pagetagsdata-#{tag_name}-page-ids", page_ids
     end
 
@@ -42,7 +42,7 @@ module Wnp
       get_tags_hash().keys.sort
     end
 
-    def has_tag?(tag)
+    def has_tag? tag
       get_tags_hash().has_key?(tag)
     end
 

@@ -127,3 +127,9 @@ in the code.  I'll highlight them with the [tag:ruby2:gem] tag.
 ## Minitest
 
 I wanted to see what all the fuss is about, so we're using it instead of rspec.
+
+## Seattle Style
+
+Given that minitest is a seattlerb project, I figure why not also try out the
+Seattle style, too.  The Seattle style basically means don't use parens with
+def.  I'll try this on and see how it feels.
