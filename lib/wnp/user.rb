@@ -18,6 +18,18 @@ module Wnp
       data.get("userdata-#{id}-page-ids") || []
     end
 
+    def add_group(id)
+      set_group_ids (get_group_ids + [id]).uniq.sort
+    end
+
+    def set_group_ids(ids)
+      data.set "userdata-#{id}-group-ids", ids
+    end
+
+    def get_group_ids
+      data.get("userdata-#{id}-group-ids") || []
+    end
+
   end
 
 end

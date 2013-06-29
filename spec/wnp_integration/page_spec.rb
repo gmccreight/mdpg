@@ -33,22 +33,22 @@ describe "Integration" do
         assert_equal [1,2], @user.get_page_ids()
       end
 
-      describe "pagedata-max-page-id" do
+      describe "pagedata-max-id" do
 
         it "should be created and incremented from 0 the first time it's used" do
           @page.create("hello-there")
-          assert_equal 1, get_data().get("pagedata-max-page-id")
+          assert_equal 1, get_data().get("pagedata-max-id")
         end
 
         it "should incremented for every new page" do
-          get_data().set("pagedata-max-page-id", 3)
+          get_data().set("pagedata-max-id", 3)
           @page.create("hello-there")
-          assert_equal 4, get_data().get("pagedata-max-page-id")
+          assert_equal 4, get_data().get("pagedata-max-id")
         end
 
         it "should not create a page with a bad name" do
           @page.create("Bad Name")
-          assert_equal nil, get_data().get("pagedata-max-page-id")
+          assert_equal nil, get_data().get("pagedata-max-id")
         end
 
       end

@@ -24,11 +24,11 @@ module Wnp
     end
 
     def set_max_page_id(val)
-      env.data.set("#{DATA_PREFIX}-max-page-id", val)
+      env.data.set("#{DATA_PREFIX}-max-id", val)
     end
 
     def get_max_page_id
-      env.data.get("#{DATA_PREFIX}-max-page-id") || 0
+      env.data.get("#{DATA_PREFIX}-max-id") || 0
     end
 
     def save
