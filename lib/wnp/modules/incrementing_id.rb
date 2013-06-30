@@ -1,5 +1,5 @@
 module Wnp::Modules
-  
+
   module IncrementingId
 
     def set_max_id val

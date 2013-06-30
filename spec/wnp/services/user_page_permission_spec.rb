@@ -5,14 +5,15 @@ describe Wnp::Services::UserPagePermission do
   before do
     @data = Wnp::Data.new :memory
 
-    @page1 = create_page 1
-    @page2 = create_page 2
-    @page3 = create_page 3
-
     @user1 = create_user 1
+
+    @page1 = create_page
+    @page2 = create_page
+    @page3 = create_page
 
     @user1.add_page 1
     @user1.add_page 2
+    @user1.remove_page 3
 
     @user2 = create_user 2
 

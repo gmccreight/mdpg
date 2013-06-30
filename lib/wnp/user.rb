@@ -10,6 +10,10 @@ module Wnp
       set_page_ids (get_page_ids + [id]).uniq.sort
     end
 
+    def remove_page id
+      set_page_ids (get_page_ids - [id]).uniq.sort
+    end
+
     def set_page_ids page_ids
       data.set "userdata-#{id}-page-ids", page_ids
     end
@@ -20,6 +24,10 @@ module Wnp
 
     def add_group id
       set_group_ids (get_group_ids + [id]).uniq.sort
+    end
+
+    def remove_group id
+      set_group_ids (get_group_ids - [id]).uniq.sort
     end
 
     def set_group_ids ids

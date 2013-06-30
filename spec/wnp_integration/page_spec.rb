@@ -56,7 +56,7 @@ describe "Integration" do
     describe "loading and saving" do
 
       before do
-        create_page 1, {:id => 1, :name => "orig-name", :revision => 0}
+        create_page :id => 1, :name => "orig-name", :revision => 0
       end
 
       def get_page_1
@@ -75,13 +75,13 @@ describe "Integration" do
       it "should be able to update with an acceptable name" do
         page = get_page_1
         assert_equal "orig-name", page.name
-        assert_equal 0, page.revision
+        assert_equal 1, page.revision
         page.name = "new-name"
         page.save
 
         page_reloaded = get_page_1
         assert_equal "new-name", page_reloaded.name
-        assert_equal 1, page_reloaded.revision
+        assert_equal 2, page_reloaded.revision
       end
 
       it "should not update with an invalid name" do

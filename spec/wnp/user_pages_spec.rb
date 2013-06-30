@@ -9,8 +9,8 @@ describe Wnp::UserPages do
 
     user = create_user 1
 
-    create_page 1, :name => "zebra-training", :text => "the text for page 1"
-    create_page 2, :name => "alaska-crab", :text => "the text for page 2"
+    create_page :name => "zebra-training", :text => "the text for page 1"
+    create_page :name => "alaska-crab", :text => "the text for page 2"
 
     user.add_page 1
     user.add_page 2
