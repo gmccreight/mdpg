@@ -5,21 +5,28 @@ module Wnp
 
   class Page < Struct.new(:env, :id, :name, :text, :revision)
 
+    def self.create env, opts = {}
+      p = self.new(env)
+      p.create opts
+    end
+
+    def create opts = {}
+      new_page_id = get_max_id() + 1
+      new_page = Page.new(env, new_page_id, opts[:name], opts[:text], 0)
+      if new_page.save()
+        env.user.add_page(new_page.id)
+        set_max_id(new_page_id)
+        return new_page
+      end
+      nil
+    end
+
     def text_contains query
       text.include?(query)
     end
 
     def name_contains query
       name.include?(query)
-    end
-
-    def create name
-      new_page_id = get_max_id() + 1
-      new_page = Page.new(env, new_page_id, name, "", 0)
-      if new_page.save()
-        env.user.add_page(new_page.id)
-        set_max_id(new_page_id)
-      end
     end
 
     def save

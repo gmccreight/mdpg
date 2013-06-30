@@ -12,8 +12,12 @@ describe "Integration" do
         @page = Wnp::Page.new(@env)
       end
 
+      def create_page_with_name name
+        Wnp::Page.create(@env, :name => name)
+      end
+
       it "should be able to create a page and reload it" do
-        @page.create("hello-there")
+        create_page_with_name "hello-there"
         reloaded_page = Wnp::Page.new(@env, 1)
         reloaded_page.load
         assert_equal "hello-there", reloaded_page.name
@@ -21,27 +25,27 @@ describe "Integration" do
 
       it "should add each of the newly created page to the user's pages" do
         assert_equal [], @user.get_page_ids()
-        @page.create("first-page-created")
+        create_page_with_name "first-page-created"
         assert_equal [1], @user.get_page_ids()
-        @page.create("second-page-created")
+        create_page_with_name "second-page-created"
         assert_equal [1,2], @user.get_page_ids()
       end
 
       describe "pagedata-max-id" do
 
         it "should be created and incremented from 0 the first time it's used" do
-          @page.create("hello-there")
+          create_page_with_name "hello-there"
           assert_equal 1, get_data().get("pagedata-max-id")
         end
 
         it "should incremented for every new page" do
           get_data().set("pagedata-max-id", 3)
-          @page.create("hello-there")
+          create_page_with_name "hello-there"
           assert_equal 4, get_data().get("pagedata-max-id")
         end
 
         it "should not create a page with a bad name" do
-          @page.create("Bad Name")
+          create_page_with_name "Bad Name"
           assert_equal nil, get_data().get("pagedata-max-id")
         end
 
