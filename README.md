@@ -16,6 +16,13 @@ this goal is that I can't often get several hours of hacking time set aside,
 but I can get half and hour here and half an hour there.  I want the code to
 facilitate making very quick changes and refactorings.
 
+## Actual Unit Tests
+
+I'm taking testing inspiration from Sandi Metz's book, POODR, and from
+the Destroy All Software screencast series.  As part of that, I want my
+unit tests to be as isolated as possible.  I'll check outbound command messages
+with mock expectations, and I'll stub out any outbound query messages.
+
 ## Fun!
 
 This can't be overstated.  Nobody's paying me to work on this, so it had better
