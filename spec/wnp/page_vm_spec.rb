@@ -5,7 +5,7 @@ describe Wnp::PageVm do
   before do
     @user = Wnp::User.new(get_data(), 1)
     @env = Wnp::Env.new(get_data(), @user)
-    page = Wnp::Page.new(get_data(), 1)
+    page = Wnp::Page.new(get_data(), 1, "my-bongos", "This is *bongos*, indeed.")
     @page_1_vm = Wnp::PageVm.new(@env, page)
   end
 
@@ -19,6 +19,14 @@ describe Wnp::PageVm do
 
   def page_2_tags
     Wnp::PageTags.new(get_data(), 2)
+  end
+
+  describe "rendered html for page" do
+
+    it "should render the page's markdown as html" do
+      assert_equal "<p>This is <em>bongos</em>, indeed.</p>\n", @page_1_vm.rendered_html()
+    end
+
   end
 
   describe "new tag for page" do

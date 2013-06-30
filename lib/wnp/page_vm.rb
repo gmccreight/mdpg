@@ -1,3 +1,5 @@
+require 'redcarpet'
+
 module Wnp
 
   class PageVm < Struct.new(:env, :page)
@@ -12,6 +14,11 @@ module Wnp
       if page_tags().remove_tag(tag)
         user_page_tags().remove_tag(tag, page.id)
       end
+    end
+
+    def rendered_html
+      markdown = ::Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
+      markdown.render page.text
     end
 
     private
