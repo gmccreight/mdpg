@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    align (0.0.2)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
@@ -17,6 +18,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  align
   rack-test
   redcarpet
   sinatra
