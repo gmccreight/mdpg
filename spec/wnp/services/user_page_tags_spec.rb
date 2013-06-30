@@ -55,13 +55,15 @@ describe Wnp::Services::UserPageTags do
   describe "searching" do
 
     before do
-      @user_page_tags.add_tag "trombone", 1
-      @user_page_tags.add_tag "food", 1
-      @user_page_tags.add_tag "green", 1
+      %w{color trombone green colour}.each{|x| @user_page_tags.add_tag x, 1}
     end
 
-    it "should find all tags that have the query as a substring" do
-      assert_equal ["food", "trombone"], @user_page_tags.search("o")
+    it "should find all tags that are relatively closely related" do
+      assert_equal ["color", "colour"], @user_page_tags.search("color")
+    end
+
+    it "should even find tags that are not too closely related" do
+      assert_equal ["green"], @user_page_tags.search("great")
     end
 
     it "should not return any results if no matches" do

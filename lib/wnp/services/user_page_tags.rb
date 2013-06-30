@@ -1,4 +1,4 @@
-require 'wnp/token'
+require "similar_token_finder"
 
 module Wnp::Services
 
@@ -39,7 +39,7 @@ module Wnp::Services
     end
 
     def search query
-      get_tags.select{|tag| tag.include?(query)}
+      SimilarTokenFinder.new.get_similar_tokens(query, get_tags())
     end
 
     def get_tags
