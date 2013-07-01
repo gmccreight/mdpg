@@ -17,6 +17,10 @@ module Wnp::Models
       self.new().find(id)
     end
 
+    def self.find_by_index index_name, value
+      self.new().find_by_index(index_name, value)
+    end
+
     def create opts
       @id = get_max_id() + 1
 
@@ -39,12 +43,38 @@ module Wnp::Models
       end
     end
 
+    def find_by_index index_name, key
+      keyname = "#{get_data_prefix}-index-#{index_name}"
+      if hash = data_store.get(keyname)
+        if hash.has_key?(key)
+          return find hash[key]
+        else
+          return nil
+        end
+      else
+        return nil
+      end
+
+      self.new().find_by_index(index_name, value)
+    end
+
     def load attrs
       add_attributes_from_hash attrs
     end
 
     def save
       data_store.set data_key, persistable_data
+      update_indexes()
+    end
+
+    def update_indexes
+      indexes.each do |attribute_symbol|
+        keyname = "#{get_data_prefix}-index-#{attribute_symbol}"
+        hash = data_store.get(keyname) || {}
+        value = instance_variable_get "@#{attribute_symbol}"
+        hash[value] = self.id
+        data_store.set(keyname, hash)
+      end
     end
 
     private
@@ -96,6 +126,10 @@ module Wnp::Models
 
       def get_data_prefix
         raise NotImplementedError
+      end
+
+      def indexes
+        []
       end
 
   end
