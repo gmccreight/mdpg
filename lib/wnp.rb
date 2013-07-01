@@ -1,4 +1,6 @@
 require 'wnp/data'
+require "wnp/models/base"
+require "wnp/models/user"
 require 'wnp/env'
 require 'wnp/token'
 require 'wnp/page'
