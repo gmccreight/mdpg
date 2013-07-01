@@ -8,7 +8,7 @@ describe "Integration" do
 
       before do
         @user = create_user 1
-        @env = Wnp::Env.new(get_data(), @user)
+        @env = Wnp::Env.new(get_memory_datastore(), @user)
         @page = Wnp::Page.new(@env)
       end
 
@@ -35,18 +35,18 @@ describe "Integration" do
 
         it "should be created and incremented from 0 the first time it's used" do
           create_page_with_name "hello-there"
-          assert_equal 1, get_data().get("pagedata-max-id")
+          assert_equal 1, get_memory_datastore().get("pagedata-max-id")
         end
 
         it "should incremented for every new page" do
-          get_data().set("pagedata-max-id", 3)
+          get_memory_datastore().set("pagedata-max-id", 3)
           create_page_with_name "hello-there"
-          assert_equal 4, get_data().get("pagedata-max-id")
+          assert_equal 4, get_memory_datastore().get("pagedata-max-id")
         end
 
         it "should not create a page with a bad name" do
           create_page_with_name "Bad Name"
-          assert_equal nil, get_data().get("pagedata-max-id")
+          assert_equal nil, get_memory_datastore().get("pagedata-max-id")
         end
 
       end
@@ -61,7 +61,7 @@ describe "Integration" do
 
       def get_page_1
         user = create_user 1
-        env = Wnp::Env.new(get_data(), user)
+        env = Wnp::Env.new(get_memory_datastore(), user)
         page = Wnp::Page.new(env, 1)
         page.load
         page

@@ -8,7 +8,7 @@ describe "Integration" do
 
       before do
         @user = create_user 1
-        @env = Wnp::Env.new(get_data(), @user)
+        @env = Wnp::Env.new(get_memory_datastore(), @user)
         @group = Wnp::Group.new(@env)
       end
 
@@ -31,18 +31,18 @@ describe "Integration" do
 
         it "should be created and incremented from 0 the first time it's used" do
           @group.create("hello-there")
-          assert_equal 1, get_data().get("groupdata-max-id")
+          assert_equal 1, get_memory_datastore().get("groupdata-max-id")
         end
 
         it "should incremented for every new group" do
-          get_data().set("groupdata-max-id", 3)
+          get_memory_datastore().set("groupdata-max-id", 3)
           @group.create("hello-there")
-          assert_equal 4, get_data().get("groupdata-max-id")
+          assert_equal 4, get_memory_datastore().get("groupdata-max-id")
         end
 
         it "should not create a group with a bad name" do
           @group.create("Bad Name")
-          assert_equal nil, get_data().get("groupdata-max-id")
+          assert_equal nil, get_memory_datastore().get("groupdata-max-id")
         end
 
       end
@@ -57,7 +57,7 @@ describe "Integration" do
 
       def get_group_1
         user = create_user 1
-        env = Wnp::Env.new(get_data(), user)
+        env = Wnp::Env.new(get_memory_datastore(), user)
         group = Wnp::Group.new(env, 1)
         group.load
         group

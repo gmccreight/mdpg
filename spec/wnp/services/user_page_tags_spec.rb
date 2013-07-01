@@ -3,7 +3,7 @@ require_relative "../../spec_helper"
 describe Wnp::Services::UserPageTags do
 
   before do
-    @user_page_tags = Wnp::Services::UserPageTags.new(get_data(), 1)
+    @user_page_tags = Wnp::Services::UserPageTags.new(get_memory_datastore(), 1)
   end
 
   describe "adding" do

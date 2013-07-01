@@ -3,7 +3,7 @@ require_relative "../spec_helper"
 describe Wnp::Page do
 
   let (:user) { Wnp::User.new }
-  let (:env)  { OpenStruct.new data: get_data(), user:user}
+  let (:env)  { OpenStruct.new data: get_memory_datastore(), user:user}
 
   describe "validate_name" do
 

@@ -3,22 +3,22 @@ require_relative "../spec_helper"
 describe Wnp::PageVm do
 
   before do
-    @user = Wnp::User.new(get_data(), 1)
-    @env = Wnp::Env.new(get_data(), @user)
-    page = Wnp::Page.new(get_data(), 1, "my-bongos", "This is *bongos*, indeed.")
+    @user = Wnp::User.new(get_memory_datastore(), 1)
+    @env = Wnp::Env.new(get_memory_datastore(), @user)
+    page = Wnp::Page.new(get_memory_datastore(), 1, "my-bongos", "This is *bongos*, indeed.")
     @page_1_vm = Wnp::PageVm.new(@env, page)
   end
 
   def user_1_page_tags
-    Wnp::Services::UserPageTags.new(get_data(), 1)
+    Wnp::Services::UserPageTags.new(get_memory_datastore(), 1)
   end
 
   def page_1_tags
-    Wnp::PageTags.new(get_data(), 1)
+    Wnp::PageTags.new(get_memory_datastore(), 1)
   end
 
   def page_2_tags
-    Wnp::PageTags.new(get_data(), 2)
+    Wnp::PageTags.new(get_memory_datastore(), 2)
   end
 
   describe "rendered html for page" do
@@ -51,7 +51,7 @@ describe Wnp::PageVm do
   describe "multiple pages with same tag" do
 
     before do
-      page_2 = Wnp::Page.new(get_data(), 2)
+      page_2 = Wnp::Page.new(get_memory_datastore(), 2)
       @page_2_vm = Wnp::PageVm.new(@env, page_2)
 
       @page_1_vm.add_tag("good-stuff")

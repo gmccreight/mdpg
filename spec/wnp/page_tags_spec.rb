@@ -3,7 +3,7 @@ require_relative "../spec_helper"
 describe Wnp::PageTags do
 
   before do
-    @page_tags = Wnp::PageTags.new(get_data(), 1)
+    @page_tags = Wnp::PageTags.new(get_memory_datastore(), 1)
   end
 
   describe "adding" do
@@ -41,7 +41,7 @@ describe Wnp::PageTags do
       end
 
       it "should update to show multiple pages associated with same tag" do
-        page_tags_for_page_4 = Wnp::PageTags.new(get_data(), 4)
+        page_tags_for_page_4 = Wnp::PageTags.new(get_memory_datastore(), 4)
         @page_tags.add_tag "cool-house"
         page_tags_for_page_4.add_tag "cool-house"
         assert_equal [1,4], @page_tags.get_page_ids_associated_with_tag("cool-house")
@@ -78,7 +78,7 @@ describe Wnp::PageTags do
       end
 
       it "should be updated to remove one of the pages associated with the tag" do
-        page_tags_for_page_3 = Wnp::PageTags.new(get_data(), 3)
+        page_tags_for_page_3 = Wnp::PageTags.new(get_memory_datastore(), 3)
         page_tags_for_page_3.add_tag "cool-house"
         assert_equal [1,3], @page_tags.get_page_ids_associated_with_tag("cool-house")
         page_tags_for_page_3.remove_tag "cool-house"

@@ -6,16 +6,15 @@ module Wnp::Models
 
     def initialize
       @id = nil
-      @data = nil
+      @data = $data_store
     end
 
-    def self.create data, opts = {}
+    def self.create opts = {}
       new_object = self.new()
-      new_object.create(data, opts)
+      new_object.create(opts)
     end
 
-    def create data, opts
-      @data = data
+    def create opts
       @id = get_max_id() + 1
 
       add_attributes_from_opts(opts)

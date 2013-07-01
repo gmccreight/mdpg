@@ -3,8 +3,8 @@ require_relative "../spec_helper"
 describe Wnp::UserPages do
 
   before do
-    @user = Wnp::User.new(get_data(), 1)
-    @env = Wnp::Env.new(get_data(), @user)
+    @user = Wnp::User.new(get_memory_datastore(), 1)
+    @env = Wnp::Env.new(get_memory_datastore(), @user)
     @user_pages = Wnp::UserPages.new(@env, @user)
 
     user = create_user 1
