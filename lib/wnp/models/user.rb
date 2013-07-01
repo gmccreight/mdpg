@@ -1,5 +1,3 @@
-# require "digest/sha1"
-
 module Wnp::Models
 
   class User < Base
