@@ -10,14 +10,17 @@ module Wnp::Models
     end
 
     def self.create opts = {}
-      new_object = self.new()
-      new_object.create(opts)
+      self.new().create(opts)
+    end
+
+    def self.find id
+      self.new().find(id)
     end
 
     def create opts
       @id = get_max_id() + 1
 
-      add_attributes_from_opts(opts)
+      add_attributes_from_hash opts
 
       if save
         set_max_id @id
@@ -26,9 +29,18 @@ module Wnp::Models
       nil
     end
 
-    def load
-      attrs = data_store.get(data_key)
-      after_load(attrs)
+    def find id
+      self.id = id
+      if attrs = data_store.get(data_key)
+        self.load(attrs)
+        self
+      else
+        nil
+      end
+    end
+
+    def load attrs
+      add_attributes_from_hash attrs
     end
 
     def save
@@ -39,13 +51,13 @@ module Wnp::Models
 
       def persistable_data
         h = {}
-        attributes.each{|key| h[key] = instance_variable_get("@#{key}")}
+        persistable_attributes.each{|key| h[key] = instance_variable_get("@#{key}")}
         h
       end
 
-      def add_attributes_from_opts(opts)
-        attributes.each do |key|
-          next if key == :id || key == :data_store
+      def add_attributes_from_hash(opts)
+        persistable_attributes.each do |key|
+          next if key == :id
           if opts.has_key?(key)
             instance_variable_set("@#{key}", opts[key])
           else
@@ -66,6 +78,10 @@ module Wnp::Models
         data_store.get("#{get_data_prefix()}-max-id") || 0
       end
 
+      def persistable_attributes
+        attributes.reject{|x| x == :data_store}
+      end
+
       def attributes
         self.class.instance_methods.find_all do |method|
           method != :== &&
@@ -75,7 +91,7 @@ module Wnp::Models
       end
 
       def data_key
-        raise NotImplementedError
+        "#{get_data_prefix}-#{id}"
       end
 
       def get_data_prefix
