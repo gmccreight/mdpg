@@ -14,7 +14,7 @@ describe Wnp::Models::User do
     assert_equal nil, user.email
   end
 
-  it "should increment users" do
+  it "should increment the id" do
     u1 = Wnp::Models::User.create get_data(), name:"John"
     assert_equal 1, u1.id
 
