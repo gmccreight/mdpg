@@ -64,20 +64,20 @@ module Wnp::Models
 
     def save
       data_store.set data_key, persistable_data
-      update_indexes()
-    end
-
-    def update_indexes
-      indexes.each do |attribute_symbol|
-        keyname = "#{get_data_prefix}-index-#{attribute_symbol}"
-        hash = data_store.get(keyname) || {}
-        value = instance_variable_get "@#{attribute_symbol}"
-        hash[value] = self.id
-        data_store.set(keyname, hash)
-      end
+      update_unique_id_indexes()
     end
 
     private
+
+      def update_unique_id_indexes
+        unique_id_indexes.each do |attribute_symbol|
+          keyname = "#{get_data_prefix}-index-#{attribute_symbol}"
+          hash = data_store.get(keyname) || {}
+          value = instance_variable_get "@#{attribute_symbol}"
+          hash[value] = self.id
+          data_store.set(keyname, hash)
+        end
+      end
 
       def persistable_data
         h = {}
@@ -128,7 +128,7 @@ module Wnp::Models
         raise NotImplementedError
       end
 
-      def indexes
+      def unique_id_indexes
         []
       end
 

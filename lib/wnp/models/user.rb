@@ -6,6 +6,15 @@ module Wnp::Models
 
     attr_accessor :name, :email, :salt, :hashed_password, :access_token
 
+    def self.authenticate email, password
+      user = self.find_by_index :email, email
+      return nil if ! user
+      if user.password_authenticates?(password)
+        return user
+      end
+      nil
+    end
+
     def create opts = {}
       @password = opts[:password]
       opts.delete :password
@@ -23,16 +32,24 @@ module Wnp::Models
       super
     end
 
+    def password_authenticates? password
+      self.hashed_password == hash_this_password(password)
+    end
+
     private
 
-      def indexes
+      def unique_id_indexes
         [:email, :access_token]
       end
 
       def possibly_create_hashed_password
         if @password
-          self.hashed_password = Digest::SHA1.hexdigest(@password + self.salt)
+          self.hashed_password = hash_this_password(@password)
         end
+      end
+
+      def hash_this_password(password)
+        Digest::SHA1.hexdigest(password + self.salt)
       end
 
       def ensure_salt

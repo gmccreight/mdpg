@@ -94,4 +94,28 @@ describe Wnp::Models::User do
 
   end
 
+  describe "authentication" do
+
+    before do
+      Wnp::Models::User.create name:"John", email:"good@email.com", password:"cool"
+    end
+
+    it "should authenticate a user by correct name and email" do
+      user = Wnp::Models::User.authenticate "good@email.com", "cool"
+      assert_equal 1, user.id
+      assert_equal "John", user.name
+    end
+
+    it "should not authenticate a user if their email is wrong" do
+      user = Wnp::Models::User.authenticate "nonexistantemail@hello.com", "cool"
+      assert_equal nil, user
+    end
+
+    it "should not authenticate a user if their password is wrong" do
+      user = Wnp::Models::User.authenticate "good@email.com", "badpassword"
+      assert_equal nil, user
+    end
+
+  end
+
 end
