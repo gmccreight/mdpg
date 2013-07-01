@@ -118,4 +118,42 @@ describe Wnp::Models::User do
 
   end
 
+  describe "groups" do
+
+    before do
+      @user = Wnp::Models::User.create name:"John", email:"good@email.com", password:"cool"
+    end
+
+    it "should add, remove, and persist pages" do
+      @user.add_page 25
+      @user.add_page 32
+      @user.add_page 10
+      assert_equal [10, 25, 32], @user.page_ids
+      @user.remove_page 25
+      assert_equal [10, 32], @user.page_ids
+      @user.save
+      assert_equal [10, 32], Wnp::Models::User.find(1).page_ids
+    end
+
+  end
+
+  describe "groups" do
+
+    before do
+      @user = Wnp::Models::User.create name:"John", email:"good@email.com", password:"cool"
+    end
+
+    it "should add, remove, and persist groups" do
+      @user.add_group 25
+      @user.add_group 32
+      @user.add_group 10
+      assert_equal [10, 25, 32], @user.group_ids
+      @user.remove_group 25
+      assert_equal [10, 32], @user.group_ids
+      @user.save
+      assert_equal [10, 32], Wnp::Models::User.find(1).group_ids
+    end
+
+  end
+
 end
