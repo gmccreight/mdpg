@@ -2,7 +2,7 @@ module Wnp::Models
 
   class Page < Base
 
-    attr_accessor :name, :text, :revision
+    attr_accessor :name, :text, :revision, :tag_ids
 
     def text_contains query
       text.include?(query)
@@ -12,6 +12,14 @@ module Wnp::Models
       name.include?(query)
     end
 
+    def add_tag id
+      self.tag_ids = ((tag_ids || []) + [id]).sort.uniq.sort
+    end
+
+    def remove_tag id
+      self.tag_ids = ((tag_ids || []) - [id]).sort.uniq.sort
+    end
+
     private
 
       def validates?
@@ -19,7 +27,7 @@ module Wnp::Models
       end
 
       def get_data_prefix
-        "userdata"
+        "pagedata"
       end
 
   end
