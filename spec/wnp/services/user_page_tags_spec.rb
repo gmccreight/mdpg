@@ -10,7 +10,7 @@ describe Wnp::Services::UserPageTags do
 
     it "should be able to add a user tag" do
       @user_page_tags.add_tag "cool-house", 1
-      assert @user_page_tags.has_tag?("cool-house")
+      assert @user_page_tags.has_tag_with_name?("cool-house")
     end
 
     it "should not add a tag if the name does not validate" do

@@ -46,7 +46,7 @@ module Wnp::Services
       get_tags_hash().keys.sort
     end
 
-    def has_tag? tag
+    def has_tag_with_name? tag
       get_tags_hash().has_key?(tag)
     end
 

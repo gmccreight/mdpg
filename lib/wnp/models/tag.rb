@@ -2,7 +2,7 @@ module Wnp::Models
 
   class Tag < Base
 
-    attr_accessor :name
+    attr_accessor :name, :type, :associated_ids
 
     private
 
