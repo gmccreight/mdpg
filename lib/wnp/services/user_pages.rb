@@ -1,6 +1,6 @@
-module Wnp
+module Wnp::Services
 
-  class UserPages < Struct.new(:env, :user)
+  class UserPages < Struct.new(:user)
 
     def pages_with_names_containing_text query
       pages.select{|page| page.name_contains(query)}
@@ -21,7 +21,7 @@ module Wnp
       end
 
       def pages
-        user.get_page_ids().map{|x| page = Page.new(env, x); page.load; page}
+        user.page_ids().map{|x| page = Wnp::Models::Page.find(x); page}
       end
 
   end

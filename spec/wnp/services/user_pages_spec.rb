@@ -1,23 +1,21 @@
-require_relative "../spec_helper"
+require_relative "../../spec_helper"
 
-describe Wnp::UserPages do
+describe Wnp::Services::UserPages do
 
   before do
-    @user = Wnp::User.new(get_memory_datastore(), 1)
-    @env = Wnp::Env.new(get_memory_datastore(), @user)
-    @user_pages = Wnp::UserPages.new(@env, @user)
+    @user = Wnp::Models::User.create name:"John", email:"good@email.com", password:"cool"
 
-    user = create_user 1
+    @zebra_page = Wnp::Models::Page.create name:"zebra-training", text:"the text for page 1"
+    @alaska_page = Wnp::Models::Page.create name:"alaska-crab", text:"the text for page 2"
 
-    create_page :name => "zebra-training", :text => "the text for page 1"
-    create_page :name => "alaska-crab", :text => "the text for page 2"
+    @user.add_page @zebra_page.id
+    @user.add_page @alaska_page.id
 
-    user.add_page 1
-    user.add_page 2
+    @user_pages = Wnp::Services::UserPages.new(@user)
   end
 
   it "should list the page ids and names sorted by name" do
-    assert_equal [[2, "alaska-crab"], [1, "zebra-training"]], @user_pages.page_ids_and_names_sorted_by_name()
+    assert_equal [[@alaska_page.id, "alaska-crab"], [@zebra_page.id, "zebra-training"]], @user_pages.page_ids_and_names_sorted_by_name()
   end
 
   describe "pages_with_text_containing_text" do

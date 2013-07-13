@@ -118,7 +118,7 @@ describe Wnp::Models::User do
 
   end
 
-  describe "groups" do
+  describe "pages" do
 
     before do
       @user = Wnp::Models::User.create name:"John", email:"good@email.com", password:"cool"
