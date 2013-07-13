@@ -14,7 +14,7 @@ describe Wnp::PageVm do
   end
 
   def page_1_tags
-    Wnp::Services::PageTags.new(@page)
+    Wnp::Services::ObjectTags.new(@page)
   end
 
   describe "rendered html for page" do

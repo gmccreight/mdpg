@@ -2,7 +2,7 @@ require 'wnp/token'
 
 module Wnp::Services
 
-  class PageTags < Struct.new(:page)
+  class ObjectTags < Struct.new(:page)
 
     def add_tag name
       if error = Wnp::Token.new(name).validate

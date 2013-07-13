@@ -24,7 +24,7 @@ module Wnp
     private
 
       def page_tags
-        Wnp::Services::PageTags.new(page)
+        Wnp::Services::ObjectTags.new(page)
       end
 
       def user_page_tags
