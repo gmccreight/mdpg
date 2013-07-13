@@ -1,6 +1,6 @@
-module Wnp
+module Wnp::Services
 
-  class UserGroups < Struct.new(:env, :user)
+  class UserGroups < Struct.new(:user)
 
     def group_ids_and_names_sorted_by_name
       group_ids_and_names.sort{|a,b| a[1] <=> b[1]}
@@ -13,7 +13,7 @@ module Wnp
       end
 
       def groups
-        user.get_group_ids().map{|x| group = Group.new(env, x); group.load; group}
+        user.group_ids().map{|x| group = Wnp::Models::Group.find(x); group}
       end
 
   end

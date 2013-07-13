@@ -12,7 +12,7 @@ describe Wnp::Models::Page do
 
   describe "creation" do
 
-    it "should make a user with email" do
+    it "should make a page" do
       page = create_page_with_name "good"
       assert_equal page.name, "good"
     end
