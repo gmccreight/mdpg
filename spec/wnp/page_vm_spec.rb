@@ -10,7 +10,7 @@ describe Wnp::PageVm do
   end
 
   def user_1_page_tags
-    Wnp::Services::UserPageTags.new(get_memory_datastore(), 1)
+    Wnp::Services::UserPageTags.new(@user, @page)
   end
 
   def page_1_tags
@@ -30,8 +30,8 @@ describe Wnp::PageVm do
     it "should add a new tag to both page and user" do
       @page_1_vm.add_tag("good-stuff")
       assert page_1_tags.has_tag_with_name?("good-stuff")
-      # assert user_1_page_tags.has_tag_with_name?("good-stuff")
-      # assert 1, user_1_page_tags.tag_count("good-stuff")
+      assert user_1_page_tags.has_tag_with_name?("good-stuff")
+      assert 1, user_1_page_tags.tag_count("good-stuff")
     end
 
     it "should be able to remove an existing tag" do
@@ -65,12 +65,12 @@ describe Wnp::PageVm do
     it "should not add the same tag again" do
       @page_1_vm.add_tag("good-stuff")
       assert page_1_tags.has_tag_with_name?("good-stuff")
-      # assert user_1_page_tags.has_tag_with_name?("good-stuff")
-      # assert 1, user_1_page_tags.tag_count("good-stuff")
+      assert user_1_page_tags.has_tag_with_name?("good-stuff")
+      assert 1, user_1_page_tags.tag_count("good-stuff")
 
       @page_1_vm.add_tag("good-stuff")
-      # assert user_1_page_tags.has_tag_with_name?("good-stuff")
-      # assert 1, user_1_page_tags.tag_count("good-stuff")
+      assert user_1_page_tags.has_tag_with_name?("good-stuff")
+      assert 1, user_1_page_tags.tag_count("good-stuff")
     end
 
   end

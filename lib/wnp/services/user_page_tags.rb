@@ -2,7 +2,7 @@ require "similar_token_finder"
 
 module Wnp::Services
 
-  class UserPageTags < Struct.new(:data, :user_id)
+  class UserPageTags < Struct.new(:user, :page)
 
     def add_tag tag_name, page_id
       if error = Wnp::Token.new(tag_name).validate
@@ -14,7 +14,8 @@ module Wnp::Services
         h[tag_name] = {}
       end
       h[tag_name][page_id.to_s] = true
-      data.set key, h
+      user.page_tags = h
+      user.save
     end
 
     def remove_tag tag_name, page_id
@@ -34,7 +35,8 @@ module Wnp::Services
         end
       end
 
-      data.set key, h
+      user.page_tags = h
+      user.save
 
     end
 
@@ -59,13 +61,9 @@ module Wnp::Services
     private
 
       def get_tags_hash
-        h = data.get(key) || {}
+        h = user.page_tags || {}
         h.default = {}
         h
-      end
-
-      def key
-        "usertagsdata-#{user_id}-tags"
       end
 
   end
