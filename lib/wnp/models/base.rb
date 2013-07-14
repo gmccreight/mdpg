@@ -78,7 +78,7 @@ module Wnp::Models
     private
 
       def alter_associated_object object, add_or_remove
-        type = type_for_object object
+        type = type_name_for_object object
         ids = get_ids_for_association_of_type type
         if add_or_remove == :add
           ids = ids + [object.id]
@@ -88,8 +88,12 @@ module Wnp::Models
         set_ids_for_association_of_type type, ids.sort.uniq
       end
 
-      def type_for_object object
+      def type_name_for_object object
         object.class.name.split('::').last.downcase
+      end
+
+      def get_data_prefix
+        type_name_for_object(self) + "data"
       end
 
       def get_ids_for_association_of_type type
@@ -154,10 +158,6 @@ module Wnp::Models
 
       def data_key
         "#{get_data_prefix}-#{id}"
-      end
-
-      def get_data_prefix
-        raise NotImplementedError
       end
 
       def unique_id_indexes

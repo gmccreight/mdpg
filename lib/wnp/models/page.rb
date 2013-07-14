@@ -26,10 +26,6 @@ module Wnp::Models
         Wnp::Token.new(name).validate
       end
 
-      def get_data_prefix
-        "pagedata"
-      end
-
   end
 
 end

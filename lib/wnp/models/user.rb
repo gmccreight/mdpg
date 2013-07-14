@@ -85,10 +85,6 @@ module Wnp::Models
       def validates?
       end
 
-      def get_data_prefix
-        "userdata"
-      end
-
   end
 
 end
