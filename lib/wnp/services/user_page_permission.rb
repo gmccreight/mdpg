@@ -1,6 +1,3 @@
-require 'wnp/user'
-require 'wnp/page'
-
 module Wnp::Services
 
   class UserPagePermission < Struct.new(:user, :page)

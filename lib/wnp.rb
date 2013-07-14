@@ -6,7 +6,6 @@ require "wnp/models/tag"
 require "wnp/models/user"
 require 'wnp/env'
 require 'wnp/token'
-require 'wnp/page'
 require 'wnp/page_vm'
 require 'wnp/token'
 require 'wnp/user'

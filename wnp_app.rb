@@ -12,7 +12,7 @@ get '/' do
 end
 
 get '/p/:name' do |n|
-  page = Wnp::Page.new(n)
+  page = Wnp::Models::Page.new
   if error = page.validate_name()
     return "has error #{error} for page name #{n}"
   end
