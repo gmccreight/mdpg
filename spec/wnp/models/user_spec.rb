@@ -125,14 +125,17 @@ describe Wnp::Models::User do
     end
 
     it "should add, remove, and persist pages" do
-      @user.add_page 25
-      @user.add_page 32
-      @user.add_page 10
-      assert_equal [10, 25, 32], @user.page_ids
-      @user.remove_page 25
-      assert_equal [10, 32], @user.page_ids
+      page1 = create_page
+      page2 = create_page
+      page3 = create_page
+      @user.add_page page1
+      @user.add_page page2
+      @user.add_page page3
+      assert_equal [page1.id, page2.id, page3.id], @user.page_ids
+      @user.remove_page page2
+      assert_equal [page1.id, page3.id], @user.page_ids
       @user.save
-      assert_equal [10, 32], Wnp::Models::User.find(1).page_ids
+      assert_equal [page1.id, page3.id], Wnp::Models::User.find(1).page_ids
     end
 
   end

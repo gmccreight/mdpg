@@ -2,10 +2,10 @@ module Wnp::Services
 
   class UserPages < Struct.new(:user)
 
-    def add_page opts
+    def create_page opts
       page = Wnp::Models::Page.create opts
       if page
-        user.add_page page.id
+        user.add_page page
       end
       page
     end

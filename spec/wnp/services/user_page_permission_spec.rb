@@ -11,9 +11,9 @@ describe Wnp::Services::UserPagePermission do
     @page2 = create_page
     @page3 = create_page
 
-    @user1.add_page 1
-    @user1.add_page 2
-    @user1.remove_page 3
+    @user1.add_page @page1
+    @user1.add_page @page2
+    @user1.remove_page @page3
 
     @user2 = create_user
 

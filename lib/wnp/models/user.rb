@@ -34,12 +34,13 @@ module Wnp::Models
       self.hashed_password == hash_this_password(password)
     end
 
-    def add_page id
-      self.page_ids = ((page_ids || []) + [id]).sort.uniq.sort
+    def add_page page
+      add_associated_object page
     end
 
-    def remove_page id
-      self.page_ids = ((page_ids || []) - [id]).sort.uniq.sort
+    def remove_page page
+      remove_associated_object page
+      # self.page_ids = ((page_ids || []) - [id]).sort.uniq.sort
     end
 
     def add_group id

@@ -8,8 +8,8 @@ describe Wnp::Services::UserPages do
     @zebra_page = Wnp::Models::Page.create name:"zebra-training", text:"the text for page 1"
     @alaska_page = Wnp::Models::Page.create name:"alaska-crab", text:"the text for page 2"
 
-    @user.add_page @zebra_page.id
-    @user.add_page @alaska_page.id
+    @user.add_page @zebra_page
+    @user.add_page @alaska_page
 
     @user_pages = Wnp::Services::UserPages.new(@user)
   end
@@ -21,17 +21,17 @@ describe Wnp::Services::UserPages do
       @user_pages = Wnp::Services::UserPages.new(user)
     end
 
-    let (:user) { MiniTest::Mock.new.expect :add_page, true, [Integer] }
+    let (:user) { MiniTest::Mock.new.expect :add_page, true, [Wnp::Models::Page] }
 
     it "should add the newly created page to the user" do
-      page = @user_pages.add_page name:"hello"
+      page = @user_pages.create_page name:"hello"
       assert_equal "Fixnum", page.id.class.name
       user.verify
     end
 
     it "should not add the page if it has a bad name" do
       $debug = true
-      page = @user_pages.add_page name:"Bad Name"
+      page = @user_pages.create_page name:"Bad Name"
       $debug = false
       assert_raises MockExpectationError do
         user.verify
