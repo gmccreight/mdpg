@@ -2,6 +2,14 @@ module Wnp::Services
 
   class UserPages < Struct.new(:user)
 
+    def add_page opts
+      page = Wnp::Models::Page.create opts
+      if page
+        user.add_page page.id
+      end
+      page
+    end
+
     def pages_with_names_containing_text query
       pages.select{|page| page.name_contains(query)}
     end

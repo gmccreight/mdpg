@@ -6,6 +6,7 @@ module Wnp::Models
 
     def initialize
       @id = nil
+      @errors = []
       @data_store = $data_store
     end
 
@@ -71,8 +72,10 @@ module Wnp::Models
     end
 
     def save
-      data_store.set data_key, persistable_data
-      update_unique_id_indexes()
+      if validates?
+        data_store.set data_key, persistable_data
+        update_unique_id_indexes()
+      end
     end
 
     private

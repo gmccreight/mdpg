@@ -4,11 +4,6 @@ module Wnp::Models
 
     attr_accessor :name, :admins, :members
 
-    private
-
-      def validates?
-      end
-
   end
 
 end

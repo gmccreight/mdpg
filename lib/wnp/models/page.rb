@@ -23,7 +23,8 @@ module Wnp::Models
     private
 
       def validates?
-        Wnp::Token.new(name).validate
+        errors = Wnp::Token.new(name).validate
+        return ! errors
       end
 
   end

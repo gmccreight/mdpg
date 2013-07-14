@@ -82,9 +82,6 @@ module Wnp::Models
         (0...length).map{(65+rand(26)).chr}.join.downcase
       end
 
-      def validates?
-      end
-
   end
 
 end

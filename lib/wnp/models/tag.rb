@@ -10,9 +10,6 @@ module Wnp::Models
         [:name]
       end
 
-      def validates?
-      end
-
   end
 
 end
