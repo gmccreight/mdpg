@@ -4,6 +4,10 @@ module Wnp::Models
 
     attr_accessor :name, :email, :salt, :hashed_password, :access_token, :page_ids, :group_ids
 
+    def type_name
+      "user"
+    end
+
     def self.authenticate email, password
       user = self.find_by_index :email, email
       return nil if ! user

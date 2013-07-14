@@ -2,7 +2,7 @@ require 'wnp/token'
 
 module Wnp::Services
 
-  class ObjectTags < Struct.new(:page)
+  class ObjectTags < Struct.new(:object)
 
     def add_tag name
       if error = Wnp::Token.new(name).validate
@@ -11,8 +11,12 @@ module Wnp::Services
       
       return false if has_tag_with_name?(name)
 
-      tag = Wnp::Models::Tag.create name:name
-      page.add_tag tag.id
+      tag = Wnp::Models::Tag.find_by_index(:name, name) ||
+        Wnp::Models::Tag.create(name:name)
+
+      tag.add_associated_object object
+      tag.save
+      object.add_tag tag.id
     end
 
     def remove_tag name
@@ -21,7 +25,9 @@ module Wnp::Services
       end
 
       if tag = tag_with_name(name)
-        page.remove_tag tag.id
+        tag.remove_associated_object object
+        tag.save
+        object.remove_tag tag.id
       end
     end
 
@@ -39,12 +45,16 @@ module Wnp::Services
     end
 
     def get_tags
-      return [] if ! page.tag_ids
-      page.tag_ids().map{|x| tag = Wnp::Models::Tag.find(x); tag}
+      return [] if ! object.tag_ids
+      object.tag_ids().map{|x| tag = Wnp::Models::Tag.find(x); tag}
     end
 
     def sorted_tag_names
       get_tags().map{|tag| tag.name}.sort
+    end
+
+    def type_name
+      "page"
     end
 
   end

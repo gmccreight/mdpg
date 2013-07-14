@@ -4,12 +4,8 @@ module Wnp::Models
 
     attr_accessor :name, :page_ids, :user_ids
 
-    def add_page_id id
-      self.page_ids = ((page_ids || []) + [id]).sort.uniq.sort
-    end
-
-    def remove_page_id id
-      self.page_ids = ((page_ids || []) - [id]).sort.uniq.sort
+    def type_name
+      "tag"
     end
 
     private

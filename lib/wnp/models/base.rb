@@ -58,6 +58,14 @@ module Wnp::Models
       self.new().find_by_index(index_name, value)
     end
 
+    def add_associated_object object
+      alter_associated_object object, :add
+    end
+
+    def remove_associated_object object
+      alter_associated_object object, :remove
+    end
+
     def load attrs
       add_attributes_from_hash attrs
     end
@@ -68,6 +76,26 @@ module Wnp::Models
     end
 
     private
+
+      def alter_associated_object object, add_or_remove
+        type = object.type_name
+        ids = get_ids_for_association_of_type type
+        if add_or_remove == :add
+          ids = ids + [object.id]
+        elsif add_or_remove == :remove
+          ids = ids - [object.id]
+        end
+        set_ids_for_association_of_type type, ids.sort.uniq
+      end
+
+      def get_ids_for_association_of_type type
+        ids = instance_variable_get("@#{type}_ids")
+        ids || []
+      end
+
+      def set_ids_for_association_of_type type, val
+        instance_variable_set("@#{type}_ids", val)
+      end
 
       def update_unique_id_indexes
         unique_id_indexes.each do |attribute_symbol|
