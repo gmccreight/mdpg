@@ -16,7 +16,7 @@ module Wnp::Services
 
       tag.add_associated_object object
       tag.save
-      object.add_tag tag.id
+      object.add_tag tag
     end
 
     def remove_tag name
@@ -27,7 +27,7 @@ module Wnp::Services
       if tag = tag_with_name(name)
         tag.remove_associated_object object
         tag.save
-        object.remove_tag tag.id
+        object.remove_tag tag
       end
     end
 

@@ -12,12 +12,12 @@ module Wnp::Models
       name.include?(query)
     end
 
-    def add_tag id
-      self.tag_ids = ((tag_ids || []) + [id]).sort.uniq.sort
+    def add_tag tag
+      add_associated_object tag
     end
 
-    def remove_tag id
-      self.tag_ids = ((tag_ids || []) - [id]).sort.uniq.sort
+    def remove_tag tag
+      remove_associated_object tag
     end
 
     private
