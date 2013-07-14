@@ -4,9 +4,8 @@ describe Wnp::Services::UserPagePermission do
 
   before do
     $data_store = get_memory_datastore()
-    @data = Wnp::Data.new :memory
 
-    @user1 = create_user 1
+    @user1 = create_user
 
     @page1 = create_page
     @page2 = create_page
@@ -16,7 +15,7 @@ describe Wnp::Services::UserPagePermission do
     @user1.add_page 2
     @user1.remove_page 3
 
-    @user2 = create_user 2
+    @user2 = create_user
 
   end
 

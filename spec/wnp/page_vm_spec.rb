@@ -3,7 +3,7 @@ require_relative "../spec_helper"
 describe Wnp::PageVm do
 
   before do
-    @user = Wnp::User.new(get_memory_datastore(), 1)
+    @user = create_user
     @env = Wnp::Env.new(get_memory_datastore(), @user)
     @page = Wnp::Models::Page.create name:"my-bongos", text:"This is *bongos*, indeed."
     @page_1_vm = Wnp::PageVm.new(@env, @page)

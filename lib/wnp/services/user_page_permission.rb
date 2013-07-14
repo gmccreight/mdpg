@@ -13,7 +13,8 @@ module Wnp::Services
     private
 
       def is_owned_by?
-        user.get_page_ids.include? page.id
+        return false if ! user.page_ids
+        user.page_ids.include? page.id
       end
 
   end
