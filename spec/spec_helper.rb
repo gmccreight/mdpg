@@ -17,8 +17,8 @@ def create_user id, data = {}
 end
 
 def create_page data = {}
-  data[:name] = random_string_of_length(8) if !data.has_key?(:name)
-  Wnp::Page.create(get_env(), data)
+  name = data.has_key?(:name) || random_string_of_length(8)
+  Wnp::Models::Page.create name:name
 end
 
 def create_group id, data = {}

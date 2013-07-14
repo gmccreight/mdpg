@@ -3,6 +3,7 @@ require_relative "../../spec_helper"
 describe Wnp::Services::UserPagePermission do
 
   before do
+    $data_store = get_memory_datastore()
     @data = Wnp::Data.new :memory
 
     @user1 = create_user 1
