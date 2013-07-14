@@ -8,8 +8,8 @@ describe Wnp::Services::UserGroups do
     @zebra_group = Wnp::Models::Group.create name:"zebra-training"
     @alaska_group = Wnp::Models::Group.create name:"alaska-crab"
 
-    @user.add_group @zebra_group.id
-    @user.add_group @alaska_group.id
+    @user.add_group @zebra_group
+    @user.add_group @alaska_group
 
     @user_groups = Wnp::Services::UserGroups.new(@user)
   end

@@ -40,15 +40,14 @@ module Wnp::Models
 
     def remove_page page
       remove_associated_object page
-      # self.page_ids = ((page_ids || []) - [id]).sort.uniq.sort
     end
 
-    def add_group id
-      self.group_ids = ((group_ids || []) + [id]).sort.uniq.sort
+    def add_group group
+      add_associated_object group
     end
 
-    def remove_group id
-      self.group_ids = ((group_ids || []) - [id]).sort.uniq.sort
+    def remove_group group
+      remove_associated_object group
     end
 
     private

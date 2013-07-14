@@ -147,14 +147,17 @@ describe Wnp::Models::User do
     end
 
     it "should add, remove, and persist groups" do
-      @user.add_group 25
-      @user.add_group 32
-      @user.add_group 10
-      assert_equal [10, 25, 32], @user.group_ids
-      @user.remove_group 25
-      assert_equal [10, 32], @user.group_ids
+      group1 = create_group
+      group2 = create_group
+      group3 = create_group
+      @user.add_group group1
+      @user.add_group group2
+      @user.add_group group3
+      assert_equal [group1.id, group2.id, group3.id], @user.group_ids
+      @user.remove_group group2
+      assert_equal [group1.id, group3.id], @user.group_ids
       @user.save
-      assert_equal [10, 32], Wnp::Models::User.find(1).group_ids
+      assert_equal [group1.id, group3.id], Wnp::Models::User.find(1).group_ids
     end
 
   end
