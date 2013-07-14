@@ -4,11 +4,6 @@ module Wnp::Models
 
     attr_accessor :name, :admins, :members
 
-    #[tag:refactor:gem] could be derived from the class name
-    def type_name
-      "group"
-    end
-
     private
 
       def validates?

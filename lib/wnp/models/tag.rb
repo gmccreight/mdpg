@@ -4,10 +4,6 @@ module Wnp::Models
 
     attr_accessor :name, :page_ids, :user_ids
 
-    def type_name
-      "tag"
-    end
-
     private
 
       def unique_id_indexes

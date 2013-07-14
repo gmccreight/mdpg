@@ -53,10 +53,6 @@ module Wnp::Services
       get_tags().map{|tag| tag.name}.sort
     end
 
-    def type_name
-      "page"
-    end
-
   end
 
 end

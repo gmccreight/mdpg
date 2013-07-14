@@ -4,10 +4,6 @@ module Wnp::Models
 
     attr_accessor :name, :text, :revision, :tag_ids
 
-    def type_name
-      "page"
-    end
-
     def text_contains query
       text.include?(query)
     end

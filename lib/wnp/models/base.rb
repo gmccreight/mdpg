@@ -78,7 +78,7 @@ module Wnp::Models
     private
 
       def alter_associated_object object, add_or_remove
-        type = object.type_name
+        type = type_for_object object
         ids = get_ids_for_association_of_type type
         if add_or_remove == :add
           ids = ids + [object.id]
@@ -86,6 +86,10 @@ module Wnp::Models
           ids = ids - [object.id]
         end
         set_ids_for_association_of_type type, ids.sort.uniq
+      end
+
+      def type_for_object object
+        object.class.name.split('::').last.downcase
       end
 
       def get_ids_for_association_of_type type
