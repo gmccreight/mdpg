@@ -10,6 +10,12 @@ module Wnp::Services
       page
     end
 
+    def find_page_with_name name
+      matching_pages = pages.select{|page| page.name == name}
+      return nil if ! matching_pages
+      matching_pages.first
+    end
+
     def pages_with_names_containing_text query
       pages.select{|page| page.name_contains(query)}
     end

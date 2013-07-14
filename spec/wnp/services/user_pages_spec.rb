@@ -30,9 +30,7 @@ describe Wnp::Services::UserPages do
     end
 
     it "should not add the page if it has a bad name" do
-      $debug = true
       page = @user_pages.create_page name:"Bad Name"
-      $debug = false
       assert_raises MockExpectationError do
         user.verify
       end
@@ -42,6 +40,18 @@ describe Wnp::Services::UserPages do
 
   it "should list the page ids and names sorted by name" do
     assert_equal [[@alaska_page.id, "alaska-crab"], [@zebra_page.id, "zebra-training"]], @user_pages.page_ids_and_names_sorted_by_name()
+  end
+
+  describe "page with name" do
+
+    it "should return a page with a matching name" do
+      assert_equal "alaska-crab", @user_pages.find_page_with_name("alaska-crab").name
+    end
+
+    it "should not return a page if the user does not have that page" do
+      assert_nil @user_pages.find_page_with_name("user-has-no-page-with-this-name")
+    end
+
   end
 
   describe "pages_with_text_containing_text" do
