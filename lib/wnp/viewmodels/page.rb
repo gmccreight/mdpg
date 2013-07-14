@@ -1,8 +1,8 @@
 require 'redcarpet'
 
-module Wnp
+module Wnp::Viewmodels
 
-  class PageVm < Struct.new(:env, :page)
+  class Page < Struct.new(:env, :page)
 
     def add_tag tag
       if page_tags().add_tag(tag)
