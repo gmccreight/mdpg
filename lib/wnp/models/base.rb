@@ -99,20 +99,28 @@ module Wnp::Models
         type_name_for_object(self) + "data"
       end
 
+      def get_var name
+        instance_variable_get name
+      end
+
+      def set_var name, value
+         instance_variable_set name, value
+      end
+
       def get_ids_for_association_of_type type
-        ids = instance_variable_get("@#{type}_ids")
+        ids = get_var "@#{type}_ids"
         ids || []
       end
 
       def set_ids_for_association_of_type type, val
-        instance_variable_set("@#{type}_ids", val)
+        set_var("@#{type}_ids", val)
       end
 
       def update_unique_id_indexes
         unique_id_indexes.each do |attribute_symbol|
           keyname = "#{get_data_prefix}-index-#{attribute_symbol}"
           hash = data_store.get(keyname) || {}
-          value = instance_variable_get "@#{attribute_symbol}"
+          value = get_var "@#{attribute_symbol}"
           hash[value] = self.id
           data_store.set(keyname, hash)
         end
@@ -120,7 +128,7 @@ module Wnp::Models
 
       def persistable_data
         h = {}
-        persistable_attributes.each{|key| h[key] = instance_variable_get("@#{key}")}
+        persistable_attributes.each{|key| h[key] = get_var("@#{key}")}
         h
       end
 
@@ -128,9 +136,9 @@ module Wnp::Models
         persistable_attributes.each do |key|
           next if key == :id
           if opts.has_key?(key)
-            instance_variable_set("@#{key}", opts[key])
+            set_var("@#{key}", opts[key])
           else
-            instance_variable_set("@#{key}", nil)
+            set_var("@#{key}", nil)
           end
         end
       end
@@ -148,7 +156,7 @@ module Wnp::Models
       end
 
       def persistable_attributes
-        attributes.reject{|x| x == :data_store}
+        @persistable_attributes ||= attributes.reject{|x| x == :data_store}
       end
 
       def attributes
