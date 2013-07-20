@@ -1,23 +1,27 @@
-require_relative "../spec_helper"
+if ENV["perf"]
 
-describe "Perfomance" do
+  require_relative "../spec_helper"
 
-  before do
-    $data_store = get_memory_datastore()
-  end
+  describe "Perfomance" do
 
-  it "should be fast" do
-    require 'ruby-prof'
+    before do
+      $data_store = get_memory_datastore()
+    end
 
-    RubyProf.start
+    it "should be fast" do
+      require 'ruby-prof'
 
-    user = Wnp::Models::User.create name:"John", email:"good@email.com", password:"cool"
-    # assert_equal 1, user.id
-    # assert_equal "good@email.com", user.email
+      RubyProf.start
 
-    result = RubyProf.stop
-    printer = RubyProf::FlatPrinter.new(result)
-    printer.print(STDOUT)
+      user = Wnp::Models::User.create name:"John", email:"good@email.com", password:"cool"
+      assert_equal 1, user.id
+      assert_equal "good@email.com", user.email
+
+      result = RubyProf.stop
+      printer = RubyProf::FlatPrinter.new(result)
+      printer.print(STDOUT)
+    end
+
   end
 
 end

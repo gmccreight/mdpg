@@ -160,11 +160,15 @@ module Wnp::Models
       end
 
       def attributes
-        self.class.instance_methods.find_all do |method|
+        instance_methods.find_all do |method|
           method != :== &&
           method != :! &&
-          self.class.instance_methods.include?(:"#{method}=")
+          instance_methods.include?(:"#{method}=")
         end
+      end
+
+      def instance_methods
+        @instance_methods ||= self.class.instance_methods
       end
 
       def data_key
