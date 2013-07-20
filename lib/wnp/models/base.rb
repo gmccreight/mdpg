@@ -160,14 +160,14 @@ module Wnp::Models
       end
 
       def attributes
-        instance_methods.find_all do |method|
+        memoized_instance_methods.find_all do |method|
           method != :== &&
           method != :! &&
-          instance_methods.include?(:"#{method}=")
+          memoized_instance_methods.include?(:"#{method}=")
         end
       end
 
-      def instance_methods
+      def memoized_instance_methods
         @instance_methods ||= self.class.instance_methods
       end
 
