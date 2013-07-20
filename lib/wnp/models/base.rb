@@ -135,11 +135,8 @@ module Wnp::Models
       def add_attributes_from_hash(opts)
         persistable_attributes.each do |key|
           next if key == :id
-          if opts.has_key?(key)
-            set_var("@#{key}", opts[key])
-          else
-            set_var("@#{key}", nil)
-          end
+          val = opts.has_key?(key) ? opts[key] : nil
+          set_var "@#{key}", val
         end
       end
 
