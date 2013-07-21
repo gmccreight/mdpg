@@ -36,18 +36,22 @@ module Wnp::Models
 
     def add_page page
       add_associated_object page
+      save
     end
 
     def remove_page page
       remove_associated_object page
+      save
     end
 
     def add_group group
       add_associated_object group
+      save
     end
 
     def remove_group group
       remove_associated_object group
+      save
     end
 
     private

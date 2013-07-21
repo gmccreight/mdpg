@@ -9,11 +9,15 @@ describe SimilarTokenFinder do
   end
 
   it "should fuzzy match tokens, returning best matches first" do
-    assert_equal ["tomfoolery", "foo", "fool"], get_similar_tokens("foo", ["foo", "john", "tofu", "fool", "ford", "work", "tomfoolery"])
+    tokens = ["foo", "john", "tofu", "fool", "ford", "work", "tomfoolery"]
+    assert_equal ["tomfoolery", "foo", "fool"],
+      get_similar_tokens("foo", tokens)
   end
 
   it "should match with hyphens, too" do
-    assert_equal ["my-cool-pagename", "anotherpagename"], get_similar_tokens("mycoolpagename", ["my-cool-pagename", "some-other-thing", "anotherpagename"])
+    tokens = ["my-cool-pagename", "some-other-thing", "anotherpagename"]
+    assert_equal ["my-cool-pagename", "anotherpagename"],
+      get_similar_tokens("mycoolpagename", tokens)
   end
 
 end
