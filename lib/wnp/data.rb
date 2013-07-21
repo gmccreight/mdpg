@@ -17,10 +17,12 @@ module Wnp
           end
         end
       end
+      remove_datakey data
       data
     end
 
     def set key, data
+      add_datakey_for_easy_file_searching data, key
       if data_dir_or_memory == :memory
         set_in_memory_value(key, data)
       else
@@ -32,6 +34,25 @@ module Wnp
     end
 
     private
+
+      def add_datakey_for_easy_file_searching data, key
+        datakey_value = "_datakey_#{key}"
+
+        if data.class == Hash
+          data[:_datakey] = datakey_value
+        elsif data.class == Array
+          data.push datakey_value
+        end
+
+      end
+
+      def remove_datakey data
+        if data.class == Hash
+          data.delete :_datakey
+        elsif data.class == Array
+          data.pop
+        end
+      end
 
       def get_in_memory_value key
         @data ||= {}
