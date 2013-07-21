@@ -5,14 +5,6 @@ require 'wnp'
 
 enable :sessions
 
-get '/about' do
-  "about this"
-end
-
-get '/' do
-  redirect "/p/foobar", 303
-end
-
 get '/p/:name' do |n|
   user = Wnp::Models::User.find_by_index :access_token, session[:access_token]
   if user
@@ -23,5 +15,7 @@ get '/p/:name' do |n|
     else
       "Could not find that page"
     end
+  else
+    "Could not find that user"
   end
 end
