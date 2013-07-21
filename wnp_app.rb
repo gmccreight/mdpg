@@ -12,8 +12,10 @@ enable :sessions
 
 get '/' do
   if current_user
-    page_ids_and_names = Wnp::Services::UserPages.new(current_user).page_ids_and_names_sorted_by_name
-    haml :index, :locals => {:user => current_user, :page_ids_and_names => page_ids_and_names}
+    user_pages = Wnp::Services::UserPages.new(current_user)
+    page_ids_and_names = user_pages.page_ids_and_names_sorted_by_name
+    haml :index, :locals => {:user => current_user,
+      :page_ids_and_names => page_ids_and_names}
   else
     redirect to('/login')
   end
@@ -46,7 +48,8 @@ end
 
 def current_user
   if session[:access_token]
-    if user = Wnp::Models::User.find_by_index(:access_token, session[:access_token])
+    if user = Wnp::Models::User.find_by_index(:access_token,
+      session[:access_token])
       return user
     else
       session.delete :access_token

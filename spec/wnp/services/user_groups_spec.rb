@@ -3,7 +3,7 @@ require_relative "../../spec_helper"
 describe Wnp::Services::UserGroups do
 
   before do
-    @user = Wnp::Models::User.create name:"John", email:"good@email.com", password:"cool"
+    @user = create_user
 
     @zebra_group = Wnp::Models::Group.create name:"zebra-training"
     @alaska_group = Wnp::Models::Group.create name:"alaska-crab"
@@ -15,7 +15,11 @@ describe Wnp::Services::UserGroups do
   end
 
   it "should list the group ids and names sorted by name" do
-    assert_equal [[@alaska_group.id, "alaska-crab"], [@zebra_group.id, "zebra-training"]], @user_groups.group_ids_and_names_sorted_by_name()
+    expected = [
+      [@alaska_group.id, "alaska-crab"],
+      [@zebra_group.id, "zebra-training"]
+    ]
+    assert_equal expected, @user_groups.group_ids_and_names_sorted_by_name()
   end
 
 end

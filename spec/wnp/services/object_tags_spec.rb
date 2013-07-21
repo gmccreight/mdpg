@@ -57,7 +57,8 @@ describe Wnp::Services::ObjectTags do
         other_page = Wnp::Models::Page.create name:"killer-fu"
         other_page_tags = Wnp::Services::ObjectTags.new(other_page)
         other_page_tags.add_tag "cool-house"
-        assert_equal [@object.id, other_page.id], page_ids_for_tag_with_name("cool-house")
+        assert_equal [@object.id, other_page.id],
+          page_ids_for_tag_with_name("cool-house")
       end
 
     end
@@ -77,25 +78,26 @@ describe Wnp::Services::ObjectTags do
       assert_equal ["adam"], sorted_tag_names()
     end
 
-    it "should not freak out if you try to remove a tag that does not exist" do
+    it "should silently fail if you try to remove a non-existent tag" do
       @object_tags.remove_tag "does-not-exist"
       assert_equal ["adam", "cool-house"], sorted_tag_names()
     end
 
     describe "list of object ids associated with tag" do
 
-      it "should be updated to remove the only page associated with the tag" do
+      it "should remove the only page associated with the tag" do
         assert_equal [@object.id], page_ids_for_tag_with_name("cool-house")
         @object_tags.remove_tag "cool-house"
         assert_equal [], page_ids_for_tag_with_name("cool-house")
       end
 
-      it "should be updated to remove one of the pages associated with the tag" do
+      it "should remove one of the pages associated with the tag" do
         other_page = Wnp::Models::Page.create name:"killer-fu"
         other_page_tags = Wnp::Services::ObjectTags.new(other_page)
         other_page_tags.add_tag "cool-house"
 
-        assert_equal [@object.id, other_page.id], page_ids_for_tag_with_name("cool-house")
+        assert_equal [@object.id, other_page.id],
+          page_ids_for_tag_with_name("cool-house")
 
         other_page_tags.remove_tag "cool-house"
 

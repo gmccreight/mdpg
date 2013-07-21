@@ -4,7 +4,8 @@ describe Wnp::Viewmodels::Page do
 
   before do
     @user = create_user
-    @page = Wnp::Models::Page.create name:"my-bongos", text:"This is *bongos*, indeed."
+    @page = Wnp::Models::Page.create name:"my-bongos",
+      text:"This is *bongos*, indeed."
     @page_1_vm = Wnp::Viewmodels::Page.new(@user, @page)
   end
 
@@ -19,7 +20,8 @@ describe Wnp::Viewmodels::Page do
   describe "rendered html for page" do
 
     it "should render the page's markdown as html" do
-      assert_equal "<p>This is <em>bongos</em>, indeed.</p>\n", @page_1_vm.rendered_markdown()
+      assert_equal "<p>This is <em>bongos</em>, indeed.</p>\n",
+        @page_1_vm.rendered_markdown()
     end
 
   end

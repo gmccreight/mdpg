@@ -7,7 +7,8 @@ describe Wnp::Models::User do
   end
 
   def create_user_with_name name
-    Wnp::Models::User.create name:name, email:"good@email.com", password:"cool"
+    Wnp::Models::User.create name:name, email:"good@email.com",
+      password:"cool"
   end
 
   describe "creation" do

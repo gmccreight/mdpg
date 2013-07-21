@@ -4,7 +4,8 @@ describe "auth" do
 
   before do
     $data_store = get_memory_datastore()
-    @user = Wnp::Models::User.create name:"Jordan", email:"jordan@example.com", password:"cool"
+    @user = Wnp::Models::User.create name:"Jordan",
+      email:"jordan@example.com", password:"cool"
   end
 
   it "should a message on the homepage after auth" do

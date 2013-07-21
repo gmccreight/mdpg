@@ -15,7 +15,8 @@ if ENV["perf"]
 
       RubyProf.start
 
-      user = Wnp::Models::User.create name:"John", email:"good@email.com", password:"cool"
+      user = Wnp::Models::User.create name:"John", email:"good@email.com",
+        password:"cool"
       assert_equal 1, user.id
       assert_equal "good@email.com", user.email
 
@@ -35,14 +36,14 @@ if ENV["perf"]
         FileUtils.remove_entry @temp_dir
       end
 
-      it "should be able to persist and retrieve a large array of data quickly" do
+      it "should persist and retrieve a large array quickly" do
         array_length = 10000
         @data.set "somekey", (1..array_length).to_a
         array2 = @data.get "somekey"
         assert_equal array_length, array2.length
       end
 
-      it "should be able to persist and retrieve a large hash of data quickly" do
+      it "should persist and retrieve a large hash quickly" do
         hash_length = 10000
         hash = {}
         (1..hash_length).to_a.each do |key|

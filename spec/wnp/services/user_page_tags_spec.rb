@@ -48,7 +48,7 @@ describe Wnp::Services::UserPageTags do
       assert_equal ["adam"], @user_page_tags.get_tags()
     end
 
-    it "should not freak out if you try to remove a tag that does not exist" do
+    it "should not freak out if you try to remove a non-existent tag" do
       @user_page_tags.remove_tag "does-not-exist", 1
       assert_equal ["adam", "cool-house"], @user_page_tags.get_tags()
     end
