@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'haml'
 
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 require 'wnp'
@@ -6,11 +7,7 @@ require 'wnp'
 enable :sessions
 
 get '/' do
-  if current_user
-    "Hello, #{current_user.name}"
-  else
-    "Welcome.  Please login."
-  end
+  haml :index, :locals => {:user => current_user}
 end
 
 get '/login' do

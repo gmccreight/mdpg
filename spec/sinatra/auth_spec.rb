@@ -10,7 +10,7 @@ describe "auth" do
   it "should a message on the homepage after auth" do
     post '/login', {email:"jordan@example.com", password:"cool"}
     follow_redirect!
-    assert_equal "Hello, Jordan", last_response.body 
+    assert_equal "Hello, Jordan\n", last_response.body 
   end
 
 end
