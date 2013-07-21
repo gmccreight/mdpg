@@ -1,0 +1,12 @@
+%h3
+  Please login
+
+%form{:action => "/login", :method => "post"}
+  %div
+    email
+    %input{:type => "text", :name => "email"}
+  %div
+    password
+    %input{:type => "password", :name => "password"}
+  %div
+    %input{:type => "submit"}

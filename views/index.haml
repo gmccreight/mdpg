@@ -1,4 +1,10 @@
-- if user
-  Hello, #{user.name}
-- else
-  Welcome.  Please login.
+Hello, #{user.name}
+
+%h3
+  pages
+- page_ids_and_names.each do |id_and_name|
+  %div
+    - name = id_and_name[1]
+    %a{:href => "/p/#{name}"}
+      = name
+      

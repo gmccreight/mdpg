@@ -35,6 +35,7 @@ module Wnp::Services
       end
 
       def pages
+        return [] if ! user.page_ids()
         user.page_ids().map{|x| page = Wnp::Models::Page.find(x); page}
       end
 

@@ -4,14 +4,23 @@ require 'haml'
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 require 'wnp'
 
+if ! $data_store
+  $data_store = Wnp::Data.new "./app_data"
+end
+
 enable :sessions
 
 get '/' do
-  haml :index, :locals => {:user => current_user}
+  if current_user
+    page_ids_and_names = Wnp::Services::UserPages.new(current_user).page_ids_and_names_sorted_by_name
+    haml :index, :locals => {:user => current_user, :page_ids_and_names => page_ids_and_names}
+  else
+    redirect to('/login')
+  end
 end
 
 get '/login' do
-  "Login form"
+  haml :login
 end
 
 post '/login' do

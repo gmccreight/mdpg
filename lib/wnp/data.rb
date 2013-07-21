@@ -1,5 +1,6 @@
 require 'digest'
 require 'yaml'
+require 'fileutils'
 
 module Wnp
 

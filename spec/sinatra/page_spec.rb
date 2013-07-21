@@ -31,7 +31,7 @@ describe "page" do
   it "should redirect to login form if the access_token is invalid" do
     get '/p/other', {}, {"rack.session" => {:access_token => "some nonsense"}}
     follow_redirect!
-    assert_equal "Login form", last_response.body 
+    assert last_response.body.include? "Please login"
   end
 
 end
