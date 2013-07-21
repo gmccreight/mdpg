@@ -2,6 +2,13 @@ Hello, #{user.name}
 
 %h3
   pages
+
+%div
+  %a{:href => "/page/add"}
+    Add a page
+
+%hr
+
 - page_ids_and_names.each do |id_and_name|
   %div
     - name = id_and_name[1]

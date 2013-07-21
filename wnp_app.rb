@@ -46,6 +46,22 @@ get '/p/:name' do |page_name|
 
 end
 
+get '/page/add' do
+  authorize!
+  haml :page_add
+end
+
+post '/page/add' do
+  authorize!
+  user_pages = Wnp::Services::UserPages.new(current_user)
+  page = user_pages.create_page name:params["name"], text:""
+  if page
+    redirect to("/p/#{page.name}")
+  else
+    redirect to("/page/add")
+  end
+end
+
 def current_user
   if session[:access_token]
     if user = Wnp::Models::User.find_by_index(:access_token,
