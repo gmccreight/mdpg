@@ -5,22 +5,30 @@ describe "page" do
   before do
     $data_store = get_memory_datastore()
 
-    @user = Wnp::Models::User.create name:"Jordan", email:"jordan@example.com", password:"cool"
+    @user = Wnp::Models::User.create name:"Jordan",
+      email:"jordan@example.com", password:"cool"
     user_pages = Wnp::Services::UserPages.new @user
-    Wnp::Services::UserPages.new(@user).create_page name:"a-good-page", text:"I wish I had something *interesting* to say!"
+    Wnp::Services::UserPages.new(@user).create_page name:"a-good-page",
+      text:"I wish I had something *interesting* to say!"
+  end
+
+  def get_page name
+    get "/p/#{name}", {},
+      {"rack.session" => {:access_token => @user.access_token}}
   end
 
   it "should get a page that is owned by the user" do
-    get '/p/a-good-page', {}, {"rack.session" => {:access_token => @user.access_token}}
-    assert_equal "<p>I wish I had something <em>interesting</em> to say!</p>\n", last_response.body 
+    get_page "a-good-page"
+    expected = "<p>I wish I had something <em>interesting</em> to say!</p>\n"
+    assert_equal expected, last_response.body 
   end
 
   it "should not get a page if the user does not have a page by that name" do
-    get '/p/not-a-page', {}, {"rack.session" => {:access_token => @user.access_token}}
+    get_page "not-one-of-the-users-pages"
     assert_equal "Could not find that page", last_response.body 
   end
 
-  it "should take the person to the login form if the access_token does not map to a user" do
+  it "should redirect to login form if the access_token is invalid" do
     get '/p/other', {}, {"rack.session" => {:access_token => "some nonsense"}}
     follow_redirect!
     assert_equal "Login form", last_response.body 
