@@ -20,7 +20,7 @@ describe "page" do
   it "should get a page that is owned by the user" do
     get_page "a-good-page"
     expected = "<p>I wish I had something <em>interesting</em> to say!</p>\n"
-    assert_equal expected, last_response.body 
+    assert last_response.body.include? expected
   end
 
   it "should not get a page if the user does not have a page by that name" do

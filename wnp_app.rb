@@ -36,8 +36,8 @@ get '/p/:name' do |page_name|
   user_pages = Wnp::Services::UserPages.new(current_user)
   page = user_pages.find_page_with_name page_name
   if page
-    page_view_model = Wnp::Viewmodels::Page.new(current_user, page)
-    page_view_model.rendered_html()
+    viewmodel = Wnp::Viewmodels::Page.new(current_user, page)
+    haml :page, :locals => {:viewmodel => viewmodel}
   else
     "Could not find that page"
   end

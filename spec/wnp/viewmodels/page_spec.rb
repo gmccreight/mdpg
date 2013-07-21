@@ -19,7 +19,7 @@ describe Wnp::Viewmodels::Page do
   describe "rendered html for page" do
 
     it "should render the page's markdown as html" do
-      assert_equal "<p>This is <em>bongos</em>, indeed.</p>\n", @page_1_vm.rendered_html()
+      assert_equal "<p>This is <em>bongos</em>, indeed.</p>\n", @page_1_vm.rendered_markdown()
     end
 
   end
