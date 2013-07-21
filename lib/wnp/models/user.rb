@@ -2,7 +2,8 @@ module Wnp::Models
 
   class User < Base
 
-    attr_accessor :name, :email, :salt, :hashed_password, :access_token, :page_ids, :group_ids, :page_tags, :is_admin
+    attr_accessor :name, :email, :salt, :hashed_password, :access_token,
+      :page_ids, :group_ids, :page_tags, :is_admin
 
     def self.authenticate email, password
       user = self.find_by_index :email, email

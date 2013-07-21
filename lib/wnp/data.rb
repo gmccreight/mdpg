@@ -66,7 +66,8 @@ module Wnp
       end
 
       def full_path_for_key key
-        data_dir_or_memory() + "/" + directory_for_key(key) + "/" + filename_for_key(key)
+        data_dir_or_memory() + "/" + directory_for_key(key) + "/" +
+          filename_for_key(key)
       end
 
       def directory_for_key key
