@@ -81,8 +81,8 @@ option, too.
 ## Round-trip Markdown
 
 The web front end should have round-trip Markdown.  In other words, you should
-be able to use Markdown markup, or actually type in the rendered text, and have
-it update the Markdown.
+be able to use Markdown markup, or actually type in the rendered text, and
+have it update the Markdown.
 
 ## Realtime group editing
 
@@ -98,12 +98,13 @@ in bulk?  Only some tags?  Etc.
 
 ### Tag searching
 
-It would be great to be able to search for tags and see their surrounding context.
+It would be great to be able to search for tags and see their surrounding
+context.
 
 ### Tag relationships
 
-Is a tag really closely related to another tag?  How about creating a relationship
-between them and specifying the strength of the relationship.
+Is a tag really closely related to another tag?  How about creating a
+relationship between them and specifying the strength of the relationship.
 
 ### Tag creation (and typo reduction)
 
@@ -133,10 +134,18 @@ in the code.  I'll highlight them with the [tag:ruby2:gem] tag.
 
 ## Minitest
 
-I wanted to see what all the fuss is about, so we're using it instead of rspec.
+I wanted to see what all the fuss is about, so we're using it instead
+of rspec.
 
 ## Seattle Style
 
 Given that minitest is a seattlerb project, I figure why not also try out the
 Seattle style, too.  The Seattle style basically means don't use parens with
 def.  I'll try this on and see how it feels.
+
+## Keeping all lines 78 chars or less
+
+Why is this a learning goal?  Because I want to learn how to do this in a nice
+way.  For example, it might exert a design pressure for me to name things
+less verbosely.  I will also likely come to an understanding of how to best
+break up code onto multiple lines.
