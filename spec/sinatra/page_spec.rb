@@ -7,7 +7,7 @@ describe "page" do
 
     @user = Wnp::Models::User.create name:"Jordan", email:"jordan@example.com", password:"cool"
     user_pages = Wnp::Services::UserPages.new @user
-    page = Wnp::Services::UserPages.new(@user).create_page name:"a-good-page", text:"I wish I had something *interesting* to say!"
+    Wnp::Services::UserPages.new(@user).create_page name:"a-good-page", text:"I wish I had something *interesting* to say!"
   end
 
   it "should get a page that is owned by the user" do
