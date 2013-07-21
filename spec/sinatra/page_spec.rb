@@ -20,9 +20,10 @@ describe "page" do
     assert_equal "Could not find that page", last_response.body 
   end
 
-  it "should give an error if the access_token does not map to a user" do
+  it "should take the person to the login form if the access_token does not map to a user" do
     get '/p/other', {}, {"rack.session" => {:access_token => "some nonsense"}}
-    assert_equal "Could not find that user", last_response.body 
+    follow_redirect!
+    assert_equal "Login form", last_response.body 
   end
 
 end
