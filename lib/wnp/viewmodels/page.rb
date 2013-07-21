@@ -2,7 +2,11 @@ require 'redcarpet'
 
 module Wnp::Viewmodels
 
-  class Page < Struct.new(:env, :page)
+  class Page < Struct.new(:user, :page)
+
+    def name
+      page.name
+    end
 
     def add_tag tag
       if page_tags().add_tag(tag)
@@ -28,7 +32,7 @@ module Wnp::Viewmodels
       end
 
       def user_page_tags
-        Wnp::Services::UserPageTags.new(env.user, page)
+        Wnp::Services::UserPageTags.new(user, page)
       end
 
   end

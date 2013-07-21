@@ -7,12 +7,12 @@ describe "page" do
 
     @user = Wnp::Models::User.create name:"Jordan", email:"jordan@example.com", password:"cool"
     user_pages = Wnp::Services::UserPages.new @user
-    page = Wnp::Services::UserPages.new(@user).create_page name:"a-good-page"
+    page = Wnp::Services::UserPages.new(@user).create_page name:"a-good-page", text:"I wish I had something *interesting* to say!"
   end
 
   it "should get a page that is owned by the user" do
     get '/p/a-good-page', {}, {"rack.session" => {:access_token => @user.access_token}}
-    assert_equal "You're looking at page a-good-page", last_response.body 
+    assert_equal "<p>I wish I had something <em>interesting</em> to say!</p>\n", last_response.body 
   end
 
   it "should not get a page if the user does not have a page by that name" do
