@@ -46,6 +46,26 @@ get '/p/:name' do |page_name|
 
 end
 
+get '/p/:name/edit' do |page_name|
+  authorize!
+  user_pages = Wnp::Services::UserPages.new(current_user)
+  page = user_pages.find_page_with_name page_name
+  if page
+    haml :page_edit, :locals => {:page => page}
+  end
+end
+
+post '/p/:name/update' do |page_name|
+  authorize!
+  user_pages = Wnp::Services::UserPages.new(current_user)
+  page = user_pages.find_page_with_name page_name
+  if page
+    page.text = params[:text]
+    page.save
+    redirect to("/p/#{page.name}")
+  end
+end
+
 get '/page/add' do
   authorize!
   haml :page_add

@@ -1,6 +1,9 @@
 %div
   %a{:href => "/"}
     home
+%div
+  %a{:href => "/p/#{viewmodel.name}/edit"}
+    edit
 
 %h3
   = viewmodel.name()

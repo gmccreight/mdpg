@@ -1,0 +1,8 @@
+%h3
+  Edit the page
+
+%form{:action => "/p/#{page.name}/update", :method => "post"}
+  %div
+    %textarea{:name => "text", :cols => "200", :rows => "70"}
+      = page.text
+    %input{:type => "submit"}
