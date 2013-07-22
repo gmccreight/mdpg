@@ -19,4 +19,27 @@ describe Wnp::Models::Page do
 
   end
 
+  describe "updating" do
+
+    it "should update the revision number" do
+      page = create_page_with_name "good"
+      assert_equal 0, page.revision
+
+      page.text = "new text 1"
+      page.save
+
+      page = Wnp::Models::Page.find(1)
+      assert_equal "new text 1", page.text
+      assert_equal 1, page.revision
+
+      page.text = "new text 2"
+      page.save
+
+      page = Wnp::Models::Page.find(1)
+      assert_equal "new text 2", page.text
+      assert_equal 2, page.revision
+    end
+
+  end
+
 end

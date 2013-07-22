@@ -73,12 +73,24 @@ module Wnp::Models
 
     def save
       if validates?
+        possibly_update_revision()
         data_store.set data_key, persistable_data
         update_unique_id_indexes()
       end
     end
 
     private
+
+      def possibly_update_revision
+        if is_versioned?
+          set_max_revision()
+          self.revision = max_revision()
+        end
+      end
+
+      def is_versioned?
+        false
+      end
 
       def alter_associated_object object, add_or_remove
         type = type_name_for_object object
@@ -168,7 +180,25 @@ module Wnp::Models
         @instance_methods ||= self.class.instance_methods
       end
 
+      def max_revision
+        data_store.get(revisionless_data_key + "-max-revision") || -1
+      end
+
+      def set_max_revision
+        rev = max_revision()
+        data_store.set(revisionless_data_key + "-max-revision", rev + 1)
+      end
+
       def data_key
+        if is_versioned?
+          rev = max_revision()
+          revisionless_data_key() + "-#{rev}"
+        else
+          revisionless_data_key
+        end
+      end
+
+      def revisionless_data_key
         "#{get_data_prefix}-#{id}"
       end
 

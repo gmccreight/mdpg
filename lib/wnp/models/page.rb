@@ -21,6 +21,10 @@ module Wnp::Models
     end
 
     private
+    
+      def is_versioned?
+        true
+      end
 
       def validates?
         errors = Wnp::Token.new(name).validate
