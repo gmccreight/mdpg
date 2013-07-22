@@ -17,21 +17,40 @@ describe "page" do
       {"rack.session" => {:access_token => @user.access_token}}
   end
 
-  it "should get a page that is owned by the user" do
-    get_page "a-good-page"
-    expected = "<p>I wish I had something <em>interesting</em> to say!</p>\n"
-    assert last_response.body.include? expected
+  def update_page name, text
+    post "/p/#{name}/update", {:text => text},
+      {"rack.session" => {:access_token => @user.access_token}}
   end
 
-  it "should not get a page if the user does not have a page by that name" do
-    get_page "not-one-of-the-users-pages"
-    assert_equal "Could not find that page", last_response.body 
+  describe "viewing" do
+
+    it "should get a page that is owned by the user" do
+      get_page "a-good-page"
+      expected = "<p>I wish I had something <em>interesting</em> to say!</p>\n"
+      assert last_response.body.include? expected
+    end
+
+    it "should not get a page if the user does not have a page by that name" do
+      get_page "not-one-of-the-users-pages"
+      assert_equal "Could not find that page", last_response.body 
+    end
+
+    it "should redirect to login form if the access_token is invalid" do
+      get '/p/other', {}, {"rack.session" => {:access_token => "some nonsense"}}
+      follow_redirect!
+      assert last_response.body.include? "Please login"
+    end
+
   end
 
-  it "should redirect to login form if the access_token is invalid" do
-    get '/p/other', {}, {"rack.session" => {:access_token => "some nonsense"}}
-    follow_redirect!
-    assert last_response.body.include? "Please login"
+  describe "updating" do
+
+    it "should update the text of a page and redirect back to the page" do
+      update_page "a-good-page", "some *new* text"
+      follow_redirect!
+      assert last_response.body.include? "some <em>new</em> text"
+    end
+
   end
 
 end
