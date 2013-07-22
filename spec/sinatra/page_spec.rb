@@ -32,7 +32,7 @@ describe "page" do
 
     it "should not get a page if the user does not have a page by that name" do
       get_page "not-one-of-the-users-pages"
-      assert_equal "Could not find that page", last_response.body 
+      assert_equal "could not find that page", last_response.body 
     end
 
     it "should redirect to login form if the access_token is invalid" do
@@ -49,6 +49,11 @@ describe "page" do
       update_page "a-good-page", "some *new* text"
       follow_redirect!
       assert last_response.body.include? "some <em>new</em> text"
+    end
+
+    it "should fail to update a page if the page does not exist" do
+      update_page "not-a-good-page", "some text"
+      assert_equal "that page does not exist", last_response.body
     end
 
   end

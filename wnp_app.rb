@@ -41,7 +41,7 @@ get '/p/:name' do |page_name|
     viewmodel = Wnp::Viewmodels::Page.new(current_user, page)
     haml :page, :locals => {:viewmodel => viewmodel}
   else
-    "Could not find that page"
+    error "could not find that page"
   end
 
 end
@@ -63,6 +63,8 @@ post '/p/:name/update' do |page_name|
     page.text = params[:text]
     page.save
     redirect to("/p/#{page.name}")
+  else
+    error "that page does not exist"
   end
 end
 
