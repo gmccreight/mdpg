@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'haml'
+require 'coffee-script'
 
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 require 'wnp'
@@ -19,6 +20,10 @@ get '/' do
   else
     redirect to('/login')
   end
+end
+
+get '/application.js' do
+  coffee :application
 end
 
 get '/login' do
