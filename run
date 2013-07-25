@@ -1,0 +1,3 @@
+#!/bin/bash
+
+rerun "ruby wnp_app.rb"
