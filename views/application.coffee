@@ -1,4 +1,6 @@
-@TagsCtrl = ($scope) ->
+window.WnpApp = angular.module('WnpApp', ['ngResource'])
+
+WnpApp.controller 'TagsCtrl', ['$scope', ($scope) ->
 
   $scope.tags = [
     text: "learn angular"
@@ -25,3 +27,5 @@
     $scope.tags = []
     angular.forEach oldTags, (tag) ->
       $scope.tags.push tag  unless tag.done
+
+]
