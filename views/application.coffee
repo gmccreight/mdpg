@@ -1,16 +1,19 @@
 window.WnpApp = angular.module('WnpApp', ['ngResource'])
 
-WnpApp.controller 'TagsCtrl', ['$scope', ($scope) ->
+WnpApp.factory 'Tag', ['$resource', ($resource) ->
+  $resource '/page_tags/:id', id: '@id'
+]
 
-  $scope.tags = [
-    text: "learn angular"
-    done: true
-  ,
-    text: "build an angular app"
-    done: false
-  ]
+WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
+
+  $scope.tags = Tag.query()
 
   $scope.addTag = ->
+
+    newTag = new Tag({text:$scope.tagText, done:false})
+    newTag.text = $scope.tagText
+    newTag.$save()
+
     $scope.tags.push
       text: $scope.tagText
       done: false
