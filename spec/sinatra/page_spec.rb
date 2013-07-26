@@ -53,7 +53,7 @@ describe "page" do
 
     it "should fail to update a page if the page does not exist" do
       update_page "not-a-good-page", "some text"
-      assert_equal "that page does not exist", last_response.body
+      assert_equal "could not find that page", last_response.body
     end
 
   end

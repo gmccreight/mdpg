@@ -40,64 +40,39 @@ post '/login' do
 end
 
 get '/p/:name' do |page_name|
-  authorize!
-  user_pages = Wnp::Services::UserPages.new(current_user)
-  page = user_pages.find_page_with_name page_name
-  if page
+  if page = get_user_page(page_name)
     viewmodel = Wnp::Viewmodels::Page.new(current_user, page)
     haml :page, :locals => {:viewmodel => viewmodel}
-  else
-    error "could not find that page"
   end
 end
 
 get '/p/:name/edit' do |page_name|
-  authorize!
-  user_pages = Wnp::Services::UserPages.new(current_user)
-  page = user_pages.find_page_with_name page_name
-  if page
+  if page = get_user_page(page_name)
     haml :page_edit, :locals => {:page => page}
   end
 end
 
 get '/p/:name/tags' do |page_name|
-  authorize!
-  user_pages = Wnp::Services::UserPages.new(current_user)
-  page = user_pages.find_page_with_name page_name
-  if page
+  if page = get_user_page(page_name)
     object_tags = Wnp::Services::ObjectTags.new(page)
     return object_tags.sorted_tag_names().map{|tag| {:text => tag} }.to_json
-  else
-    return {:error => "could not find that page"}.to_json
   end
 end
 
 post '/p/:name/tags' do |page_name|
-  authorize!
-  user_pages = Wnp::Services::UserPages.new(current_user)
-  page = user_pages.find_page_with_name page_name
-  if page
-    request.body.rewind
-    request_payload = JSON.parse request.body.read
-    tag = request_payload["text"]
-    Wnp::Services::ObjectTags.new(page).add_tag tag
-    Wnp::Services::UserPageTags.new(current_user, page).add_tag tag
+  if page = get_user_page(page_name)
+    tag = attr_for_request_payload "text"
+    viewmodel = Wnp::Viewmodels::Page.new(current_user, page)
+    viewmodel.add_tag tag
     return {:success => "added tag #{tag}"}.to_json
-  else
-    return {:error => "could not find that page"}.to_json
   end
 end
 
 post '/p/:name/update' do |page_name|
-  authorize!
-  user_pages = Wnp::Services::UserPages.new(current_user)
-  page = user_pages.find_page_with_name page_name
-  if page
+  if page = get_user_page(page_name)
     page.text = params[:text]
     page.save
     redirect to("/p/#{page.name}")
-  else
-    error "that page does not exist"
   end
 end
 
@@ -115,6 +90,23 @@ post '/page/add' do
   else
     redirect to("/page/add")
   end
+end
+
+def get_user_page page_name
+  authorize!
+  user_pages = Wnp::Services::UserPages.new(current_user)
+  page = user_pages.find_page_with_name page_name
+  if page
+    return page
+  else
+    error "could not find that page"
+  end
+end
+
+def attr_for_request_payload attr
+  request.body.rewind
+  request_payload = JSON.parse request.body.read
+  request_payload[attr]
 end
 
 def current_user
