@@ -10,13 +10,13 @@ module Wnp::Viewmodels
 
     def add_tag tag
       if page_tags().add_tag(tag)
-        user_page_tags().add_tag(tag, page.id)
+        user_page_tags().add_tag tag
       end
     end
 
     def remove_tag tag
       if page_tags().remove_tag(tag)
-        user_page_tags().remove_tag(tag, page.id)
+        user_page_tags().remove_tag tag
       end
     end
 
