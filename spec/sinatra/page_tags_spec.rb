@@ -36,15 +36,26 @@ describe "page_tags" do
 
   describe "adding" do
 
-    it "should add a tag to the page" do
+    before do
       add_tag "new-tag"
+    end
+
+    it "should return a success message" do
       attrs = JSON.parse last_response.body
       assert attrs.has_key?("success")
       assert_equal "added tag new-tag", attrs["success"]
+    end
 
+    it "should add the tag to the page" do
       @page.reload
       object_tags = Wnp::Services::ObjectTags.new(@page)
       assert_equal ["new-tag"], object_tags.sorted_tag_names()
+    end
+
+    it "should *also* add the page to the user's page_tags" do
+      @user.reload
+      user_page_tags = Wnp::Services::UserPageTags.new(@user, @page)
+      assert_equal ["new-tag"], user_page_tags.get_tags()
     end
 
   end
