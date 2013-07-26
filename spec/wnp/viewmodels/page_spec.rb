@@ -32,7 +32,7 @@ describe Wnp::Viewmodels::Page do
       @page_1_vm.add_tag("good-stuff")
       assert page_1_tags.has_tag_with_name?("good-stuff")
       assert user_1_page_tags.has_tag_with_name?("good-stuff")
-      assert 1, user_1_page_tags.tag_count("good-stuff")
+      assert_equal 1, user_1_page_tags.tag_count("good-stuff")
     end
 
     it "should be able to remove an existing tag" do
@@ -40,7 +40,7 @@ describe Wnp::Viewmodels::Page do
       @page_1_vm.remove_tag("good-stuff")
       refute page_1_tags.has_tag_with_name?("good-stuff")
       refute user_1_page_tags.has_tag_with_name?("good-stuff")
-      assert 0, user_1_page_tags.tag_count("good-stuff")
+      assert_equal 0, user_1_page_tags.tag_count("good-stuff")
     end
 
   end
@@ -56,7 +56,7 @@ describe Wnp::Viewmodels::Page do
     end
 
     it "should increment the user's tags count to 2" do
-      assert 2, user_1_page_tags.tag_count("good-stuff")
+      assert_equal 2, user_1_page_tags.tag_count("good-stuff")
     end
 
   end
@@ -67,11 +67,11 @@ describe Wnp::Viewmodels::Page do
       @page_1_vm.add_tag("good-stuff")
       assert page_1_tags.has_tag_with_name?("good-stuff")
       assert user_1_page_tags.has_tag_with_name?("good-stuff")
-      assert 1, user_1_page_tags.tag_count("good-stuff")
+      assert_equal 1, user_1_page_tags.tag_count("good-stuff")
 
       @page_1_vm.add_tag("good-stuff")
       assert user_1_page_tags.has_tag_with_name?("good-stuff")
-      assert 1, user_1_page_tags.tag_count("good-stuff")
+      assert_equal 1, user_1_page_tags.tag_count("good-stuff")
     end
 
   end
