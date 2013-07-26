@@ -44,6 +44,10 @@ module Wnp::Models
       end
     end
 
+    def reload
+      find(self.id)
+    end
+
     def find_by_index index_name, key
       keyname = "#{get_data_prefix}-index-#{index_name}"
       if hash = data_store.get(keyname)
