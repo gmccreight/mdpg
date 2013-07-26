@@ -12,21 +12,21 @@ describe "page_tags" do
       text:"I wish I had something *interesting* to say!"
   end
 
-  def get_tags
-    get "/p/a-good-page/tags", {},
+  def get_tags page_name
+    get "/p/#{page_name}/tags", {},
       {"rack.session" => {:access_token => @user.access_token}}
   end
 
-  def add_tag tag_name
-    post "/p/a-good-page/tags", {:text => tag_name}.to_json,
+  def add_tag page_name, tag_name
+    post "/p/#{page_name}/tags", {:text => tag_name}.to_json,
       {"rack.session" => {:access_token => @user.access_token}}
   end
 
   describe "getting" do
 
     it "should get tags for the page" do
-      add_tag "new-tag"
-      get_tags
+      add_tag "a-good-page", "new-tag"
+      get_tags "a-good-page"
       array = JSON.parse last_response.body
       assert_equal 1, array.size
       assert_equal "new-tag", array[0]["text"]
@@ -37,7 +37,7 @@ describe "page_tags" do
   describe "adding" do
 
     before do
-      add_tag "new-tag"
+      add_tag "a-good-page", "new-tag"
     end
 
     it "should return a success message" do
