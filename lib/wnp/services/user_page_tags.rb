@@ -4,7 +4,7 @@ module Wnp::Services
 
   class UserPageTags < Struct.new(:user, :page)
 
-    def add_tag tag_name, page_id
+    def add_tag tag_name
       if error = Wnp::Token.new(tag_name).validate
         return false
       end
@@ -13,12 +13,12 @@ module Wnp::Services
       if ! h.has_key?(tag_name)
         h[tag_name] = {}
       end
-      h[tag_name][page_id.to_s] = true
+      h[tag_name][page.id.to_s] = true
       user.page_tags = h
       user.save
     end
 
-    def remove_tag tag_name, page_id
+    def remove_tag tag_name
       if error = Wnp::Token.new(tag_name).validate
         return false
       end
@@ -27,8 +27,8 @@ module Wnp::Services
       if ! h.has_key?(tag_name)
         return
       else
-        if h[tag_name].has_key?(page_id.to_s)
-          h[tag_name].delete(page_id.to_s)
+        if h[tag_name].has_key?(page.id.to_s)
+          h[tag_name].delete(page.id.to_s)
           if h[tag_name].keys.size == 0
             h.delete(tag_name)
           end

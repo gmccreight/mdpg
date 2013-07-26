@@ -12,14 +12,6 @@ end
 
 enable :sessions
 
-# get "/page_tags" do
-#   [{ :text => 'cool tag', :done => false }].to_json
-# end
-
-# post "/page_tags" do
-#   [{ :text => 'new tag yo', :done => false }].to_json
-# end
-
 get '/' do
   if current_user
     user_pages = Wnp::Services::UserPages.new(current_user)
@@ -69,25 +61,31 @@ get '/p/:name/edit' do |page_name|
 end
 
 get '/p/:name/tags' do |page_name|
-  [{ :text => 'cool tag from page tags'}].to_json
-  # authorize!
-  # user_pages = Wnp::Services::UserPages.new(current_user)
-  # page = user_pages.find_page_with_name page_name
-  # if page
-  # else
-  #   {:error => "could not find that page"}.to_json
-  # end
+  authorize!
+  user_pages = Wnp::Services::UserPages.new(current_user)
+  page = user_pages.find_page_with_name page_name
+  if page
+    object_tags = Wnp::Services::ObjectTags.new(page)
+    return object_tags.sorted_tag_names().map{|tag| {:text => tag} }.to_json
+  else
+    return {:error => "could not find that page"}.to_json
+  end
 end
 
 post '/p/:name/tags' do |page_name|
-  [{:text => 'new shit'}].to_json
-  # authorize!
-  # user_pages = Wnp::Services::UserPages.new(current_user)
-  # page = user_pages.find_page_with_name page_name
-  # if page
-  # else
-  #   {:error => "could not find that page"}.to_json
-  # end
+  authorize!
+  user_pages = Wnp::Services::UserPages.new(current_user)
+  page = user_pages.find_page_with_name page_name
+  if page
+    request.body.rewind
+    request_payload = JSON.parse request.body.read
+    tag = request_payload["text"]
+    Wnp::Services::ObjectTags.new(page).add_tag tag
+    Wnp::Services::UserPageTags.new(current_user, page).add_tag tag
+    return {:success => "added tag #{tag}"}.to_json
+  else
+    return {:error => "could not find that page"}.to_json
+  end
 end
 
 post '/p/:name/update' do |page_name|
