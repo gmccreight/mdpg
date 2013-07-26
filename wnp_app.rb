@@ -12,17 +12,13 @@ end
 
 enable :sessions
 
-get "/page_tags" do
-  [{ :text => 'cool tag', :done => false }].to_json
-end
+# get "/page_tags" do
+#   [{ :text => 'cool tag', :done => false }].to_json
+# end
 
-post "/page_tags" do
-  [{ :text => 'new tag yo', :done => false }].to_json
-end
-
-get "/page_tags/:id" do
-  { :text => 'tag gotten', :done => false }.to_json
-end
+# post "/page_tags" do
+#   [{ :text => 'new tag yo', :done => false }].to_json
+# end
 
 get '/' do
   if current_user
@@ -61,7 +57,6 @@ get '/p/:name' do |page_name|
   else
     error "could not find that page"
   end
-
 end
 
 get '/p/:name/edit' do |page_name|
@@ -71,6 +66,28 @@ get '/p/:name/edit' do |page_name|
   if page
     haml :page_edit, :locals => {:page => page}
   end
+end
+
+get '/p/:name/tags' do |page_name|
+  [{ :text => 'cool tag from page tags'}].to_json
+  # authorize!
+  # user_pages = Wnp::Services::UserPages.new(current_user)
+  # page = user_pages.find_page_with_name page_name
+  # if page
+  # else
+  #   {:error => "could not find that page"}.to_json
+  # end
+end
+
+post '/p/:name/tags' do |page_name|
+  [{:text => 'new shit'}].to_json
+  # authorize!
+  # user_pages = Wnp::Services::UserPages.new(current_user)
+  # page = user_pages.find_page_with_name page_name
+  # if page
+  # else
+  #   {:error => "could not find that page"}.to_json
+  # end
 end
 
 post '/p/:name/update' do |page_name|

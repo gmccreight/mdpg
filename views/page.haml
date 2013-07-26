@@ -1,3 +1,6 @@
+:javascript
+  window.pageName = "#{viewmodel.name}";
+
 %div
   %a{:href => "/"}
     home
@@ -10,4 +13,4 @@
 
 = viewmodel.rendered_markdown()
 
-= haml :tags_partial
+= haml :pagetags_partial
