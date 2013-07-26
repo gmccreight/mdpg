@@ -17,6 +17,7 @@ module Wnp::Services
       tag.add_associated_object object
       tag.save
       object.add_tag tag
+      object.save
     end
 
     def remove_tag name
@@ -28,6 +29,7 @@ module Wnp::Services
         tag.remove_associated_object object
         tag.save
         object.remove_tag tag
+        object.save
       end
     end
 
