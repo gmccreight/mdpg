@@ -19,7 +19,7 @@ describe UserPages do
   describe "adds page to user" do
 
     before do
-      @user = Wnp::Models::User.create name:"Jordan"
+      @user = User.create name:"Jordan"
       @user_pages = UserPages.new(user)
     end
 

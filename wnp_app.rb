@@ -32,7 +32,7 @@ get '/login' do
 end
 
 post '/login' do
-  user = Wnp::Models::User.authenticate params[:email], params[:password]
+  user = User.authenticate params[:email], params[:password]
   if user
     session[:access_token] = user.access_token
   end
@@ -111,7 +111,7 @@ end
 
 def current_user
   if session[:access_token]
-    if user = Wnp::Models::User.find_by_index(:access_token,
+    if user = User.find_by_index(:access_token,
       session[:access_token])
       return user
     else

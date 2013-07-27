@@ -5,7 +5,7 @@ describe "page" do
   before do
     $data_store = get_memory_datastore()
 
-    @user = Wnp::Models::User.create name:"Jordan",
+    @user = User.create name:"Jordan",
       email:"jordan@example.com", password:"cool"
     user_pages = UserPages.new @user
     UserPages.new(@user).create_page name:"a-good-page",

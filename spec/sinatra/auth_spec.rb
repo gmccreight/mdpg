@@ -4,7 +4,7 @@ describe "auth" do
 
   before do
     $data_store = get_memory_datastore()
-    @user = Wnp::Models::User.create name:"Jordan",
+    @user = User.create name:"Jordan",
       email:"jordan@example.com", password:"cool"
   end
 

@@ -15,7 +15,7 @@ if ENV["perf"]
 
       RubyProf.start
 
-      user = Wnp::Models::User.create name:"John", email:"good@email.com",
+      user = User.create name:"John", email:"good@email.com",
         password:"cool"
       assert_equal 1, user.id
       assert_equal "good@email.com", user.email

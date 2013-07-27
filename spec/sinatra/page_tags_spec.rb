@@ -5,9 +5,9 @@ describe "page_tags" do
   before do
     $data_store = get_memory_datastore()
 
-    @user = Wnp::Models::User.create name:"Jordan",
+    @user = User.create name:"Jordan",
       email:"jordan@example.com", password:"cool"
-    @other_user = Wnp::Models::User.create name:"Other",
+    @other_user = User.create name:"Other",
       email:"other@example.com", password:"other"
     user_pages = UserPages.new @user
     @page = UserPages.new(@user).create_page name:"a-good-page",

@@ -17,7 +17,7 @@ end
 
 def create_user data = {}
   name = data.has_key?(:name) || "Jordan"
-  Wnp::Models::User.create name:name
+  User.create name:name
 end
 
 def _random_string_of_length length
