@@ -65,7 +65,7 @@ describe "page_tags" do
 
       it "should add the tag to the page" do
         @page.reload
-        object_tags = Wnp::Services::ObjectTags.new(@page)
+        object_tags = ObjectTags.new(@page)
         assert_equal ["new-tag"], object_tags.sorted_tag_names()
       end
 

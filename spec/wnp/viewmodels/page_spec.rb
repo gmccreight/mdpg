@@ -14,7 +14,7 @@ describe PageView do
   end
 
   def page_1_tags
-    Wnp::Services::ObjectTags.new(@page)
+    ObjectTags.new(@page)
   end
 
   describe "rendered html for page" do

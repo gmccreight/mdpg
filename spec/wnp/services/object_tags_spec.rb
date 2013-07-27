@@ -1,11 +1,11 @@
 require_relative "../../spec_helper"
 
-describe Wnp::Services::ObjectTags do
+describe ObjectTags do
 
   before do
     $data_store = get_memory_datastore()
     @object = Wnp::Models::Page.create name:"killer", revision:1
-    @object_tags = Wnp::Services::ObjectTags.new(@object)
+    @object_tags = ObjectTags.new(@object)
   end
 
   def page_ids_for_tag_with_name name
@@ -55,7 +55,7 @@ describe Wnp::Services::ObjectTags do
       it "should update to show multiple pages associated with same tag" do
         @object_tags.add_tag "cool-house"
         other_page = Wnp::Models::Page.create name:"killer-fu"
-        other_page_tags = Wnp::Services::ObjectTags.new(other_page)
+        other_page_tags = ObjectTags.new(other_page)
         other_page_tags.add_tag "cool-house"
         assert_equal [@object.id, other_page.id],
           page_ids_for_tag_with_name("cool-house")
@@ -93,7 +93,7 @@ describe Wnp::Services::ObjectTags do
 
       it "should remove one of the pages associated with the tag" do
         other_page = Wnp::Models::Page.create name:"killer-fu"
-        other_page_tags = Wnp::Services::ObjectTags.new(other_page)
+        other_page_tags = ObjectTags.new(other_page)
         other_page_tags.add_tag "cool-house"
 
         assert_equal [@object.id, other_page.id],

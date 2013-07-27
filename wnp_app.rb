@@ -54,7 +54,7 @@ end
 
 get '/p/:name/tags' do |page_name|
   if page = get_user_page(page_name)
-    object_tags = Wnp::Services::ObjectTags.new(page)
+    object_tags = ObjectTags.new(page)
     return object_tags.sorted_tag_names().map{|tag| {:text => tag} }.to_json
   end
 end
