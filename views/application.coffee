@@ -1,25 +1,41 @@
 window.WnpApp = angular.module('WnpApp', ['ngResource'])
 
 WnpApp.factory 'Tag', ['$resource', ($resource) ->
-  $resource '/p/:pageName/tags/:tagName', {pageName:window.pageName, tagName:"@tagName"}
+  $resource '/p/:pageName/tags/:tagSlug',
+    {pageName:window.pageName, tagSlug:"@tagSlug"}
 ]
 
 WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
 
+
   $scope.tags = Tag.query()
 
-  $scope.addTag = ->
+  $scope.addTag = (tag) ->
     newTag = new Tag({text:$scope.tagText})
-    newTag.$save()
+    tagToAdd = angular.copy(newTag)
 
-    $scope.tags.push angular.copy(newTag)
+    successHandler = (data) ->
+      if error = data["error"]
+        alert error
+        $scope.tags = _.without($scope.tags, tagToAdd)
+    errorHandler = (e) ->
+      alert "sorry, we had an error"
+      $scope.tags = _.without($scope.tags, tagToAdd)
+
+    newTag.$save({}, successHandler, errorHandler)
+    $scope.tags.push tagToAdd
     $scope.tagText = ""
 
-  $scope.destroy = (text) ->
-    tag = _.first(_.filter($scope.tags, (tag) -> tag.text == text))
-    if tag
-      $scope.tags = _.filter($scope.tags, (t) -> t.text != text)
-      tag.tagName = tag.text
-      tag.$delete()
+  $scope.destroy = (tag) ->
+    tagToPossiblyRestore = angular.copy(tag)
+    successHandler = (data) ->
+      if error = data["error"]
+        alert error
+        $scope.tags.push(tagToPossiblyRestore)
+    errorHandler = (e) ->
+      alert "sorry, we had an error"
+      $scope.tags.push(tagToPossiblyRestore)
+    tag.$delete({tagSlug:tag.text}, successHandler, errorHandler)
+    $scope.tags = _.without($scope.tags, tag)
 
 ]

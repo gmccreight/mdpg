@@ -9,13 +9,17 @@ class PageView < Struct.new(:user, :page)
   def add_tag tag
     if page_tags().add_tag(tag)
       user_page_tags().add_tag tag
+      return true
     end
+    false
   end
 
   def remove_tag tag
     if page_tags().remove_tag(tag)
       user_page_tags().remove_tag tag
+      return true
     end
+    false
   end
 
   def rendered_markdown

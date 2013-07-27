@@ -3,8 +3,8 @@
   %ul.unstyled
     %li{"ng-repeat" => "tag in tags"}
       {{tag.text}}
-      %a(ng-click="destroy(tag.text)" href="")
+      %a(ng-click="destroy(tag)" href="")
         remove
-  %form{"ng-submit" => "addTag()"}
+  %form{"ng-submit" => "addTag(tag)"}
     %input{"ng-model" => "tagText", :placeholder => "add new tag here", :size => "30", :type => "text"}/
     %input.btn-primary{:type => "submit", :value => "add"}/

@@ -61,18 +61,24 @@ end
 
 post '/p/:name/tags' do |page_name|
   if page = get_user_page(page_name)
-    tag = attr_for_request_payload "text"
+    tag_name = attr_for_request_payload "text"
     pageView = PageView.new(current_user, page)
-    pageView.add_tag tag
-    return {:success => "added tag #{tag}"}.to_json
+    if pageView.add_tag(tag_name)
+      return {:success => "added tag #{tag_name}"}.to_json
+    else
+      return {:error => "could not add the tag #{tag_name}"}.to_json
+    end
   end
 end
 
 delete '/p/:name/tags/:tag_name' do |page_name, tag_name|
   if page = get_user_page(page_name)
     pageView = PageView.new(current_user, page)
-    pageView.remove_tag tag_name
-    return {:success => "removed tag #{tag_name}"}.to_json
+    if pageView.remove_tag(tag_name)
+      return {:success => "removed tag #{tag_name}"}.to_json
+    else
+      return {:error => "the tag #{tag_name} could not be deleted"}.to_json
+    end
   end
 end
 
