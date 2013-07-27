@@ -24,6 +24,25 @@ describe "page_tags" do
       {"rack.session" => {:access_token => user.access_token}}
   end
 
+  def delete_tag user, page_name, tag_name
+    delete "/p/#{page_name}/tags/#{tag_name}", {},
+      {"rack.session" => {:access_token => user.access_token}}
+  end
+
+  describe "deleting" do
+
+    before do
+      add_tag @user, "a-good-page", "new-tag"
+    end
+
+    it "should delete an existing tag" do
+      assert_equal ["new-tag"], ObjectTags.new(@page.reload).sorted_tag_names()
+      delete_tag @user, "a-good-page", "new-tag"
+      assert_equal [], ObjectTags.new(@page.reload).sorted_tag_names()
+    end
+
+  end
+
   describe "getting" do
 
     before do

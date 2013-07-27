@@ -68,6 +68,14 @@ post '/p/:name/tags' do |page_name|
   end
 end
 
+delete '/p/:name/tags/:tag_name' do |page_name, tag_name|
+  if page = get_user_page(page_name)
+    pageView = PageView.new(current_user, page)
+    pageView.remove_tag tag_name
+    return {:success => "removed tag #{tag_name}"}.to_json
+  end
+end
+
 post '/p/:name/update' do |page_name|
   if page = get_user_page(page_name)
     page.text = params[:text]
