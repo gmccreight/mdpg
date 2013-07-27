@@ -41,8 +41,8 @@ end
 
 get '/p/:name' do |page_name|
   if page = get_user_page(page_name)
-    viewmodel = Wnp::Viewmodels::Page.new(current_user, page)
-    haml :page, :locals => {:viewmodel => viewmodel}
+    pageView = PageView.new(current_user, page)
+    haml :page, :locals => {:viewmodel => pageView}
   end
 end
 
@@ -62,8 +62,8 @@ end
 post '/p/:name/tags' do |page_name|
   if page = get_user_page(page_name)
     tag = attr_for_request_payload "text"
-    viewmodel = Wnp::Viewmodels::Page.new(current_user, page)
-    viewmodel.add_tag tag
+    pageView = PageView.new(current_user, page)
+    pageView.add_tag tag
     return {:success => "added tag #{tag}"}.to_json
   end
 end

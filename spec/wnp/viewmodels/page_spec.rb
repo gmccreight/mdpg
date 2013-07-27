@@ -1,12 +1,12 @@
 require_relative "../../spec_helper"
 
-describe Wnp::Viewmodels::Page do
+describe PageView do
 
   before do
     @user = create_user
     @page = Wnp::Models::Page.create name:"my-bongos",
       text:"This is *bongos*, indeed."
-    @page_1_vm = Wnp::Viewmodels::Page.new(@user, @page)
+    @page_1_vm = PageView.new(@user, @page)
   end
 
   def user_1_page_tags
@@ -49,7 +49,7 @@ describe Wnp::Viewmodels::Page do
 
     before do
       page_2 = Wnp::Models::Page.create name:"food", text:"foo"
-      @page_2_vm = Wnp::Viewmodels::Page.new(@user, page_2)
+      @page_2_vm = PageView.new(@user, page_2)
 
       @page_1_vm.add_tag("good-stuff")
       @page_2_vm.add_tag("good-stuff")
