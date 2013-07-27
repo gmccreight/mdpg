@@ -1,7 +1,3 @@
-module Wnp
-
-end
-
 class ModelBase
 
   attr_accessor :data_store, :id
