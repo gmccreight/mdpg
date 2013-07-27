@@ -31,7 +31,7 @@ class PageView < Struct.new(:user, :page)
     end
 
     def user_page_tags
-      Wnp::Services::UserPageTags.new(user, page)
+      UserPageTags.new(user, page)
     end
 
 end

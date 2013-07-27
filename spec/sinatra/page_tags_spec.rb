@@ -71,7 +71,7 @@ describe "page_tags" do
 
       it "should *also* add the page to the user's page_tags" do
         @user.reload
-        user_page_tags = Wnp::Services::UserPageTags.new(@user, @page)
+        user_page_tags = UserPageTags.new(@user, @page)
         assert_equal ["new-tag"], user_page_tags.get_tags()
       end
 

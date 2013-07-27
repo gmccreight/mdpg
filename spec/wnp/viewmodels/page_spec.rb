@@ -10,7 +10,7 @@ describe PageView do
   end
 
   def user_1_page_tags
-    Wnp::Services::UserPageTags.new(@user, @page)
+    UserPageTags.new(@user, @page)
   end
 
   def page_1_tags

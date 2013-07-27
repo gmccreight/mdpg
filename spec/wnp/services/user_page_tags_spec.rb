@@ -1,12 +1,12 @@
 require_relative "../../spec_helper"
 
-describe Wnp::Services::UserPageTags do
+describe UserPageTags do
 
   before do
     $data_store = get_memory_datastore
     @user = create_user
     @page = create_page
-    @user_page_tags = Wnp::Services::UserPageTags.new(@user, @page)
+    @user_page_tags = UserPageTags.new(@user, @page)
   end
 
   describe "adding" do
