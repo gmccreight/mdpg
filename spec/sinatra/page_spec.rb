@@ -7,8 +7,8 @@ describe "page" do
 
     @user = Wnp::Models::User.create name:"Jordan",
       email:"jordan@example.com", password:"cool"
-    user_pages = Wnp::Services::UserPages.new @user
-    Wnp::Services::UserPages.new(@user).create_page name:"a-good-page",
+    user_pages = UserPages.new @user
+    UserPages.new(@user).create_page name:"a-good-page",
       text:"I wish I had something *interesting* to say!"
   end
 

@@ -9,8 +9,8 @@ describe "page_tags" do
       email:"jordan@example.com", password:"cool"
     @other_user = Wnp::Models::User.create name:"Other",
       email:"other@example.com", password:"other"
-    user_pages = Wnp::Services::UserPages.new @user
-    @page = Wnp::Services::UserPages.new(@user).create_page name:"a-good-page",
+    user_pages = UserPages.new @user
+    @page = UserPages.new(@user).create_page name:"a-good-page",
       text:"I wish I had something *interesting* to say!"
   end
 

@@ -14,7 +14,7 @@ enable :sessions
 
 get '/' do
   if current_user
-    user_pages = Wnp::Services::UserPages.new(current_user)
+    user_pages = UserPages.new(current_user)
     page_ids_and_names = user_pages.page_ids_and_names_sorted_by_name
     haml :index, :locals => {:user => current_user,
       :page_ids_and_names => page_ids_and_names}
@@ -83,7 +83,7 @@ end
 
 post '/page/add' do
   authorize!
-  user_pages = Wnp::Services::UserPages.new(current_user)
+  user_pages = UserPages.new(current_user)
   page = user_pages.create_page name:params["name"], text:""
   if page
     redirect to("/p/#{page.name}")
@@ -94,7 +94,7 @@ end
 
 def get_user_page page_name
   authorize!
-  user_pages = Wnp::Services::UserPages.new(current_user)
+  user_pages = UserPages.new(current_user)
   page = user_pages.find_page_with_name page_name
   if page
     return page

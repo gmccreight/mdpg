@@ -1,6 +1,6 @@
 require_relative "../../spec_helper"
 
-describe Wnp::Services::UserPages do
+describe UserPages do
 
   before do
     @user = create_user
@@ -13,14 +13,14 @@ describe Wnp::Services::UserPages do
     @user.add_page @zebra_page
     @user.add_page @alaska_page
 
-    @user_pages = Wnp::Services::UserPages.new(@user)
+    @user_pages = UserPages.new(@user)
   end
 
   describe "adds page to user" do
 
     before do
       @user = Wnp::Models::User.create name:"Jordan"
-      @user_pages = Wnp::Services::UserPages.new(user)
+      @user_pages = UserPages.new(user)
     end
 
     let (:user) {
