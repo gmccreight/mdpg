@@ -2,7 +2,7 @@ require "wnp"
 require "minitest/autorun"
 
 def get_memory_datastore
-  @data ||= Wnp::Data.new :memory
+  @data ||= DataStore.new :memory
 end
 
 def create_group data = {}

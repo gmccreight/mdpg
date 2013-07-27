@@ -29,7 +29,7 @@ if ENV["perf"]
 
       before do
         @temp_dir = Dir.mktmpdir
-        @data = Wnp::Data.new @temp_dir
+        @data = DataStore.new @temp_dir
       end
 
       after do

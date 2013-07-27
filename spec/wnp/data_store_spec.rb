@@ -2,13 +2,13 @@ require_relative "../spec_helper"
 
 require 'tmpdir'
 
-describe Wnp::Data do
+describe DataStore do
 
   describe "get and set" do
 
     before do
       @temp_dir = Dir.mktmpdir
-      @data = Wnp::Data.new @temp_dir
+      @data = DataStore.new @temp_dir
     end
 
     after do

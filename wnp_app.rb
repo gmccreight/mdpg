@@ -7,7 +7,7 @@ $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 require 'wnp'
 
 if ! $data_store
-  $data_store = Wnp::Data.new "./.app_data"
+  $data_store = DataStore.new "./.app_data"
 end
 
 enable :sessions
