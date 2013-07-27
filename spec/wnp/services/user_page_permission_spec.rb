@@ -1,6 +1,6 @@
 require_relative "../../spec_helper"
 
-describe Wnp::Services::UserPagePermission do
+describe UserPagePermission do
 
   before do
     $data_store = get_memory_datastore()
@@ -20,11 +20,11 @@ describe Wnp::Services::UserPagePermission do
   end
 
   def can_read? user, page
-    Wnp::Services::UserPagePermission.new(user, page).can_read?
+    UserPagePermission.new(user, page).can_read?
   end
 
   def can_write? user, page
-    Wnp::Services::UserPagePermission.new(user, page).can_write?
+    UserPagePermission.new(user, page).can_write?
   end
 
   describe "owner" do

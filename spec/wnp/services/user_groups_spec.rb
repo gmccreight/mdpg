@@ -1,6 +1,6 @@
 require_relative "../../spec_helper"
 
-describe Wnp::Services::UserGroups do
+describe UserGroups do
 
   before do
     @user = create_user
@@ -11,7 +11,7 @@ describe Wnp::Services::UserGroups do
     @user.add_group @zebra_group
     @user.add_group @alaska_group
 
-    @user_groups = Wnp::Services::UserGroups.new(@user)
+    @user_groups = UserGroups.new(@user)
   end
 
   it "should list the group ids and names sorted by name" do
