@@ -1,6 +1,6 @@
 module Wnp::Models
 
-  class Tag < Base
+  class Tag < ModelBase
 
     attr_accessor :name, :page_ids, :user_ids
 

@@ -1,6 +1,6 @@
 module Wnp::Models
 
-  class Page < Base
+  class Page < ModelBase
 
     attr_accessor :name, :text, :revision, :tag_ids
 

@@ -1,6 +1,6 @@
 module Wnp::Models
 
-  class User < Base
+  class User < ModelBase
 
     attr_accessor :name, :email, :salt, :hashed_password, :access_token,
       :page_ids, :group_ids, :page_tags, :is_admin

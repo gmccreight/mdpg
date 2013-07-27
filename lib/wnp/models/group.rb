@@ -1,6 +1,6 @@
 module Wnp::Models
 
-  class Group < Base
+  class Group < ModelBase
 
     attr_accessor :name, :admins, :members
 
