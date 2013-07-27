@@ -7,7 +7,7 @@ describe Wnp::Models::Group do
   end
 
   def create_group_with_name name
-    Wnp::Models::Page.create name:name
+    Page.create name:name
   end
 
   describe "creation" do

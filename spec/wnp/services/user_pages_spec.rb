@@ -5,9 +5,9 @@ describe UserPages do
   before do
     @user = create_user
 
-    @zebra_page = Wnp::Models::Page.create name:"zebra-training",
+    @zebra_page = Page.create name:"zebra-training",
       text:"the text for page 1"
-    @alaska_page = Wnp::Models::Page.create name:"alaska-crab",
+    @alaska_page = Page.create name:"alaska-crab",
       text:"the text for page 2"
 
     @user.add_page @zebra_page
@@ -24,7 +24,7 @@ describe UserPages do
     end
 
     let (:user) {
-      MiniTest::Mock.new.expect :add_page, true, [Wnp::Models::Page]
+      MiniTest::Mock.new.expect :add_page, true, [Page]
     }
 
     it "should add the newly created page to the user" do

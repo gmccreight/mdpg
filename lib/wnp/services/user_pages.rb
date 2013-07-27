@@ -1,7 +1,7 @@
 class UserPages < Struct.new(:user)
 
   def create_page opts
-    page = Wnp::Models::Page.create opts
+    page = Page.create opts
     if page
       user.add_page page
     end
@@ -34,7 +34,7 @@ class UserPages < Struct.new(:user)
 
     def pages
       return [] if ! user.page_ids()
-      user.page_ids().map{|x| page = Wnp::Models::Page.find(x); page}
+      user.page_ids().map{|x| page = Page.find(x); page}
     end
 
 end

@@ -12,7 +12,7 @@ end
 
 def create_page data = {}
   name = data.has_key?(:name) || _random_string_of_length(8)
-  Wnp::Models::Page.create name:name
+  Page.create name:name
 end
 
 def create_user data = {}

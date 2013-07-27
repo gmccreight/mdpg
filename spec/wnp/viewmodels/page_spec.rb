@@ -4,7 +4,7 @@ describe PageView do
 
   before do
     @user = create_user
-    @page = Wnp::Models::Page.create name:"my-bongos",
+    @page = Page.create name:"my-bongos",
       text:"This is *bongos*, indeed."
     @page_1_vm = PageView.new(@user, @page)
   end
@@ -48,7 +48,7 @@ describe PageView do
   describe "multiple pages with same tag" do
 
     before do
-      page_2 = Wnp::Models::Page.create name:"food", text:"foo"
+      page_2 = Page.create name:"food", text:"foo"
       @page_2_vm = PageView.new(@user, page_2)
 
       @page_1_vm.add_tag("good-stuff")
