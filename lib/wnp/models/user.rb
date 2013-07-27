@@ -1,7 +1,7 @@
 class User < ModelBase
 
   attr_accessor :name, :email, :salt, :hashed_password, :access_token,
-    :page_ids, :group_ids, :page_tags, :is_admin
+    :page_ids, :clan_ids, :page_tags, :is_admin
 
   def self.authenticate email, password
     user = self.find_by_index :email, email
@@ -43,13 +43,13 @@ class User < ModelBase
     save
   end
 
-  def add_group group
-    add_associated_object group
+  def add_clan clan
+    add_associated_object clan
     save
   end
 
-  def remove_group group
-    remove_associated_object group
+  def remove_clan clan
+    remove_associated_object clan
     save
   end
 

@@ -56,12 +56,12 @@ run on that.
 
 ## Collaboration
 
-### You and groups
+### You and clans
 
-You are you.  You are also part of a group.  You are part of *many* groups.
-You join and leave groups.  Some things you create for the group, others for
+You are you.  You are also part of a clan.  You are part of *many* clans.
+You join and leave clans.  Some things you create for the clan, others for
 yourself.  Some things you always want to be in charge of, other things you
-want to cede control of to others.  In other words, you and your groups are
+want to cede control of to others.  In other words, you and your clans are
 very fluid, but many systems are rigid.  I'm looking at you, Google Docs!
 
 ### The public at large
@@ -84,7 +84,7 @@ The web front end should have round-trip Markdown.  In other words, you should
 be able to use Markdown markup, or actually type in the rendered text, and
 have it update the Markdown.
 
-## Realtime group editing
+## Realtime clan editing
 
 We're gonna punt on this one for now, I think.  Too much to think through.
 

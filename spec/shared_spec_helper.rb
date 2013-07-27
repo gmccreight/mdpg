@@ -5,9 +5,9 @@ def get_memory_datastore
   @data ||= DataStore.new :memory
 end
 
-def create_group data = {}
+def create_clan data = {}
   name = data.has_key?(:name) || _random_string_of_length(8)
-  Wnp::Models::Group.create name:name
+  Clan.create name:name
 end
 
 def create_page data = {}

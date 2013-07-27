@@ -141,24 +141,24 @@ describe User do
 
   end
 
-  describe "groups" do
+  describe "clans" do
 
     before do
       @user = User.create name:"John", email:"good@email.com", password:"cool"
     end
 
-    it "should add, remove, and persist groups" do
-      group1 = create_group
-      group2 = create_group
-      group3 = create_group
-      @user.add_group group1
-      @user.add_group group2
-      @user.add_group group3
-      assert_equal [group1.id, group2.id, group3.id], @user.group_ids
-      @user.remove_group group2
-      assert_equal [group1.id, group3.id], @user.group_ids
+    it "should add, remove, and persist clans" do
+      clan1 = create_clan
+      clan2 = create_clan
+      clan3 = create_clan
+      @user.add_clan clan1
+      @user.add_clan clan2
+      @user.add_clan clan3
+      assert_equal [clan1.id, clan2.id, clan3.id], @user.clan_ids
+      @user.remove_clan clan2
+      assert_equal [clan1.id, clan3.id], @user.clan_ids
       @user.save
-      assert_equal [group1.id, group3.id], User.find(1).group_ids
+      assert_equal [clan1.id, clan3.id], User.find(1).clan_ids
     end
 
   end
