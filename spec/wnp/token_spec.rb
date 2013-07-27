@@ -1,11 +1,11 @@
 require_relative "../spec_helper"
 
-describe Wnp::Token do
+describe Token do
 
   describe "validate" do
 
     def validate text
-      Wnp::Token.new(text).validate
+      Token.new(text).validate
     end
 
     describe "nil or blank" do

@@ -27,7 +27,7 @@ module Wnp::Models
       end
 
       def validates?
-        errors = Wnp::Token.new(name).validate
+        errors = Token.new(name).validate
         return ! errors
       end
 
