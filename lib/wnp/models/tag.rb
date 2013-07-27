@@ -1,15 +1,11 @@
-module Wnp::Models
+class Tag < ModelBase
 
-  class Tag < ModelBase
+  attr_accessor :name, :page_ids, :user_ids
 
-    attr_accessor :name, :page_ids, :user_ids
+  private
 
-    private
-
-      def unique_id_indexes
-        [:name]
-      end
-
-  end
+    def unique_id_indexes
+      [:name]
+    end
 
 end

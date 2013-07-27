@@ -9,7 +9,7 @@ describe ObjectTags do
   end
 
   def page_ids_for_tag_with_name name
-    tag = Wnp::Models::Tag.find_by_index(:name, name)
+    tag = Tag.find_by_index(:name, name)
     return [] if ! tag
     tag.page_ids
   end

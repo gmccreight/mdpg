@@ -9,8 +9,8 @@ class ObjectTags < Struct.new(:object)
     
     return false if has_tag_with_name?(name)
 
-    tag = Wnp::Models::Tag.find_by_index(:name, name) ||
-      Wnp::Models::Tag.create(name:name)
+    tag = Tag.find_by_index(:name, name) ||
+      Tag.create(name:name)
 
     tag.add_associated_object object
     tag.save
@@ -46,7 +46,7 @@ class ObjectTags < Struct.new(:object)
 
   def get_tags
     return [] if ! object.tag_ids
-    object.tag_ids().map{|x| tag = Wnp::Models::Tag.find(x); tag}
+    object.tag_ids().map{|x| tag = Tag.find(x); tag}
   end
 
   def sorted_tag_names
