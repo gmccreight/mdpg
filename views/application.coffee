@@ -4,7 +4,7 @@ WnpApp.factory 'Tag', ['$resource', ($resource) ->
   $resource '/p/:pageName/tags/:tagSlug',
     {pageName:window.pageName, tagSlug:"@tagSlug"},
     {
-      getSuggestion: {method:'GET', url:"/p/:pageName/tag_suggestions", params:{tagName:"@tagName"}}
+      getSuggestion: {method:'GET', url:"/p/:pageName/tag_suggestions", params:{tagTyped:"@tagTyped"}}
     }
 ]
 
@@ -14,22 +14,22 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
 
   $scope.suggestedTags = []
 
-  $scope.suggest = (foo) ->
-    if foo.length <= 2
-      return
-    tempTag = new Tag()
-    successHandler = (data) ->
-      if error = data["error"]
-        alert error
-      else
-        console.log data
-        $scope.suggestedTags = data.tags
-    errorHandler = (e) ->
-      alert "sorry, we had an error"
-    tempTag.$getSuggestion({tagTyped:$scope.tagText}, successHandler, errorHandler)
+  $scope.suggest = (tagTyped) ->
+    if tagTyped.length <= 1 && tagTyped != "*"
+      $scope.suggestedTags = []
+    else
+      tempTag = new Tag()
+      successHandler = (data) ->
+        if error = data["error"]
+          alert error
+        else
+          $scope.suggestedTags = data.tags
+      errorHandler = (e) ->
+        alert "sorry, we had an error"
+      tempTag.$getSuggestion({tagTyped:tagTyped}, successHandler, errorHandler)
 
-  $scope.chooseSuggested = (foo) ->
-    $scope.tagText = foo
+  $scope.chooseSuggested = (suggestedTagText) ->
+    $scope.tagText = suggestedTagText
     $scope.addTag()
 
   $scope.addTag = (tag) ->

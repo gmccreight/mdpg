@@ -62,6 +62,18 @@ get '/p/:name/tags' do |page_name|
   end
 end
 
+get '/p/:name/tag_suggestions' do |page_name|
+  if page = get_user_page(page_name)
+    tag_typed = params["tagTyped"]
+    if tag_typed == "*"
+      tags = UserPageTags.new(current_user, nil).get_tags()
+    else
+      tags = UserPageTags.new(current_user, nil).search(tag_typed)
+    end
+    return {:tags => tags}.to_json
+  end
+end
+
 post '/p/:name/tags' do |page_name|
   if page = get_user_page(page_name)
     tag_name = attr_for_request_payload "text"
