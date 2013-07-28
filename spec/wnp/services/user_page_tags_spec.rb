@@ -75,5 +75,32 @@ describe UserPageTags do
 
   end
 
+  describe "getting the pages that have been tagged" do
+
+    before do
+      %w{color trombone green colour}.each{|x| @user_page_tags.add_tag x}
+      @another_page = create_page
+      @user_page_tags = UserPageTags.new(@user, @another_page)
+      %w{green}.each{|x| @user_page_tags.add_tag x}
+    end
+
+    def page_ids_for_tag tag
+      @user_page_tags.get_pages_for_tag_with_name(tag).map{|page| page.id}
+    end
+
+    it "should get pages for a tag that was added to multiple pages" do
+      assert_equal [@page.id, @another_page.id], page_ids_for_tag("green")
+    end
+
+    it "should get one page for a tag that was added to one page" do
+      assert_equal [@page.id], page_ids_for_tag("trombone")
+    end
+
+    it "should get no pages for a tag that has been added to no pages" do
+      assert_equal [], page_ids_for_tag("not-a-tag-with-a-page")
+    end
+
+  end
+
 
 end

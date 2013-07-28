@@ -50,6 +50,15 @@ class UserPageTags < Struct.new(:user, :page)
     get_tags_hash().has_key?(tag)
   end
 
+  def get_pages_for_tag_with_name tag
+    hash = get_tags_hash()
+    if hash.has_key?(tag)
+      hash[tag].keys.map{|id_string| Page.find(id_string.to_i)}
+    else
+      return []
+    end
+  end
+
   def tag_count tag
     h = get_tags_hash()
     return 0 if ! h.has_key?(tag)
