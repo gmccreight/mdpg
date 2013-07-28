@@ -16,8 +16,11 @@ get '/' do
   if current_user
     user_pages = UserPages.new(current_user)
     page_ids_and_names = user_pages.page_ids_and_names_sorted_by_name
+    tags = UserPageTags.new(current_user, nil).get_tags()
     haml :index, :locals => {:user => current_user,
-      :page_ids_and_names => page_ids_and_names}
+      :page_ids_and_names => page_ids_and_names,
+      :tags => tags
+    }
   else
     redirect to('/login')
   end
