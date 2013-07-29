@@ -33,7 +33,10 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
     $scope.addTag()
 
   $scope.addTag = (tag) ->
-    newTag = new Tag({text:$scope.tagText})
+    normalizedText = $scope.tagText.
+      replace(/[ ]+/g, " ").
+      trim().replace(/[ ]/g, "-")
+    newTag = new Tag({text:normalizedText})
     tagToAdd = angular.copy(newTag)
 
     successHandler = (data) ->
