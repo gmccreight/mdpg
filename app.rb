@@ -65,11 +65,7 @@ end
 get '/p/:name/tag_suggestions' do |page_name|
   if page = get_user_page(page_name)
     tag_typed = params["tagTyped"]
-    if tag_typed == "*"
-      tags = UserPageTags.new(current_user, nil).get_tags()
-    else
-      tags = UserPageTags.new(current_user, nil).search(tag_typed)
-    end
+    tags = PageView.new(current_user, page).tag_suggestions_for(tag_typed)
     return {:tags => tags}.to_json
   end
 end

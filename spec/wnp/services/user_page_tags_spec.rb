@@ -102,5 +102,4 @@ describe UserPageTags do
 
   end
 
-
 end
