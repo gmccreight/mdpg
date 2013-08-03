@@ -25,6 +25,10 @@ the Destroy All Software screencast series.  As part of that, I want my
 unit tests to be as isolated as possible.  I'll check outbound command messages
 with mock expectations, and I'll stub out any outbound query messages.
 
+## 4.0!
+
+I wanna maintain a 4.0 on Code Climate.
+
 ## Fun!
 
 This can't be overstated.  Nobody's paying me to work on this, so it had better
@@ -51,10 +55,16 @@ character code as the directory name.  In other words, the data will be nicely
 distributed into a large number of buckets.  Unlike git, however, the objects
 are not content-addressible, rather the hash is a hash of the data's key.
 
-## Runs on EC2 micro instance
+## Relatively easy to reason about the datastore
 
-If you get a reserved instance, a micro is like $6/mo.  Awesome!  We should
-run on that.
+Since this thing is highly experimental, it's possible that the quickest way of
+migrating the datastore will be to actually run macros on the datastore files
+themselves.  Their format and structure should facilitate that.
+
+
+## Runs on EC2 micro instance (or the low-end DigitalOcean box)
+
+It should be able to run great on a $5-6/mo machine.
 
 ## Collaboration
 
@@ -138,6 +148,10 @@ in the code.  I'll highlight them with the [tag:ruby2:gem] tag.
 
 I wanted to see what all the fuss is about, so we're using it instead
 of rspec.
+
+## Angular
+
+I hear it's the new hotness.
 
 ## Seattle Style
 
