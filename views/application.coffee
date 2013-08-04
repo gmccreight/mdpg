@@ -14,6 +14,11 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
 
   $scope.suggestedTags = []
 
+  $scope.hasError = ->
+    if $scope.error == ""
+      return false
+    true
+
   $scope.error = ""
 
   $scope.suggest = (tagTyped) ->
@@ -37,9 +42,15 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
 
   $scope.addTag = ->
     $scope.error = ""
+
+    if $scope.tagText == "" || $scope.tagText == undefined
+      $scope.error = "please type something"
+      return
+
     normalizedText = $scope.tagText.
       replace(/[ ]+/g, " ").
       trim().replace(/[ ]/g, "-")
+
     newTag = new Tag({text:normalizedText})
     tagToAdd = angular.copy(newTag)
 

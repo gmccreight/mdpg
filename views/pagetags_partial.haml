@@ -5,9 +5,13 @@
       {{tag.text}}
       %a(ng-click="destroy(tag)" href="")
         remove
-  %form{"ng-submit" => "addTag"}
+  %form{"ng-submit" => "addTag()"}
     %input{"ng-model" => "tagText", "ng-change" => "suggest(tagText)", :placeholder => "add new tag here", :size => "30", :type => "text"}/
     %input.btn-primary{:type => "submit", :value => "add"}/
+  .error{"ng-model" => "error", "ng-show" => "hasError()"}
+    {{error}}
+
+
   %ul
     %li{"ng-repeat" => "tag in suggestedTags"}
       %a(ng-click="chooseSuggested(tag)" href="")
