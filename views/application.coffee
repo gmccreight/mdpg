@@ -14,25 +14,29 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
 
   $scope.suggestedTags = []
 
+  $scope.error = ""
+
   $scope.suggest = (tagTyped) ->
+    $scope.error = ""
     if tagTyped.length <= 1 && tagTyped != "*"
       $scope.suggestedTags = []
     else
       tempTag = new Tag()
       successHandler = (data) ->
         if error = data["error"]
-          alert error
+          $scope.error = error
         else
           $scope.suggestedTags = data.tags
       errorHandler = (e) ->
-        alert "sorry, we had an error"
+        $scope.error = "sorry, we had a server error"
       tempTag.$getSuggestion({tagTyped:tagTyped}, successHandler, errorHandler)
 
   $scope.chooseSuggested = (suggestedTagText) ->
     $scope.tagText = suggestedTagText
     $scope.addTag()
 
-  $scope.addTag = (tag) ->
+  $scope.addTag = ->
+    $scope.error = ""
     normalizedText = $scope.tagText.
       replace(/[ ]+/g, " ").
       trim().replace(/[ ]/g, "-")
@@ -41,10 +45,10 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
 
     successHandler = (data) ->
       if error = data["error"]
-        alert error
+        $scope.error = error
         $scope.tags = _.without($scope.tags, tagToAdd)
     errorHandler = (e) ->
-      alert "sorry, we had an error"
+      $scope.error = "sorry, we had a server error"
       $scope.tags = _.without($scope.tags, tagToAdd)
 
     newTag.$save({}, successHandler, errorHandler)
