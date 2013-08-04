@@ -38,6 +38,9 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
     $scope.tagText = suggestedTagText
     $scope.addTag()
 
+  $scope.normalizeTagText = (text) ->
+    text.replace(/[ ]+/g, " ").trim().replace(/[ ]/g, "-")
+
   $scope.addTag = ->
     $scope.error = ""
 
@@ -45,9 +48,7 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
       $scope.error = "please type something"
       return
 
-    normalizedText = $scope.tagText.
-      replace(/[ ]+/g, " ").
-      trim().replace(/[ ]/g, "-")
+    normalizedText = $scope.normalizeTagText($scope.tagText)
 
     newTag = new Tag({text:normalizedText})
     tagToAdd = angular.copy(newTag)
