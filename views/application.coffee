@@ -15,9 +15,7 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
   $scope.suggestedTags = []
 
   $scope.hasError = ->
-    if $scope.error == ""
-      return false
-    true
+    $scope.error != ""
 
   $scope.error = ""
 

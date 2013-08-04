@@ -58,6 +58,7 @@ describe "TagsCtrl", ->
       it "should clear any errors", ->
         $scope.error = "pre-existing error"
         addTagWithTextAndSuccess "good", true
+        expect($scope.hasError()).toEqual false
         expect($scope.error).toEqual ""
 
       it "should clear the tag text", ->
@@ -72,6 +73,7 @@ describe "TagsCtrl", ->
 
       it "should display an error", ->
         addTagWithTextAndSuccess "new-tag", false
+        expect($scope.hasError()).toEqual true
         expect($scope.error).toEqual "some error"
 
   describe "suggestions", ->
