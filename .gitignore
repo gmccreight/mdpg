@@ -2,3 +2,4 @@
 .ruby-version
 .app_data
 seeder.rb
+.DS_Store
