@@ -30,6 +30,10 @@ get '/application.js' do
   coffee :application
 end
 
+get '/application_spec.js' do
+  coffee :application_spec
+end
+
 get '/login' do
   haml :login
 end
