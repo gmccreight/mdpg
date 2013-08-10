@@ -19,8 +19,8 @@ module.exports = function(config) {
       "public/jquery.min.js",
       "public/angular/angular.min.js",
       "public/angular/angular-resource.min.js",
+      'public/angular/angular-mocks.js',
       "public/underscore-min.js",
-      'public/ngMock/angular-mocks.js',
       'views/application.coffee',
       'views/application_spec.coffee'
     ],
