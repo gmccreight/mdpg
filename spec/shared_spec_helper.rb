@@ -1,4 +1,4 @@
-require "wnp"
+require "mdpg"
 require "minitest/autorun"
 
 def get_memory_datastore

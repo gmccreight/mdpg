@@ -1,4 +1,4 @@
-require 'wnp/token'
+require 'mdpg/token'
 
 class ObjectTags < Struct.new(:object)
 

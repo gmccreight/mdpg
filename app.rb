@@ -4,7 +4,7 @@ require 'coffee-script'
 require 'json'
 
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
-require 'wnp'
+require 'mdpg'
 
 if ! $data_store
   $data_store = DataStore.new "./.app_data"
