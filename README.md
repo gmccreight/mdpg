@@ -165,3 +165,12 @@ Why is this a learning goal?  Because I want to learn how to do this in a nice
 way.  For example, it might exert a design pressure for me to name things
 less verbosely.  I will also likely come to an understanding of how to best
 break up code onto multiple lines.
+
+---
+
+# Documentation
+
+To run on an actual production system, you can use:
+rvmsudo mdpg_production=1 ./run
+
+Ideally, you'd proxy it behind a *real* webserver
