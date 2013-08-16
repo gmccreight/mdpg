@@ -110,19 +110,14 @@ post '/p/:name/update' do |page_name|
   end
 end
 
-get '/page/add' do
-  authorize!
-  haml :page_add
-end
-
 post '/page/add' do
   authorize!
   user_pages = UserPages.new(current_user)
   page = user_pages.create_page name:params["name"], text:""
   if page
-    redirect to("/p/#{page.name}")
+    redirect to("/p/#{page.name}/edit")
   else
-    redirect to("/page/add")
+    redirect to("/")
   end
 end
 
