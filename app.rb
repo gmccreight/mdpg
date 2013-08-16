@@ -12,6 +12,11 @@ end
 
 enable :sessions
 
+if ENV["mdpg_production"]
+  set :port, 80
+  set :environment, :production
+end
+
 get '/' do
   if current_user
     user_pages = UserPages.new(current_user)
