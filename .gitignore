@@ -1,5 +1,7 @@
 .ruby-gemset
 .ruby-version
 .app_data
-seeder.rb
 .DS_Store
+
+seeder.rb
+ops
