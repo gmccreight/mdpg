@@ -8,6 +8,13 @@ class UserPages < Struct.new(:user)
     page
   end
 
+  def delete_page name
+    if page = find_page_with_name(name)
+      user.remove_page(page)
+      page.virtual_delete()
+    end
+  end
+
   def find_page_with_name name
     matching_pages = pages.select{|page| page.name == name}
     return nil if ! matching_pages

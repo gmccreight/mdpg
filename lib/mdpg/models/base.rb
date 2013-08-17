@@ -46,6 +46,10 @@ class ModelBase
     find(self.id)
   end
 
+  def virtual_delete
+    data_store.virtual_delete(data_key)
+  end
+
   def find_by_index index_name, key
     keyname = "#{get_data_prefix}-index-#{index_name}"
     if hash = data_store.get(keyname)

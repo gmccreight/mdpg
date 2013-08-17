@@ -42,4 +42,17 @@ describe Page do
 
   end
 
+  describe "deletion" do
+
+    it "should delete a page" do
+      create_page_with_name "good"
+      page = Page.find(1)
+      assert_equal 1, page.id
+
+      page.virtual_delete()
+      assert_nil Page.find(1)
+    end
+
+  end
+
 end

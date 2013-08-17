@@ -32,6 +32,18 @@ class DataStore < Struct.new(:data_dir_or_memory)
     end
   end
 
+  def virtual_delete key
+    deleted_suffix = "__deleted"
+    if data_dir_or_memory == :memory
+      val = @data[key]
+      @data[key + deleted_suffix] = val
+      @data.delete key
+    else
+      deleted_path = full_path_for_key(key) + deleted_suffix
+      FileUtils.mv(full_path_for_key(key), deleted_path)
+    end
+  end
+
   private
 
     def add_datakey_for_easy_file_searching data, key

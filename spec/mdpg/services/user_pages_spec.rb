@@ -19,7 +19,6 @@ describe UserPages do
   describe "adds page to user" do
 
     before do
-      @user = User.create name:"Jordan"
       @user_pages = UserPages.new(user)
     end
 
@@ -38,6 +37,23 @@ describe UserPages do
       assert_raises MockExpectationError do
         user.verify
       end
+    end
+
+  end
+
+  describe "delete page" do
+
+    before do
+      @user = User.create name:"Jordan"
+      @user_pages = UserPages.new(@user)
+    end
+
+    it "should delete a page and the reference to the page" do
+      page = @user_pages.create_page name:"hello"
+      page_id = page.id
+      assert_equal "hello", Page.find(page_id).name
+      @user_pages.delete_page page.name
+      assert_nil Page.find(page_id)
     end
 
   end
