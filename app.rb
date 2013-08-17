@@ -71,6 +71,13 @@ get '/p/:name/tags' do |page_name|
   end
 end
 
+post '/p/:name/delete' do |page_name|
+  if page = get_user_page(page_name)
+    UserPages.new(current_user).delete_page page_name
+    redirect to("/")
+  end
+end
+
 get '/p/:name/tag_suggestions' do |page_name|
   if page = get_user_page(page_name)
     tag_typed = params["tagTyped"]

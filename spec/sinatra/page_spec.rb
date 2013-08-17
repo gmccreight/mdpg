@@ -12,14 +12,20 @@ describe "page" do
       text:"I wish I had something *interesting* to say!"
   end
 
+  def authenticated_session
+    {"rack.session" => {:access_token => @user.access_token}}
+  end
+
   def get_page name
-    get "/p/#{name}", {},
-      {"rack.session" => {:access_token => @user.access_token}}
+    get "/p/#{name}", {}, authenticated_session
   end
 
   def update_page name, text
-    post "/p/#{name}/update", {:text => text},
-      {"rack.session" => {:access_token => @user.access_token}}
+    post "/p/#{name}/update", {:text => text}, authenticated_session
+  end
+
+  def delete_page name
+    post "/p/#{name}/delete", {}, authenticated_session
   end
 
   describe "viewing" do
@@ -54,6 +60,18 @@ describe "page" do
     it "should fail to update a page if the page does not exist" do
       update_page "not-a-good-page", "some text"
       assert_equal "could not find that page", last_response.body
+    end
+
+  end
+
+  describe "deleting" do
+
+    it "should delete a page and redirect back to the home page" do
+      delete_page "a-good-page"
+      follow_redirect!
+      assert last_response.body.include? "Hello, "
+      get_page "a-good-page"
+      assert_equal "could not find that page", last_response.body 
     end
 
   end
