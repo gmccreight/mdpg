@@ -11,6 +11,8 @@ class UserPages < Struct.new(:user)
   def delete_page name
     if page = find_page_with_name(name)
       user.remove_page(page)
+      user_page_tags = UserPageTags.new(user, page)
+      user_page_tags.remove_all()
       page.virtual_delete()
     end
   end

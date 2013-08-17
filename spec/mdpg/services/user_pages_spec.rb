@@ -46,14 +46,32 @@ describe UserPages do
     before do
       @user = User.create name:"Jordan"
       @user_pages = UserPages.new(@user)
+
+      @page = @user_pages.create_page name:"hello"
+
+      @user_page_tags = UserPageTags.new(@user, @page)
+      @user_page_tags.add_tag "cool-house"
+
+      @page_id = @page.id
+      assert_equal "hello", Page.find(@page_id).name
     end
 
-    it "should delete a page and the reference to the page" do
-      page = @user_pages.create_page name:"hello"
-      page_id = page.id
-      assert_equal "hello", Page.find(page_id).name
-      @user_pages.delete_page page.name
-      assert_nil Page.find(page_id)
+    it "should delete the page" do
+      assert Page.find(@page_id)
+      @user_pages.delete_page @page.name
+      assert_nil Page.find(@page_id)
+    end
+
+    it "should delete the association with the user" do
+      assert @user_pages.find_page_with_name("hello")
+      @user_pages.delete_page @page.name
+      assert_nil @user_pages.find_page_with_name("hello")
+    end
+
+    it "should remove tag from user if was only on this one page" do
+      assert_equal ["cool-house"], @user_page_tags.get_tags()
+      @user_pages.delete_page @page.name
+      assert_equal [], @user_page_tags.get_tags()
     end
 
   end

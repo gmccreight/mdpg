@@ -42,6 +42,12 @@ class UserPageTags < Struct.new(:user, :page)
     SimilarTokenFinder.new.get_similar_tokens(query, get_tags())
   end
 
+  def remove_all
+    get_tags.each do |tag_name|
+      remove_tag tag_name
+    end
+  end
+
   def get_tags
     get_tags_hash().keys.sort
   end
