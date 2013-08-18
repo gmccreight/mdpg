@@ -83,3 +83,9 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
 $ ->
 
   $("#index_ns_id").find("input").focus()
+
+  $("#page_ns_id").find(".rendered_markdown_cls").dblclick ->
+    link = $("#page_ns_id").find(".edit_link_cls")[0]
+    window.location = link.href
+
+  $("#page_edit_ns_id").find("textarea").focus()

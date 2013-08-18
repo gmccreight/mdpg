@@ -1,7 +1,9 @@
-%h3
-  Edit the page
+#page_edit_ns_id
 
-%form{:action => "/p/#{page.name}/update", :method => "post"}
-  %div
-    %textarea{:name => "text", :cols => "160", :rows => "50"}=page.text
-    %input{:type => "submit"}
+  %h3
+    Edit the page
+
+  %form{:action => "/p/#{page.name}/update", :method => "post"}
+    %div
+      %textarea{:name => "text", :cols => "160", :rows => "50"}=page.text
+      %input{:type => "submit"}

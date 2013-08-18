@@ -1,19 +1,22 @@
-:javascript
-  window.pageName = "#{viewmodel.name}";
+#page_ns_id
 
-%div
-  %a{:href => "/"}
-    home
-%div
-  %a{:href => "/p/#{viewmodel.name}/edit"}
-    edit
+  :javascript
+    window.pageName = "#{viewmodel.name}";
 
-%h3
-  %form{:action => "/p/#{viewmodel.name}/rename", :method => "post"}
-    %input{:type => "text", :name => "new_name", :value => viewmodel.name}
+  %div
+    %a{:href => "/"}
+      home
+  %div
+    %a.edit_link_cls{:href => "/p/#{viewmodel.name}/edit"}
+      edit
 
-= viewmodel.rendered_markdown()
+  %h3
+    %form{:action => "/p/#{viewmodel.name}/rename", :method => "post"}
+      %input{:type => "text", :name => "new_name", :value => viewmodel.name}
 
-= haml :pagetags_partial
+  .rendered_markdown_cls
+    = viewmodel.rendered_markdown()
 
-= haml :page_delete_partial, :locals => {:page => viewmodel.page}
+  = haml :pagetags_partial
+
+  = haml :page_delete_partial, :locals => {:page => viewmodel.page}
