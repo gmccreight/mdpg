@@ -9,7 +9,8 @@
     edit
 
 %h3
-  = viewmodel.name()
+  %form{:action => "/p/#{viewmodel.name}/rename", :method => "post"}
+    %input{:type => "text", :name => "new_name", :value => viewmodel.name}
 
 = viewmodel.rendered_markdown()
 

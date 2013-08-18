@@ -8,7 +8,7 @@ describe "page" do
     @user = User.create name:"Jordan",
       email:"jordan@example.com", password:"cool"
     user_pages = UserPages.new @user
-    UserPages.new(@user).create_page name:"a-good-page",
+    UserPages.new(@user).create_page name:"original-good-page-name",
       text:"I wish I had something *interesting* to say!"
   end
 
@@ -28,10 +28,14 @@ describe "page" do
     post "/p/#{name}/delete", {}, authenticated_session
   end
 
+  def rename_page name, new_name
+    post "/p/#{name}/rename", {:new_name => new_name}, authenticated_session
+  end
+
   describe "viewing" do
 
     it "should get a page that is owned by the user" do
-      get_page "a-good-page"
+      get_page "original-good-page-name"
       expected = "<p>I wish I had something <em>interesting</em> to say!</p>\n"
       assert last_response.body.include? expected
     end
@@ -52,14 +56,33 @@ describe "page" do
   describe "updating" do
 
     it "should update the text of a page and redirect back to the page" do
-      update_page "a-good-page", "some *new* text"
+      update_page "original-good-page-name", "some *new* text"
       follow_redirect!
+      assert last_request.url.include? "/p/original-good-page-name"
       assert last_response.body.include? "some <em>new</em> text"
     end
 
     it "should fail to update a page if the page does not exist" do
-      update_page "not-a-good-page", "some text"
+      update_page "not-original-good-page-name", "some text"
       assert_equal "could not find that page", last_response.body
+    end
+
+  end
+
+  describe "rename" do
+
+    it "should rename a page and redirect you to it" do
+      rename_page "original-good-page-name", "a-renamed-page"
+      follow_redirect!
+      assert last_request.url.include? "/p/a-renamed-page"
+      assert last_response.body.include? "I wish I had"
+    end
+
+    it "should not rename a page if the new name is bad" do
+      rename_page "original-good-page-name", "BAD Name"
+      follow_redirect!
+      assert last_request.url.include? "/p/original-good-page-name"
+      assert last_response.body.include? "I wish I had"
     end
 
   end
@@ -67,10 +90,10 @@ describe "page" do
   describe "deleting" do
 
     it "should delete a page and redirect back to the home page" do
-      delete_page "a-good-page"
+      delete_page "original-good-page-name"
       follow_redirect!
       assert last_response.body.include? "Hello, "
-      get_page "a-good-page"
+      get_page "original-good-page-name"
       assert_equal "could not find that page", last_response.body 
     end
 

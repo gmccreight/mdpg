@@ -78,6 +78,18 @@ post '/p/:name/delete' do |page_name|
   end
 end
 
+post '/p/:name/rename' do |page_name|
+  if page = get_user_page(page_name)
+    original_name = page.name
+    page.name = params["new_name"]
+    if page.save()
+      redirect to("/p/#{page.name}")
+    else
+      redirect to("/p/#{original_name}")
+    end
+  end
+end
+
 get '/p/:name/tag_suggestions' do |page_name|
   if page = get_user_page(page_name)
     tag_typed = params["tagTyped"]
