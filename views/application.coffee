@@ -79,3 +79,7 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
     $scope.tags = _.without($scope.tags, tag)
 
 ]
+
+$ ->
+
+  $("#index_ns_id").find("input").focus()
