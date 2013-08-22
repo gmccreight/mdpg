@@ -1,0 +1,25 @@
+#page_search_ns_id
+
+  %div
+    %a{:href => "/"}
+      home
+
+  %hr
+
+  = haml :pages_search_partial
+
+  %h3
+    #{pages_where_name_matches.size} pages with matching names
+
+  - pages_where_name_matches.each do |page|
+    %div
+      %a{:href => "/p/#{page.name}"}
+        = page.name
+
+  %h3
+    #{pages_where_text_matches.size} pages with matching text
+
+  - pages_where_text_matches.each do |page|
+    %div
+      %a{:href => "/p/#{page.name}"}
+        = page.name

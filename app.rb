@@ -140,6 +140,17 @@ post '/page/add' do
   end
 end
 
+post '/page/search' do
+  authorize!
+  user_pages = UserPages.new(current_user)
+  names = user_pages.pages_with_names_containing_text(params[:query])
+  texts = user_pages.pages_with_text_containing_text(params[:query])
+  haml :page_search, :locals => {
+    :pages_where_name_matches => names,
+    :pages_where_text_matches => texts
+  }
+end
+
 def get_user_page page_name
   authorize!
   user_pages = UserPages.new(current_user)
