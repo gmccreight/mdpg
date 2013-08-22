@@ -12,7 +12,7 @@
 
   %h3
     %form{:action => "/p/#{viewmodel.name}/rename", :method => "post"}
-      %input{:type => "text", :name => "new_name", :value => viewmodel.name}
+      %input.new_name_cls{:type => "text", :name => "new_name", :value => viewmodel.name}
 
   .rendered_markdown_cls
     = viewmodel.rendered_markdown()
