@@ -1,5 +1,8 @@
 require 'securerandom'
 
+class PageAlreadyExistsException < Exception
+end
+
 class UserPages < Struct.new(:user)
 
   def create_page opts
@@ -19,6 +22,15 @@ class UserPages < Struct.new(:user)
       user_page_tags = UserPageTags.new(user, page)
       user_page_tags.remove_all()
       page.virtual_delete()
+    end
+  end
+
+  def rename_page page, new_name
+    if find_page_with_name new_name
+      raise PageAlreadyExistsException
+    else
+      page.name = new_name
+      return page.save()
     end
   end
 

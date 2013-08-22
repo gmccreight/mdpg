@@ -80,17 +80,16 @@ end
 
 post '/p/:name/rename' do |page_name|
   if page = get_user_page(page_name)
-    new_name = params["new_name"]
-    if current_user_page_with_name(new_name)
-      error "a page with that name already exists"
-    else
+    begin
       original_name = page.name
-      page.name = new_name
-      if page.save()
-        redirect to("/p/#{page.name}")
+      new_name = params["new_name"]
+      if UserPages.new(current_user).rename_page(page, new_name)
+        redirect to("/p/#{new_name}")
       else
         redirect to("/p/#{original_name}")
       end
+    rescue PageAlreadyExistsException
+      error "a page with that name already exists"
     end
   end
 end
