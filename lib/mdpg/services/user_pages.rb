@@ -1,6 +1,11 @@
+require 'securerandom'
+
 class UserPages < Struct.new(:user)
 
   def create_page opts
+    if opts[:name].empty?
+      opts[:name] = SecureRandom.hex
+    end
     page = Page.create opts
     if page
       user.add_page page
