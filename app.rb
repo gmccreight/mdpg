@@ -80,12 +80,17 @@ end
 
 post '/p/:name/rename' do |page_name|
   if page = get_user_page(page_name)
-    original_name = page.name
-    page.name = params["new_name"]
-    if page.save()
-      redirect to("/p/#{page.name}")
+    new_name = params["new_name"]
+    if current_user_page_with_name(new_name)
+      error "a page with that name already exists"
     else
-      redirect to("/p/#{original_name}")
+      original_name = page.name
+      page.name = new_name
+      if page.save()
+        redirect to("/p/#{page.name}")
+      else
+        redirect to("/p/#{original_name}")
+      end
     end
   end
 end
@@ -153,13 +158,16 @@ end
 
 def get_user_page page_name
   authorize!
-  user_pages = UserPages.new(current_user)
-  page = user_pages.find_page_with_name page_name
-  if page
+  if page = current_user_page_with_name(page_name)
     return page
   else
     error "could not find that page"
   end
+end
+
+def current_user_page_with_name page_name
+  user_pages = UserPages.new(current_user)
+  user_pages.find_page_with_name page_name
 end
 
 def attr_for_request_payload attr

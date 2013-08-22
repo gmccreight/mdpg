@@ -85,6 +85,12 @@ describe "page" do
       assert last_response.body.include? "I wish I had"
     end
 
+    it "should not rename a page to a name of another page that already exists" do
+      UserPages.new(@user).create_page name:"already-taken-page-name", text:""
+      rename_page "original-good-page-name", "already-taken-page-name"
+      assert_equal "a page with that name already exists", last_response.body 
+    end
+
   end
 
   describe "deleting" do
