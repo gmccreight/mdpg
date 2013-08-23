@@ -147,11 +147,15 @@ end
 post '/page/search' do
   authorize!
   user_pages = UserPages.new(current_user)
-  names = user_pages.pages_with_names_containing_text(params[:query])
-  texts = user_pages.pages_with_text_containing_text(params[:query])
+  query = params[:query]
+  names = user_pages.pages_with_names_containing_text(query)
+  texts = user_pages.pages_with_text_containing_text(query)
+  tags = UserPageTags.new(current_user, nil).search(query)
   haml :page_search, :locals => {
     :pages_where_name_matches => names,
-    :pages_where_text_matches => texts
+    :pages_where_text_matches => texts,
+    :tags_where_name_matches => tags,
+    :user => current_user
   }
 end
 

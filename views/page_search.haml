@@ -17,3 +17,9 @@
     %div
       %a{:href => "/p/#{page.name}"}
         = page.name
+
+  %h3
+    #{tags_where_name_matches.size} tags with matching names
+  %table
+    - tags_where_name_matches.each do |tag|
+      = haml :tag_row_partial, :locals => {:tag => tag, :user => user}

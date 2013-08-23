@@ -17,12 +17,4 @@
 
   %table
     - tags.each do |tag|
-      %tr
-        %td
-          = tag
-        %td
-          - page_names = UserPageTags.new(user, nil).get_pages_for_tag_with_name(tag).map{|page| page.name}
-          - page_names.each do |page_name|
-            %a{:href => "/p/#{page_name}"}
-              = page_name
-            &nbsp;
+      = haml :tag_row_partial, :locals => {:tag => tag, :user => user}
