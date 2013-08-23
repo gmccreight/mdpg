@@ -1,7 +1,6 @@
 #page_edit_ns_id
 
-  %h3
-    Edit the page
+  = haml :header_partial, :locals => {:page_name => nil}
 
   %form{:action => "/p/#{page.name}/update", :method => "post"}
     %div

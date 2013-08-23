@@ -1,12 +1,6 @@
 #page_search_ns_id
 
-  %div
-    %a{:href => "/"}
-      home
-
-  %hr
-
-  = haml :pages_search_partial
+  = haml :header_partial, :locals => {:page_name => nil}
 
   %h3
     #{pages_where_name_matches.size} pages with matching names

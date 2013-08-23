@@ -1,14 +1,11 @@
 #index_ns_id
 
+  = haml :header_partial, :locals => {:page_name => nil}
+
   Hello, #{user.name}
 
   %h3
     pages
-
-  = haml :pages_search_partial
-  = haml :page_add_partial
-
-  %hr
 
   - page_ids_and_names.each do |id_and_name|
     %div

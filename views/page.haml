@@ -3,12 +3,7 @@
   :javascript
     window.pageName = "#{viewmodel.name}";
 
-  %div
-    %a{:href => "/"}
-      home
-  %div
-    %a.edit_link_cls{:href => "/p/#{viewmodel.name}/edit"}
-      edit
+  = haml :header_partial, :locals => {:page_name => viewmodel.name}
 
   %h3
     %form{:action => "/p/#{viewmodel.name}/rename", :method => "post"}

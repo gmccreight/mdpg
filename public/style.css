@@ -1,3 +1,12 @@
 #page_ns_id .new_name_cls {
   width:300px;
 }
+
+.header_cls form {
+  margin-right:20px;
+  display:inline;
+}
+
+.header_cls a {
+  margin-right:20px;
+}

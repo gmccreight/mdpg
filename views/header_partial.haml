@@ -1,0 +1,10 @@
+.header_cls
+  %a{:href => "/"}
+    home
+  - if page_name
+    %a.edit_link_cls{:href => "/p/#{page_name}/edit"}
+      edit
+  = haml :pages_search_partial
+  = haml :page_add_partial
+
+%hr
