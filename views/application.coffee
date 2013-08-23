@@ -89,3 +89,8 @@ $ ->
     window.location = link.href
 
   $("#page_edit_ns_id").find("textarea").focus()
+
+  $("#page_edit_ns_id").find("textarea").keyup (event) ->
+    if (event.keyCode == 13 && event.shiftKey)
+      event.stopPropagation()
+      $("#page_edit_ns_id #editing_form_id").submit()
