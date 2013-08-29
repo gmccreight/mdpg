@@ -166,6 +166,10 @@ way.  For example, it might exert a design pressure for me to name things
 less verbosely.  I will also likely come to an understanding of how to best
 break up code onto multiple lines.
 
+## Gaining a better understanding of what to test and how much to test
+
+Nuf' said
+
 ---
 
 # Documentation
