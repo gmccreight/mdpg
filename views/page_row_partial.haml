@@ -1,0 +1,8 @@
+%tr
+  %td
+    %a{:href => "/p/#{page.name}"}
+      = page.name
+  %td
+    - ObjectTags.new(page).sorted_tag_names().each do |tag_name|
+      = tag_name
+      &nbsp;

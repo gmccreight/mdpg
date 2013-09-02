@@ -7,11 +7,9 @@
   %h3
     pages
 
-  - page_ids_and_names.each do |id_and_name|
-    %div
-      - name = id_and_name[1]
-      %a{:href => "/p/#{name}"}
-        = name
+  %table
+    - pages.each do |page|
+      = haml :page_row_partial, :locals => {:page => page, :user => user}
 
   %h2 tags
 

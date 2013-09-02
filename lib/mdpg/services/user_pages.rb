@@ -52,15 +52,15 @@ class UserPages < Struct.new(:user)
     page_ids_and_names.sort{|a,b| a[1] <=> b[1]}
   end
 
+  def pages
+    return [] if ! user.page_ids()
+    user.page_ids().map{|x| page = Page.find(x); page}
+  end
+
   private
 
     def page_ids_and_names
       pages.map{|x| [x.id, x.name]}
-    end
-
-    def pages
-      return [] if ! user.page_ids()
-      user.page_ids().map{|x| page = Page.find(x); page}
     end
 
 end
