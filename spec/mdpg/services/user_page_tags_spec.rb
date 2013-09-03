@@ -38,18 +38,36 @@ describe UserPageTags do
   describe "changing" do
 
     before do
-      @user_page_tags.add_tag "cool-house"
+      @user_page_tags.add_tag "cool"
       @user_page_tags.add_tag "adam"
     end
 
     it "should be able to change to a tag name that does not already exist" do
       assert @user_page_tags.change_tag "adam", "henry"
-      assert_equal ["cool-house", "henry"], @user_page_tags.get_tags()
+      assert_equal ["cool", "henry"], @user_page_tags.get_tags()
+      assert_equal ["cool", "henry"], ObjectTags.new(@page).sorted_tag_names()
     end
 
     it "should be unable to change to a tag name that already exists" do
-      refute @user_page_tags.change_tag "adam", "cool-house"
-      assert_equal ["adam", "cool-house"], @user_page_tags.get_tags()
+      refute @user_page_tags.change_tag "adam", "cool"
+      assert_equal ["adam", "cool"], @user_page_tags.get_tags()
+    end
+
+    describe "bulk" do
+
+      before do
+        @page_2 = create_page
+        @user_page_tags_2 = UserPageTags.new(@user, @page_2)
+        @user_page_tags_2.add_tag "adam"
+      end
+
+      it "should be able to change the tags associated with multiple pages" do
+        UserPageTags.new(@user, nil).change_tag_for_all_pages("adam", "hello")
+        assert_equal ["cool", "hello"], @user_page_tags.get_tags()
+        assert_equal ["cool", "hello"], ObjectTags.new(@page.reload).sorted_tag_names()
+        assert_equal ["hello"], ObjectTags.new(@page_2.reload).sorted_tag_names()
+      end
+
     end
 
   end

@@ -1,5 +1,8 @@
 require "similar_token_finder"
 
+class TagAlreadyExistsForPageException < Exception
+end
+
 class UserPageTags < Struct.new(:user, :page)
 
   def add_tag tag_name
@@ -55,6 +58,22 @@ class UserPageTags < Struct.new(:user, :page)
       return true
     end
     false
+  end
+
+  def change_tag_for_all_pages old, new
+    pages = get_pages_for_tag_with_name old
+
+    pages.each do |x|
+      user_page_tags = UserPageTags.new(user, x)
+      if user_page_tags.has_tag_with_name?(new)
+        raise TagAlreadyExistsForPageException
+      end
+    end
+
+    pages.each do |x|
+      user_page_tags = UserPageTags.new(user, x)
+      user_page_tags.change_tag old, new
+    end
   end
 
   def search query
