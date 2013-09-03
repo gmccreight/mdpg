@@ -7,19 +7,11 @@ class PageView < Struct.new(:user, :page)
   end
 
   def add_tag tag
-    if page_tags().add_tag(tag)
-      user_page_tags().add_tag tag
-      return true
-    end
-    false
+    user_page_tags().add_tag tag
   end
 
   def remove_tag tag
-    if page_tags().remove_tag(tag)
-      user_page_tags().remove_tag tag
-      return true
-    end
-    false
+    user_page_tags().remove_tag tag
   end
 
   def tag_suggestions_for partial_or_full_tag_name
