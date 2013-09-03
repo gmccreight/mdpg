@@ -10,3 +10,7 @@
 .header_cls a {
   margin-right:20px;
 }
+
+table.tag_table_cls .rename_tag_form_cls {
+  display:none;
+}

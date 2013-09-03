@@ -94,3 +94,7 @@ $ ->
     if (event.keyCode == 13 && event.shiftKey)
       event.stopPropagation()
       $("#page_edit_ns_id #editing_form_id").submit()
+
+  $("table.tag_table_cls .name_cls").click ->
+    $(this).hide()
+    $(this).closest("td").find(".rename_tag_form_cls").show()

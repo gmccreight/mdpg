@@ -93,6 +93,18 @@ post '/p/:name/rename' do |page_name|
   end
 end
 
+post '/t/:name/rename' do |tag_name|
+  authorize!
+  new_name = params["new_name"]
+  begin
+    UserPageTags.new(current_user, nil)
+      .change_tag_for_all_pages(tag_name, new_name)
+    redirect to("/")
+  rescue TagAlreadyExistsForPageException
+    error "a tag with that name already exists on some of the pages"
+  end
+end
+
 get '/p/:name/tag_suggestions' do |page_name|
   if page = get_user_page(page_name)
     tag_typed = params["tagTyped"]

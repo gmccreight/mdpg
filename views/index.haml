@@ -7,12 +7,12 @@
   %h3
     pages
 
-  %table
+  %table.page_table_cls
     - pages.each do |page|
       = haml :page_row_partial, :locals => {:page => page, :user => user}
 
   %h2 tags
 
-  %table
+  %table.tag_table_cls
     - tags.each do |tag|
       = haml :tag_row_partial, :locals => {:tag => tag, :user => user}

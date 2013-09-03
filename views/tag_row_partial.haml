@@ -1,6 +1,9 @@
 %tr
   %td
-    = tag
+    .name_cls
+      = tag
+    %form.rename_tag_form_cls{:action => "/t/#{tag}/rename", :method => "post"}
+      %input.new_name_cls{:type => "text", :name => "new_name", :value => tag}
   %td
     - page_names = UserPageTags.new(user, nil).get_pages_for_tag_with_name(tag).map{|page| page.name}
     - page_names.each do |page_name|
