@@ -35,6 +35,25 @@ describe UserPageTags do
 
   end
 
+  describe "changing" do
+
+    before do
+      @user_page_tags.add_tag "cool-house"
+      @user_page_tags.add_tag "adam"
+    end
+
+    it "should be able to change to a tag name that does not already exist" do
+      assert @user_page_tags.change_tag "adam", "henry"
+      assert_equal ["cool-house", "henry"], @user_page_tags.get_tags()
+    end
+
+    it "should be unable to change to a tag name that already exists" do
+      refute @user_page_tags.change_tag "adam", "cool-house"
+      assert_equal ["adam", "cool-house"], @user_page_tags.get_tags()
+    end
+
+  end
+
   describe "removing" do
 
     before do

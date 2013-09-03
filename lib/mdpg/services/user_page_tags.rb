@@ -49,6 +49,14 @@ class UserPageTags < Struct.new(:user, :page)
 
   end
 
+  def change_tag old, new
+    if add_tag new
+      remove_tag old
+      return true
+    end
+    false
+  end
+
   def search query
     SimilarTokenFinder.new.get_similar_tokens(query, get_tags())
   end
