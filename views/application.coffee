@@ -1,10 +1,24 @@
 window.WnpApp = angular.module('WnpApp', ['ngResource'])
 
+WnpApp.normalizeToken = (token) ->
+  token.replace(/[ ]+/g, " ").trim().replace(/[ ]/g, "-").toLowerCase()
+
+WnpApp.controller 'TokenNameCtrl', ['$scope', ($scope) ->
+
+  $scope.init = (nameToPrefill) ->
+    $scope.tokenName = nameToPrefill
+
+  $scope.normalize = ->
+    $scope.tokenName = WnpApp.normalizeToken($scope.tokenName)
+
+]
+
 WnpApp.factory 'Tag', ['$resource', ($resource) ->
   $resource '/p/:pageName/tags/:tagSlug',
     {pageName:window.pageName, tagSlug:"@tagSlug"},
     {
-      getSuggestion: {method:'GET', url:"/p/:pageName/tag_suggestions", params:{tagTyped:"@tagTyped"}}
+      getSuggestion: {method:'GET', url:"/p/:pageName/tag_suggestions",
+      params:{tagTyped:"@tagTyped"}}
     }
 ]
 
@@ -39,7 +53,7 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
     $scope.addTag()
 
   $scope.normalizeTagText = (text) ->
-    text.replace(/[ ]+/g, " ").trim().replace(/[ ]/g, "-")
+    WnpApp.normalizeToken(text)
 
   $scope.addTag = ->
     $scope.error = ""
