@@ -9,7 +9,7 @@ describe "page" do
       email:"jordan@example.com", password:"cool"
     user_pages = UserPages.new @user
     UserPages.new(@user).create_page name:"original-good-page-name",
-      text:"I wish I had something *interesting* to say!"
+      text:"I have something *interesting* to say!"
   end
 
   def authenticated_session
@@ -36,17 +36,17 @@ describe "page" do
 
     it "should get a page that is owned by the user" do
       get_page "original-good-page-name"
-      expected = "<p>I wish I had something <em>interesting</em> to say!</p>\n"
+      expected = "<p>I have something <em>interesting</em> to say!</p>\n"
       assert last_response.body.include? expected
     end
 
-    it "should not get a page if the user does not have a page by that name" do
+    it "should not get a page if user has no page with that name" do
       get_page "not-one-of-the-users-pages"
       assert_equal "could not find that page", last_response.body 
     end
 
     it "should redirect to login form if the access_token is invalid" do
-      get '/p/other', {}, {"rack.session" => {:access_token => "some nonsense"}}
+      get '/p/other', {}, {"rack.session" => {:access_token => "notvalidxyz"}}
       follow_redirect!
       assert last_response.body.include? "Please login"
     end
@@ -75,17 +75,17 @@ describe "page" do
       rename_page "original-good-page-name", "a-renamed-page"
       follow_redirect!
       assert last_request.url.include? "/p/a-renamed-page"
-      assert last_response.body.include? "I wish I had"
+      assert last_response.body.include? "I have"
     end
 
     it "should not rename a page if the new name is bad" do
       rename_page "original-good-page-name", "BAD Name"
       follow_redirect!
       assert last_request.url.include? "/p/original-good-page-name"
-      assert last_response.body.include? "I wish I had"
+      assert last_response.body.include? "I have"
     end
 
-    it "should not rename a page to a name of another page that already exists" do
+    it "should not rename a page to an existing page's name" do
       UserPages.new(@user).create_page name:"already-taken-page-name", text:""
       rename_page "original-good-page-name", "already-taken-page-name"
       assert_equal "a page with that name already exists", last_response.body 

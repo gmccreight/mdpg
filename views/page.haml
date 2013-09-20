@@ -6,8 +6,13 @@
   = haml :header_partial, :locals => {:page_name => viewmodel.name}
 
   %h3
-    %form{:action => "/p/#{viewmodel.name}/rename", :method => "post", "ng-controller" => "TokenNameCtrl", "ng-init" => "init('#{viewmodel.name}')"}
-      %input.new_name_cls{:type => "text", :name => "new_name", "ng-model" => "tokenName", "ng-change" => "normalize()"}
+    %form{:action => "/p/#{viewmodel.name}/rename",
+      :method => "post",
+      "ng-controller" => "TokenNameCtrl",
+      "ng-init" => "init('#{viewmodel.name}')"}
+
+      %input.new_name_cls{:type => "text", :name => "new_name",
+        "ng-model" => "tokenName", "ng-change" => "normalize()"}
 
   .rendered_markdown_cls
     = viewmodel.rendered_markdown()

@@ -2,10 +2,17 @@
   %td
     .name_cls
       = tag
-    %form.rename_tag_form_cls{:action => "/t/#{tag}/rename", :method => "post", "ng-controller" => "TokenNameCtrl", "ng-init" => "init('#{tag}')"}
-      %input.new_name_cls{:type => "text", :name => "new_name", "ng-model" => "tokenName", "ng-change" => "normalize()"}
+    %form.rename_tag_form_cls{:action => "/t/#{tag}/rename",
+      :method => "post",
+      "ng-controller" => "TokenNameCtrl", "ng-init" => "init('#{tag}')"}
+
+      %input.new_name_cls{:type => "text", :name => "new_name",
+        "ng-model" => "tokenName", "ng-change" => "normalize()"}
+
   %td
-    - page_names = UserPageTags.new(user, nil).get_pages_for_tag_with_name(tag).map{|page| page.name}
+    - x = UserPageTags.new(user, nil)
+    - page_names = x.get_pages_for_tag_with_name(tag).map{|page| page.name}
+
     - page_names.each do |page_name|
       %a{:href => "/p/#{page_name}"}
         = page_name

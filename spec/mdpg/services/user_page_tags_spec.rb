@@ -64,8 +64,10 @@ describe UserPageTags do
       it "should be able to change the tags associated with multiple pages" do
         UserPageTags.new(@user, nil).change_tag_for_all_pages("adam", "hello")
         assert_equal ["cool", "hello"], @user_page_tags.get_tags()
-        assert_equal ["cool", "hello"], ObjectTags.new(@page.reload).sorted_tag_names()
-        assert_equal ["hello"], ObjectTags.new(@page_2.reload).sorted_tag_names()
+        assert_equal ["cool", "hello"],
+          ObjectTags.new(@page.reload).sorted_tag_names()
+        assert_equal ["hello"],
+          ObjectTags.new(@page_2.reload).sorted_tag_names()
       end
 
     end

@@ -1,3 +1,6 @@
-%form{:action => "/page/add", :method => "post", "ng-controller" => "TokenNameCtrl"}
+%form{:action => "/page/add", :method => "post",
+  "ng-controller" => "TokenNameCtrl"}
+
   new page:
-  %input{:type => "text", :name => "name", "ng-model" => "tokenName", "ng-change" => "normalize()"}
+  %input{:type => "text", :name => "name",
+    "ng-model" => "tokenName", "ng-change" => "normalize()"}

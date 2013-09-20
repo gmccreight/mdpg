@@ -32,12 +32,12 @@ describe "page_tags" do
   describe "deleting" do
 
     before do
-      add_tag @user, "a-good-page", "new-tag"
+      add_tag @user, "a-good-page", "new-1"
     end
 
     it "should delete an existing tag" do
-      assert_equal ["new-tag"], ObjectTags.new(@page.reload).sorted_tag_names()
-      delete_tag @user, "a-good-page", "new-tag"
+      assert_equal ["new-1"], ObjectTags.new(@page.reload).sorted_tag_names()
+      delete_tag @user, "a-good-page", "new-1"
       assert_equal [], ObjectTags.new(@page.reload).sorted_tag_names()
     end
 
@@ -46,14 +46,14 @@ describe "page_tags" do
   describe "getting" do
 
     before do
-      add_tag @user, "a-good-page", "new-tag"
+      add_tag @user, "a-good-page", "new-1"
     end
 
     it "should get tags for the page that exists" do
       get_tags @user, "a-good-page"
       array = JSON.parse last_response.body
       assert_equal 1, array.size
-      assert_equal "new-tag", array[0]["text"]
+      assert_equal "new-1", array[0]["text"]
     end
 
     it "should not get tags for the page that does not exist" do
@@ -73,25 +73,25 @@ describe "page_tags" do
     describe "successfully" do
 
       before do
-        add_tag @user, "a-good-page", "new-tag"
+        add_tag @user, "a-good-page", "new-1"
       end
 
       it "should return a success message" do
         attrs = JSON.parse last_response.body
         assert attrs.has_key?("success")
-        assert_equal "added tag new-tag", attrs["success"]
+        assert_equal "added tag new-1", attrs["success"]
       end
 
       it "should add the tag to the page" do
         @page.reload
         object_tags = ObjectTags.new(@page)
-        assert_equal ["new-tag"], object_tags.sorted_tag_names()
+        assert_equal ["new-1"], object_tags.sorted_tag_names()
       end
 
       it "should *also* add the page to the user's page_tags" do
         @user.reload
         user_page_tags = UserPageTags.new(@user, @page)
-        assert_equal ["new-tag"], user_page_tags.get_tags()
+        assert_equal ["new-1"], user_page_tags.get_tags()
       end
 
     end
@@ -99,7 +99,7 @@ describe "page_tags" do
     describe "unsuccessfully" do
 
       it "should fail if the page does not exist" do
-        add_tag @user, "a-bad-page", "new-tag"
+        add_tag @user, "a-bad-page", "new-1"
         assert_equal "could not find that page", last_response.body
       end
 

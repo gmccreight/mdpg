@@ -39,7 +39,7 @@ describe UserPages do
       end
     end
 
-    it "should provide a default 32 character hexcode if no name is provided" do
+    it "should provide a default 32 character hexcode if name is empty" do
       page = @user_pages.create_page name:""
       assert page.name.size == 32
     end

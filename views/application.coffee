@@ -39,14 +39,14 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
       $scope.suggestedTags = []
     else
       tempTag = new Tag()
-      successHandler = (data) ->
+      successFunc = (data) ->
         if error = data["error"]
           $scope.error = error
         else
           $scope.suggestedTags = data.tags
-      errorHandler = (e) ->
+      errorFunc = (e) ->
         $scope.error = "sorry, we had a server error"
-      tempTag.$getSuggestion({tagTyped:tagTyped}, successHandler, errorHandler)
+      tempTag.$getSuggestion({tagTyped:tagTyped}, successFunc, errorFunc)
 
   $scope.chooseSuggested = (suggestedTagText) ->
     $scope.tagText = suggestedTagText
@@ -67,29 +67,29 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
     newTag = new Tag({text:normalizedText})
     tagToAdd = angular.copy(newTag)
 
-    successHandler = (data) ->
+    successFunc = (data) ->
       if error = data["error"]
         $scope.error = error
         $scope.tags = _.without($scope.tags, tagToAdd)
-    errorHandler = (e) ->
+    errorFunc = (e) ->
       $scope.error = "sorry, we had a server error"
       $scope.tags = _.without($scope.tags, tagToAdd)
 
-    newTag.$save({}, successHandler, errorHandler)
+    newTag.$save({}, successFunc, errorFunc)
     $scope.tags.push tagToAdd
     $scope.tagText = ""
     $scope.suggestedTags = []
 
   $scope.destroy = (tag) ->
     tagToPossiblyRestore = angular.copy(tag)
-    successHandler = (data) ->
+    successFunc = (data) ->
       if error = data["error"]
         alert error
         $scope.tags.push(tagToPossiblyRestore)
-    errorHandler = (e) ->
+    errorFunc = (e) ->
       alert "sorry, we had an error"
       $scope.tags.push(tagToPossiblyRestore)
-    tag.$delete({tagSlug:tag.text}, successHandler, errorHandler)
+    tag.$delete({tagSlug:tag.text}, successFunc, errorFunc)
     $scope.tags = _.without($scope.tags, tag)
 
 ]
