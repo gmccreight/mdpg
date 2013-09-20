@@ -20,10 +20,10 @@ facilitate making very quick changes and refactorings.
 
 ## Actual Unit Tests
 
-I'm taking testing inspiration from Sandi Metz's book, POODR, and from
-the Destroy All Software screencast series.  As part of that, I want my
-unit tests to be as isolated as possible.  I'll check outbound command messages
-with mock expectations, and I'll stub out any outbound query messages.
+I'm taking testing inspiration from Sandi Metz's book, POODR, and from the
+Destroy All Software screencast series.  As part of that, I want my unit tests
+to be as isolated as possible.  I'll check outbound command messages with mock
+expectations, and I'll stub out any outbound query messages.
 
 ## 4.0!
 
@@ -31,8 +31,8 @@ I wanna maintain a 4.0 on Code Climate.
 
 ## Fun!
 
-This can't be overstated.  Nobody's paying me to work on this, so it had better
-be gosh-darn fun!
+This can't be overstated.  Nobody's paying me to work on this, so it had
+better be gosh-darn fun!
 
 ## Consumable from multiple clients
 
@@ -46,20 +46,21 @@ see how that goes.
 ## Easy to back up
 
 One of my takeaways from pageoftext.com is that the data model made it very
-easy to back up the site, even as the data grew large.  It's very easy to rsync
-gigs of data as long as it is split up nicely.  This project goes even further
-than pageoftext.com in that direction, using the same object directory model as
-git.  That model uses a cryptographically solid hash function, SHA-1, to get a
-very even key distribution, then uses the first two characters of the 40 hex
-character code as the directory name.  In other words, the data will be nicely
-distributed into a large number of buckets.  Unlike git, however, the objects
-are not content-addressible, rather the hash is a hash of the data's key.
+easy to back up the site, even as the data grew large.  It's very easy to
+rsync gigs of data as long as it is split up nicely.  This project goes even
+further than pageoftext.com in that direction, using the same object directory
+model as git.  That model uses a cryptographically solid hash function, SHA-1,
+to get a very even key distribution, then uses the first two characters of the
+40 hex character code as the directory name.  In other words, the data will be
+nicely distributed into a large number of buckets.  Unlike git, however, the
+objects are not content-addressible, rather the hash is a hash of the data's
+key.
 
 ## Relatively easy to reason about the datastore
 
-Since this thing is highly experimental, it's possible that the quickest way of
-migrating the datastore will be to actually run macros on the datastore files
-themselves.  Their format and structure should facilitate that.
+Since this thing is highly experimental, it's possible that the quickest way
+of migrating the datastore will be to actually run macros on the datastore
+files themselves.  Their format and structure should facilitate that.
 
 
 ## Runs on EC2 micro instance (or the low-end DigitalOcean box)
