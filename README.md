@@ -173,6 +173,19 @@ Nuf' said
 
 ---
 
+# Coding conventions
+
+## Hash Rockets Only
+
+At least for this project, I don't want to deal with foo:bar anywhere.
+
+## Seattle Style
+
+As I mentioned above, don't use parens with def.  For that matter, I'm going
+to try to use parens as little as possible.
+
+---
+
 # Documentation
 
 To run on an actual production system, you can use:
