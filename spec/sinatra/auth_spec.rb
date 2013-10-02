@@ -8,10 +8,28 @@ describe "auth" do
       email:"jordan@example.com", password:"cool"
   end
 
-  it "should a message on the homepage after auth" do
+  it "should show a message on the homepage after auth" do
     post '/login', {email:"jordan@example.com", password:"cool"}
     follow_redirect!
     assert last_response.body.include? "Hello, Jordan"
+  end
+
+  it "should stay logged in and logged out after moving to those states" do
+    post '/login', {email:"jordan@example.com", password:"cool"}
+    follow_redirect!
+    assert last_response.body.include? "Hello, Jordan"
+
+    get '/'
+    assert last_response.body.include? "Hello, Jordan"
+
+    get '/logout'
+    follow_redirect!
+    follow_redirect!
+    assert last_response.body.include? "Please login"
+
+    get '/'
+    follow_redirect!
+    assert last_response.body.include? "Please login"
   end
 
 end

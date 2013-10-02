@@ -45,8 +45,13 @@ end
 post '/login' do
   user = User.authenticate params[:email], params[:password]
   if user
-    session[:access_token] = user.access_token
+    set_access_token user.access_token
   end
+  redirect to('/')
+end
+
+get '/logout' do
+  clear_access_token()
   redirect to('/')
 end
 
@@ -191,15 +196,29 @@ def attr_for_request_payload attr
 end
 
 def current_user
-  if session[:access_token]
-    if user = User.find_by_index(:access_token,
-      session[:access_token])
+  if get_access_token()
+    if user = User.find_by_index(:access_token, get_access_token())
       return user
     else
-      session.delete :access_token
+      clear_access_token()
     end
   end
   nil
+end
+
+def get_access_token
+  #request.cookies['access_token']
+  session[:access_token]
+end
+
+def set_access_token token
+  #response.set_cookie 'access_token', {:value => token, :max_age => "2592000"}
+  session[:access_token] = token
+end
+
+def clear_access_token
+  #response.set_cookie 'access_token', {:value => '', :max_age => '0'}
+  session.delete :access_token
 end
 
 def authorize!
