@@ -42,8 +42,8 @@ describe "page" do
       assert_equal "could not find that page", last_response.body 
     end
 
-    it "should redirect to login form if the access_token is invalid" do
-      get '/p/other', {}, {"rack.session" => {:access_token => "notvalidxyz"}}
+    it "should redirect to login form if no cookie" do
+      get '/p/other', {}
       follow_redirect!
       assert last_response.body.include? "Please login"
     end
@@ -54,7 +54,7 @@ describe "page" do
 
     it "should update the text of a page and redirect back to the page" do
       update_page "original-good-page-name", "some *new* text"
-      follow_redirect!
+      follow_redirect_with_authenticated_user!(@user)
       assert last_request.url.include? "/p/original-good-page-name"
       assert last_response.body.include? "some <em>new</em> text"
     end
@@ -70,14 +70,14 @@ describe "page" do
 
     it "should rename a page and redirect you to it" do
       rename_page "original-good-page-name", "a-renamed-page"
-      follow_redirect!
+      follow_redirect_with_authenticated_user!(@user)
       assert last_request.url.include? "/p/a-renamed-page"
       assert last_response.body.include? "I have"
     end
 
     it "should not rename a page if the new name is bad" do
       rename_page "original-good-page-name", "BAD Name"
-      follow_redirect!
+      follow_redirect_with_authenticated_user!(@user)
       assert last_request.url.include? "/p/original-good-page-name"
       assert last_response.body.include? "I have"
     end
@@ -94,7 +94,7 @@ describe "page" do
 
     it "should delete a page and redirect back to the home page" do
       delete_page "original-good-page-name"
-      follow_redirect!
+      follow_redirect_with_authenticated_user!(@user)
       assert last_response.body.include? "Hello, "
       get_page "original-good-page-name"
       assert_equal "could not find that page", last_response.body 

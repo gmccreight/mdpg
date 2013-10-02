@@ -10,8 +10,6 @@ if ! $data_store
   $data_store = DataStore.new "./.app_data"
 end
 
-enable :sessions
-
 if ENV["mdpg_production"]
   set :port, 80
   set :environment, :production
@@ -207,18 +205,15 @@ def current_user
 end
 
 def get_access_token
-  #request.cookies['access_token']
-  session[:access_token]
+  request.cookies['access_token']
 end
 
 def set_access_token token
-  #response.set_cookie 'access_token', {:value => token, :max_age => "2592000"}
-  session[:access_token] = token
+  response.set_cookie 'access_token', {:value => token, :max_age => "2592000"}
 end
 
 def clear_access_token
-  #response.set_cookie 'access_token', {:value => '', :max_age => '0'}
-  session.delete :access_token
+  response.set_cookie 'access_token', {:value => '', :max_age => '0'}
 end
 
 def authorize!
