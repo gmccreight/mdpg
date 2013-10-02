@@ -12,24 +12,21 @@ describe "page" do
       text:"I have something *interesting* to say!"
   end
 
-  def authenticated_session
-    {"rack.session" => {:access_token => @user.access_token}}
-  end
-
   def get_page name
-    get "/p/#{name}", {}, authenticated_session
+    get "/p/#{name}", {}, authenticated_session(@user)
   end
 
   def update_page name, text
-    post "/p/#{name}/update", {:text => text}, authenticated_session
+    post "/p/#{name}/update", {:text => text}, authenticated_session(@user)
   end
 
   def delete_page name
-    post "/p/#{name}/delete", {}, authenticated_session
+    post "/p/#{name}/delete", {}, authenticated_session(@user)
   end
 
   def rename_page name, new_name
-    post "/p/#{name}/rename", {:new_name => new_name}, authenticated_session
+    post "/p/#{name}/rename", {:new_name => new_name},
+      authenticated_session(@user)
   end
 
   describe "viewing" do

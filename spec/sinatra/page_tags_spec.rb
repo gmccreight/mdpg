@@ -15,18 +15,17 @@ describe "page_tags" do
   end
 
   def get_tags user, page_name
-    get "/p/#{page_name}/tags", {},
-      {"rack.session" => {:access_token => user.access_token}}
+    get "/p/#{page_name}/tags", {}, authenticated_session(user)
   end
 
   def add_tag user, page_name, tag_name
     post "/p/#{page_name}/tags", {:text => tag_name}.to_json,
-      {"rack.session" => {:access_token => user.access_token}}
+      authenticated_session(user)
   end
 
   def delete_tag user, page_name, tag_name
     delete "/p/#{page_name}/tags/#{tag_name}", {},
-      {"rack.session" => {:access_token => user.access_token}}
+      authenticated_session(user)
   end
 
   describe "deleting" do

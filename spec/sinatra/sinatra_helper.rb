@@ -11,3 +11,7 @@ include Rack::Test::Methods
 def app
   Sinatra::Application
 end
+
+def authenticated_session(user)
+  {"rack.session" => {:access_token => user.access_token}}
+end

@@ -14,12 +14,8 @@ describe "page_search" do
       text:"Fast cars"
   end
 
-  def authenticated_session
-    {"rack.session" => {:access_token => @user.access_token}}
-  end
-
   def search_pages query
-    post "/page/search", {:query => query}, authenticated_session
+    post "/page/search", {:query => query}, authenticated_session(@user)
     last_response.body
   end
 
