@@ -1,22 +1,37 @@
 #page_ns_id
 
-  :javascript
-    window.pageName = "#{viewmodel.name}";
+  - if mode == :normal
 
-  = haml :header_partial, :locals => {:page_name => viewmodel.name}
+    :javascript
+      window.pageName = "#{viewmodel.name}";
 
-  %h3
-    %form{:action => "/p/#{viewmodel.name}/rename",
-      :method => "post",
-      "ng-controller" => "TokenNameCtrl",
-      "ng-init" => "init('#{viewmodel.name}')"}
+    = haml :header_partial, :locals => {:page_name => viewmodel.name}
 
-      %input.new_name_cls{:type => "text", :name => "new_name",
-        "ng-model" => "tokenName", "ng-change" => "normalize()"}
+    %h3
+      %form{:action => "/p/#{viewmodel.name}/rename",
+        :method => "post",
+        "ng-controller" => "TokenNameCtrl",
+        "ng-init" => "init('#{viewmodel.name}')"}
+
+        %input.new_name_cls{:type => "text", :name => "new_name",
+          "ng-model" => "tokenName", "ng-change" => "normalize()"}
 
   .rendered_markdown_cls
     = viewmodel.rendered_markdown()
 
-  = haml :pagetags_partial
+  - if mode == :normal
+    = haml :pagetags_partial
+    = haml :page_delete_partial, :locals => {:page => viewmodel.page}
 
-  = haml :page_delete_partial, :locals => {:page => viewmodel.page}
+    - if viewmodel.page.readonly_sharing_token
+      %div
+        readonly sharing:
+        %a{:href => "/s/#{viewmodel.page.readonly_sharing_token}"}
+          #{viewmodel.page.readonly_sharing_token}
+
+    - if viewmodel.page.readwrite_sharing_token
+      %div
+        readwrite sharing:
+        %a{:href => "/s/#{viewmodel.page.readwrite_sharing_token}"}
+          #{viewmodel.page.readwrite_sharing_token}
+
