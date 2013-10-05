@@ -55,4 +55,25 @@ describe Page do
 
   end
 
+  describe "finding by various sharing tokens" do
+
+    it "should find by readonly_sharing_token" do
+      create_page_with_name "not-the-page"
+      page = create_page_with_name "the-page"
+      assert_equal page.readonly_sharing_token.size, 32
+      found_page = Page.find_by_index(:readonly_sharing_token,
+                                      page.readonly_sharing_token)
+      assert_equal page.id, found_page.id
+    end
+
+    it "should find by readwrite_sharing_token" do
+      page = create_page_with_name "the-page"
+      assert_equal page.readwrite_sharing_token.size, 32
+      found_page = Page.find_by_index(:readwrite_sharing_token,
+                                      page.readwrite_sharing_token)
+      assert_equal page.id, found_page.id
+    end
+
+  end
+
 end
