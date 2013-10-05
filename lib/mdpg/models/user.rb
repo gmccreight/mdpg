@@ -1,3 +1,5 @@
+require "rand_string_generator"
+
 class User < ModelBase
 
   attr_accessor :name, :email, :salt, :hashed_password, :access_token,
@@ -71,18 +73,14 @@ class User < ModelBase
 
     def ensure_salt
       if ! self.salt
-        self.salt = rand_string_of_length 32
+        self.salt = RandStringGenerator.rand_string_of_length 32
       end
     end
 
     def ensure_access_token
       if ! self.access_token
-        self.access_token = rand_string_of_length 32
+        self.access_token = RandStringGenerator.rand_string_of_length 32
       end
-    end
-
-    def rand_string_of_length length
-      (0...length).map{(65+rand(26)).chr}.join.downcase
     end
 
 end
