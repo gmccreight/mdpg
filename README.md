@@ -171,6 +171,14 @@ break up code onto multiple lines.
 
 Nuf' said
 
+## Interface design
+
+I'd like to try the analogous thing to having piles of paper on your desk.
+So, piles of pages where piling by creation date and modification date.
+
+Also, I wonder if there's merit in having a page with a huge number of things
+directly in the page.
+
 ---
 
 # Coding conventions
