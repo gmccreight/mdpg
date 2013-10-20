@@ -50,6 +50,30 @@ describe "page" do
 
   end
 
+  describe "viewing via the public share link" do
+
+    def get_shared_page long_readonly_token
+      get "/s/#{long_readonly_token}", {}, authenticated_session(@user)
+    end
+
+    it "should be able to see the page with the right token" do
+      token = Page.find(1).readonly_sharing_token
+      assert_equal token.size, 32
+
+      get_shared_page token
+      expected = "<p>I have something <em>interesting</em> to say!</p>\n"
+      assert last_response.body.include? expected
+    end
+
+    it "should not be able to see the page with an incorrect token" do
+      get_shared_page "not-right-token-not-right-token-not-right-token"
+      follow_redirect!
+      follow_redirect!
+      assert last_response.body.include? "Please login"
+    end
+
+  end
+
   describe "updating" do
 
     it "should update the text of a page and redirect back to the page" do
