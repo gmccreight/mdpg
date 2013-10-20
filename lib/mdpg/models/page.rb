@@ -1,6 +1,7 @@
 class Page < ModelBase
 
-  attr_accessor :name, :text, :revision, :tag_ids, :readonly_sharing_token, :readwrite_sharing_token
+  attr_accessor :name, :text, :revision, :tag_ids, :readonly_sharing_token,
+    :readwrite_sharing_token
 
   def text_contains query
     text.include?(query)
