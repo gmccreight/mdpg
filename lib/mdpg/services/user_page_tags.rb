@@ -76,6 +76,26 @@ class UserPageTags < Struct.new(:user, :page)
     end
   end
 
+  def count_of_other_tags_associated_with_tag tagname
+
+    count_for = {}
+    count_for.default = 0
+
+    pages = get_pages_for_tag_with_name tagname
+
+    pages.each do |page|
+      page_tags = ObjectTags.new(page).get_tags
+      page_tags.each do |tag|
+        if tag.name != tagname
+          count_for[tag.name] += 1
+        end
+      end
+    end
+
+    count_for
+
+  end
+
   def search query
     SimilarTokenFinder.new.get_similar_tokens(query, get_tags())
   end

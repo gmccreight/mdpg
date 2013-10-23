@@ -114,6 +114,24 @@ describe UserPageTags do
 
   end
 
+  describe "counting" do
+
+    before do
+      %w{green color trombone}.each{|x| @user_page_tags.add_tag x}
+
+      another_page = create_page
+      user_another_page_tags = UserPageTags.new(@user, another_page)
+      %w{green color trombone yeti}.each{|x| user_another_page_tags.add_tag x}
+    end
+
+    it "should count associated tags correctly" do
+      counts = @user_page_tags.count_of_other_tags_associated_with_tag("green")
+      assert_equal 2, counts["color"]
+      assert_equal 1, counts["yeti"]
+    end
+
+  end
+
   describe "getting the pages that have been tagged" do
 
     before do
