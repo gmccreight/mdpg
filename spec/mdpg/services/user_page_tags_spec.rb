@@ -97,7 +97,7 @@ describe UserPageTags do
   describe "searching" do
 
     before do
-      %w{color trombone green colour}.each{|x| @user_page_tags.add_tag x}
+      %w{color jazz green colour}.each{|x| @user_page_tags.add_tag x}
     end
 
     it "should find all tags that are relatively closely related" do
@@ -117,17 +117,22 @@ describe UserPageTags do
   describe "counting" do
 
     before do
-      %w{green color trombone}.each{|x| @user_page_tags.add_tag x}
+      %w{green color swimming}.each{|x| @user_page_tags.add_tag x}
 
       another_page = create_page
       user_another_page_tags = UserPageTags.new(@user, another_page)
-      %w{green color trombone yeti}.each{|x| user_another_page_tags.add_tag x}
+      %w{green color jazz yeti}.each{|x| user_another_page_tags.add_tag x}
+
+      third_page_tags = UserPageTags.new(@user, create_page)
+      %w{green color jazz drums assets}.each{|x| third_page_tags.add_tag x}
     end
 
-    it "should count associated tags correctly" do
-      counts = @user_page_tags.count_of_other_tags_associated_with_tag("green")
-      assert_equal 2, counts["color"]
-      assert_equal 1, counts["yeti"]
+    it "should return associated tags sorted by count, not including self" do
+      associated_tags = @user_page_tags.sorted_associated_tags("green")
+      target = [
+        ["color", 2], ["jazz", 2], ["assets", 1], ["drums", 1], ["yeti", 1]
+      ]
+      assert_equal target, associated_tags
     end
 
   end
@@ -135,7 +140,7 @@ describe UserPageTags do
   describe "getting the pages that have been tagged" do
 
     before do
-      %w{color trombone green colour}.each{|x| @user_page_tags.add_tag x}
+      %w{color jazz green colour}.each{|x| @user_page_tags.add_tag x}
       @another_page = create_page
       @user_page_tags = UserPageTags.new(@user, @another_page)
       %w{green}.each{|x| @user_page_tags.add_tag x}
@@ -150,7 +155,7 @@ describe UserPageTags do
     end
 
     it "should get one page for a tag that was added to one page" do
-      assert_equal [@page.id], page_ids_for_tag("trombone")
+      assert_equal [@page.id], page_ids_for_tag("jazz")
     end
 
     it "should get no pages for a tag that has been added to no pages" do

@@ -76,24 +76,12 @@ class UserPageTags < Struct.new(:user, :page)
     end
   end
 
-  def count_of_other_tags_associated_with_tag tagname
-
-    count_for = {}
-    count_for.default = 0
-
-    pages = get_pages_for_tag_with_name tagname
-
-    pages.each do |page|
-      page_tags = ObjectTags.new(page).get_tags
-      page_tags.each do |tag|
-        if tag.name != tagname
-          count_for[tag.name] += 1
-        end
-      end
+  def sorted_associated_tags tagname
+    counts = associated_tags_counts tagname
+    counts.to_a.sort do |a,b|
+      comp = (b[1] <=> a[1])
+      comp.zero? ? (a[0] <=> b[0]) : comp
     end
-
-    count_for
-
   end
 
   def search query
@@ -136,5 +124,28 @@ class UserPageTags < Struct.new(:user, :page)
       h.default = {}
       h
     end
+
+    def associated_tags_counts tagname
+
+      count_for = {}
+      count_for.default = 0
+
+      pages = get_pages_for_tag_with_name tagname
+
+      pages.each do |page_in_loop|
+        if page_in_loop.id != page.id
+          page_tags = ObjectTags.new(page_in_loop).get_tags
+          page_tags.each do |tag|
+            if tag.name != tagname
+              count_for[tag.name] += 1
+            end
+          end
+        end
+      end
+
+      count_for
+
+    end
+
 
 end
