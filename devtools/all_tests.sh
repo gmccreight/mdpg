@@ -1,5 +1,5 @@
 #!/bin/bash
 
 ./devtools/over_78_chars.sh
-rake
+perf=1 rake
 karma start --single-run
