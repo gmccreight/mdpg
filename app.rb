@@ -83,7 +83,15 @@ end
 get '/p/:name/tags' do |page_name|
   if page = get_user_page(page_name)
     object_tags = ObjectTags.new(page)
-    return object_tags.sorted_tag_names().map{|tag| {:text => tag} }.to_json
+    user_page_tags = UserPageTags.new(current_user, page)
+    sorted_tag_names = object_tags.sorted_tag_names()
+    results = sorted_tag_names.map do |tagname|
+      {
+        :text => tagname,
+        :associated => user_page_tags.sorted_associated_tags(tagname)
+      }
+    end
+    results.to_json
   end
 end
 

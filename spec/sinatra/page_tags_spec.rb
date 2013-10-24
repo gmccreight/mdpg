@@ -53,6 +53,7 @@ describe "page_tags" do
       array = JSON.parse last_response.body
       assert_equal 1, array.size
       assert_equal "new-1", array[0]["text"]
+      assert_equal [], array[0]["associated"]
     end
 
     it "should not get tags for the page that does not exist" do
