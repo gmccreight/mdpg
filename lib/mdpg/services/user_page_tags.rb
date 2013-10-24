@@ -130,17 +130,23 @@ class UserPageTags < Struct.new(:user, :page)
       count_for = {}
       count_for.default = 0
 
+      tags_on_current_page = []
+
       pages = get_pages_for_tag_with_name tagname
 
       pages.each do |page_in_loop|
-        if page_in_loop.id != page.id
-          page_tags = ObjectTags.new(page_in_loop).get_tags
-          page_tags.each do |tag|
-            if tag.name != tagname
-              count_for[tag.name] += 1
-            end
+        page_tags = ObjectTags.new(page_in_loop).get_tags
+        page_tags.each do |tag|
+          if page_in_loop.id == page.id
+            tags_on_current_page << tag.name
+          else
+            count_for[tag.name] += 1
           end
         end
+      end
+
+      tags_on_current_page.each do |tagname|
+        count_for.delete(tagname)
       end
 
       count_for

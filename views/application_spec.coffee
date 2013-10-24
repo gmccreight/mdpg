@@ -22,26 +22,43 @@ describe "TagsCtrl", ->
 
     # stuff specific to this controller
     controller = createController()
-    $httpBackend.expect('GET', '/p/foo-page/tags').respond([])
-    $httpBackend.flush()
 
   afterEach ->
     $httpBackend.verifyNoOutstandingExpectation()
     $httpBackend.verifyNoOutstandingRequest()
 
+  pageTagsRequestReturns = (valueToReturn) ->
+    $httpBackend.expect('GET', '/p/foo-page/tags').respond(valueToReturn)
+    $httpBackend.flush()
+
+  tagNames = ->
+    _.map($scope.tags, (tag) -> tag.text)
+
+  describe "getting tags", ->
+
+    it "should return the right text and associated tags", ->
+      pageTagsRequestReturns([{"text":"great","associated":[["a-first-tag-new",2]]}])
+      expect(tagNames()).toEqual(["great"])
+
   describe "adding", ->
+
+    beforeEach ->
+      pageTagsRequestReturns([])
 
     addTagWithTextAndSuccess = (text, success) ->
       response = if success then {success: ""} else {error: "some error"}
       $httpBackend.expect('POST', '/p/foo-page/tags').respond(response)
       $scope.tagText = text
       $scope.addTag()
+      if success
+        # The backend is called again on success
+        text = $scope.normalizeTagText(text)
+        $httpBackend.expect('GET', '/p/foo-page/tags').respond(
+          [{"text":text,"associated":[["other-tag",2]]}]
+        )
       $httpBackend.flush()
 
     describe "successfully", ->
-
-      tagNames = ->
-        _.map($scope.tags, (tag) -> tag.text)
 
       it "should add a well-formed tag token without modification", ->
         addTagWithTextAndSuccess "new-tag", true
@@ -77,6 +94,9 @@ describe "TagsCtrl", ->
         expect($scope.error).toEqual "some error"
 
   describe "suggestions", ->
+
+    beforeEach ->
+      pageTagsRequestReturns([])
 
     callSuggestAndServerRespondsWith = (response) ->
       $httpBackend.expect('GET',

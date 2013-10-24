@@ -6,6 +6,11 @@
       %a(ng-click="destroy(tag)" href="")
         remove
 
+      %span(ng-repeat="associated in tag.associated")
+        &nbsp;
+        %a(ng-click="chooseSuggested(associated[0])" href="" ng-repeat="associated in tag.associated")
+          {{associated[0]}}({{associated[1]}})
+
   %form{"ng-submit" => "addTag()"}
     %input{"ng-model" => "tagText", "ng-change" => "suggest(tagText)",
       :placeholder => "add new tag here", :size => "30", :type => "text"}/

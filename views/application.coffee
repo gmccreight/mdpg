@@ -64,13 +64,15 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
 
     normalizedText = $scope.normalizeTagText($scope.tagText)
 
-    newTag = new Tag({text:normalizedText})
+    newTag = new Tag({text:normalizedText, associated:[]})
     tagToAdd = angular.copy(newTag)
 
     successFunc = (data) ->
       if error = data["error"]
         $scope.error = error
         $scope.tags = _.without($scope.tags, tagToAdd)
+      else
+        $scope.tags = Tag.query()
     errorFunc = (e) ->
       $scope.error = "sorry, we had a server error"
       $scope.tags = _.without($scope.tags, tagToAdd)
@@ -86,6 +88,8 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
       if error = data["error"]
         alert error
         $scope.tags.push(tagToPossiblyRestore)
+      else
+        $scope.tags = Tag.query()
     errorFunc = (e) ->
       alert "sorry, we had an error"
       $scope.tags.push(tagToPossiblyRestore)

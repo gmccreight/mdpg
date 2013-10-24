@@ -130,9 +130,20 @@ describe UserPageTags do
     it "should return associated tags sorted by count, not including self" do
       associated_tags = @user_page_tags.sorted_associated_tags("green")
       target = [
-        ["color", 2], ["jazz", 2], ["assets", 1], ["drums", 1], ["yeti", 1]
+        ["jazz", 2], ["assets", 1], ["drums", 1], ["yeti", 1]
       ]
       assert_equal target, associated_tags
+    end
+
+    it "should not return any tag names already associated with page" do
+      associated_tags = @user_page_tags.sorted_associated_tags("green")
+      tag_names = associated_tags.map{|x| x[0]}
+
+      assert tag_names.include?("jazz")
+      assert tag_names.include?("assets")
+
+      assert ! tag_names.include?("color")
+      assert ! tag_names.include?("swimming")
     end
 
   end
