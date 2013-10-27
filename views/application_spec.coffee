@@ -37,7 +37,9 @@ describe "TagsCtrl", ->
   describe "getting tags", ->
 
     it "should return the right text and associated tags", ->
-      pageTagsRequestReturns([{"text":"great","associated":[["a-first-tag-new",2]]}])
+      pageTagsRequestReturns(
+        [{"text":"great","associated":[["a-first-tag-new",2]]}]
+      )
       expect(tagNames()).toEqual(["great"])
 
   describe "adding", ->
