@@ -5,15 +5,15 @@ describe "TagsCtrl", ->
 
   beforeEach module('WnpApp')
   beforeEach inject ($injector) ->
-    
+
     window.pageName = 'foo-page'
 
     # Set up the mock http service responses
     $httpBackend = $injector.get("$httpBackend")
-    
+
     # Get hold of a scope (i.e. the root scope)
     $scope = $injector.get("$rootScope")
-    
+
     # The $controller service is used to create instances of controllers
     $controller = $injector.get("$controller")
     createController = ->

@@ -30,7 +30,7 @@ class Page < ModelBase
     def unique_id_indexes
       [:readonly_sharing_token, :readwrite_sharing_token]
     end
-  
+
     def is_versioned?
       true
     end

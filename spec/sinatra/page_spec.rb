@@ -39,7 +39,7 @@ describe "page" do
 
     it "should not get a page if user has no page with that name" do
       get_page "not-one-of-the-users-pages"
-      assert_equal "could not find that page", last_response.body 
+      assert_equal "could not find that page", last_response.body
     end
 
     it "should redirect to login form if no cookie" do
@@ -109,7 +109,7 @@ describe "page" do
     it "should not rename a page to an existing page's name" do
       UserPages.new(@user).create_page name:"already-taken-page-name", text:""
       rename_page "original-good-page-name", "already-taken-page-name"
-      assert_equal "a page with that name already exists", last_response.body 
+      assert_equal "a page with that name already exists", last_response.body
     end
 
   end
@@ -121,7 +121,7 @@ describe "page" do
       follow_redirect_with_authenticated_user!(@user)
       assert last_response.body.include? "Hello, "
       get_page "original-good-page-name"
-      assert_equal "could not find that page", last_response.body 
+      assert_equal "could not find that page", last_response.body
     end
 
   end
