@@ -22,6 +22,7 @@
   - if mode == :normal
     = haml :pagetags_partial
     = haml :page_delete_partial, :locals => {:page => viewmodel.page}
+    = haml :page_duplicate_partial, :locals => {:page => viewmodel.page}
 
     - if viewmodel.page.readonly_sharing_token
       %div

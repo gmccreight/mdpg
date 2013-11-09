@@ -102,6 +102,13 @@ post '/p/:name/delete' do |page_name|
   end
 end
 
+post '/p/:name/duplicate' do |page_name|
+  if page = get_user_page(page_name)
+    new_page = UserPages.new(current_user).duplicate_page page_name
+    redirect to("/p/" + new_page.name)
+  end
+end
+
 post '/p/:name/rename' do |page_name|
   if page = get_user_page(page_name)
     begin
