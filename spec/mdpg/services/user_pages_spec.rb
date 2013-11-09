@@ -156,6 +156,19 @@ describe UserPages do
       assert_equal ["cool-house"], user_page_tags.get_tags
     end
 
+    it "should increment if page name taken" do
+      @user_pages.create_page name:"hello-2"
+      new_page = @user_pages.duplicate_page "hello"
+      assert_equal "hello-3", new_page.name
+    end
+
+    it "should increment if page name taken - multiple times" do
+      @user_pages.create_page name:"hello-2"
+      @user_pages.create_page name:"hello-3"
+      new_page = @user_pages.duplicate_page "hello"
+      assert_equal "hello-4", new_page.name
+    end
+
   end
 
 end

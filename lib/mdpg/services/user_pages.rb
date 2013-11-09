@@ -27,7 +27,12 @@ class UserPages < Struct.new(:user)
 
   def duplicate_page name
     if original_page = find_page_with_name(name)
-      new_name = name + "-2"
+      increment = 2
+      new_name = "#{name}-#{increment}"
+      while find_page_with_name(new_name)
+        increment += 1
+        new_name = "#{name}-#{increment}"
+      end
       new_page = create_page({:name => new_name})
       new_page.text = original_page.text
 
