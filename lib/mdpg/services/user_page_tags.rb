@@ -76,6 +76,13 @@ class UserPageTags < Struct.new(:user, :page)
     end
   end
 
+  def duplicate_tags_to_other_page dest_page
+    new_user_page_tags = self.class.new(user, dest_page)
+    get_tags.each do |tag|
+      new_user_page_tags.add_tag tag
+    end
+  end
+
   def sorted_associated_tags tagname
     counts = associated_tags_counts tagname
     counts.to_a.sort do |a,b|

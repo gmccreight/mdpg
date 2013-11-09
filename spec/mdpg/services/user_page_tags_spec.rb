@@ -175,4 +175,19 @@ describe UserPageTags do
 
   end
 
+  describe "duplicate tags to other page" do
+
+    before do
+      %w{color jazz}.each{|x| @user_page_tags.add_tag x}
+      @another_page = create_page
+    end
+
+    it "should duplicate" do
+      @user_page_tags.duplicate_tags_to_other_page(@another_page)
+      user_another_page_tags = UserPageTags.new(@user, @another_page)
+      assert_equal %w{color jazz}, user_another_page_tags.get_tags()
+    end
+
+  end
+
 end
