@@ -78,8 +78,8 @@ class UserPageTags < Struct.new(:user, :page)
 
   def duplicate_tags_to_other_page dest_page
     new_user_page_tags = self.class.new(user, dest_page)
-    get_tags.each do |tag|
-      new_user_page_tags.add_tag tag
+    tags_for_page(page).each do |tag|
+      new_user_page_tags.add_tag tag.name
     end
   end
 
@@ -124,6 +124,10 @@ class UserPageTags < Struct.new(:user, :page)
     return h[tag].keys.size
   end
 
+  def tags_for_page x
+    ObjectTags.new(x).get_tags
+  end
+
   private
 
     def get_tags_hash
@@ -142,8 +146,7 @@ class UserPageTags < Struct.new(:user, :page)
       pages = get_pages_for_tag_with_name tagname
 
       pages.each do |page_in_loop|
-        page_tags = ObjectTags.new(page_in_loop).get_tags
-        page_tags.each do |tag|
+        tags_for_page(page_in_loop).each do |tag|
           if page_in_loop.id == page.id
             tags_on_current_page << tag.name
           else
@@ -159,6 +162,5 @@ class UserPageTags < Struct.new(:user, :page)
       count_for
 
     end
-
 
 end

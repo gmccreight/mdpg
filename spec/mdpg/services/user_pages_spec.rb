@@ -153,7 +153,20 @@ describe UserPages do
       assert_equal "world", new_page.text
 
       user_page_tags = UserPageTags.new @user, new_page
-      assert_equal ["cool-house"], user_page_tags.get_tags
+      assert_equal ["cool-house"], user_page_tags.
+        tags_for_page(new_page).map{|x| x.name}
+    end
+
+    it "should only duplicate the page's tags, not all page tags" do
+      different_page = @user_pages.create_page name:"different-page"
+      user_a_different_page_tags = UserPageTags.new(@user, different_page)
+      user_a_different_page_tags.add_tag "tag-on-different-page"
+
+      new_page = @user_pages.duplicate_page "hello"
+
+      user_page_tags = UserPageTags.new @user, new_page
+      assert_equal ["cool-house"], user_page_tags.
+        tags_for_page(new_page).map{|x| x.name}
     end
 
     it "should increment if page name taken" do
