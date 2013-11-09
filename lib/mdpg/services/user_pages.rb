@@ -25,6 +25,21 @@ class UserPages < Struct.new(:user)
     end
   end
 
+  def duplicate_page name
+    if original_page = find_page_with_name(name)
+      new_name = name + "-2"
+      new_page = create_page({:name => new_name})
+      new_page.text = original_page.text
+
+      user_page_tags = UserPageTags.new(user, original_page)
+      user_page_tags.duplicate_tags_to_other_page(new_page)
+
+      new_page.save()
+      return new_page
+    end
+    nil
+  end
+
   def rename_page page, new_name
     if find_page_with_name new_name
       raise PageAlreadyExistsException

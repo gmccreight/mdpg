@@ -130,4 +130,32 @@ describe UserPages do
 
   end
 
+  describe "duplicating a page" do
+
+    before do
+      @user = User.create name:"Jordan"
+      @user_pages = UserPages.new(@user)
+
+      @page = @user_pages.create_page name:"hello"
+      @page.text = "world"
+      @page.save
+
+      @user_page_tags = UserPageTags.new @user, @page
+      @user_page_tags.add_tag "cool-house"
+
+      @page_id = @page.id
+      assert_equal "hello", Page.find(@page_id).name
+    end
+
+    it "should duplicate a page, including the text and tags" do
+      new_page = @user_pages.duplicate_page "hello"
+      assert_equal "hello-2", new_page.name
+      assert_equal "world", new_page.text
+
+      user_page_tags = UserPageTags.new @user, new_page
+      assert_equal ["cool-house"], user_page_tags.get_tags
+    end
+
+  end
+
 end
