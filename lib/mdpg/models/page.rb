@@ -4,11 +4,11 @@ class Page < ModelBase
     :readwrite_sharing_token
 
   def text_contains query
-    text.include?(query)
+    text.include?(query.downcase)
   end
 
   def name_contains query
-    name.include?(query)
+    name.include?(query.downcase)
   end
 
   def add_tag tag

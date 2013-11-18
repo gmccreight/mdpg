@@ -35,4 +35,12 @@ describe "page_search" do
     assert text.include? "cool-interesting-things"
   end
 
+  it "should get a page with matching text, ignoring case" do
+    text = search_pages "Car"
+
+    assert text.include? "0 pages with matching name"
+    assert text.include? "1 pages with matching text"
+    assert text.include? "cool-interesting-things"
+  end
+
 end

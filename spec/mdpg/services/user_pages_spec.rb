@@ -114,6 +114,11 @@ describe UserPages do
         @user_pages.pages_with_text_containing_text("the text").map(&:name)
     end
 
+    it "should match in a case-insensitive way" do
+      assert_equal ["alaska-crab"],
+        @user_pages.pages_with_text_containing_text("Page 2").map(&:name)
+    end
+
   end
 
   describe "pages_with_names_containing_text" do
@@ -126,6 +131,11 @@ describe UserPages do
     it "should give multiple results if multiple pages match" do
       assert_equal ["zebra-training", "alaska-crab"],
         @user_pages.pages_with_names_containing_text("a").map(&:name)
+    end
+
+    it "should match in a case-insensitive way" do
+      assert_equal ["alaska-crab"],
+        @user_pages.pages_with_names_containing_text("Alaska").map(&:name)
     end
 
   end
