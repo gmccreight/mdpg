@@ -8,6 +8,24 @@ describe "auth" do
       email:"jordan@example.com", password:"cool"
   end
 
+  it "should be fast" do
+    if ENV["perf"]
+      require 'ruby-prof'
+
+      RubyProf.start
+
+      post '/login', {email:"jordan@example.com", password:"cool"}
+      follow_redirect!
+      assert last_response.body.include? "Hello, Jordan"
+
+      result = RubyProf.stop
+      printer = RubyProf::FlatPrinter.new(result)
+      if ENV["verbose"]
+        printer.print(STDOUT)
+      end
+    end
+  end
+
   it "should show a message on the homepage after auth" do
     post '/login', {email:"jordan@example.com", password:"cool"}
     follow_redirect!

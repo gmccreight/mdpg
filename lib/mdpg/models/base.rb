@@ -178,12 +178,20 @@ class ModelBase
       memoized_instance_methods.find_all do |method|
         method != :== &&
         method != :! &&
-        memoized_instance_methods.include?(:"#{method}=")
+        memoized_instance_methods_hash_includes?(:"#{method}=")
       end
     end
 
     def memoized_instance_methods
-      @instance_methods ||= self.class.instance_methods
+      return @instance_methods if @instance_methods
+
+      @instance_methods = self.class.instance_methods
+      @instance_methods_hash = {}
+      @instance_methods.each{|x| @instance_methods_hash[x.to_sym] = true}
+    end
+
+    def memoized_instance_methods_hash_includes? method_name
+      @instance_methods_hash.has_key?(method_name)
     end
 
     def max_revision

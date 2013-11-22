@@ -22,7 +22,9 @@ if ENV["perf"]
 
       result = RubyProf.stop
       printer = RubyProf::FlatPrinter.new(result)
-      #printer.print(STDOUT)
+      if ENV["verbose"]
+        printer.print(STDOUT)
+      end
     end
 
     describe "get and set" do
