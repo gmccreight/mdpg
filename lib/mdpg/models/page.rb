@@ -20,8 +20,8 @@ class Page < ModelBase
   end
 
   def save
-    ensure_readonly_sharing_token()
-    ensure_readwrite_sharing_token()
+    ensure_has_sharing_token :readonly_sharing_token
+    ensure_has_sharing_token :readwrite_sharing_token
     super
   end
 
@@ -40,17 +40,10 @@ class Page < ModelBase
       return ! errors
     end
 
-    def ensure_readonly_sharing_token
-      if ! self.readonly_sharing_token
-        self.readonly_sharing_token =
-          RandStringGenerator.rand_string_of_length 32
-      end
-    end
-
-    def ensure_readwrite_sharing_token
-      if ! self.readwrite_sharing_token
-        self.readwrite_sharing_token =
-          RandStringGenerator.rand_string_of_length 32
+    def ensure_has_sharing_token token_name
+      if ! self.send(token_name)
+        self.send("#{token_name}=",
+          RandStringGenerator.rand_string_of_length(32))
       end
     end
 
