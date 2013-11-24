@@ -9,6 +9,15 @@ class PageLinks < Struct.new(:user)
     end
   end
 
+  def internal_links_to_page_name_links_for_editing text
+    return text if ! text
+    text.gsub(/\[\[mdpgpage:(\d+)\]\]/) do
+      id = $1.to_i
+      name = Page.find(id).name
+      "[[#{name}]]"
+    end
+  end
+
   def page_name_links_to_ids text
     return text if ! text
     text.gsub(/\[\[(#{Token::TOKEN_REGEX_STR})\]\]/) do

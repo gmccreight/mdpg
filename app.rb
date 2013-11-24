@@ -76,7 +76,9 @@ end
 
 get '/p/:name/edit' do |page_name|
   if page = get_user_page(page_name)
-    haml :page_edit, :locals => {:page => page}
+    page_text = PageLinks.new(current_user)
+      .internal_links_to_page_name_links_for_editing(page.text)
+    haml :page_edit, :locals => {:page => page, :page_text => page_text}
   end
 end
 
