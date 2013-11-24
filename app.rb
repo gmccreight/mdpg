@@ -170,7 +170,8 @@ end
 
 post '/p/:name/update' do |page_name|
   if page = get_user_page(page_name)
-    page.text = params[:text]
+    page.text = PageLinks.new(current_user).
+      page_name_links_to_ids(params[:text])
     page.save
     redirect to("/p/#{page.name}")
   end

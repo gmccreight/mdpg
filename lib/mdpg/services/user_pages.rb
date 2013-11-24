@@ -11,6 +11,8 @@ class UserPages < Struct.new(:user)
     end
     page = Page.create opts
     if page
+      page.text = PageLinks.new(user).page_name_links_to_ids(page.text)
+      page.save
       user.add_page page
     end
     page

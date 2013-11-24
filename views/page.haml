@@ -17,7 +17,7 @@
           "ng-model" => "tokenName", "ng-change" => "normalize()"}
 
   .rendered_markdown_cls
-    ~ viewmodel.rendered_markdown()
+    ~ viewmodel.fully_rendered()
 
   - if mode == :normal
     = haml :pagetags_partial

@@ -23,10 +23,16 @@ class PageView < Struct.new(:user, :page)
     all_tags - ObjectTags.new(page).sorted_tag_names()
   end
 
-  def rendered_markdown
+  def fully_rendered
+    text = PageLinks.new(user)
+      .internal_links_to_user_clickable_links(page.text)
+    rendered_markdown text
+  end
+
+  def rendered_markdown(text)
     markdown = ::Redcarpet::Markdown.new(Redcarpet::Render::HTML,
       :autolink => true, :space_after_headers => true)
-    markdown.render page.text
+    markdown.render text
   end
 
   private
