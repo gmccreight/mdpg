@@ -92,6 +92,7 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   def search query
+    query.downcase!
     SimilarTokenFinder.new.get_similar_tokens(query, get_tags())
   end
 
