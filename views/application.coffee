@@ -98,9 +98,19 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
 
 ]
 
+focusOnSearchField = ->
+  $("#search_form_id").find("input").focus()
+
 $ ->
 
-  $("#index_ns_id").find("input").focus()
+  forwardSlashKeycode = 191
+
+  $("#index_ns_id #add_page_id input").focus()
+
+  $("#index_ns_id #add_page_id input").keydown (e) ->
+    if e.keyCode is forwardSlashKeycode
+      e.preventDefault()
+      focusOnSearchField()
 
   $("#page_ns_id").find(".rendered_markdown_cls").dblclick ->
     link = $("#page_ns_id").find(".edit_link_cls")[0]
@@ -118,3 +128,9 @@ $ ->
   $("table.tag_table_cls .name_cls").click ->
     $(this).hide()
     $(this).closest("td").find(".rename_tag_form_cls").show()
+
+  $(document).bind "keydown.mdpg", (e) ->
+    if e.keyCode is forwardSlashKeycode and e.target.tagName isnt "INPUT" and
+    e.target.tagName isnt "TEXTAREA" and e.target.tagName isnt "SELECT"
+      e.preventDefault()
+      focusOnSearchField()
