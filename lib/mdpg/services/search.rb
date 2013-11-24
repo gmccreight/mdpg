@@ -8,11 +8,35 @@ class Search
 
   def search query
     @search_query.query = query
-    search_string = @search_query.search_string()
-    names = @user_pages.pages_with_names_containing_text(search_string)
-    texts = @user_pages.pages_with_text_containing_text(search_string)
-    tags = @user_page_tags.search(search_string)
+    @search_string = @search_query.search_string()
+
+    names = search_names()
+    texts = search_texts()
+    tags = search_tags()
+
     {names: names, texts:texts, tags:tags}
+  end
+
+  def search_names
+    pages_containing_one_of_the_tags(
+      @user_pages.pages_with_names_containing_text(@search_string))
+  end
+
+  def search_texts
+    pages_containing_one_of_the_tags(
+      @user_pages.pages_with_text_containing_text(@search_string))
+  end
+
+  def search_tags
+    @user_page_tags.search(@search_string)
+  end
+
+  def pages_containing_one_of_the_tags pages
+    return pages if @search_query.tags.size == 0
+
+    pages = pages.select{|page|
+      (ObjectTags.new(page).sorted_tag_names() & @search_query.tags).size > 0
+    }
   end
 
 end
