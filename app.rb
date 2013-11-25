@@ -193,14 +193,22 @@ end
 post '/page/search' do
   authorize!
   searcher = Search.new current_user
-  results = searcher.search params[:query]
 
-  haml :page_search, :locals => {
-    :pages_where_name_matches => results[:names],
-    :pages_where_text_matches => results[:texts],
-    :tags_where_name_matches =>  results[:tags],
-    :user => current_user
-  }
+  query = params[:query]
+  query = query.gsub(/!$/, "")
+  results = searcher.search query
+
+  if results[:names].size > 0 && results[:names][0].name == query &&
+    params[:query] !~ /!$/
+    redirect to("/p/#{results[:names][0].name}")
+  else
+    haml :page_search, :locals => {
+      :pages_where_name_matches => results[:names],
+      :pages_where_text_matches => results[:texts],
+      :tags_where_name_matches =>  results[:tags],
+      :user => current_user
+    }
+  end
 end
 
 def get_user_page page_name
