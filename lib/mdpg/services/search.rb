@@ -24,9 +24,10 @@ class Search
   def redirect_to_perfect_match(names)
     return nil if @search_parser.force_full_search()
 
-    if names.size > 0 && names[0].name == @search_string
+    if names.size > 0 && names.map(&:name).include?(@search_string)
       return @search_string
     end
+
     nil
   end
 
