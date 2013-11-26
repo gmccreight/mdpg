@@ -5,18 +5,29 @@ class Search
   def initialize user
     @user_pages = UserPages.new(user)
     @user_page_tags = UserPageTags.new(user, nil)
-    @search_query = SearchQueryParser.new()
+    @search_parser = SearchQueryParser.new()
   end
 
   def search query
-    @search_query.query = query
-    @search_string = @search_query.search_string()
+    @search_parser.query = query
+    @search_string = @search_parser.search_string()
 
     names = search_names()
     texts = search_texts()
     tags = search_tags()
 
-    {names: names, texts:texts, tags:tags}
+    redirect_to_perfect_match = redirect_to_perfect_match(names)
+
+    {names: names, texts:texts, tags:tags, redirect:redirect_to_perfect_match}
+  end
+
+  def redirect_to_perfect_match(names)
+    return nil if @search_parser.force_full_search()
+
+    if names.size > 0 && names[0].name == @search_string
+      return @search_string
+    end
+    nil
   end
 
   def search_names
@@ -34,10 +45,10 @@ class Search
   end
 
   def pages_containing_one_of_the_tags pages
-    return pages if @search_query.tags.size == 0
+    return pages if @search_parser.tags.size == 0
 
     pages = pages.select{|page|
-      (ObjectTags.new(page).sorted_tag_names() & @search_query.tags).size > 0
+      (ObjectTags.new(page).sorted_tag_names() & @search_parser.tags).size > 0
     }
   end
 

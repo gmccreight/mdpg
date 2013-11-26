@@ -16,6 +16,11 @@ describe SearchQueryParser do
       assert_equal "notes", @parser.search_string()
     end
 
+    it "should strip the ! off the end of a query that forces full results" do
+      @parser.query = "notes!"
+      assert_equal "notes", @parser.search_string()
+    end
+
     it "should return the search string with the tags removed" do
       @parser.query = "kittens tags:grown-man,old"
       assert_equal "kittens", @parser.search_string()
@@ -38,6 +43,20 @@ describe SearchQueryParser do
     it "should return an empty array if no tags" do
       @parser.query = "kittens"
       assert_equal [], @parser.tags()
+    end
+
+  end
+
+  describe "force full search" do
+
+    it "should force a full search if the query ends with !" do
+      @parser.query = "notes!"
+      assert @parser.force_full_search()
+    end
+
+    it "should not force a full search if no ! at the end" do
+      @parser.query = "notes"
+      assert ! @parser.force_full_search()
     end
 
   end

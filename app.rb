@@ -195,12 +195,10 @@ post '/page/search' do
   searcher = Search.new current_user
 
   query = params[:query]
-  query = query.gsub(/!$/, "")
   results = searcher.search query
 
-  if results[:names].size > 0 && results[:names][0].name == query &&
-    params[:query] !~ /!$/
-    redirect to("/p/#{results[:names][0].name}")
+  if results[:redirect]
+    redirect to("/p/#{results[:redirect]}")
   else
     haml :page_search, :locals => {
       :pages_where_name_matches => results[:names],
