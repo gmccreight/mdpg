@@ -104,10 +104,14 @@ focusOnSearchField = ->
 focusOnTagInput = ->
   $("#tag_input_id").focus()
 
+editThePage = ->
+  window.location = $(".edit_link_cls").attr("href")
+
 $ ->
 
   forwardSlashKeycode = 191
   tagInputKecode = 84
+  editPageKeycode = 69
 
   $("#index_ns_id #add_page_id input").focus()
 
@@ -137,6 +141,10 @@ $ ->
 
     if e.target.tagName isnt "INPUT" and e.target.tagName isnt "TEXTAREA" and
     e.target.tagName isnt "SELECT"
+
+      if e.keyCode is editPageKeycode
+        e.preventDefault()
+        editThePage()
 
       if e.keyCode is forwardSlashKeycode
         e.preventDefault()
