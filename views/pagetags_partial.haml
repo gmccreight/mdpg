@@ -12,7 +12,8 @@
           {{associated[0]}}({{associated[1]}})
 
   %form{"ng-submit" => "addTag()"}
-    %input{"ng-model" => "tagText", "ng-change" => "suggest(tagText)",
+    %input#tag_input_id{"ng-model" => "tagText",
+      "ng-change" => "suggest(tagText)",
       :placeholder => "add new tag here", :size => "30", :type => "text"}/
 
   .error{"ng-model" => "error", "ng-show" => "hasError()"}
