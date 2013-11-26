@@ -2,5 +2,6 @@
   "ng-controller" => "TokenNameCtrl"}
 
   new page:
-  %input{:type => "text", :name => "name",
-    "ng-model" => "tokenName", "ng-change" => "normalize()"}
+  %input{:type => "text", :name => "name", :autocorrect => "off",
+  :autocapitalize => "off", "ng-model" => "tokenName",
+  "ng-change" => "normalize()"}
