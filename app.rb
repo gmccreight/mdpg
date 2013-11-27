@@ -24,7 +24,7 @@ get '/' do
       :tags => tags
     }
   else
-    redirect to('/login')
+    redirect to '/login'
   end
 end
 
@@ -45,12 +45,12 @@ post '/login' do
   if user
     set_access_token user.access_token
   end
-  redirect to('/')
+  redirect to '/'
 end
 
 get '/logout' do
   clear_access_token()
-  redirect to('/')
+  redirect to '/'
 end
 
 get '/s/:name' do |page_sharing_token|
@@ -63,7 +63,7 @@ get '/s/:name' do |page_sharing_token|
     pageView = PageView.new(nil, page)
     haml :page, :locals => {:viewmodel => pageView, :mode => :shared}
   else
-    redirect to('/')
+    redirect to '/'
   end
 end
 
@@ -100,14 +100,14 @@ end
 post '/p/:name/delete' do |page_name|
   if page = get_user_page(page_name)
     UserPages.new(current_user).delete_page page_name
-    redirect to("/")
+    redirect to "/"
   end
 end
 
 post '/p/:name/duplicate' do |page_name|
   if page = get_user_page(page_name)
     new_page = UserPages.new(current_user).duplicate_page page_name
-    redirect to("/p/" + new_page.name)
+    redirect to "/p/" + new_page.name
   end
 end
 
@@ -117,9 +117,9 @@ post '/p/:name/rename' do |page_name|
       original_name = page.name
       new_name = params["new_name"]
       if UserPages.new(current_user).rename_page(page, new_name)
-        redirect to("/p/#{new_name}")
+        redirect to "/p/#{new_name}"
       else
-        redirect to("/p/#{original_name}")
+        redirect to "/p/#{original_name}"
       end
     rescue PageAlreadyExistsException
       error "a page with that name already exists"
@@ -133,7 +133,7 @@ post '/t/:name/rename' do |tag_name|
   begin
     UserPageTags.new(current_user, nil)
       .change_tag_for_all_pages(tag_name, new_name)
-    redirect to("/")
+    redirect to "/"
   rescue TagAlreadyExistsForPageException
     error "a tag with that name already exists on some of the pages"
   end
@@ -175,7 +175,7 @@ post '/p/:name/update' do |page_name|
     page.text = PageLinks.new(current_user).
       page_name_links_to_ids(params[:text])
     page.save
-    redirect to("/p/#{page.name}")
+    redirect to "/p/#{page.name}"
   end
 end
 
@@ -184,9 +184,9 @@ post '/page/add' do
   user_pages = UserPages.new(current_user)
   page = user_pages.create_page name:params["name"], text:""
   if page
-    redirect to("/p/#{page.name}/edit")
+    redirect to "/p/#{page.name}/edit"
   else
-    redirect to("/")
+    redirect to "/"
   end
 end
 
@@ -196,7 +196,7 @@ post '/page/search' do
   results = searcher.search params[:query]
 
   if results[:redirect]
-    redirect to("/p/#{results[:redirect]}")
+    redirect to "/p/#{results[:redirect]}"
   else
     haml :page_search, :locals => {
       :pages_where_name_matches => results[:names],
