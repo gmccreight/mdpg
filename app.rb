@@ -210,15 +210,14 @@ end
 def get_user_page page_name
   authorize!
   if page = current_user_page_with_name(page_name)
-    return page
+    page
   else
     error "could not find that page"
   end
 end
 
-def current_user_page_with_name page_name
-  user_pages = UserPages.new(current_user)
-  user_pages.find_page_with_name page_name
+def current_user_page_with_name name
+  UserPages.new(current_user).find_page_with_name name
 end
 
 def attr_for_request_payload attr
