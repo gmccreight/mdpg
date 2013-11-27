@@ -193,9 +193,7 @@ end
 post '/page/search' do
   authorize!
   searcher = Search.new current_user
-
-  query = params[:query]
-  results = searcher.search query
+  results = searcher.search params[:query]
 
   if results[:redirect]
     redirect to("/p/#{results[:redirect]}")
