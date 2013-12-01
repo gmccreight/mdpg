@@ -3,5 +3,5 @@
 .app_data
 .DS_Store
 
-seeder.rb
-ops
+bin/seeder
+bin/ops
