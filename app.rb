@@ -70,6 +70,7 @@ end
 get '/p/:name' do |page_name|
   if page = get_user_page(page_name)
     pageView = PageView.new(current_user, page)
+    current_user.add_to_recent_viewed_pages_list page
     haml :page, :locals => {:viewmodel => pageView, :mode => :normal}
   end
 end
@@ -175,8 +176,17 @@ post '/p/:name/update' do |page_name|
     page.text = PageLinks.new(current_user).
       page_name_links_to_ids(params[:text])
     page.save
+    UserPages.new(current_user).page_was_updated page
     redirect "/p/#{page.name}"
   end
+end
+
+get '/page/recent' do
+  authorize!
+  edited_pages = _recent_pages_for(current_user.recent_edited_page_ids)
+  viewed_pages = _recent_pages_for(current_user.recent_viewed_page_ids)
+  haml :page_recent, :locals =>
+    {:edited_pages => edited_pages, :viewed_pages => viewed_pages}
 end
 
 post '/page/add' do
@@ -252,3 +262,9 @@ end
 def authorize!
   redirect '/login' unless current_user
 end
+
+def _recent_pages_for page_ids
+  ids = page_ids || []
+  ids[0..50].map{|id| Page.find(id)}
+end
+

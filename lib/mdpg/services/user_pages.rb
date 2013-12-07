@@ -56,6 +56,10 @@ class UserPages < Struct.new(:user)
     end
   end
 
+  def page_was_updated page
+    user.add_to_recent_edited_pages_list page
+  end
+
   def find_page_with_name name
     matching_pages = pages.select{|page| page.name == name}
     return nil if ! matching_pages

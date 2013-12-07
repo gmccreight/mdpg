@@ -126,4 +126,14 @@ describe "page" do
 
   end
 
+  describe "recently viewed of edited pages" do
+
+    it "should show the recently-created page" do
+      get "/page/recent", {}, authenticated_session(@user)
+      expected = "original-good-page-name"
+      assert last_response.body.include? expected
+    end
+
+  end
+
 end

@@ -1,0 +1,17 @@
+#page_recent_ns_id
+
+  %h1
+    Edited
+
+  - edited_pages.each do |page|
+    %div
+      %a{:href => "/p/#{page.name}"}
+        = page.name
+
+  %h1
+    Viewed
+
+  - viewed_pages.each do |page|
+    %div
+      %a{:href => "/p/#{page.name}"}
+        = page.name
