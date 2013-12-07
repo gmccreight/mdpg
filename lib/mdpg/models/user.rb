@@ -54,8 +54,16 @@ class User < ModelBase
     save
   end
 
+  def _remove_from_all_recent_pages_lists page
+    self.recent_viewed_page_ids =
+      _remove_from_recent_pages_lists(page, recent_viewed_page_ids)
+    self.recent_edited_page_ids =
+      _remove_from_recent_pages_lists(page, recent_edited_page_ids)
+  end
+
   def remove_page page
     remove_associated_object page
+    _remove_from_all_recent_pages_lists page
     save
   end
 
@@ -98,10 +106,14 @@ class User < ModelBase
     end
 
     def _get_list_with_page_added page, pre_existing_ids
-      ids = pre_existing_ids || []
-      ids.reject!{|x| x == page.id}
+      ids = _remove_from_recent_pages_lists(page, pre_existing_ids)
       ids.unshift page.id
       ids
+    end
+
+    def _remove_from_recent_pages_lists page, pre_existing_ids
+      ids = pre_existing_ids || []
+      ids.reject{|x| x == page.id}
     end
 
 end
