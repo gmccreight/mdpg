@@ -197,6 +197,6 @@ to try to use parens as little as possible.
 # Documentation
 
 To run on an actual production system, you can use:
-rvmsudo mdpg_production=1 ./run
+rvmsudo mdpg_production=1 ./bin/run_server
 
 Ideally, you'd proxy it behind a *real* webserver
