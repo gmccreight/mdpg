@@ -141,6 +141,37 @@ describe User do
 
   end
 
+  describe "recent pages" do
+
+    before do
+      @user = User.create name:"John", email:"good@email.com", password:"cool"
+      add_some_recent_pages()
+    end
+
+    def add_some_recent_pages
+      @page1 = create_page
+      @user.add_recent_page @page1
+      @page2 = create_page
+      @user.add_recent_page @page2
+      @page3 = create_page
+      @user.add_recent_page @page3
+    end
+
+    def page_ids_should_be expected
+      assert_equal expected, @user.recent_page_ids()
+    end
+
+    it "should add a second recent page after the first one" do
+      page_ids_should_be [@page3.id, @page2.id, @page1.id]
+    end
+
+    it "should move a newly added repeat page to beginning of the list" do
+      @user.add_recent_page @page2
+      page_ids_should_be [@page2.id, @page3.id, @page1.id]
+    end
+
+  end
+
   describe "clans" do
 
     before do

@@ -3,7 +3,7 @@ require "rand_string_generator"
 class User < ModelBase
 
   attr_accessor :name, :email, :salt, :hashed_password, :access_token,
-    :page_ids, :clan_ids, :page_tags, :is_admin
+    :page_ids, :recent_page_ids, :clan_ids, :page_tags, :is_admin
 
   def self.authenticate email, password
     user = self.find_by_index :email, email
@@ -37,6 +37,14 @@ class User < ModelBase
 
   def add_page page
     add_associated_object page
+    save
+  end
+
+  def add_recent_page page
+    ids = recent_page_ids || []
+    ids.reject!{|x| x == page.id}
+    ids.unshift page.id
+    self.recent_page_ids = ids
     save
   end
 
