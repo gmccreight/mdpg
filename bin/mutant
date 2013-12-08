@@ -1,0 +1,100 @@
+#!/usr/bin/env ruby
+
+require 'find'
+require 'fileutils'
+
+class MyFile
+
+  def ruby_files_and_lines
+    ruby_files.map{|f| [f, File.read(f).lines.count]}
+  end
+
+  def ruby_files
+    files_to_consider = []
+    Find.find("lib") do |path|
+      if FileTest.directory?(path)
+        if File.basename(path)[0] == ?. and File.basename(path) != '.'
+          Find.prune
+        else
+          next
+        end
+      else
+        if File.basename(path) != ".DS_Store"
+          files_to_consider << path
+        end
+      end
+    end
+    files_to_consider
+  end
+
+end
+
+class Application
+
+  attr_accessor :filename, :verbose_level
+
+  def initialize
+    self.verbose_level = 0
+  end
+
+  def run
+
+    files_and_lines = MyFile.new.ruby_files_and_lines()
+    files_and_lines.each do |file_and_line_count|
+      filename = file_and_line_count[0]
+      file_original_data = File.read(file_and_line_count[0])
+      num_lines = file_and_line_count[1]
+      (0..(num_lines - 1)).each do |line_number|
+        say "#{filename} #{line_number}" if self.verbose_level > 1
+        line = file_original_data.lines[line_number]
+        if line.chomp.size > 0
+          remove_line_from_filename_at_line_number filename, line_number
+          if runs_spec_successfully?
+            say "ERROR: #{filename} #{line_number + 1}: |||#{line.chomp}|||"
+          end
+          File.open(filename, 'w') { |file| file.write(file_original_data) }
+        end
+      end
+    end
+  end
+
+  def remove_line_from_filename_at_line_number filename, line_number
+    new_file_data = ""
+    file_data = File.read(filename)
+    file_data.lines.each_with_index do |line, index|
+      if index != line_number
+        new_file_data << line
+      end
+    end
+
+    File.open(filename, 'w') { |file| file.write(new_file_data) }
+  end
+
+  def run_cmd cmd
+    say cmd if self.verbose_level > 2
+    `#{cmd}`
+  end
+
+  def say message
+    puts message
+  end
+
+  def runs_spec_successfully?
+    cmd = "/bin/bash -l -c 'rake 2>/dev/null'"
+    results = run_cmd(cmd)
+    if results =~ / 0 failures, 0 errors, 0 skips/
+      say "spec success" if self.verbose_level > 1
+      true
+    else
+      say "spec fail" if self.verbose_level > 1
+      false
+    end
+  end
+
+end
+
+app = Application.new()
+if ARGV.size > 0
+  app.verbose_level = ARGV[0].to_i
+end
+app.run()

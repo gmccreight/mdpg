@@ -16,6 +16,11 @@ task :dep do
   exec "./bin/ops/deploy"
 end
 
+desc "run the mutant tests"
+task :mut do
+  exec "./bin/mutant"
+end
+
 desc "run the server"
 task :server do
   exec "./bin/run_server"
