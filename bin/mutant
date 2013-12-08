@@ -42,6 +42,7 @@ class Application
     files_and_lines = MyFile.new.ruby_files_and_lines()
     files_and_lines.each do |file_and_line_count|
       filename = file_and_line_count[0]
+      say "#{filename}" if self.verbose_level > 0
       file_original_data = File.read(file_and_line_count[0])
       num_lines = file_and_line_count[1]
       (0..(num_lines - 1)).each do |line_number|
