@@ -70,7 +70,7 @@ end
 get '/p/:name' do |page_name|
   if page = get_user_page(page_name)
     pageView = PageView.new(current_user, page)
-    current_user.add_to_recent_viewed_pages_list page
+    UserRecentPages.new(current_user).add_to_recent_viewed_pages_list(page)
     haml :page, :locals => {:viewmodel => pageView, :mode => :normal}
   end
 end

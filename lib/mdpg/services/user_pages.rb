@@ -57,7 +57,7 @@ class UserPages < Struct.new(:user)
   end
 
   def page_was_updated page
-    user.add_to_recent_edited_pages_list page
+    UserRecentPages.new(user).add_to_recent_edited_pages_list(page)
   end
 
   def find_page_with_name name

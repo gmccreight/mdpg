@@ -38,32 +38,13 @@ class User < ModelBase
 
   def add_page page
     add_associated_object page
-    add_to_recent_edited_pages_list page
+    UserRecentPages.new(self).add_to_recent_edited_pages_list(page)
     save
-  end
-
-  def add_to_recent_edited_pages_list page
-    self.recent_edited_page_ids =
-      _get_list_with_page_added(page, recent_edited_page_ids)
-    save
-  end
-
-  def add_to_recent_viewed_pages_list page
-    self.recent_viewed_page_ids =
-      _get_list_with_page_added(page, recent_viewed_page_ids)
-    save
-  end
-
-  def _remove_from_all_recent_pages_lists page
-    self.recent_viewed_page_ids =
-      _remove_from_recent_pages_lists(page, recent_viewed_page_ids)
-    self.recent_edited_page_ids =
-      _remove_from_recent_pages_lists(page, recent_edited_page_ids)
   end
 
   def remove_page page
     remove_associated_object page
-    _remove_from_all_recent_pages_lists page
+    UserRecentPages.new(self).remove_from_all_recent_pages_lists(page)
     save
   end
 
@@ -103,17 +84,6 @@ class User < ModelBase
       if ! self.access_token
         self.access_token = RandStringGenerator.rand_string_of_length 32
       end
-    end
-
-    def _get_list_with_page_added page, pre_existing_ids
-      ids = _remove_from_recent_pages_lists(page, pre_existing_ids)
-      ids.unshift page.id
-      ids
-    end
-
-    def _remove_from_recent_pages_lists page, pre_existing_ids
-      ids = pre_existing_ids || []
-      ids.reject{|x| x == page.id}
     end
 
 end
