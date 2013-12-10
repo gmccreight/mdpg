@@ -2,6 +2,7 @@
 
 require 'find'
 require 'fileutils'
+require_relative "../lib/string_mutator"
 
 class MyFile
 
@@ -38,7 +39,6 @@ class Application
   end
 
   def run
-
     files_and_lines = MyFile.new.ruby_files_and_lines()
     files_and_lines.each do |file_and_line_count|
       filename = file_and_line_count[0]
@@ -49,21 +49,26 @@ class Application
         say "#{filename} #{line_number}" if self.verbose_level > 1
         line = file_original_data.lines[line_number]
         if line.chomp.size > 0
-          remove_line_from_filename_at_line_number filename, line_number
-          if runs_spec_successfully?
-            say "ERROR: #{filename} #{line_number + 1}: |||#{line.chomp}|||"
+          StringMutator.new(line).get_all_mutations().each do |mutated_line|
+            say "mutated line " + mutated_line if self.verbose_level > 1
+            replace_line_from_filename_at_line_number filename, line_number, mutated_line
+            if runs_spec_successfully?
+              say "ERROR: #{filename} #{line_number + 1}: |||#{line.chomp}|||#{mutated_line.chomp}|||"
+            end
+            File.open(filename, 'w') { |file| file.write(file_original_data) }
           end
-          File.open(filename, 'w') { |file| file.write(file_original_data) }
         end
       end
     end
   end
 
-  def remove_line_from_filename_at_line_number filename, line_number
+  def replace_line_from_filename_at_line_number filename, line_number, new_content
     new_file_data = ""
     file_data = File.read(filename)
     file_data.lines.each_with_index do |line, index|
-      if index != line_number
+      if index == line_number
+        new_content
+      else
         new_file_data << line
       end
     end
