@@ -9,7 +9,17 @@ describe StringMutator do
     mutator.get_all_mutations()
   end
 
-  it "should mutate" do
+  it "should mutate both || to && and && to ||" do
+    string = "hello || what && bye"
+    mutations = [
+      "",
+      "hello || what || bye",
+      "hello && what && bye"
+    ]
+    assert_equal mutations, mutate_string(string)
+  end
+
+  it "should have multiple mutations for the same replacement" do
     string = "hello && what && bye"
     mutations = [
       "",
