@@ -29,4 +29,22 @@ describe StringMutator do
     assert_equal mutations, mutate_string(string)
   end
 
+  it "should mutate == to !=" do
+    string = "if foo == bar"
+    mutations = [
+      "",
+      "if foo != bar",
+    ]
+    assert_equal mutations, mutate_string(string)
+  end
+
+  it "should mutate != to ==" do
+    string = "if foo != bar"
+    mutations = [
+      "",
+      "if foo == bar",
+    ]
+    assert_equal mutations, mutate_string(string)
+  end
+
 end

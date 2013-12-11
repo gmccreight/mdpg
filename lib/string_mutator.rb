@@ -11,7 +11,9 @@ class StringMutator
     [
       MutationStrategyDeleteLine.new(@line),
       MutationStrategySwithAndForOr.new(@line),
-      MutationStrategySwitchOrForAnd.new(@line)
+      MutationStrategySwitchOrForAnd.new(@line),
+      MutationStrategySwitchEqualsToNotEquals.new(@line),
+      MutationStrategySwitchNotEqualsToEquals.new(@line)
     ].each do |mutation_strategy|
       results << mutation_strategy.get_mutations()
     end
@@ -69,10 +71,6 @@ class MutationStrategyDeleteLine < MutationStrategyBase
     ""
   end
 
-  def _do_multiple?
-    false
-  end
-
 end
 
 class MutationStrategySwithAndForOr < MutationStrategyBase
@@ -83,10 +81,6 @@ class MutationStrategySwithAndForOr < MutationStrategyBase
 
   def _replace
     "||"
-  end
-
-  def _do_multiple?
-    true
   end
 
 end
@@ -101,8 +95,28 @@ class MutationStrategySwitchOrForAnd < MutationStrategyBase
     "&&"
   end
 
-  def _do_multiple?
-    true
+end
+
+class MutationStrategySwitchEqualsToNotEquals < MutationStrategyBase
+
+  def _search
+    %r{==}
+  end
+
+  def _replace
+    "!="
+  end
+
+end
+
+class MutationStrategySwitchNotEqualsToEquals < MutationStrategyBase
+
+  def _search
+    %r{!=}
+  end
+
+  def _replace
+    "=="
   end
 
 end
