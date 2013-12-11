@@ -87,8 +87,9 @@ end
 
 class MutationStrategySwitchOrForAnd < MutationStrategyBase
 
+  # || but not ||=
   def _search
-    %r{\|\|}
+    %r{\|\|(?!=)}
   end
 
   def _replace

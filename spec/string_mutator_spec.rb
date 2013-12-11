@@ -9,6 +9,14 @@ describe StringMutator do
     mutator.get_all_mutations()
   end
 
+  it "should not replace ||= with &&=" do
+    string = "value ||= 'default'"
+    mutations = [
+      "",
+    ]
+    assert_equal mutations, mutate_string(string)
+  end
+
   it "should mutate both || to && and && to ||" do
     string = "hello || what && bye"
     mutations = [
