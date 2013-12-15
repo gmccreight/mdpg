@@ -17,7 +17,8 @@
           "ng-model" => "tokenName", "ng-change" => "normalize()"}
   - else
     - if viewmodel.should_show_edit_button?
-      %a.edit_link_cls{:href => "/s/#{viewmodel.page.readwrite_sharing_token}/edit"}
+      - token = viewmodel.page.readwrite_sharing_token
+      %a.edit_link_cls{:href => "/s/#{token}/edit"}
         edit
 
   .rendered_markdown_cls
