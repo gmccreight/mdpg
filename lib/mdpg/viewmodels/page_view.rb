@@ -23,7 +23,7 @@ class PageView < Struct.new(:user, :page, :token_type)
     all_tags - ObjectTags.new(page).sorted_tag_names()
   end
 
-  def fully_rendered
+  def fully_rendered_text
     text = PageLinks.new(user)
       .internal_links_to_user_clickable_links(page.text)
     rendered_markdown text
