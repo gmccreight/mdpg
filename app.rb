@@ -54,12 +54,7 @@ get '/logout' do
 end
 
 get '/s/:name' do |page_sharing_token|
-  page = Page.find_by_index(:readonly_sharing_token, page_sharing_token)
-  if ! page
-    page = Page.find_by_index(:readwrite_sharing_token, page_sharing_token)
-  end
-
-  if page
+  if page = PageSharingTokens.find_page_by_token(page_sharing_token)
     pageView = PageView.new(nil, page)
     haml :page, :locals => {:viewmodel => pageView, :mode => :shared}
   else
