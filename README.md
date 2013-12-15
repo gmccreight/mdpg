@@ -179,6 +179,11 @@ So, piles of pages where piling by creation date and modification date.
 Also, I wonder if there's merit in having a page with a huge number of things
 directly in the page.
 
+## Exceptions
+
+I've never felt in the past that I've been using exceptions effectively.  I'll
+read Exceptional Ruby and apply the ideas here.
+
 ---
 
 # Coding conventions
