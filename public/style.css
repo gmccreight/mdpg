@@ -14,3 +14,11 @@
 table.tag_table_cls .rename_tag_form_cls {
   display:none;
 }
+
+#sharing_tokens_id {
+  margin-top:10px;
+}
+
+#sharing_tokens_id form {
+  display:inline;
+}
