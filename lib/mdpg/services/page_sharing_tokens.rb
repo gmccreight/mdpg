@@ -8,10 +8,10 @@ class PageSharingTokens < Struct.new(:page)
   def self.find_page_by_token token
     TOKEN_TYPES.each do |type|
       if page = Page.find_by_index(:"#{type}_sharing_token", token)
-        return page
+        return [page, type]
       end
     end
-    nil
+    [nil, nil]
   end
 
   def rename_sharing_token type, new_token

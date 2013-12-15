@@ -1,6 +1,6 @@
 require 'redcarpet'
 
-class PageView < Struct.new(:user, :page)
+class PageView < Struct.new(:user, :page, :token_type)
 
   def name
     page.name

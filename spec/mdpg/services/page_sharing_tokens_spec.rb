@@ -16,7 +16,7 @@ describe PageSharingTokens do
       create_page_with_name "not-the-page"
       page = create_page_with_name "the-page"
       assert_equal page.readonly_sharing_token.size, 32
-      found_page = PageSharingTokens.find_page_by_token(
+      found_page, token_type = PageSharingTokens.find_page_by_token(
                                       page.readonly_sharing_token)
       assert_equal page.id, found_page.id
     end
@@ -24,7 +24,7 @@ describe PageSharingTokens do
     it "should find by readwrite_sharing_token" do
       page = create_page_with_name "the-page"
       assert_equal page.readwrite_sharing_token.size, 32
-      found_page = PageSharingTokens.find_page_by_token(
+      found_page, token_type = PageSharingTokens.find_page_by_token(
                                       page.readwrite_sharing_token)
       assert_equal page.id, found_page.id
     end
@@ -41,14 +41,15 @@ describe PageSharingTokens do
     it "should work if the token is a valid token and not already taken" do
       result = create_page_and_rename_token_to :readonly, "my-wish-list"
       assert_equal nil, result
-      found_page = PageSharingTokens.find_page_by_token "my-wish-list"
+      found_page, token_type =
+        PageSharingTokens.find_page_by_token "my-wish-list"
       assert_equal @page.id, found_page.id
     end
 
     it "should not work if the token is not valid" do
       result = create_page_and_rename_token_to :readonly, "h"
       assert_equal :too_short, result
-      found_page = PageSharingTokens.find_page_by_token "h"
+      found_page, token_type = PageSharingTokens.find_page_by_token "h"
       assert_equal nil, found_page
     end
 

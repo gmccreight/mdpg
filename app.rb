@@ -54,8 +54,9 @@ get '/logout' do
 end
 
 get '/s/:name' do |page_sharing_token|
-  if page = PageSharingTokens.find_page_by_token(page_sharing_token)
-    pageView = PageView.new(nil, page)
+  page, token_type = PageSharingTokens.find_page_by_token(page_sharing_token)
+  if page
+    pageView = PageView.new(nil, page, token_type)
     haml :page, :locals => {:viewmodel => pageView, :mode => :shared}
   else
     redirect '/'
@@ -64,7 +65,7 @@ end
 
 get '/p/:name' do |page_name|
   if page = get_user_page(page_name)
-    pageView = PageView.new(current_user, page)
+    pageView = PageView.new(current_user, page, nil)
     UserRecentPages.new(current_user).add_to_recent_viewed_pages_list(page)
     haml :page, :locals => {:viewmodel => pageView, :mode => :normal}
   end
@@ -156,7 +157,8 @@ end
 get '/p/:name/tag_suggestions' do |page_name|
   if page = get_user_page(page_name)
     tag_typed = params["tagTyped"]
-    tags = PageView.new(current_user, page).tag_suggestions_for(tag_typed)
+    tags = PageView.new(current_user, page, nil).
+      tag_suggestions_for(tag_typed)
     return {:tags => tags}.to_json
   end
 end
@@ -164,7 +166,7 @@ end
 post '/p/:name/tags' do |page_name|
   if page = get_user_page(page_name)
     tag_name = attr_for_request_payload "text"
-    pageView = PageView.new(current_user, page)
+    pageView = PageView.new(current_user, page, nil)
     if pageView.add_tag(tag_name)
       return {:success => "added tag #{tag_name}"}.to_json
     else
@@ -175,7 +177,7 @@ end
 
 delete '/p/:name/tags/:tag_name' do |page_name, tag_name|
   if page = get_user_page(page_name)
-    pageView = PageView.new(current_user, page)
+    pageView = PageView.new(current_user, page, nil)
     if pageView.remove_tag(tag_name)
       return {:success => "removed tag #{tag_name}"}.to_json
     else
