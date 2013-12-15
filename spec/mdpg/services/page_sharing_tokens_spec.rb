@@ -35,9 +35,7 @@ describe PageSharingTokens do
 
     def create_page_and_rename_token_to type, name
       @page = create_page_with_name "the-page"
-      result = PageSharingTokens.new(@page).rename_sharing_token(
-        type, name)
-      result
+      PageSharingTokens.new(@page).rename_sharing_token(type, name)
     end
 
     it "should work if the token is a valid token and not already taken" do
@@ -60,6 +58,13 @@ describe PageSharingTokens do
         PageSharingTokens.new(@page).rename_sharing_token(
           :readonly, page.readonly_sharing_token)
       }
+    end
+
+    it "should return an error if you try to modify a bogus token type" do
+      page = create_page_with_name "the-page"
+      result = PageSharingTokens.new(@page).rename_sharing_token(
+        :bogus, "too")
+      assert_equal :token_type_does_not_exist, result
     end
 
   end

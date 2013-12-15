@@ -3,12 +3,19 @@ end
 
 class PageSharingTokens < Struct.new(:page)
 
+  TOKEN_TYPES = [:readonly, :readwrite]
+
   def self.find_page_by_token token
-    Page.find_by_index(:readonly_sharing_token, token) ||
-      Page.find_by_index(:readwrite_sharing_token, token)
+    TOKEN_TYPES.each do |type|
+      if page = Page.find_by_index(:"#{type}_sharing_token", token)
+        return page
+      end
+    end
+    nil
   end
 
   def rename_sharing_token type, new_token
+    return :token_type_does_not_exist if ! TOKEN_TYPES.include?(type)
     if error = Token.new(new_token).validate
       return error
     else
