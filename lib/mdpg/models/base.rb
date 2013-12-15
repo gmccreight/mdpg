@@ -139,9 +139,19 @@ class ModelBase
         keyname = "#{get_data_prefix}-index-#{attribute_symbol}"
         hash = data_store.get(keyname) || {}
         value = get_var "@#{attribute_symbol}"
+        remove_any_preexisting_unique_indexes hash, self.id
         hash[value] = self.id
         data_store.set(keyname, hash)
       end
+    end
+
+    def remove_any_preexisting_unique_indexes hash, id
+      hash.keys.each do |key|
+        if hash[key] == self.id
+          hash.delete(key)
+        end
+      end
+      hash
     end
 
     def persistable_data
