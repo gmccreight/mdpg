@@ -15,6 +15,10 @@
 
         %input.new_name_cls{:type => "text", :name => "new_name",
           "ng-model" => "tokenName", "ng-change" => "normalize()"}
+  - else
+    - if viewmodel.should_show_edit_button?
+      %a.edit_link_cls{:href => "/s/#{viewmodel.page.readwrite_sharing_token}/edit"}
+        edit
 
   .rendered_markdown_cls
     ~ viewmodel.fully_rendered_text()
@@ -34,3 +38,5 @@
               :value => token_type}
             %input.new_name_cls{:type => "text", :name => "new_token",
               :value => token_value}
+          %a{:href => "/s/#{token_value}"}
+            link

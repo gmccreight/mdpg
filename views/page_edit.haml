@@ -1,9 +1,13 @@
 #page_edit_ns_id
 
-  = haml :header_partial, :locals => {:page_name => nil}
+  - if readwrite_token == nil
+    = haml :header_partial, :locals => {:page_name => nil}
+
+  - path = readwrite_token == nil ? "/p/#{page.name}/update" \
+  - : "/s/#{readwrite_token}/update"
 
   %form{:id => "editing_form_id",
-    :action => "/p/#{page.name}/update", :method => "post"}
+    :action => path, :method => "post"}
 
     %div
       %textarea{:name => "text", :cols => "160", :rows => "50"}=page_text

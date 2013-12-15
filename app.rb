@@ -63,6 +63,25 @@ get '/s/:name' do |page_sharing_token|
   end
 end
 
+get '/s/:readwrite_token/edit' do |readwrite_token|
+  page, token_type = PageSharingTokens.find_page_by_token(readwrite_token)
+  if page && token_type == :readwrite
+    page_text = PageLinks.new(nil)
+      .internal_links_to_page_name_links_for_editing(page.text)
+    haml :page_edit, :locals => {:page => page, :page_text => page_text,
+      :readwrite_token => readwrite_token}
+  end
+end
+
+post '/s/:readwrite_token/update' do |readwrite_token|
+  page, token_type = PageSharingTokens.find_page_by_token(readwrite_token)
+  if page && token_type == :readwrite
+    page.text = params[:text]
+    page.save
+    redirect "/s/#{readwrite_token}"
+  end
+end
+
 get '/p/:name' do |page_name|
   if page = get_user_page(page_name)
     pageView = PageView.new(current_user, page, nil)
@@ -75,7 +94,8 @@ get '/p/:name/edit' do |page_name|
   if page = get_user_page(page_name)
     page_text = PageLinks.new(current_user)
       .internal_links_to_page_name_links_for_editing(page.text)
-    haml :page_edit, :locals => {:page => page, :page_text => page_text}
+    haml :page_edit, :locals => {:page => page, :page_text => page_text,
+      :readwrite_token => nil}
   end
 end
 

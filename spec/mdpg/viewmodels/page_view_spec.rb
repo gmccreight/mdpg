@@ -6,7 +6,7 @@ describe PageView do
     @user = create_user
     @page = Page.create name:"my-bongos",
       text:"This is *bongos*, indeed."
-    @page_1_vm = PageView.new(@user, @page)
+    @page_1_vm = PageView.new(@user, @page, nil)
   end
 
   def user_1_page_tags
@@ -15,6 +15,29 @@ describe PageView do
 
   def page_1_tags
     ObjectTags.new(@page)
+  end
+
+  describe "which things to show" do
+
+    describe "edit button" do
+
+      it "should show the edit button when no sharing token" do
+        vm = PageView.new(@user, @page, nil)
+        assert vm.should_show_edit_button?
+      end
+
+      it "should show the edit button when readwrite sharing token" do
+        vm = PageView.new(@user, @page, :readwrite)
+        assert vm.should_show_edit_button?
+      end
+
+      it "should not show the edit button when readonly sharing token" do
+        vm = PageView.new(@user, @page, :readonly)
+        assert ! vm.should_show_edit_button?
+      end
+
+    end
+
   end
 
   describe "rendered html for page" do

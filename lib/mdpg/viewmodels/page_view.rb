@@ -14,6 +14,10 @@ class PageView < Struct.new(:user, :page, :token_type)
     user_page_tags().remove_tag tag
   end
 
+  def should_show_edit_button?
+    token_type == nil || token_type == :readwrite
+  end
+
   def tag_suggestions_for partial_or_full_tag_name
     if partial_or_full_tag_name == "*"
       all_tags = user_page_tags.get_tags()
