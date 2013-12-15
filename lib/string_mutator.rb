@@ -31,7 +31,8 @@ class MutationStrategyBase
   def get_mutations
     results = []
     occurrence = 0
-    while result = search_replace_occurrence_in_data(@line, _search(), _replace(), occurrence) do
+    while result = search_replace_occurrence_in_data(@line, _search(),
+                                                    _replace(), occurrence) do
       modified_string = result[0]
       occurrence_existed = result[1]
       break if !occurrence_existed
