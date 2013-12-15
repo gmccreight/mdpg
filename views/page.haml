@@ -24,15 +24,13 @@
     = haml :page_delete_partial, :locals => {:page => viewmodel.page}
     = haml :page_duplicate_partial, :locals => {:page => viewmodel.page}
 
-    - if viewmodel.page.readonly_sharing_token
-      %div
-        readonly sharing:
-        %a{:href => "/s/#{viewmodel.page.readonly_sharing_token}"}
-          #{viewmodel.page.readonly_sharing_token}
-
-    - if viewmodel.page.readwrite_sharing_token
-      %div
-        readwrite sharing:
-        %a{:href => "/s/#{viewmodel.page.readwrite_sharing_token}"}
-          #{viewmodel.page.readwrite_sharing_token}
-
+    - PageSharingTokens::TOKEN_TYPES.each do |token_type|
+      - if token_value = viewmodel.page.send(:"#{token_type}_sharing_token")
+        %div
+          global #{token_type} sharing:
+          %form{:action => "/p/#{viewmodel.name}/rename_sharing_token",
+            :method => "post"}
+            %input{:type => "hidden", :name => "token_type",
+              :value => token_type}
+            %input.new_name_cls{:type => "text", :name => "new_token",
+              :value => token_value}
