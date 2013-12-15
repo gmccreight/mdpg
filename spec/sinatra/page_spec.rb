@@ -8,7 +8,7 @@ describe "page" do
     @user = User.create name:"Jordan",
       email:"jordan@example.com", password:"cool"
     user_pages = UserPages.new @user
-    UserPages.new(@user).create_page name:"original-good-page-name",
+    @page = UserPages.new(@user).create_page name:"original-good-page-name",
       text:"I have something *interesting* to say!"
   end
 
@@ -110,6 +110,42 @@ describe "page" do
       UserPages.new(@user).create_page name:"already-taken-page-name", text:""
       rename_page "original-good-page-name", "already-taken-page-name"
       assert_equal "a page with that name already exists", last_response.body
+    end
+
+  end
+
+  describe "rename_sharing_token" do
+
+    def rename_sharing_token type, new_token
+      post "/p/#{@page.name}/rename_sharing_token",
+        {:token_type => type, :new_token => new_token},
+        authenticated_session(@user)
+    end
+
+    it "should rename a readonly token" do
+      rename_sharing_token "readonly", "new-readonly-token"
+      @page.reload
+      assert_equal "new-readonly-token", @page.readonly_sharing_token
+      follow_redirect_with_authenticated_user!(@user)
+      assert last_request.url.include? "/p/#{@page.name}"
+    end
+
+    it "should rename a readwrite token" do
+      rename_sharing_token "readwrite", "new-readwrite-token"
+      @page.reload
+      assert_equal "new-readwrite-token", @page.readwrite_sharing_token
+      follow_redirect_with_authenticated_user!(@user)
+      assert last_request.url.include? "/p/#{@page.name}"
+    end
+
+    it "should not rename token if another already has that token" do
+      rename_sharing_token "readonly", @page.readonly_sharing_token
+      assert_equal "a page with that token already exists", last_response.body
+    end
+
+    it "should not rename token if the provided token is too short" do
+      rename_sharing_token "readonly", "s"
+      assert_equal "too_short", last_response.body
     end
 
   end

@@ -123,6 +123,24 @@ post '/p/:name/rename' do |page_name|
   end
 end
 
+post '/p/:name/rename_sharing_token' do |page_name|
+  token_type = params[:token_type].to_sym
+  new_token = params[:new_token]
+  if page = get_user_page(page_name)
+    begin
+      error_message = PageSharingTokens.new(page).
+        rename_sharing_token(token_type, new_token)
+      if error_message == nil
+        redirect "/p/#{page.name}"
+      else
+        error error_message.to_s
+      end
+    rescue SharingTokenAlreadyExistsException
+      error "a page with that token already exists"
+    end
+  end
+end
+
 post '/t/:name/rename' do |tag_name|
   authorize!
   new_name = params["new_name"]
