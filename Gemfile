@@ -7,6 +7,7 @@ gem "haml"
 gem "coffee-script"
 
 gem "rack-test", require: "rack/test"
+gem "pry-plus"
 
 gem "ruby-prof"
 gem "rerun"

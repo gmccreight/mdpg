@@ -2,20 +2,64 @@ GEM
   remote: https://rubygems.org/
   specs:
     align (0.0.2)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
+    bond (0.4.3)
+    coderay (1.1.0)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    columnize (0.3.6)
+    debug_inspector (0.0.2)
+    debugger (1.6.3)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.2.0)
+      debugger-ruby_core_source (~> 1.2.4)
+    debugger-linecache (1.2.0)
+    debugger-ruby_core_source (1.2.4)
     execjs (1.4.0)
       multi_json (~> 1.0)
     ffi (1.9.0)
     haml (4.0.3)
       tilt
+    interception (0.3)
+    jist (1.5.1)
+      json
+    json (1.8.1)
     listen (1.2.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
       rb-kqueue (>= 0.2)
+    method_source (0.8.2)
     multi_json (1.7.7)
+    pry (0.9.12.4)
+      coderay (~> 1.0)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    pry-debugger (0.2.2)
+      debugger (~> 1.3)
+      pry (~> 0.9.10)
+    pry-doc (0.4.6)
+      pry (>= 0.9)
+      yard (>= 0.8)
+    pry-docmore (0.1.1)
+      pry
+      pry-doc
+    pry-plus (1.0.0)
+      bond
+      jist
+      pry-debugger
+      pry-doc
+      pry-docmore
+      pry-rescue
+      pry-stack_explorer
+    pry-rescue (1.2.0)
+      interception (>= 0.3)
+      pry
+    pry-stack_explorer (0.4.9.1)
+      binding_of_caller (>= 0.7)
+      pry (>= 0.9.11)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
@@ -34,7 +78,9 @@ GEM
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
+    slop (3.4.7)
     tilt (1.4.1)
+    yard (0.8.7.3)
 
 PLATFORMS
   ruby
@@ -43,6 +89,7 @@ DEPENDENCIES
   align
   coffee-script
   haml
+  pry-plus
   rack-test
   redcarpet
   rerun

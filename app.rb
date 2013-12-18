@@ -3,6 +3,8 @@ require 'haml'
 require 'coffee-script'
 require 'json'
 
+#require 'pry-rescue/minitest' #slows down tests, but can be very handy
+
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 require 'mdpg'
 
