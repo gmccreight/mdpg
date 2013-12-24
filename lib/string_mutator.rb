@@ -13,7 +13,8 @@ class StringMutator
       MutationStrategySwithAndForOr.new(@line),
       MutationStrategySwitchOrForAnd.new(@line),
       MutationStrategySwitchEqualsToNotEquals.new(@line),
-      MutationStrategySwitchNotEqualsToEquals.new(@line)
+      MutationStrategySwitchNotEqualsToEquals.new(@line),
+      MutationStrategyChangeMethodName.new(@line),
     ].each do |mutation_strategy|
       results << mutation_strategy.get_mutations()
     end
@@ -119,6 +120,18 @@ class MutationStrategySwitchNotEqualsToEquals < MutationStrategyBase
 
   def _replace
     "=="
+  end
+
+end
+
+class MutationStrategyChangeMethodName < MutationStrategyBase
+
+  def _search
+    %r{(?<=def )\w+}
+  end
+
+  def _replace
+    "mutated_method_name_that_should_not_exist"
   end
 
 end

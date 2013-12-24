@@ -55,4 +55,26 @@ describe StringMutator do
     assert_equal mutations, mutate_string(string)
   end
 
+  describe "method name" do
+
+    it "should mutate a method with no parens" do
+      string = "  def foo_bar"
+      mutations = [
+        "",
+        "  def mutated_method_name_that_should_not_exist",
+      ]
+      assert_equal mutations, mutate_string(string)
+    end
+
+    it "should mutate a method with parens" do
+      string = "def foo_bar(what)"
+      mutations = [
+        "",
+        "def mutated_method_name_that_should_not_exist(what)",
+      ]
+      assert_equal mutations, mutate_string(string)
+    end
+
+  end
+
 end
