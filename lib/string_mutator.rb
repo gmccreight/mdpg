@@ -8,15 +8,8 @@ class StringMutator
 
   def get_all_mutations
     results = []
-    [
-      MutationStrategyDeleteLine.new(@line),
-      MutationStrategySwithAndForOr.new(@line),
-      MutationStrategySwitchOrForAnd.new(@line),
-      MutationStrategySwitchEqualsToNotEquals.new(@line),
-      MutationStrategySwitchNotEqualsToEquals.new(@line),
-      MutationStrategyChangeMethodName.new(@line),
-    ].each do |mutation_strategy|
-      results << mutation_strategy.get_mutations()
+    MutationStrategyBase.mutation_classes.each do |klass|
+      results << klass.new(@line).get_mutations()
     end
     results.flatten
   end
@@ -25,8 +18,18 @@ end
 
 class MutationStrategyBase
 
+  class << self
+    attr_reader :mutation_classes
+  end
+
   def initialize line
     @line = line
+  end
+
+  @mutation_classes = []
+
+  def self.inherited(subclass)
+    MutationStrategyBase.mutation_classes << subclass
   end
 
   def get_mutations
