@@ -104,14 +104,18 @@ focusOnSearchField = ->
 focusOnTagInput = ->
   $("#tag_input_id").focus()
 
-editThePage = ->
+navigateToEditPage = ->
   window.location = $(".edit_link_cls").attr("href")
+
+navigateToRecentPages = ->
+  window.location = "/page/recent"
 
 $ ->
 
   forwardSlashKeycode = 191
   tagInputKecode = 84
-  editPageKeycode = 69
+  navigateToEditPageKeycode = 69
+  navigateToRecentPagesKeycode = 82
 
   $("#index_ns_id #add_page_id input").focus()
 
@@ -142,9 +146,13 @@ $ ->
     if e.target.tagName isnt "INPUT" and e.target.tagName isnt "TEXTAREA" and
     e.target.tagName isnt "SELECT"
 
-      if e.keyCode is editPageKeycode
+      if e.keyCode is navigateToEditPageKeycode
         e.preventDefault()
-        editThePage()
+        navigateToEditPage()
+
+      if e.keyCode is navigateToRecentPagesKeycode
+        e.preventDefault()
+        navigateToRecentPages()
 
       if e.keyCode is forwardSlashKeycode
         e.preventDefault()
