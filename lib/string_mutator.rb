@@ -7,11 +7,9 @@ class StringMutator
   end
 
   def get_all_mutations
-    results = []
-    MutationStrategyBase.mutation_classes.each do |klass|
-      results << klass.new(@line).get_mutations()
-    end
-    results.flatten
+    MutationStrategyBase.mutation_classes.map{|klass|
+      klass.new(@line).get_mutations()
+    }.flatten
   end
 
 end
