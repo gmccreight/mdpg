@@ -136,6 +136,7 @@ post '/p/:name/rename' do |page_name|
       original_name = page.name
       new_name = params["new_name"]
       if UserPages.new(current_user).rename_page(page, new_name)
+        UserPages.new(current_user).page_was_updated page
         redirect "/p/#{new_name}"
       else
         redirect "/p/#{original_name}"
@@ -154,6 +155,7 @@ post '/p/:name/rename_sharing_token' do |page_name|
       error_message = PageSharingTokens.new(page).
         rename_sharing_token(token_type, new_token)
       if error_message == nil
+        UserPages.new(current_user).page_was_updated page
         redirect "/p/#{page.name}"
       else
         error error_message.to_s
@@ -190,6 +192,7 @@ post '/p/:name/tags' do |page_name|
     tag_name = attr_for_request_payload "text"
     pageView = PageView.new(current_user, page, nil)
     if pageView.add_tag(tag_name)
+      UserPages.new(current_user).page_was_updated page
       return {:success => "added tag #{tag_name}"}.to_json
     else
       return {:error => "could not add the tag #{tag_name}"}.to_json
@@ -201,6 +204,7 @@ delete '/p/:name/tags/:tag_name' do |page_name, tag_name|
   if page = get_user_page(page_name)
     pageView = PageView.new(current_user, page, nil)
     if pageView.remove_tag(tag_name)
+      UserPages.new(current_user).page_was_updated page
       return {:success => "removed tag #{tag_name}"}.to_json
     else
       return {:error => "the tag #{tag_name} could not be deleted"}.to_json
