@@ -247,7 +247,8 @@ post '/page/search' do
   results = searcher.search params[:query]
 
   if results[:redirect]
-    redirect "/p/#{results[:redirect]}"
+    maybe_edit_mode = results[:redirect_to_edit_mode] ? "/edit" : ""
+    redirect "/p/#{results[:redirect]}#{maybe_edit_mode}"
   else
     haml :page_search, :locals => {
       :pages_where_name_matches => results[:names],

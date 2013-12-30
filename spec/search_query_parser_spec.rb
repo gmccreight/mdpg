@@ -4,7 +4,6 @@ require "search_query_parser"
 
 describe SearchQueryParser do
 
-
   before do
     @parser = SearchQueryParser.new()
   end
@@ -51,12 +50,27 @@ describe SearchQueryParser do
 
     it "should force a full search if the query ends with !" do
       @parser.query = "notes!"
-      assert @parser.force_full_search()
+      assert @parser.should_force_full_search?()
     end
 
     it "should not force a full search if no ! at the end" do
       @parser.query = "notes"
-      assert ! @parser.force_full_search()
+      assert ! @parser.should_force_full_search?()
+    end
+
+  end
+
+  describe "open single result in edit mode" do
+
+    it "should open a single result in edit mode if search ends in space e" do
+      @parser.query = "notes e"
+      assert @parser.should_open_in_edit_mode?()
+      assert_equal "notes", @parser.search_string()
+    end
+
+    it "should not open a normal search in edit mode" do
+      @parser.query = "notes"
+      assert ! @parser.should_open_in_edit_mode?()
     end
 
   end

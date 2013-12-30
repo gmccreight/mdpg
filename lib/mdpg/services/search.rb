@@ -16,13 +16,19 @@ class Search
     texts = search_texts()
     tags = search_tags()
 
-    redirect_to_perfect_match = redirect_to_perfect_match(names)
+    redirect_to_perfect_match = _redirect_to_perfect_match(names)
 
-    {names: names, texts:texts, tags:tags, redirect:redirect_to_perfect_match}
+    {
+      :names => names,
+      :texts => texts,
+      :tags => tags,
+      :redirect => _redirect_to_perfect_match(names),
+      :redirect_to_edit_mode => @search_parser.should_open_in_edit_mode?()
+    }
   end
 
-  def redirect_to_perfect_match(names)
-    return nil if @search_parser.force_full_search()
+  def _redirect_to_perfect_match(names)
+    return nil if @search_parser.should_force_full_search?()
 
     if names.size > 0 && names.map(&:name).include?(@search_string)
       return @search_string
