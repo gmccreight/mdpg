@@ -37,6 +37,26 @@ class App
     end
   end
 
+  def add_page_tag page, tag_name
+    pageView = PageView.new(current_user, page, nil)
+    if pageView.add_tag(tag_name)
+      UserPages.new(current_user).page_was_updated page
+      return {:success => "added tag #{tag_name}"}.to_json
+    else
+      return {:error => "could not add the tag #{tag_name}"}.to_json
+    end
+  end
+
+  def delete_page_tag page, tag_name
+    pageView = PageView.new(current_user, page, nil)
+    if pageView.remove_tag(tag_name)
+      UserPages.new(current_user).page_was_updated page
+      return {:success => "removed tag #{tag_name}"}.to_json
+    else
+      return {:error => "the tag #{tag_name} could not be deleted"}.to_json
+    end
+  end
+
   def update_page_from_readwrite_token readwrite_token, new_text
     page, token_type = PageSharingTokens.find_page_by_token(readwrite_token)
     if page && token_type == :readwrite
@@ -44,6 +64,17 @@ class App
       page.save
       _set_redirect_to "/s/#{readwrite_token}"
     end
+  end
+
+  def tag_rename tag_name, new_name
+    begin
+      UserPageTags.new(current_user, nil)
+        .change_tag_for_all_pages(tag_name, new_name)
+      _set_redirect_to "/"
+    rescue TagAlreadyExistsForPageException
+      _add_error "a tag with that name already exists on some of the pages"
+    end
+
   end
 
   def page_rename page, new_name

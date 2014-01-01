@@ -135,15 +135,10 @@ post '/p/:name/rename_sharing_token' do |page_name|
 end
 
 post '/t/:name/rename' do |tag_name|
-  authorize!
-  new_name = params["new_name"]
-  begin
-    UserPageTags.new(current_user, nil)
-      .change_tag_for_all_pages(tag_name, new_name)
-    redirect "/"
-  rescue TagAlreadyExistsForPageException
-    error "a tag with that name already exists on some of the pages"
-  end
+  app = authorize!
+  new_name = params[:new_name]
+  app.tag_rename tag_name, new_name
+  _app_handle_result app
 end
 
 get '/p/:name/tag_suggestions' do |page_name|
@@ -156,27 +151,18 @@ get '/p/:name/tag_suggestions' do |page_name|
 end
 
 post '/p/:name/tags' do |page_name|
+  tag_name = attr_for_request_payload "text"
+
   if page = get_user_page(page_name)
-    tag_name = attr_for_request_payload "text"
-    pageView = PageView.new(current_user, page, nil)
-    if pageView.add_tag(tag_name)
-      UserPages.new(current_user).page_was_updated page
-      return {:success => "added tag #{tag_name}"}.to_json
-    else
-      return {:error => "could not add the tag #{tag_name}"}.to_json
-    end
+    app = _app_get
+    return app.add_page_tag(page, tag_name)
   end
 end
 
 delete '/p/:name/tags/:tag_name' do |page_name, tag_name|
   if page = get_user_page(page_name)
-    pageView = PageView.new(current_user, page, nil)
-    if pageView.remove_tag(tag_name)
-      UserPages.new(current_user).page_was_updated page
-      return {:success => "removed tag #{tag_name}"}.to_json
-    else
-      return {:error => "the tag #{tag_name} could not be deleted"}.to_json
-    end
+    app = _app_get
+    return app.delete_page_tag(page, tag_name)
   end
 end
 
