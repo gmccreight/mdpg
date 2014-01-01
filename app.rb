@@ -18,16 +18,10 @@ if ENV["mdpg_production"]
 end
 
 get '/' do
-  if current_user
-    user_pages = UserPages.new(current_user)
-    tags = UserPageTags.new(current_user, nil).get_tags()
-    haml :index, :locals => {:user => current_user,
-      :pages => user_pages.pages,
-      :tags => tags
-    }
-  else
-    redirect '/login'
-  end
+  app = authorize!
+  results = app.root()
+  _app_handle_result app
+  haml :index, :locals => results
 end
 
 get '/application.js' do
@@ -56,32 +50,23 @@ get '/logout' do
 end
 
 get '/s/:name' do |page_sharing_token|
-  page, token_type = PageSharingTokens.find_page_by_token(page_sharing_token)
-  if page
-    pageView = PageView.new(nil, page, token_type)
-    haml :page, :locals => {:viewmodel => pageView, :mode => :shared}
-  else
-    redirect '/'
-  end
+  app = _app_get
+  result = app.get_page_from_sharing_token page_sharing_token
+  _app_handle_result app
+  haml :page, :locals => result
 end
 
 get '/s/:readwrite_token/edit' do |readwrite_token|
-  page, token_type = PageSharingTokens.find_page_by_token(readwrite_token)
-  if page && token_type == :readwrite
-    page_text = PageLinks.new(nil)
-      .internal_links_to_page_name_links_for_editing(page.text)
-    haml :page_edit, :locals => {:page => page, :page_text => page_text,
-      :readwrite_token => readwrite_token}
-  end
+  app = _app_get
+  result = app.edit_page_from_readwrite_token readwrite_token
+  _app_handle_result app
+  haml :page_edit, :locals => result
 end
 
 post '/s/:readwrite_token/update' do |readwrite_token|
-  page, token_type = PageSharingTokens.find_page_by_token(readwrite_token)
-  if page && token_type == :readwrite
-    page.text = params[:text]
-    page.save
-    redirect "/s/#{readwrite_token}"
-  end
+  app = _app_get
+  result = app.update_page_from_readwrite_token readwrite_token
+  _app_handle_result app
 end
 
 get '/p/:name' do |page_name|
@@ -132,18 +117,9 @@ end
 
 post '/p/:name/rename' do |page_name|
   if page = get_user_page(page_name)
-    begin
-      original_name = page.name
-      new_name = params["new_name"]
-      if UserPages.new(current_user).rename_page(page, new_name)
-        UserPages.new(current_user).page_was_updated page
-        redirect "/p/#{new_name}"
-      else
-        redirect "/p/#{original_name}"
-      end
-    rescue PageAlreadyExistsException
-      error "a page with that name already exists"
-    end
+    app = _app_get
+    app.page_rename page, params[:new_name]
+    _app_handle_result app
   end
 end
 
@@ -154,7 +130,7 @@ post '/p/:name/rename_sharing_token' do |page_name|
   if page = get_user_page(page_name)
     app = _app_get()
     app.rename_page_sharing_token(page, token_type, new_token)
-    _app_handle_result(app)
+    _app_handle_result app
   end
 end
 
@@ -205,12 +181,11 @@ delete '/p/:name/tags/:tag_name' do |page_name, tag_name|
 end
 
 post '/p/:name/update' do |page_name|
+  new_text = params[:text]
   if page = get_user_page(page_name)
-    page.text = PageLinks.new(current_user).
-      page_name_links_to_ids(params[:text])
-    page.save
-    UserPages.new(current_user).page_was_updated page
-    redirect "/p/#{page.name}"
+    app = authorize!
+    app.page_update_text page, new_text
+    _app_handle_result app
   end
 end
 
@@ -222,25 +197,14 @@ end
 post '/page/add' do
   app = authorize!
   app.page_add(params["name"])
-  _app_handle_result(app)
+  _app_handle_result app
 end
 
 post '/page/search' do
-  authorize!
-  searcher = Search.new current_user
-  results = searcher.search params[:query]
-
-  if results[:redirect]
-    maybe_edit_mode = results[:redirect_to_edit_mode] ? "/edit" : ""
-    redirect "/p/#{results[:redirect]}#{maybe_edit_mode}"
-  else
-    haml :page_search, :locals => {
-      :pages_where_name_matches => results[:names],
-      :pages_where_text_matches => results[:texts],
-      :tags_where_name_matches =>  results[:tags],
-      :user => current_user
-    }
-  end
+  app = authorize!
+  results = app.page_search(params[:query])
+  _app_handle_result app
+  haml :page_search, :locals => results
 end
 
 def get_user_page page_name
@@ -294,7 +258,7 @@ def _app_get
   App.new(current_user)
 end
 
-def _app_handle_result(app)
+def _app_handle_result app
   if app.had_error?
     error app.errors_message()
   elsif app.redirect_to != nil
