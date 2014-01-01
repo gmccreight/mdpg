@@ -27,6 +27,18 @@ class App
     end
   end
 
+  def page_get page
+    pageView = PageView.new(current_user, page, nil)
+    UserRecentPages.new(current_user).add_to_recent_viewed_pages_list(page)
+    {:viewmodel => pageView, :mode => :normal}
+  end
+
+  def page_edit page
+    page_text = PageLinks.new(current_user)
+      .internal_links_to_page_name_links_for_editing(page.text)
+    {:page => page, :page_text => page_text, :readwrite_token => nil}
+  end
+
   def edit_page_from_readwrite_token readwrite_token
     page, token_type = PageSharingTokens.find_page_by_token(readwrite_token)
     if page && token_type == :readwrite
@@ -35,6 +47,30 @@ class App
       {:page => page, :page_text => page_text,
         :readwrite_token => readwrite_token}
     end
+  end
+
+  def page_tags page
+    object_tags = ObjectTags.new(page)
+    user_page_tags = UserPageTags.new(current_user, page)
+    sorted_tag_names = object_tags.sorted_tag_names()
+    results = sorted_tag_names.map do |tagname|
+      {
+        :text => tagname,
+        :associated => user_page_tags.sorted_associated_tags(tagname)
+      }
+    end
+    results.to_json
+  end
+
+  def page_tag_suggestions page, tag_typed
+    tags = PageView.new(current_user, page, nil).
+      tag_suggestions_for(tag_typed)
+    {:tags => tags}.to_json
+  end
+
+  def page_delete page
+    UserPages.new(current_user).delete_page page.name
+    _set_redirect_to "/"
   end
 
   def add_page_tag page, tag_name

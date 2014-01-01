@@ -71,40 +71,30 @@ end
 
 get '/p/:name' do |page_name|
   if page = get_user_page(page_name)
-    pageView = PageView.new(current_user, page, nil)
-    UserRecentPages.new(current_user).add_to_recent_viewed_pages_list(page)
-    haml :page, :locals => {:viewmodel => pageView, :mode => :normal}
+    app = _app_get
+    haml :page, :locals => app.page_get(page)
   end
 end
 
 get '/p/:name/edit' do |page_name|
   if page = get_user_page(page_name)
-    page_text = PageLinks.new(current_user)
-      .internal_links_to_page_name_links_for_editing(page.text)
-    haml :page_edit, :locals => {:page => page, :page_text => page_text,
-      :readwrite_token => nil}
+    app = _app_get
+    haml :page_edit, :locals => app.page_edit()
   end
 end
 
 get '/p/:name/tags' do |page_name|
   if page = get_user_page(page_name)
-    object_tags = ObjectTags.new(page)
-    user_page_tags = UserPageTags.new(current_user, page)
-    sorted_tag_names = object_tags.sorted_tag_names()
-    results = sorted_tag_names.map do |tagname|
-      {
-        :text => tagname,
-        :associated => user_page_tags.sorted_associated_tags(tagname)
-      }
-    end
-    results.to_json
+    app = _app_get
+    return app.page_tags page
   end
 end
 
 post '/p/:name/delete' do |page_name|
   if page = get_user_page(page_name)
-    UserPages.new(current_user).delete_page page_name
-    redirect "/"
+    app = _app_get
+    app.page_delete page
+    _app_handle_result app
   end
 end
 
@@ -135,18 +125,19 @@ post '/p/:name/rename_sharing_token' do |page_name|
 end
 
 post '/t/:name/rename' do |tag_name|
-  app = authorize!
   new_name = params[:new_name]
+
+  app = authorize!
   app.tag_rename tag_name, new_name
   _app_handle_result app
 end
 
 get '/p/:name/tag_suggestions' do |page_name|
+  tag_typed = params[:tagTyped]
+
   if page = get_user_page(page_name)
-    tag_typed = params["tagTyped"]
-    tags = PageView.new(current_user, page, nil).
-      tag_suggestions_for(tag_typed)
-    return {:tags => tags}.to_json
+    app = _app_get
+    return app.page_tag_suggestions page, tag_typed
   end
 end
 
@@ -195,15 +186,11 @@ end
 
 def get_user_page page_name
   authorize!
-  if page = current_user_page_with_name(page_name)
+  if page = UserPages.new(current_user).find_page_with_name(page_name)
     page
   else
     error "could not find that page"
   end
-end
-
-def current_user_page_with_name name
-  UserPages.new(current_user).find_page_with_name name
 end
 
 def attr_for_request_payload attr
