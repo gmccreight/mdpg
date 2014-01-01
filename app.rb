@@ -150,19 +150,11 @@ end
 post '/p/:name/rename_sharing_token' do |page_name|
   token_type = params[:token_type].to_sym
   new_token = params[:new_token]
+
   if page = get_user_page(page_name)
-    begin
-      error_message = PageSharingTokens.new(page).
-        rename_sharing_token(token_type, new_token)
-      if error_message == nil
-        UserPages.new(current_user).page_was_updated page
-        redirect "/p/#{page.name}"
-      else
-        error error_message.to_s
-      end
-    rescue SharingTokenAlreadyExistsException
-      error "a page with that token already exists"
-    end
+    app = _app_get()
+    app.rename_page_sharing_token(page, token_type, new_token)
+    _app_handle_result(app)
   end
 end
 
@@ -223,22 +215,14 @@ post '/p/:name/update' do |page_name|
 end
 
 get '/page/recent' do
-  authorize!
-  edited_pages = _recent_pages_for(current_user.recent_edited_page_ids)
-  viewed_pages = _recent_pages_for(current_user.recent_viewed_page_ids)
-  haml :page_recent, :locals =>
-    {:edited_pages => edited_pages, :viewed_pages => viewed_pages}
+  app = authorize!
+  haml :page_recent, :locals => app.recent_pages()
 end
 
 post '/page/add' do
-  authorize!
-  user_pages = UserPages.new(current_user)
-  page = user_pages.create_page name:params["name"], text:""
-  if page
-    redirect "/p/#{page.name}/edit"
-  else
-    redirect "/"
-  end
+  app = authorize!
+  app.page_add(params["name"])
+  _app_handle_result(app)
 end
 
 post '/page/search' do
@@ -303,10 +287,17 @@ end
 
 def authorize!
   redirect '/login' unless current_user
+  _app_get()
 end
 
-def _recent_pages_for page_ids
-  ids = page_ids || []
-  ids[0..50].map{|id| Page.find(id)}
+def _app_get
+  App.new(current_user)
 end
 
+def _app_handle_result(app)
+  if app.had_error?
+    error app.errors_message()
+  elsif app.redirect_to != nil
+    redirect app.redirect_to
+  end
+end
