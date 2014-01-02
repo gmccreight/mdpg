@@ -16,6 +16,10 @@ describe "page" do
     get "/p/#{name}", {}, authenticated_session(@user)
   end
 
+  def edit_page name
+    get "/p/#{name}/edit", {}, authenticated_session(@user)
+  end
+
   def update_page name, text
     post "/p/#{name}/update", {:text => text}, authenticated_session(@user)
   end
@@ -160,6 +164,15 @@ describe "page" do
       assert_equal "could not find that page", last_response.body
     end
 
+  end
+
+  describe "editing" do
+
+    it "should render the edit page with the unprocessed text" do
+      edit_page "original-good-page-name"
+      expected = "I have something *interesting* to say!"
+      assert last_response.body.include? expected
+    end
   end
 
   describe "recently viewed of edited pages" do
