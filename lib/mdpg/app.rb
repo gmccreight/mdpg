@@ -18,7 +18,8 @@ class App
   end
 
   def get_page_from_sharing_token page_sharing_token
-    page, token_type = PageSharingTokens.find_page_by_token(page_sharing_token)
+    page, token_type =
+      PageSharingTokens.find_page_by_token(page_sharing_token)
     if ! page
       _set_redirect_to '/'
     else
