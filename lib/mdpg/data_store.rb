@@ -1,6 +1,4 @@
-require 'digest'
 require 'yaml'
-require 'fileutils'
 
 class DataStore < Struct.new(:data_dir_or_memory)
 
