@@ -173,6 +173,7 @@ describe "page" do
       expected = "I have something *interesting* to say!"
       assert last_response.body.include? expected
     end
+
   end
 
   describe "recently viewed of edited pages" do
