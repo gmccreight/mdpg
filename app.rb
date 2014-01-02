@@ -178,6 +178,14 @@ post '/page/add' do
 end
 
 post '/page/search' do
+  post_or_get_search
+end
+
+get '/page/search' do
+  post_or_get_search
+end
+
+def post_or_get_search
   app = authorize!
   results = app.page_search(params[:query])
   _app_handle_result app
