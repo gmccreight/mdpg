@@ -1,4 +1,6 @@
-[![Code Climate](https://codeclimate.com/repos/51fc8a5589af7e46b3072d08/badges/3d6b95dba9f4ffb5bbe2/gpa.png)](https://codeclimate.com/repos/51fc8a5589af7e46b3072d08/feed)
+[![Code Climate](https://codeclimate.com/github/gmccreight/mdpg.png)](
+https://codeclimate.com/github/gmccreight/mdpg
+)
 
 # Design Goals
 
