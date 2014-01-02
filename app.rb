@@ -79,7 +79,7 @@ end
 get '/p/:name/edit' do |page_name|
   if page = get_user_page(page_name)
     app = _app_get
-    haml :page_edit, :locals => app.page_edit()
+    haml :page_edit, :locals => app.page_edit(page)
   end
 end
 
