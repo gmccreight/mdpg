@@ -1,5 +1,7 @@
 class Clan < ModelBase
 
-  attr_accessor :name, :admins, :members
+  ATTRS = [:name, :admins, :members]
+
+  attr_accessor *ATTRS
 
 end

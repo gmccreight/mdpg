@@ -1,6 +1,8 @@
 class Tag < ModelBase
 
-  attr_accessor :name, :page_ids, :user_ids
+  ATTRS = [:name, :page_ids, :user_ids]
+
+  attr_accessor *ATTRS
 
   private
 
