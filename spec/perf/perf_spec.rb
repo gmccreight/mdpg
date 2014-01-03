@@ -10,23 +10,6 @@ if ENV["perf"]
       $data_store = get_memory_datastore()
     end
 
-    it "should be fast" do
-      require 'ruby-prof'
-
-      RubyProf.start
-
-      user = User.create name:"John", email:"good@email.com",
-        password:"cool"
-      assert_equal 1, user.id
-      assert_equal "good@email.com", user.email
-
-      result = RubyProf.stop
-      printer = RubyProf::FlatPrinter.new(result)
-      if ENV["verbose"]
-        printer.print(STDOUT)
-      end
-    end
-
     describe "get and set" do
 
       before do
