@@ -196,7 +196,7 @@ class ModelBase
       return @instance_methods if @instance_methods
 
       @instance_methods =
-        self.class.instance_methods - basic_object_instance_methods()
+        self.class.instance_methods - model_base_instance_methods()
       @instance_methods_hash = {}
       @instance_methods.each{|x| @instance_methods_hash[x.to_sym] = true}
     end
@@ -209,8 +209,8 @@ class ModelBase
       data_store.get(revisionless_data_key + "-max-revision") || -1
     end
 
-    def basic_object_instance_methods
-      @basic_object_instance_methods ||= Object.instance_methods
+    def model_base_instance_methods
+      @model_base_instance_methods ||= ModelBase.instance_methods
     end
 
     def set_max_revision
