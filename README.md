@@ -193,10 +193,6 @@ read Exceptional Ruby and apply the ideas here.
 
 # Coding conventions
 
-## Hash Rockets Only
-
-At least for this project, I don't want to deal with foo:bar anywhere.
-
 ## Seattle Style
 
 As I mentioned above, don't use parens with def.  For that matter, I'm going
