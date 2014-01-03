@@ -6,6 +6,11 @@ Rake::TestTask.new do |t|
   t.pattern = "spec/**/*_spec.rb"
 end
 
+desc "run the tests and profile them"
+task :prof do
+  exec "ruby-prof ./spec.rb 2>/dev/null | head -n 50"
+end
+
 desc "run all the tests, including style ones"
 task :ta do
   exec "./bin/tests/all.sh"
