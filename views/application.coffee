@@ -116,6 +116,7 @@ $ ->
   tagInputKecode = 84
   navigateToEditPageKeycode = 69
   navigateToRecentPagesKeycode = 82
+  recentPagesCharsTyped = []
 
   $("#index_ns_id #add_page_id input").focus()
 
@@ -146,18 +147,29 @@ $ ->
     if e.target.tagName isnt "INPUT" and e.target.tagName isnt "TEXTAREA" and
     e.target.tagName isnt "SELECT"
 
-      if e.keyCode is navigateToEditPageKeycode
-        e.preventDefault()
-        navigateToEditPage()
+      if $(".key_combo_cls").length > 0
+        recentPagesCharsTyped.push(
+          String.fromCharCode(e.keyCode).toLowerCase()
+        )
 
-      if e.keyCode is navigateToRecentPagesKeycode
-        e.preventDefault()
-        navigateToRecentPages()
+        $(".key_combo_cls").each ->
+          if $(this).text() == recentPagesCharsTyped.join("")
+            document.location = $(this).closest("div").find("a").attr("href")
 
-      if e.keyCode is forwardSlashKeycode
-        e.preventDefault()
-        focusOnSearchField()
+      else
 
-      if e.keyCode is tagInputKecode
-        e.preventDefault()
-        focusOnTagInput()
+        if e.keyCode is navigateToEditPageKeycode
+          e.preventDefault()
+          navigateToEditPage()
+
+        if e.keyCode is navigateToRecentPagesKeycode
+          e.preventDefault()
+          navigateToRecentPages()
+
+        if e.keyCode is forwardSlashKeycode
+          e.preventDefault()
+          focusOnSearchField()
+
+        if e.keyCode is tagInputKecode
+          e.preventDefault()
+          focusOnTagInput()

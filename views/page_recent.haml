@@ -5,6 +5,8 @@
 
   - edited_pages.each do |page|
     %div
+      - key_combo = generator.next_uniq_char_combo(3)
+      %span.key_combo_cls= key_combo
       %a{:href => "/p/#{page.name}"}
         = page.name
 
@@ -13,5 +15,7 @@
 
   - viewed_pages.each do |page|
     %div
+      - key_combo = generator.next_uniq_char_combo(3)
+      %span.key_combo_cls= key_combo
       %a{:href => "/p/#{page.name}"}
         = page.name

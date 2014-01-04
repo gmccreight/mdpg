@@ -1,3 +1,5 @@
+require 'home_row_char_combos_generator'
+
 class App
 
   attr_accessor :current_user, :errors
@@ -182,7 +184,8 @@ class App
   def recent_pages
     edited_pages = _recent_pages_for(current_user.recent_edited_page_ids)
     viewed_pages = _recent_pages_for(current_user.recent_viewed_page_ids)
-    {:edited_pages => edited_pages, :viewed_pages => viewed_pages}
+    {:edited_pages => edited_pages, :viewed_pages => viewed_pages,
+      :generator => HomeRowCharCombosGenerator.new()}
   end
 
   def page_add name
@@ -204,7 +207,7 @@ class App
 
     def _recent_pages_for page_ids
       ids = page_ids || []
-      ids[0..50].map{|id| Page.find(id)}
+      ids[0..25].map{|id| Page.find(id)}
     end
 
 end

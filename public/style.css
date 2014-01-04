@@ -22,3 +22,7 @@ table.tag_table_cls .rename_tag_form_cls {
 #sharing_tokens_id form {
   display:inline;
 }
+
+.key_combo_cls {
+  margin-right:10px;
+}
