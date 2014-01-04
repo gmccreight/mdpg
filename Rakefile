@@ -35,7 +35,7 @@ desc "run the tests ten times for timing"
 task :time do
   exec "
     for i in {1..10};
-      do { time ./spec.rb >/dev/null ; } 2>&1 | grep real
+      do { time ./bin/tests/spec.rb >/dev/null ; } 2>&1 | grep real
     done
   "
 end
