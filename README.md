@@ -198,6 +198,13 @@ read Exceptional Ruby and apply the ideas here.
 As I mentioned above, don't use parens with def.  For that matter, I'm going
 to try to use parens as little as possible.
 
+## Keyword Arguments
+
+Yes, I realize this conflicts with Seattle Style, but what can you do.  This
+is a newer convention than the Seattle Style convention, and I'm trying it on
+for size.  We'll see how it goes, and if it goes well, I'll remove the
+Seattle Style convention.
+
 ---
 
 # Documentation
