@@ -31,17 +31,20 @@
 
     #sharing_tokens_id
       - PageSharingTokens::TOKEN_TYPES.each do |token_type|
+        - token_activated = viewmodel.page.send(:"#{token_type}_sharing_token_activated")
         - if token_value = viewmodel.page.send(:"#{token_type}_sharing_token")
           %div
             global
             %strong
               #{token_type}
             sharing token ( think before changing! )
-            %form{:action => "/p/#{viewmodel.name}/rename_sharing_token",
+            %form{:action => "/p/#{viewmodel.name}/update_sharing_token",
               :method => "post"}
               %input{:type => "hidden", :name => "token_type",
                 :value => token_type}
               %input.new_name_cls{:type => "text", :name => "new_token",
                 :value => token_value}
+              %input{:type => "checkbox", :name => "is_activated", :checked => token_activated}
+              %input{:type => "submit", :name => "submit", :value => "submit"}
             %a{:href => "/s/#{token_value}"}
               link

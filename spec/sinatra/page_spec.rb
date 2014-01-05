@@ -61,7 +61,9 @@ describe "page" do
     end
 
     it "should be able to see the page with the right token" do
-      token = Page.find(1).readonly_sharing_token
+      page = Page.find(1)
+      PageSharingTokens.new(page).activate_sharing_token :readonly
+      token = page.readonly_sharing_token
       assert_equal token.size, 32
 
       get_shared_page token
@@ -118,16 +120,16 @@ describe "page" do
 
   end
 
-  describe "rename_sharing_token" do
+  describe "update_sharing_token" do
 
-    def rename_sharing_token type, new_token
-      post "/p/#{@page.name}/rename_sharing_token",
-        {:token_type => type, :new_token => new_token},
+    def update_sharing_token type, new_token
+      post "/p/#{@page.name}/update_sharing_token",
+        {:token_type => type, :new_token => new_token, :is_activated => true},
         authenticated_session(@user)
     end
 
     it "should rename a readonly token" do
-      rename_sharing_token "readonly", "new-readonly-token"
+      update_sharing_token "readonly", "new-readonly-token"
       @page.reload
       assert_equal "new-readonly-token", @page.readonly_sharing_token
       follow_redirect_with_authenticated_user!(@user)
@@ -135,7 +137,7 @@ describe "page" do
     end
 
     it "should rename a readwrite token" do
-      rename_sharing_token "readwrite", "new-readwrite-token"
+      update_sharing_token "readwrite", "new-readwrite-token"
       @page.reload
       assert_equal "new-readwrite-token", @page.readwrite_sharing_token
       follow_redirect_with_authenticated_user!(@user)
@@ -143,12 +145,15 @@ describe "page" do
     end
 
     it "should not rename token if another already has that token" do
-      rename_sharing_token "readonly", @page.readonly_sharing_token
+      other_page = UserPages.new(@user).create_page name:"other-page", text:""
+      PageSharingTokens.new(other_page).activate_sharing_token :readonly
+
+      update_sharing_token "readonly", other_page.readonly_sharing_token
       assert_equal "a page with that token already exists", last_response.body
     end
 
     it "should not rename token if the provided token is too short" do
-      rename_sharing_token "readonly", "s"
+      update_sharing_token "readonly", "s"
       assert_equal "too_short", last_response.body
     end
 

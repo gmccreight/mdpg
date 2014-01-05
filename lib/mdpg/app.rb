@@ -166,7 +166,14 @@ class App
     {:user => current_user, :pages => user_pages.pages, :tags => tags}
   end
 
-  def rename_page_sharing_token(page, token_type, new_token)
+  def update_page_sharing_token page, token_type, new_token, is_activated
+
+    if is_activated
+      PageSharingTokens.new(page).activate_sharing_token token_type
+    else
+      PageSharingTokens.new(page).deactivate_sharing_token token_type
+    end
+
     begin
       error_message = PageSharingTokens.new(page).
         rename_sharing_token(token_type, new_token)

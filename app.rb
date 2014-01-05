@@ -113,13 +113,14 @@ post '/p/:name/rename' do |page_name|
   end
 end
 
-post '/p/:name/rename_sharing_token' do |page_name|
+post '/p/:name/update_sharing_token' do |page_name|
   token_type = params[:token_type].to_sym
   new_token = params[:new_token]
+  is_activated = params[:is_activated]
 
   if page = get_user_page(page_name)
     app = _app_get()
-    app.rename_page_sharing_token(page, token_type, new_token)
+    app.update_page_sharing_token page, token_type, new_token, is_activated
     _app_handle_result app
   end
 end

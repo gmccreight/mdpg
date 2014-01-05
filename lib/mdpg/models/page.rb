@@ -1,7 +1,8 @@
 class Page < ModelBase
 
   ATTRS = [:name, :text, :revision, :tag_ids, :readonly_sharing_token,
-    :readwrite_sharing_token]
+    :readwrite_sharing_token, :readonly_sharing_token_activated,
+    :readwrite_sharing_token_activated]
 
   attr_accessor *ATTRS
 
