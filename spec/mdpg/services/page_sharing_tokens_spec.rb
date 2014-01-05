@@ -75,7 +75,8 @@ describe PageSharingTokens do
       assert_raises(SharingTokenAlreadyExistsException) {
         tokens = PageSharingTokens.new(page)
         tokens.activate_sharing_token :readonly
-        tokens.rename_sharing_token(:readonly, other_page.readonly_sharing_token)
+        tokens.rename_sharing_token(:readonly,
+                                    other_page.readonly_sharing_token)
       }
     end
 
