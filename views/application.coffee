@@ -152,9 +152,22 @@ $ ->
           String.fromCharCode(e.keyCode).toLowerCase()
         )
 
+        charsTyped = recentPagesCharsTyped.join("")
         $(".key_combo_cls").each ->
-          if $(this).text() == recentPagesCharsTyped.join("")
-            document.location = $(this).closest("div").find("a").attr("href")
+          text = $(this).text()
+
+          didMatch = false
+
+          if "e" + text == charsTyped
+            didMatch = true
+            extension = "/edit"
+          else if text == charsTyped
+            didMatch = true
+            extension = ""
+
+          if didMatch
+            document.location =
+            $(this).closest("div").find("a").attr("href") + extension
 
       else
 
