@@ -4,9 +4,9 @@ class HomeRowCharCombosGenerator
     @_already_generated_combos = {}
   end
 
-  def next_uniq_char_combo length
+  def next_uniq_char_combo(length:)
     while true
-      chars = _rand_right_left_right_left_repeat_char_combo length
+      chars = _rand_right_left_right_left_repeat_char_combo length:length
       if ! @_already_generated_combos.has_key?(chars)
         @_already_generated_combos[chars] = true
         return chars
@@ -16,7 +16,7 @@ class HomeRowCharCombosGenerator
 
   private
 
-    def _rand_right_left_right_left_repeat_char_combo length
+    def _rand_right_left_right_left_repeat_char_combo(length:)
       keys = [%w{a s d f g}, %w{h j k l}]
 
       chars = ""

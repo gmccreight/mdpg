@@ -11,7 +11,7 @@ describe HomeRowCharCombosGenerator do
   it "should make unique homerow character combo sets" do
     total_possible_num_combos = 80
     char_combos = (1..total_possible_num_combos).
-      map{@generator.next_uniq_char_combo(3)}.sort
+      map{@generator.next_uniq_char_combo(length:3)}.sort
     assert_equal "hah", char_combos.first
     assert_equal total_possible_num_combos, char_combos.uniq.size
   end
