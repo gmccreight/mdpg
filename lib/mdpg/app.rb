@@ -30,6 +30,15 @@ class App
     end
   end
 
+  def tag_get_details tag_name
+    user_page_tags = UserPageTags.new(current_user, nil)
+    if user_page_tags.get_pages_for_tag_with_name(tag_name).size > 0
+      return {:user => current_user, :tag_name => tag_name}
+    else
+      _add_error "you do not have any pages tagged '#{tag_name}'"
+    end
+  end
+
   def page_get page
     pageView = PageView.new(current_user, page, nil)
     UserRecentPages.new(current_user).add_to_recent_viewed_pages_list(page)

@@ -76,6 +76,13 @@ get '/p/:name' do |page_name|
   end
 end
 
+get '/t/:name' do |tag_name|
+  app = authorize!
+  result = app.tag_get_details(tag_name)
+  _app_handle_result app
+  haml :tag_details, :locals => app.tag_get_details(tag_name)
+end
+
 get '/p/:name/edit' do |page_name|
   if page = get_user_page(page_name)
     app = _app_get
