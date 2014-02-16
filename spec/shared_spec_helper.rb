@@ -1,3 +1,11 @@
+# Only actually run coveralls in a CI environment.  The code slows down
+# tests by 0.4 seconds otherwise.
+# This code was copied/pasted from /lib/coveralls.rb in the coveralls-ruby gem
+if ENV["CI"] || ENV["JENKINS_URL"] || ENV["COVERALLS_RUN_LOCALLY"]
+  require "coveralls"
+  Coveralls.wear!
+end
+
 require "mdpg"
 require "minitest/autorun"
 
