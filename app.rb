@@ -78,9 +78,9 @@ end
 
 get '/t/:name' do |tag_name|
   app = authorize!
-  result = app.tag_get_details(tag_name)
+  result = app.tag.get_details(tag_name)
   _app_handle_result app
-  haml :tag_details, :locals => app.tag_get_details(tag_name)
+  haml :tag_details, :locals => app.tag.get_details(tag_name)
 end
 
 get '/p/:name/edit' do |page_name|
@@ -136,7 +136,7 @@ post '/t/:name/rename' do |tag_name|
   new_name = params[:new_name]
 
   app = authorize!
-  app.tag_rename tag_name, new_name
+  app.tag.rename tag_name, new_name
   _app_handle_result app
 end
 

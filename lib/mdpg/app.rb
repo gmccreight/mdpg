@@ -1,5 +1,7 @@
 require 'home_row_char_combos_generator'
 
+require 'mdpg/app_section/tag'
+
 class App
 
   attr_accessor :current_user, :errors
@@ -9,6 +11,10 @@ class App
     @current_user = user
     @errors = []
     @redirect_to = nil
+  end
+
+  def tag
+    @tag ||= AppSection::Tag.new(self, @current_user)
   end
 
   def had_error?
@@ -23,21 +29,21 @@ class App
     page, token_type =
       PageSharingTokens.find_page_by_token(page_sharing_token)
     if ! page
-      _set_redirect_to '/'
+      set_redirect_to '/'
     else
       pageView = PageView.new(nil, page, token_type)
       return {:viewmodel => pageView, :mode => :shared}
     end
   end
 
-  def tag_get_details tag_name
-    user_page_tags = UserPageTags.new(current_user, nil)
-    if user_page_tags.get_pages_for_tag_with_name(tag_name).size > 0
-      return {:user => current_user, :tag_name => tag_name}
-    else
-      _add_error "you do not have any pages tagged '#{tag_name}'"
-    end
-  end
+  # def tag_get_details tag_name
+  #   user_page_tags = UserPageTags.new(current_user, nil)
+  #   if user_page_tags.get_pages_for_tag_with_name(tag_name).size > 0
+  #     return {:user => current_user, :tag_name => tag_name}
+  #   else
+  #     add_error "you do not have any pages tagged '#{tag_name}'"
+  #   end
+  # end
 
   def page_get page
     pageView = PageView.new(current_user, page, nil)
@@ -82,7 +88,7 @@ class App
 
   def page_delete page
     UserPages.new(current_user).delete_page page.name
-    _set_redirect_to "/"
+    set_redirect_to "/"
   end
 
   def add_page_tag page, tag_name
@@ -110,32 +116,31 @@ class App
     if page && token_type == :readwrite
       page.text = new_text
       page.save
-      _set_redirect_to "/s/#{readwrite_token}"
+      set_redirect_to "/s/#{readwrite_token}"
     end
   end
 
-  def tag_rename tag_name, new_name
-    begin
-      UserPageTags.new(current_user, nil)
-        .change_tag_for_all_pages(tag_name, new_name)
-      _set_redirect_to "/"
-    rescue TagAlreadyExistsForPageException
-      _add_error "a tag with that name already exists on some of the pages"
-    end
-
-  end
+  # def tag_rename tag_name, new_name
+  #   begin
+  #     UserPageTags.new(current_user, nil)
+  #       .change_tag_for_all_pages(tag_name, new_name)
+  #     set_redirect_to "/"
+  #   rescue TagAlreadyExistsForPageException
+  #     add_error "a tag with that name already exists on some of the pages"
+  #   end
+  # end
 
   def page_rename page, new_name
     begin
       original_name = page.name
       if UserPages.new(current_user).rename_page(page, new_name)
         UserPages.new(current_user).page_was_updated page
-        _set_redirect_to "/p/#{new_name}"
+        set_redirect_to "/p/#{new_name}"
       else
-        _set_redirect_to "/p/#{original_name}"
+        set_redirect_to "/p/#{original_name}"
       end
     rescue PageAlreadyExistsException
-      _add_error "a page with that name already exists"
+      add_error "a page with that name already exists"
     end
   end
 
@@ -144,7 +149,7 @@ class App
       page_name_links_to_ids(new_text)
     page.save
     UserPages.new(current_user).page_was_updated page
-    _set_redirect_to "/p/#{page.name}"
+    set_redirect_to "/p/#{page.name}"
   end
 
   def page_search query
@@ -153,7 +158,7 @@ class App
 
     if results[:redirect]
       maybe_edit_mode = results[:redirect_to_edit_mode] ? "/edit" : ""
-      _set_redirect_to "/p/#{results[:redirect]}#{maybe_edit_mode}"
+      set_redirect_to "/p/#{results[:redirect]}#{maybe_edit_mode}"
       return
     end
 
@@ -167,7 +172,7 @@ class App
 
   def root
     if ! current_user
-      _set_redirect_to '/login'
+      set_redirect_to '/login'
       return
     end
     user_pages = UserPages.new(current_user)
@@ -188,12 +193,12 @@ class App
         rename_sharing_token(token_type, new_token)
       if error_message == nil
         UserPages.new(current_user).page_was_updated page
-        _set_redirect_to "/p/#{page.name}"
+        set_redirect_to "/p/#{page.name}"
       else
-        _add_error error_message.to_s
+        add_error error_message.to_s
       end
     rescue SharingTokenAlreadyExistsException
-      _add_error "a page with that token already exists"
+      add_error "a page with that token already exists"
     end
   end
 
@@ -208,18 +213,18 @@ class App
     user_pages = UserPages.new(current_user)
     page = user_pages.create_page name:name, text:""
     path = page ? "/p/#{page.name}/edit" : "/"
-    _set_redirect_to path
+    set_redirect_to path
+  end
+
+  def set_redirect_to path
+    @redirect_to = path
+  end
+
+  def add_error error
+    errors << error.to_s
   end
 
   private
-
-    def _set_redirect_to path
-      @redirect_to = path
-    end
-
-    def _add_error error
-      errors << error.to_s
-    end
 
     def _recent_pages_for page_ids
       ids = page_ids || []
