@@ -3,6 +3,7 @@
 .app_data
 .DS_Store
 .bundle
+.coveralls.yml
 
 bin/seeder
 bin/ops
