@@ -36,15 +36,6 @@ class App
     end
   end
 
-  # def tag_get_details tag_name
-  #   user_page_tags = UserPageTags.new(current_user, nil)
-  #   if user_page_tags.get_pages_for_tag_with_name(tag_name).size > 0
-  #     return {:user => current_user, :tag_name => tag_name}
-  #   else
-  #     add_error "you do not have any pages tagged '#{tag_name}'"
-  #   end
-  # end
-
   def page_get page
     pageView = PageView.new(current_user, page, nil)
     UserRecentPages.new(current_user).add_to_recent_viewed_pages_list(page)
@@ -119,16 +110,6 @@ class App
       set_redirect_to "/s/#{readwrite_token}"
     end
   end
-
-  # def tag_rename tag_name, new_name
-  #   begin
-  #     UserPageTags.new(current_user, nil)
-  #       .change_tag_for_all_pages(tag_name, new_name)
-  #     set_redirect_to "/"
-  #   rescue TagAlreadyExistsForPageException
-  #     add_error "a tag with that name already exists on some of the pages"
-  #   end
-  # end
 
   def page_rename page, new_name
     begin
