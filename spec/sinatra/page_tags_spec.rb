@@ -18,6 +18,11 @@ describe "page_tags" do
     get "/p/#{page_name}/tags", {}, authenticated_session(user)
   end
 
+  def get_tag_suggestions user, page_name, tag_typed
+    get "/p/#{page_name}/tag_suggestions?tagTyped=#{tag_typed}",
+      {}, authenticated_session(user)
+  end
+
   def add_tag user, page_name, tag_name
     post "/p/#{page_name}/tags", {:text => tag_name}.to_json,
       authenticated_session(user)
@@ -38,6 +43,27 @@ describe "page_tags" do
       assert_equal ["new-1"], ObjectTags.new(@page.reload).sorted_tag_names()
       delete_tag @user, "a-good-page", "new-1"
       assert_equal [], ObjectTags.new(@page.reload).sorted_tag_names()
+    end
+
+  end
+
+  describe "suggestions" do
+
+    before do
+      add_tag @user, "a-good-page", "food-fight"
+      add_tag @user, "a-good-page", "fool-right"
+      add_tag @user, "a-good-page", "car"
+
+      other_page = UserPages.new(@user).create_page name:"other-page",
+        text:"nothing really"
+      add_tag @user, "other-page", "foolish"
+    end
+
+    it "should only give matching tags that do not already exist on page" do
+      get_tag_suggestions @user, "a-good-page", "foo"
+      hash = JSON.parse last_response.body
+      tags = hash["tags"]
+      assert_equal ["foolish"], tags
     end
 
   end
