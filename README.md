@@ -27,6 +27,12 @@ this goal is that I can't often get several hours of hacking time set aside,
 but I can get half and hour here and half an hour there.  I want the code to
 facilitate making very quick changes and refactorings.
 
+In his book, "Clean Coders", Uncle Bob Martin says:
+
+"TDD is another big help. I you have a failing test, that test holds the
+context of where you are. You can return to it after an interruption and
+continue to make that failing test pass."
+
 ## Actual Unit Tests
 
 I'm taking testing inspiration from Sandi Metz's book, POODR, and from the
