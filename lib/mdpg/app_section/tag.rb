@@ -1,4 +1,5 @@
 module AppSection
+
   class Tag
 
     def initialize(app, user = nil)
@@ -31,4 +32,5 @@ module AppSection
     end
 
   end
+
 end
