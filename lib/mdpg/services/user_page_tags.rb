@@ -107,14 +107,14 @@ class UserPageTags < Struct.new(:user, :page)
     _get_tags_hash().keys.sort
   end
 
-  def has_tag_with_name? tag
-    _get_tags_hash().has_key?(tag)
+  def has_tag_with_name? tag_name
+    _get_tags_hash().has_key?(tag_name)
   end
 
-  def get_pages_for_tag_with_name tag
+  def get_pages_for_tag_with_name tag_name
     hash = _get_tags_hash()
-    if hash.has_key?(tag)
-      hash[tag].keys.map{|id_string| Page.find(id_string.to_i)}
+    if hash.has_key?(tag_name)
+      hash[tag_name].keys.map{|id_string| Page.find(id_string.to_i)}
     else
       return []
     end
