@@ -93,7 +93,7 @@ end
 get '/p/:name/tags' do |page_name|
   if page = get_user_page(page_name)
     app = _app_get
-    return app.page_tags page
+    return app.page_tag.all_for_page page
   end
 end
 
@@ -145,7 +145,7 @@ get '/p/:name/tag_suggestions' do |page_name|
 
   if page = get_user_page(page_name)
     app = _app_get
-    return app.page_tag_suggestions page, tag_typed
+    return app.page_tag.suggestions page, tag_typed
   end
 end
 
@@ -154,14 +154,14 @@ post '/p/:name/tags' do |page_name|
 
   if page = get_user_page(page_name)
     app = _app_get
-    return app.add_page_tag(page, tag_name)
+    return app.page_tag.add(page, tag_name)
   end
 end
 
 delete '/p/:name/tags/:tag_name' do |page_name, tag_name|
   if page = get_user_page(page_name)
     app = _app_get
-    return app.delete_page_tag(page, tag_name)
+    return app.page_tag.delete(page, tag_name)
   end
 end
 

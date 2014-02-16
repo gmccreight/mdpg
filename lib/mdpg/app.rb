@@ -1,6 +1,7 @@
 require 'home_row_char_combos_generator'
 
 require 'mdpg/app_section/tag'
+require 'mdpg/app_section/page_tag'
 
 class App
 
@@ -15,6 +16,10 @@ class App
 
   def tag
     @tag ||= AppSection::Tag.new(self, @current_user)
+  end
+
+  def page_tag
+    @page_tag ||= AppSection::PageTag.new(self, @current_user)
   end
 
   def had_error?
@@ -58,48 +63,9 @@ class App
     end
   end
 
-  def page_tags page
-    object_tags = ObjectTags.new(page)
-    user_page_tags = UserPageTags.new(current_user, page)
-    sorted_tag_names = object_tags.sorted_tag_names()
-    results = sorted_tag_names.map do |tagname|
-      {
-        :text => tagname,
-        :associated => user_page_tags.sorted_associated_tags(tagname)
-      }
-    end
-    results.to_json
-  end
-
-  def page_tag_suggestions page, tag_typed
-    tags = PageView.new(current_user, page, nil).
-      tag_suggestions_for(tag_typed)
-    {:tags => tags}.to_json
-  end
-
   def page_delete page
     UserPages.new(current_user).delete_page page.name
     set_redirect_to "/"
-  end
-
-  def add_page_tag page, tag_name
-    pageView = PageView.new(current_user, page, nil)
-    if pageView.add_tag(tag_name)
-      UserPages.new(current_user).page_was_updated page
-      return {:success => "added tag #{tag_name}"}.to_json
-    else
-      return {:error => "could not add the tag #{tag_name}"}.to_json
-    end
-  end
-
-  def delete_page_tag page, tag_name
-    pageView = PageView.new(current_user, page, nil)
-    if pageView.remove_tag(tag_name)
-      UserPages.new(current_user).page_was_updated page
-      return {:success => "removed tag #{tag_name}"}.to_json
-    else
-      return {:error => "the tag #{tag_name} could not be deleted"}.to_json
-    end
   end
 
   def update_page_from_readwrite_token readwrite_token, new_text
