@@ -5,5 +5,5 @@
 ./bin/tests/trailing_whitespace.sh
 ./bin/tests/tabs.sh
 
-perf=1 rake
+perf=1 COVERALLS_RUN_LOCALLY=1 rake
 karma start --single-run

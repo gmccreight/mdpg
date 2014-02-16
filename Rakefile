@@ -11,9 +11,14 @@ task :prof do
   exec "ruby-prof ./spec.rb 2>/dev/null | head -n 50"
 end
 
-desc "run all the tests, including style ones"
+desc "run all the tests, including style and coverage ones"
 task :ta do
   exec "./bin/tests/all.sh"
+end
+
+desc "run coverage and send to coveralls"
+task :cov do
+  exec "COVERALLS_RUN_LOCALLY=1 rake"
 end
 
 desc "deploy to production"
