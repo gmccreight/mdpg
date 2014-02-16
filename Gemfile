@@ -10,3 +10,5 @@ gem "rack-test", require: "rack/test"
 
 gem "ruby-prof"
 gem "rerun"
+
+gem "coveralls", require: false
