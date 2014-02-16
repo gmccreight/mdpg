@@ -2,6 +2,10 @@
 https://codeclimate.com/github/gmccreight/mdpg
 )
 
+[![Coverage Status](https://coveralls.io/repos/gmccreight/mdpg/badge.png)](
+https://coveralls.io/r/gmccreight/mdpg
+)
+
 # Design Goals
 
 ## Fast Tests
