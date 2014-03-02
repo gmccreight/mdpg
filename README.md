@@ -1,7 +1,9 @@
 [![Code Climate](https://codeclimate.com/github/gmccreight/mdpg.png)](
 https://codeclimate.com/github/gmccreight/mdpg
 )
-
+[![Build Status](https://travis-ci.org/gmccreight/mdpg.png?branch=master)](
+https://travis-ci.org/gmccreight/mdpg
+)
 [![Coverage Status](https://coveralls.io/repos/gmccreight/mdpg/badge.png)](
 https://coveralls.io/r/gmccreight/mdpg
 )
