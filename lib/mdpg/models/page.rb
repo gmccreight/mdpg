@@ -7,7 +7,7 @@ class Page < ModelBase
   attr_accessor *ATTRS
 
   def text_contains query
-    text.include?(query.downcase)
+    text.downcase.include?(query.downcase)
   end
 
   def name_contains query

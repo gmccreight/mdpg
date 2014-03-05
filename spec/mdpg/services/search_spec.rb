@@ -31,8 +31,16 @@ describe Search do
     search_gets "car", 0, 1, 0
   end
 
-  it "should ignore case of query" do
-    search_gets "Car", 0, 1, 0
+  describe "case insensitivity" do
+
+    it "should ignore case and find lower case version of query" do
+      search_gets "Car", 0, 1, 0
+    end
+
+    it "should ignore case and find upper case page text" do
+      search_gets "fast", 0, 1, 0
+    end
+
   end
 
   describe "tags" do
