@@ -157,10 +157,14 @@ class App
   end
 
   def page_add name
-    user_pages = UserPages.new(current_user)
-    page = user_pages.create_page name:name, text:""
-    path = page ? "/p/#{page.name}/edit" : "/"
-    set_redirect_to path
+    begin
+      user_pages = UserPages.new(current_user)
+      page = user_pages.create_page name:name, text:""
+      path = page ? "/p/#{page.name}/edit" : "/"
+      set_redirect_to path
+    rescue PageAlreadyExistsException
+      add_error "a page with that name already exists"
+    end
   end
 
   def set_redirect_to path

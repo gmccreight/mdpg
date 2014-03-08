@@ -6,9 +6,16 @@ end
 class UserPages < Struct.new(:user)
 
   def create_page opts
+    if opts[:name]
+      if find_page_with_name(opts[:name])
+        raise PageAlreadyExistsException
+      end
+    end
+
     if opts[:name].empty?
       opts[:name] = SecureRandom.hex
     end
+
     page = Page.create opts
     if page
       page.text = PageLinks.new(user).page_name_links_to_ids(page.text)

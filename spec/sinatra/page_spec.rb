@@ -20,6 +20,10 @@ describe "page" do
     get "/p/#{name}/edit", {}, authenticated_session(@user)
   end
 
+  def add_page name
+    post "/page/add", {:name => name}, authenticated_session(@user)
+  end
+
   def update_page name, text
     post "/p/#{name}/update", {:text => text}, authenticated_session(@user)
   end
@@ -76,6 +80,22 @@ describe "page" do
       follow_redirect!
       follow_redirect!
       assert last_response.body.include? "Please login"
+    end
+
+  end
+
+  describe "creating" do
+
+    it "should be able to add a new page" do
+      add_page "new-page"
+      follow_redirect_with_authenticated_user!(@user)
+      assert last_request.url.include? "/p/new-page"
+    end
+
+    it "should not be able to add a page with a pre-exiting name" do
+      add_page "page-that-will-already-exist"
+      add_page "page-that-will-already-exist"
+      assert_equal "a page with that name already exists", last_response.body
     end
 
   end

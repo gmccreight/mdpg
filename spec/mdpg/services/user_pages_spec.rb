@@ -19,23 +19,25 @@ describe UserPages do
   describe "adds page to user" do
 
     before do
-      @user_pages = UserPages.new(user)
+      @user_pages = UserPages.new(@user)
     end
 
-    let (:user) {
-      MiniTest::Mock.new.expect :add_page, true, [Page]
-    }
-
     it "should add the newly created page to the user" do
-      page = @user_pages.create_page name:"hello"
-      assert_equal "Fixnum", page.id.class.name
-      user.verify
+      initial_num_pages = @user.page_ids.size
+      @user_pages.create_page name:"hello"
+      assert_equal initial_num_pages + 1, @user.page_ids.size
     end
 
     it "should not add the page if it has a bad name" do
+      initial_num_pages = @user.page_ids.size
       page = @user_pages.create_page name:"Bad Name"
-      assert_raises MockExpectationError do
-        user.verify
+      assert_equal initial_num_pages, @user.page_ids.size
+    end
+
+    it "should not add the page if it already exists" do
+      @user_pages.create_page name:"hello"
+      assert_raises PageAlreadyExistsException do
+        @user_pages.create_page name:"hello"
       end
     end
 
