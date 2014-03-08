@@ -82,6 +82,11 @@ describe Search do
       search_gets "good-page-name", 1, 0, 0
     end
 
+    it "should not redirect to the page after it is deleted" do
+      UserPages.new(@user).delete_page "good-page-name"
+      search_redirects "good-page-name", nil
+    end
+
   end
 
   describe "search with tags limiter" do
