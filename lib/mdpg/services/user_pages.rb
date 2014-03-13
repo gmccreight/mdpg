@@ -74,11 +74,11 @@ class UserPages < Struct.new(:user)
   end
 
   def pages_with_names_containing_text query
-    pages.select{|page| page.name_contains(query)}
+    pages.select{|page| page.name_contains?(query)}
   end
 
   def pages_with_text_containing_text query
-    pages.select{|page| page.text_contains(query)}
+    pages.select{|page| page.text_contains?(query)}
   end
 
   def page_ids_and_names_sorted_by_name

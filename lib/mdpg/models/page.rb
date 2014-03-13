@@ -6,12 +6,12 @@ class Page < ModelBase
 
   attr_accessor *ATTRS
 
-  def text_contains query
-    text.downcase.include?(query.downcase)
+  def text_contains? query
+    string_contains? text.downcase, query.downcase
   end
 
-  def name_contains query
-    name.include?(query.downcase)
+  def name_contains? query
+    string_contains? name, query.downcase
   end
 
   def add_tag tag
@@ -29,6 +29,10 @@ class Page < ModelBase
   end
 
   private
+
+    def string_contains? string, query
+      string.include? query
+    end
 
     def unique_id_indexes
       [:readonly_sharing_token, :readwrite_sharing_token]
