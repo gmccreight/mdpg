@@ -67,7 +67,7 @@ class Application
     file_data = File.read(filename)
     file_data.lines.each_with_index do |line, index|
       if index == line_number
-        new_content
+        new_file_data << new_content
       else
         new_file_data << line
       end
