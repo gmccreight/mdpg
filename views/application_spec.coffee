@@ -108,6 +108,7 @@ describe "TagsCtrl", ->
 
     it "should get suggestions from the server", ->
       callSuggestAndServerRespondsWith {tags: ["cool", "cooler"]}
+      expect($scope.hasError()).toEqual false
       expect($scope.error).toEqual ""
       expect($scope.suggestedTags).toEqual ["cool", "cooler"]
 

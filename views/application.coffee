@@ -31,21 +31,24 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
   $scope.hasError = ->
     $scope.error != ""
 
-  $scope.error = ""
+  $scope.setError = (error) ->
+    $scope.error = error
+
+  $scope.setError ""
 
   $scope.suggest = (tagTyped) ->
-    $scope.error = ""
+    $scope.setError ""
     if tagTyped.length <= 1 && tagTyped != "*"
       $scope.suggestedTags = []
     else
       tempTag = new Tag()
       successFunc = (data) ->
         if error = data["error"]
-          $scope.error = error
+          $scope.setError error
         else
           $scope.suggestedTags = data.tags
       errorFunc = (e) ->
-        $scope.error = "sorry, we had a server error"
+        $scope.setError "sorry, we had a server error"
       tempTag.$getSuggestion({tagTyped:tagTyped}, successFunc, errorFunc)
 
   $scope.chooseSuggested = (suggestedTagText) ->
@@ -56,10 +59,10 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
     WnpApp.normalizeToken(text)
 
   $scope.addTag = ->
-    $scope.error = ""
+    $scope.setError ""
 
     if $scope.tagText == "" || $scope.tagText == undefined
-      $scope.error = "please type something"
+      $scope.setError "please type something"
       return
 
     normalizedText = $scope.normalizeTagText($scope.tagText)
@@ -69,12 +72,12 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
 
     successFunc = (data) ->
       if error = data["error"]
-        $scope.error = error
+        $scope.setError error
         $scope.tags = _.without($scope.tags, tagToAdd)
       else
         $scope.tags = Tag.query()
     errorFunc = (e) ->
-      $scope.error = "sorry, we had a server error"
+      $scope.setError "sorry, we had a server error"
       $scope.tags = _.without($scope.tags, tagToAdd)
 
     newTag.$save({}, successFunc, errorFunc)
