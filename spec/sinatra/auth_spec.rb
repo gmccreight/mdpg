@@ -16,7 +16,8 @@ describe "auth" do
 
       post '/login', {email:"jordan@example.com", password:"cool"}
       follow_redirect!
-      assert last_response.body.include? "Hello, Jordan"
+      follow_redirect!
+      assert last_response.body.include? "Edited"
 
       result = RubyProf.stop
       printer = RubyProf::FlatPrinter.new(result)
@@ -26,19 +27,22 @@ describe "auth" do
     end
   end
 
-  it "should show a message on the homepage after auth" do
+  it "should move to the recent pages page after auth" do
     post '/login', {email:"jordan@example.com", password:"cool"}
     follow_redirect!
-    assert last_response.body.include? "Hello, Jordan"
+    follow_redirect!
+    assert last_response.body.include? "Edited"
   end
 
   it "should stay logged in and logged out after moving to those states" do
     post '/login', {email:"jordan@example.com", password:"cool"}
     follow_redirect!
-    assert last_response.body.include? "Hello, Jordan"
+    follow_redirect!
+    assert last_response.body.include? "Edited"
 
     get '/'
-    assert last_response.body.include? "Hello, Jordan"
+    follow_redirect!
+    assert last_response.body.include? "Edited"
 
     get '/logout'
     follow_redirect!

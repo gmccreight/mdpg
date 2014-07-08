@@ -122,9 +122,7 @@ class App
       set_redirect_to '/login'
       return
     end
-    user_pages = UserPages.new(current_user)
-    tags = UserPageTags.new(current_user, nil).get_tags()
-    {:user => current_user, :pages => user_pages.pages, :tags => tags}
+    set_redirect_to '/page/recent'
   end
 
   def update_page_sharing_token page, token_type, new_token, is_activated

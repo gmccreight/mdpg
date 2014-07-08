@@ -208,7 +208,8 @@ describe "page" do
     it "should delete a page and redirect back to the home page" do
       delete_page "original-good-page-name"
       follow_redirect_with_authenticated_user!(@user)
-      assert last_response.body.include? "Hello, "
+      follow_redirect_with_authenticated_user!(@user)
+      assert last_response.body.include? "Edited"
       get_page "original-good-page-name"
       assert_equal "could not find that page", last_response.body
     end
