@@ -65,7 +65,7 @@ end
 
 post '/s/:readwrite_token/update' do |readwrite_token|
   app = _app_get
-  result = app.update_page_from_readwrite_token readwrite_token
+  result = app.update_page_from_readwrite_token readwrite_token, params[:text]
   _app_handle_result app
 end
 

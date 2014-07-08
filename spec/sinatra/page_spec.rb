@@ -28,6 +28,10 @@ describe "page" do
     post "/p/#{name}/update", {:text => text}, authenticated_session(@user)
   end
 
+  def update_page_with_readwrite_token token, text
+    post "/s/#{token}/update", {:text => text}
+  end
+
   def delete_page name
     post "/p/#{name}/delete", {}, authenticated_session(@user)
   end
@@ -175,6 +179,26 @@ describe "page" do
     it "should not rename token if the provided token is too short" do
       update_sharing_token "readonly", "s"
       assert_equal "too_short", last_response.body
+    end
+
+  end
+
+  describe "updating page using readwrite_sharing_token" do
+
+    before do
+      @page.readwrite_sharing_token = "right-token"
+      @page.readwrite_sharing_token_activated = true
+      @page.save
+    end
+
+    it "should update page's text using a valid readwrite_sharing_token" do
+      update_page_with_readwrite_token "right-token", "new text"
+      assert_equal "new text", @page.reload.text
+    end
+
+    it "should not update with bad token" do
+      update_page_with_readwrite_token "wrong-token", "new text"
+      assert "new text" != @page.reload.text
     end
 
   end
