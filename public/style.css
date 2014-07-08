@@ -23,10 +23,6 @@ table.tag_table_cls .rename_tag_form_cls {
   display:inline;
 }
 
-.key_combo_cls {
-  margin-right:10px;
-}
-
 .this_tag_name_cls {
   color:gray;
   text-decoration:none;

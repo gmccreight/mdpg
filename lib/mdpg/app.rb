@@ -1,5 +1,3 @@
-require 'home_row_char_combos_generator'
-
 require 'mdpg/app_section/tag'
 require 'mdpg/app_section/page_tag'
 
@@ -150,8 +148,7 @@ class App
   def recent_pages
     edited_pages = _recent_pages_for(current_user.recent_edited_page_ids)
     viewed_pages = _recent_pages_for(current_user.recent_viewed_page_ids)
-    {:edited_pages => edited_pages, :viewed_pages => viewed_pages,
-      :generator => HomeRowCharCombosGenerator.new()}
+    {:edited_pages => edited_pages, :viewed_pages => viewed_pages}
   end
 
   def page_add name

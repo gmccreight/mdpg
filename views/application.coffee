@@ -150,42 +150,18 @@ $ ->
     if e.target.tagName isnt "INPUT" and e.target.tagName isnt "TEXTAREA" and
     e.target.tagName isnt "SELECT"
 
-      if $(".key_combo_cls").length > 0
-        recentPagesCharsTyped.push(
-          String.fromCharCode(e.keyCode).toLowerCase()
-        )
+      if e.keyCode is navigateToEditPageKeycode
+        e.preventDefault()
+        navigateToEditPage()
 
-        charsTyped = recentPagesCharsTyped.join("")
-        $(".key_combo_cls").each ->
-          text = $(this).text()
+      if e.keyCode is navigateToRecentPagesKeycode
+        e.preventDefault()
+        navigateToRecentPages()
 
-          didMatch = false
+      if e.keyCode is forwardSlashKeycode
+        e.preventDefault()
+        focusOnSearchField()
 
-          if "e" + text == charsTyped
-            didMatch = true
-            extension = "/edit"
-          else if text == charsTyped
-            didMatch = true
-            extension = ""
-
-          if didMatch
-            document.location =
-            $(this).closest("div").find("a").attr("href") + extension
-
-      else
-
-        if e.keyCode is navigateToEditPageKeycode
-          e.preventDefault()
-          navigateToEditPage()
-
-        if e.keyCode is navigateToRecentPagesKeycode
-          e.preventDefault()
-          navigateToRecentPages()
-
-        if e.keyCode is forwardSlashKeycode
-          e.preventDefault()
-          focusOnSearchField()
-
-        if e.keyCode is tagInputKecode
-          e.preventDefault()
-          focusOnTagInput()
+      if e.keyCode is tagInputKecode
+        e.preventDefault()
+        focusOnTagInput()
