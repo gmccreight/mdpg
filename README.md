@@ -8,6 +8,9 @@ https://travis-ci.org/gmccreight/mdpg
 https://coveralls.io/r/gmccreight/mdpg
 )
 
+MDPG is a web-based note-taking application.  It's also a good excuse to try
+out a lot of ideas.
+
 # Design Goals
 
 ## Fast Tests
