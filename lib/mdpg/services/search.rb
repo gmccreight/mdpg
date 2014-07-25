@@ -13,13 +13,11 @@ class Search
     @search_string = @search_parser.search_string()
 
     names = search_names()
-    texts = search_texts()
-    tags = search_tags()
 
     {
       :names => names,
-      :texts => texts,
-      :tags => tags,
+      :texts => search_texts(),
+      :tags => search_tags(),
       :redirect => _redirect_to_perfect_match(names),
       :redirect_to_edit_mode => @search_parser.should_open_in_edit_mode?()
     }
