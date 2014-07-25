@@ -16,8 +16,6 @@ class Search
     texts = search_texts()
     tags = search_tags()
 
-    redirect_to_perfect_match = _redirect_to_perfect_match(names)
-
     {
       :names => names,
       :texts => texts,
