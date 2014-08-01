@@ -11,8 +11,21 @@
   margin-right:20px;
 }
 
+table, td {
+   border:1px solid #ddd;
+}
+
+table td {
+   padding:4px;
+}
+
 table.tag_table_cls .rename_tag_form_cls {
   display:none;
+}
+
+table.tag_table_cls, table.tag_table_cls td {
+  border:none;
+  padding:2px;
 }
 
 #sharing_tokens_id {
