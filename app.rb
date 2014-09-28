@@ -179,6 +179,11 @@ get '/page/recent' do
   haml :page_recent, :locals => app.recent_pages()
 end
 
+get '/stats' do
+  app = authorize!
+  haml :page_stats, :locals => app.stats()
+end
+
 post '/page/add' do
   app = authorize!
   app.page_add(params["name"])

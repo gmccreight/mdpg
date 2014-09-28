@@ -151,6 +151,11 @@ class App
     {:edited_pages => edited_pages, :viewed_pages => viewed_pages}
   end
 
+  def stats
+    pages = UserPages.new(current_user).pages
+    {:pages => pages}
+  end
+
   def page_add name
     begin
       user_pages = UserPages.new(current_user)
