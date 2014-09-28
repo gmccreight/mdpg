@@ -6,10 +6,6 @@ if ENV["perf"]
 
   describe "Perfomance" do
 
-    before do
-      $data_store = get_memory_datastore()
-    end
-
     describe "get and set" do
 
       before do
