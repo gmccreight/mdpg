@@ -1,6 +1,7 @@
 .ruby-gemset
 .ruby-version
 .app_data
+.app_data_at_*
 .DS_Store
 .bundle
 .coveralls.yml

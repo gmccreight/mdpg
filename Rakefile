@@ -26,6 +26,11 @@ task :dep do
   exec "./bin/ops/deploy"
 end
 
+desc "copy production data"
+task :copy do
+  exec "./bin/ops/copy_production_data"
+end
+
 desc "run the mutant tests"
 task :mut do
   exec "./bin/mutant"
