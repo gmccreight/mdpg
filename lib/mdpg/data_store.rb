@@ -2,7 +2,14 @@ require 'yaml'
 
 class DataStore < Struct.new(:data_dir_or_memory)
 
+  def initialize(data_dir_or_memory)
+    @gets = []
+    @sets = []
+    super(data_dir_or_memory)
+  end
+
   def get key
+    @gets << key
     if data_dir_or_memory == :memory
       data = get_in_memory_value(key)
     else
@@ -18,6 +25,7 @@ class DataStore < Struct.new(:data_dir_or_memory)
   end
 
   def set key, data
+    @sets << key
     if data_dir_or_memory == :memory
       set_in_memory_value(key, data)
     else
@@ -36,6 +44,10 @@ class DataStore < Struct.new(:data_dir_or_memory)
     else
       File.delete(full_path_for_key(key))
     end
+  end
+
+  def report
+    { gets: @gets, sets: @sets }
   end
 
   private

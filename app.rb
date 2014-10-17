@@ -3,6 +3,10 @@ require 'haml'
 require 'coffee-script'
 require 'json'
 
+if ENV["profiler"]
+  require 'profiler'
+end
+
 #require 'pry-rescue/minitest' #slows down tests, but can be very handy
 
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
@@ -70,10 +74,21 @@ post '/s/:readwrite_token/update' do |readwrite_token|
 end
 
 get '/p/:name' do |page_name|
+  # if ENV["profiler"]
+  #   Profiler__.start_profile
+  # end
+
   if page = get_user_page(page_name)
     app = _app_get
     haml :page, :locals => app.page_get(page)
   end
+
+  # p $data_store.report()
+
+  # if ENV["profiler"]
+  #   Profiler__.stop_profile
+  #   Profiler__.print_profile(STDOUT)
+  # end
 end
 
 get '/t/:name' do |tag_name|
