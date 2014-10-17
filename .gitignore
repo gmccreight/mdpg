@@ -2,6 +2,7 @@
 .ruby-version
 .app_data
 .app_data_at_*
+.app_data_
 .DS_Store
 .bundle
 .coveralls.yml
