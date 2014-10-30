@@ -40,3 +40,8 @@ table.tag_table_cls, table.tag_table_cls td {
   color:gray;
   text-decoration:none;
 }
+
+textarea {
+  border:1px solid #999999;
+  font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+}
