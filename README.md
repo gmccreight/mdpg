@@ -139,12 +139,10 @@ context.
 Is a tag really closely related to another tag?  How about creating a
 relationship between them and specifying the strength of the relationship.
 
-### Tag creation (and typo reduction)
+### Tag creation (typo reduction and convergence)
 
 When creating a tag, you should suggest tags that have a similar name to the
 one you are currently filling in (and also, you should show related tags)
-
-
 
 ---
 
