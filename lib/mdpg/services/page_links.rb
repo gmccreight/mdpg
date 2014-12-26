@@ -1,11 +1,11 @@
 class PageLinks < Struct.new(:user)
 
   def internal_links_to_user_clickable_links text
-    altered_text text, mode: :user_clickable_link
+    alter_text(text) {|name| "[#{name}](/p/#{name})"}
   end
 
   def internal_links_to_page_name_links_for_editing text
-    altered_text text, mode: :page_name_link_for_editing
+    alter_text(text) {|name| "[[#{name}]]"}
   end
 
   def page_name_links_to_ids text
@@ -22,16 +22,12 @@ class PageLinks < Struct.new(:user)
     end
   end
 
-  private def altered_text text, mode:
+  private def alter_text text
     return text if ! text
     text.gsub(/\[\[mdpgpage:(\d+)\]\]/) do
       id = $1.to_i
       name = Page.find(id).name
-      if mode == :user_clickable_link
-        "[#{name}](/p/#{name})"
-      elsif mode == :page_name_link_for_editing
-        "[[#{name}]]"
-      end
+      yield name
     end
   end
 
