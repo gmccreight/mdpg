@@ -139,10 +139,13 @@ context.
 Is a tag really closely related to another tag?  How about creating a
 relationship between them and specifying the strength of the relationship.
 
-### Tag creation (typo reduction and convergence)
+### Tag creation (typo reduction and canonicalization)
 
 When creating a tag, you should suggest tags that have a similar name to the
 one you are currently filling in (and also, you should show related tags)
+
+Canonicalization serves to help define a tag ontology.  Outliers and one-offs
+are specifically flagged and made obvious.
 
 ---
 
