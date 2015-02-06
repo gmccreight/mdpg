@@ -51,4 +51,23 @@ describe PageLinks do
 
   end
 
+  describe "ids of the links" do
+
+    it "should return empty array if nothing" do
+      assert_equal([], @page_links.get_page_ids("what foo"))
+    end
+
+    it "should return a single page id" do
+      assert_equal([@zebra_page.id],
+        @page_links.get_page_ids("what [[mdpgpage:#{@zebra_page.id}]] foo"))
+    end
+
+    it "should return multiple page ids" do
+      text = "[[mdpgpage:#{@alaska_page.id}]] [[mdpgpage:#{@zebra_page.id}]]"
+      assert_equal([@zebra_page.id, @alaska_page.id].sort,
+                   @page_links.get_page_ids(text).sort)
+    end
+
+  end
+
 end
