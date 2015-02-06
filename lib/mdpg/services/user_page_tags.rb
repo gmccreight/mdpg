@@ -130,44 +130,42 @@ class UserPageTags < Struct.new(:user, :page)
     ObjectTags.new(x).get_tags
   end
 
-  private
+  private def _get_tags_hash
+    h = user.page_tags || {}
+    h.default = {}
+    h
+  end
 
-    def _get_tags_hash
-      h = user.page_tags || {}
-      h.default = {}
-      h
-    end
+  private def _set_tags_hash tags_hash
+    user.page_tags = tags_hash
+    user.save
+  end
 
-    def _set_tags_hash tags_hash
-      user.page_tags = tags_hash
-      user.save
-    end
+  private def _associated_tags_counts tagname
 
-    def _associated_tags_counts tagname
+    count_for = {}
+    count_for.default = 0
 
-      count_for = {}
-      count_for.default = 0
+    tags_on_current_page = []
 
-      tags_on_current_page = []
+    pages = get_pages_for_tag_with_name tagname
 
-      pages = get_pages_for_tag_with_name tagname
-
-      pages.each do |page_in_loop|
-        tags_for_page(page_in_loop).each do |tag|
-          if page_in_loop.id == page.id
-            tags_on_current_page << tag.name
-          else
-            count_for[tag.name] += 1
-          end
+    pages.each do |page_in_loop|
+      tags_for_page(page_in_loop).each do |tag|
+        if page_in_loop.id == page.id
+          tags_on_current_page << tag.name
+        else
+          count_for[tag.name] += 1
         end
       end
-
-      tags_on_current_page.each do |tagname|
-        count_for.delete(tagname)
-      end
-
-      count_for
-
     end
+
+    tags_on_current_page.each do |tagname|
+      count_for.delete(tagname)
+    end
+
+    count_for
+
+  end
 
 end

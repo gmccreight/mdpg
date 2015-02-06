@@ -55,29 +55,27 @@ class DataStore < Struct.new(:data_dir_or_memory)
     { disk_gets: @disk_gets, disk_sets: @disk_sets }
   end
 
-  private
+  private def get_in_memory_value key
+    @data ||= {}
+    @data[key]
+  end
 
-    def get_in_memory_value key
-      @data ||= {}
-      @data[key]
-    end
+  private def set_in_memory_value key, data
+    @data ||= {}
+    @data[key] = data
+  end
 
-    def set_in_memory_value key, data
-      @data ||= {}
-      @data[key] = data
-    end
+  private def full_path_for_key key
+    data_dir_or_memory() + "/" + directory_for_key(key) + "/" + key
+  end
 
-    def full_path_for_key key
-      data_dir_or_memory() + "/" + directory_for_key(key) + "/" + key
-    end
+  private def directory_for_key key
+    digest = digest_of_key key
+    digest[0..1]
+  end
 
-    def directory_for_key key
-      digest = digest_of_key key
-      digest[0..1]
-    end
-
-    def digest_of_key key
-      Digest::SHA1.hexdigest(key) #like git
-    end
+  private def digest_of_key key
+    Digest::SHA1.hexdigest(key) #like git
+  end
 
 end

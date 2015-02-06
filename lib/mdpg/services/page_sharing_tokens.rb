@@ -46,13 +46,11 @@ class PageSharingTokens < Struct.new(:page)
     _set_activation type, false
   end
 
-  private
-
-    def _set_activation type, value
-      return :token_type_does_not_exist if ! TOKEN_TYPES.include?(type)
-      page.send :"#{type}_sharing_token_activated=", value
-      page.save
-      true
-    end
+  private def _set_activation type, value
+    return :token_type_does_not_exist if ! TOKEN_TYPES.include?(type)
+    page.send :"#{type}_sharing_token_activated=", value
+    page.save
+    true
+  end
 
 end

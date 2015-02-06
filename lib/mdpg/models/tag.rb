@@ -4,10 +4,8 @@ class Tag < ModelBase
 
   attr_accessor *ATTRS
 
-  private
-
-    def unique_id_indexes
-      [:name]
-    end
+  private def unique_id_indexes
+    [:name]
+  end
 
 end

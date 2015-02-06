@@ -85,133 +85,131 @@ class ModelBase
     end
   end
 
-  private
+  private def possibly_update_revision
+    if is_versioned?
+      set_max_revision()
+      self.revision = max_revision()
+    end
+  end
 
-    def possibly_update_revision
-      if is_versioned?
-        set_max_revision()
-        self.revision = max_revision()
+  private def is_versioned?
+    false
+  end
+
+  private def alter_associated_object object, add_or_remove
+    type = type_name_for_object object
+    ids = get_ids_for_association_of_type type
+    if add_or_remove == :add
+      ids = ids + [object.id]
+    elsif add_or_remove == :remove
+      ids = ids - [object.id]
+    end
+    set_ids_for_association_of_type type, ids.sort.uniq
+  end
+
+  private def type_name_for_object object
+    object.class.name.split('::').last.downcase
+  end
+
+  private def get_data_prefix
+    type_name_for_object(self) + "data"
+  end
+
+  private def get_var name
+    instance_variable_get name
+  end
+
+  private def set_var name, value
+     instance_variable_set name, value
+  end
+
+  private def get_ids_for_association_of_type type
+    ids = get_var "@#{type}_ids"
+    ids || []
+  end
+
+  private def set_ids_for_association_of_type type, val
+    set_var("@#{type}_ids", val)
+  end
+
+  private def update_unique_id_indexes
+    unique_id_indexes.each do |attribute_symbol|
+      keyname = "#{get_data_prefix}-index-#{attribute_symbol}"
+      hash = data_store.get(keyname) || {}
+      value = get_var "@#{attribute_symbol}"
+      remove_any_preexisting_unique_indexes hash, self.id
+      hash[value] = self.id
+      data_store.set(keyname, hash)
+    end
+  end
+
+  private def remove_any_preexisting_unique_indexes hash, id
+    hash.keys.each do |key|
+      if hash[key] == self.id
+        hash.delete(key)
       end
     end
+    hash
+  end
 
-    def is_versioned?
-      false
+  private def persistable_data
+    h = {}
+    persistable_attributes.each{|key| h[key] = get_var("@#{key}")}
+    h
+  end
+
+  private def add_attributes_from_hash(opts)
+    persistable_attributes.each do |key|
+      next if key == :id
+      val = opts.has_key?(key) ? opts[key] : nil
+      set_var "@#{key}", val
     end
+  end
 
-    def alter_associated_object object, add_or_remove
-      type = type_name_for_object object
-      ids = get_ids_for_association_of_type type
-      if add_or_remove == :add
-        ids = ids + [object.id]
-      elsif add_or_remove == :remove
-        ids = ids - [object.id]
-      end
-      set_ids_for_association_of_type type, ids.sort.uniq
-    end
+  private def validates?
+    true
+  end
 
-    def type_name_for_object object
-      object.class.name.split('::').last.downcase
-    end
+  private def set_max_id val
+    data_store.set("#{get_data_prefix()}-max-id", val)
+  end
 
-    def get_data_prefix
-      type_name_for_object(self) + "data"
-    end
+  private def get_max_id
+    data_store.get("#{get_data_prefix()}-max-id") || 0
+  end
 
-    def get_var name
-      instance_variable_get name
-    end
+  private def persistable_attributes
+    @persistable_attributes ||= attributes.reject{|x| x == :data_store}
+  end
 
-    def set_var name, value
-       instance_variable_set name, value
-    end
+  private def attributes
+    self.class::ATTRS
+  end
 
-    def get_ids_for_association_of_type type
-      ids = get_var "@#{type}_ids"
-      ids || []
-    end
+  private def max_revision
+    data_store.get(revisionless_data_key + "-max-revision") || -1
+  end
 
-    def set_ids_for_association_of_type type, val
-      set_var("@#{type}_ids", val)
-    end
+  private def set_max_revision
+    rev = max_revision()
+    data_store.set(revisionless_data_key + "-max-revision", rev + 1)
+  end
 
-    def update_unique_id_indexes
-      unique_id_indexes.each do |attribute_symbol|
-        keyname = "#{get_data_prefix}-index-#{attribute_symbol}"
-        hash = data_store.get(keyname) || {}
-        value = get_var "@#{attribute_symbol}"
-        remove_any_preexisting_unique_indexes hash, self.id
-        hash[value] = self.id
-        data_store.set(keyname, hash)
-      end
-    end
-
-    def remove_any_preexisting_unique_indexes hash, id
-      hash.keys.each do |key|
-        if hash[key] == self.id
-          hash.delete(key)
-        end
-      end
-      hash
-    end
-
-    def persistable_data
-      h = {}
-      persistable_attributes.each{|key| h[key] = get_var("@#{key}")}
-      h
-    end
-
-    def add_attributes_from_hash(opts)
-      persistable_attributes.each do |key|
-        next if key == :id
-        val = opts.has_key?(key) ? opts[key] : nil
-        set_var "@#{key}", val
-      end
-    end
-
-    def validates?
-      true
-    end
-
-    def set_max_id val
-      data_store.set("#{get_data_prefix()}-max-id", val)
-    end
-
-    def get_max_id
-      data_store.get("#{get_data_prefix()}-max-id") || 0
-    end
-
-    def persistable_attributes
-      @persistable_attributes ||= attributes.reject{|x| x == :data_store}
-    end
-
-    def attributes
-      self.class::ATTRS
-    end
-
-    def max_revision
-      data_store.get(revisionless_data_key + "-max-revision") || -1
-    end
-
-    def set_max_revision
+  private def data_key
+    if is_versioned?
       rev = max_revision()
-      data_store.set(revisionless_data_key + "-max-revision", rev + 1)
+      revisionless_data_key() + "-#{rev}"
+    else
+      revisionless_data_key
     end
+  end
 
-    def data_key
-      if is_versioned?
-        rev = max_revision()
-        revisionless_data_key() + "-#{rev}"
-      else
-        revisionless_data_key
-      end
-    end
+  private def revisionless_data_key
+    "#{get_data_prefix}-#{id}"
+  end
 
-    def revisionless_data_key
-      "#{get_data_prefix}-#{id}"
-    end
-
-    def unique_id_indexes
-      []
-    end
+  private def unique_id_indexes
+    []
+  end
 
 end

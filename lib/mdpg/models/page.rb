@@ -28,30 +28,28 @@ class Page < ModelBase
     super
   end
 
-  private
+  private def string_contains? string, query
+    string.include? query
+  end
 
-    def string_contains? string, query
-      string.include? query
-    end
+  private def unique_id_indexes
+    [:readonly_sharing_token, :readwrite_sharing_token]
+  end
 
-    def unique_id_indexes
-      [:readonly_sharing_token, :readwrite_sharing_token]
-    end
+  private def is_versioned?
+    true
+  end
 
-    def is_versioned?
-      true
-    end
+  private def validates?
+    errors = Token.new(name).validate
+    return ! errors
+  end
 
-    def validates?
-      errors = Token.new(name).validate
-      return ! errors
+  private def ensure_has_sharing_token token_name
+    if ! self.send(token_name)
+      self.send("#{token_name}=",
+        RandStringGenerator.rand_string_of_length(32))
     end
-
-    def ensure_has_sharing_token token_name
-      if ! self.send(token_name)
-        self.send("#{token_name}=",
-          RandStringGenerator.rand_string_of_length(32))
-      end
-    end
+  end
 
 end

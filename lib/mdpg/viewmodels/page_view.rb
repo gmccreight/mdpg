@@ -39,14 +39,12 @@ class PageView < Struct.new(:user, :page, :token_type)
     markdown.render text
   end
 
-  private
+  private def page_tags
+    ObjectTags.new(page)
+  end
 
-    def page_tags
-      ObjectTags.new(page)
-    end
-
-    def user_page_tags
-      UserPageTags.new(user, page)
-    end
+  private def user_page_tags
+    UserPageTags.new(user, page)
+  end
 
 end

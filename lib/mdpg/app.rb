@@ -175,11 +175,9 @@ class App
     errors << error.to_s
   end
 
-  private
-
-    def _recent_pages_for page_ids
-      ids = page_ids || []
-      ids[0..25].map{|id| Page.find(id)}
-    end
+  private def _recent_pages_for page_ids
+    ids = page_ids || []
+    ids[0..25].map{|id| Page.find(id)}
+  end
 
 end

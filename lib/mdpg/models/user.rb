@@ -60,32 +60,30 @@ class User < ModelBase
     save
   end
 
-  private
+  private def unique_id_indexes
+    [:email, :access_token]
+  end
 
-    def unique_id_indexes
-      [:email, :access_token]
+  private def possibly_create_hashed_password
+    if @password
+      self.hashed_password = hash_this_password(@password)
     end
+  end
 
-    def possibly_create_hashed_password
-      if @password
-        self.hashed_password = hash_this_password(@password)
-      end
-    end
+  private def hash_this_password(password)
+    Digest::SHA1.hexdigest(password + self.salt)
+  end
 
-    def hash_this_password(password)
-      Digest::SHA1.hexdigest(password + self.salt)
+  private def ensure_salt
+    if ! self.salt
+      self.salt = RandStringGenerator.rand_string_of_length 32
     end
+  end
 
-    def ensure_salt
-      if ! self.salt
-        self.salt = RandStringGenerator.rand_string_of_length 32
-      end
+  private def ensure_access_token
+    if ! self.access_token
+      self.access_token = RandStringGenerator.rand_string_of_length 32
     end
-
-    def ensure_access_token
-      if ! self.access_token
-        self.access_token = RandStringGenerator.rand_string_of_length 32
-      end
-    end
+  end
 
 end

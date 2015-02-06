@@ -28,14 +28,12 @@ class SearchQueryParser < Struct.new(:query)
     []
   end
 
-  private
-
-    def _orig_search_str
-      if m = query.match(/^(.+?)(?:#{TAGS_REGEX_STR})/)
-        m[1]
-      else
-        query
-      end
+  private def _orig_search_str
+    if m = query.match(/^(.+?)(?:#{TAGS_REGEX_STR})/)
+      m[1]
+    else
+      query
     end
+  end
 
 end

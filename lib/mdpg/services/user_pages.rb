@@ -90,10 +90,8 @@ class UserPages < Struct.new(:user)
     user.page_ids().map{|x| page = Page.find(x); page}
   end
 
-  private
-
-    def page_ids_and_names
-      pages.map{|x| [x.id, x.name]}
-    end
+  private def page_ids_and_names
+    pages.map{|x| [x.id, x.name]}
+  end
 
 end
