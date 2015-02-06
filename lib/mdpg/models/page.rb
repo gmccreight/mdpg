@@ -2,7 +2,7 @@ class Page < ModelBase
 
   ATTRS = [:name, :text, :revision, :tag_ids, :readonly_sharing_token,
     :readwrite_sharing_token, :readonly_sharing_token_activated,
-    :readwrite_sharing_token_activated]
+    :readwrite_sharing_token_activated, :referring_page_ids]
 
   attr_accessor *ATTRS
 
@@ -22,9 +22,14 @@ class Page < ModelBase
     remove_associated_object tag
   end
 
+  def has_any_referring_pages?
+    referring_page_ids && referring_page_ids.size > 0
+  end
+
   def save
     ensure_has_sharing_token :readonly_sharing_token
     ensure_has_sharing_token :readwrite_sharing_token
+    ensure_has_referring_page_ids
     super
   end
 
@@ -49,6 +54,12 @@ class Page < ModelBase
     if ! self.send(token_name)
       self.send("#{token_name}=",
         RandStringGenerator.rand_string_of_length(32))
+    end
+  end
+
+  private def ensure_has_referring_page_ids
+    if ! self.referring_page_ids
+      self.referring_page_ids = []
     end
   end
 
