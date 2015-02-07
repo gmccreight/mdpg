@@ -26,6 +26,7 @@
 
   - if mode == :normal
     = haml :pagetags_partial
+    = haml :page_referers_partial, :locals => {:page => viewmodel.page}
     = haml :page_delete_partial, :locals => {:page => viewmodel.page}
     = haml :page_duplicate_partial, :locals => {:page => viewmodel.page}
 
