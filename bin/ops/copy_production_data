@@ -1,0 +1,11 @@
+#!/bin/bash
+
+source `dirname $0`/_shared.sh
+
+if [ $has_local_config ]; then
+
+  my_formatted_date=`date +"%Y_%m_%d_%H_%M_%S"`
+  cp -a .app_data .app_data_at_$my_formatted_date
+  rsync -av --delete $shared_mdpg_server:$shared_mdpg_remote_path/.app_data/ .app_data
+
+fi

@@ -10,4 +10,4 @@
 coverage
 
 bin/seeder
-bin/ops
+bin/ops/_shared_local_config.sh

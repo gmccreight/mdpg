@@ -1,0 +1,10 @@
+#!/bin/bash
+
+source `dirname $0`/_shared.sh
+
+if [ $has_local_config ]; then
+
+  rsync -av --exclude ".git" --exclude ".app_data" --exclude ".app_data_at_*"
+  --delete . $shared_mdpg_server:$shared_mdpg_remote_path
+
+fi
