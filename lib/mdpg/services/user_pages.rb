@@ -40,8 +40,10 @@ class UserPages < Struct.new(:user)
     end
 
     new_ids.each do |page_id|
-      target_page = Page.find(page_id)
-      PageReferrersUpdater.new.add_page_id_to_referrers(page.id, target_page)
+      if ! old_ids.include?(page_id)
+        target_page = Page.find(page_id)
+        PageReferrersUpdater.new.add_page_id_to_referrers(page.id, target_page)
+      end
     end
 
     page.refers_to_page_ids = new_ids
