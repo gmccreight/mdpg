@@ -63,18 +63,27 @@ Readily consumable via command line and HTTP, as well as with a browser.
 I'm going to try to get all of this done with Ruby 2 core and Sinatra.  We'll
 see how that goes.
 
-## Easy to back up
+## Quick backup
 
 One of my takeaways from pageoftext.com is that the data model made it very
-easy to back up the site, even as the data grew large.  It's very easy to
-rsync gigs of data as long as it is split up nicely.  This project goes even
-further than pageoftext.com in that direction, using the same object directory
-model as git.  That model uses a cryptographically solid hash function, SHA-1,
-to get a very even key distribution, then uses the first two characters of the
-40 hex character code as the directory name.  In other words, the data will be
-nicely distributed into a large number of buckets.  Unlike git, however, the
-objects are not content-addressible, rather the hash is a hash of the data's
-key.
+easy to quickly back up the site, even as the data grew large.  It's very easy
+to rsync gigs of data as long as it is split up nicely.  This project goes
+even further than pageoftext.com in that direction, using the same object
+directory model as git.  That model uses a cryptographically solid hash
+function, SHA-1, to get a very even key distribution, then uses the first two
+characters of the 40 hex character code as the directory name.  In other
+words, the data will be nicely distributed into a large number of buckets.
+Unlike git, however, the objects are not content-addressible, rather the hash
+is a hash of the data's key.
+
+Another nice side-effect of the quick backup is that it makes it easy to
+quickly load the production data into the development environment.  As of this
+writing (Feb 2015) it takes about 3 seconds to load the 11,000 files of
+production data into the development environment.
+
+The command to run the copying of production data to development is:
+
+    rake copy
 
 ## Relatively easy to reason about the datastore
 
