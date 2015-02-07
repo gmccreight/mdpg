@@ -7,6 +7,7 @@ if [ $has_local_config ]; then
   date_str=`date +"%Y_%m_%d_%H_%M_%S"`
   rsync -av \
     --delete --backup --exclude="*BKUP_*" --suffix=BKUP_$date_str \
-    $shared_mdpg_server:$shared_mdpg_remote_path/.app_data/ ~/archives/mdpg
+    $shared_mdpg_server:$shared_mdpg_remote_path/.app_data/ \
+    $shared_mdpg_backup_dir
 
 fi

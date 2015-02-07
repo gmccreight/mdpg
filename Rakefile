@@ -26,6 +26,11 @@ task :dep do
   exec "./bin/ops/deploy"
 end
 
+desc "backup production data to local machine"
+task :backup do
+  exec "./bin/ops/backup"
+end
+
 desc "copy production data"
 task :copy do
   exec "./bin/ops/copy_production_data"
