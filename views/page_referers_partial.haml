@@ -5,7 +5,7 @@
 
   - refering_page_ids.each do |page_id|
     - page_name = Page.find(page_id).name
-    %a{:href => "/p/#{page_name}"}
+    %a{:href => "/p/#{page_name}", :style => "margin-left:10px;"}
       = page_name
 
   %div{:style => "margin-bottom:20px;"}
