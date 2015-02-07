@@ -90,10 +90,11 @@ class App
   end
 
   def page_update_text page, new_text
-    page.text = PageLinks.new(current_user).
-      page_name_links_to_ids(new_text)
+    user_pages = UserPages.new(current_user)
+    user_pages.update_page_text_to(page, new_text)
     page.save
-    UserPages.new(current_user).page_was_updated page
+    user_pages.page_was_updated page
+
     set_redirect_to "/p/#{page.name}"
   end
 

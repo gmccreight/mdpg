@@ -7,7 +7,6 @@ describe "page" do
 
     @user = User.create name:"Jordan",
       email:"jordan@example.com", password:"cool"
-    user_pages = UserPages.new @user
     @page = UserPages.new(@user).create_page name:"original-good-page-name",
       text:"I have something *interesting* to say!"
   end
@@ -116,6 +115,68 @@ describe "page" do
     it "should fail to update a page if the page does not exist" do
       update_page "not-original-good-page-name", "some text"
       assert_equal "could not find that page", last_response.body
+    end
+
+    describe "referrals" do
+
+      it "should work for a single case" do
+        other_page_1 = UserPages.new(@user).create_page name:"other-page-1",
+          text:"cool"
+        update_page "original-good-page-name", "link to [[other-page-1]]"
+        follow_redirect_with_authenticated_user!(@user)
+        assert last_request.url.include? "/p/original-good-page-name"
+        assert last_response.body.include?(
+          '<a href="/p/other-page-1">other-page-1</a>')
+
+        assert_equal [other_page_1.id], @page.reload.refers_to_page_ids
+        assert_equal [@page.id], other_page_1.reload.referring_page_ids
+      end
+
+      it "should keep everything nicely arranged as you make changes" do
+        other_page_1 = UserPages.new(@user).create_page name:"other-page-1",
+          text:"cool"
+        other_page_2 = UserPages.new(@user).create_page name:"other-page-2",
+          text:"cool"
+
+        # link to single other page
+        update_page "original-good-page-name", "link to [[other-page-1]]"
+        follow_redirect_with_authenticated_user!(@user)
+        assert last_request.url.include? "/p/original-good-page-name"
+        assert last_response.body.include?(
+          '<a href="/p/other-page-1">other-page-1</a>')
+
+        assert_equal [other_page_1.id], @page.reload.refers_to_page_ids
+        assert_equal [@page.id], other_page_1.reload.referring_page_ids
+
+        # link to two other pages
+        update_page "original-good-page-name",
+          "link to [[other-page-1]] and [[other-page-2]]"
+        follow_redirect_with_authenticated_user!(@user)
+        assert last_request.url.include? "/p/original-good-page-name"
+        assert last_response.body.include?(
+          '<a href="/p/other-page-1">other-page-1</a> and ' +
+          '<a href="/p/other-page-2">other-page-2</a>'
+        )
+
+        assert_equal [other_page_1.id, other_page_2.id],
+          @page.reload.refers_to_page_ids
+        assert_equal [@page.id], other_page_1.reload.referring_page_ids
+        assert_equal [@page.id], other_page_2.reload.referring_page_ids
+
+        # remove the link to other-page-1
+        update_page "original-good-page-name",
+          "link to [[other-page-2]]"
+        follow_redirect_with_authenticated_user!(@user)
+        assert last_request.url.include? "/p/original-good-page-name"
+        assert last_response.body.include?(
+          '<a href="/p/other-page-2">other-page-2</a>'
+        )
+
+        assert_equal [other_page_2.id], @page.reload.refers_to_page_ids
+        assert_equal [], other_page_1.reload.referring_page_ids
+        assert_equal [@page.id], other_page_2.reload.referring_page_ids
+      end
+
     end
 
   end

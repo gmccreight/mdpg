@@ -2,7 +2,8 @@ class Page < ModelBase
 
   ATTRS = [:name, :text, :revision, :tag_ids, :readonly_sharing_token,
     :readwrite_sharing_token, :readonly_sharing_token_activated,
-    :readwrite_sharing_token_activated, :referring_page_ids]
+    :readwrite_sharing_token_activated, :referring_page_ids,
+    :refers_to_page_ids]
 
   attr_accessor *ATTRS
 
@@ -30,6 +31,7 @@ class Page < ModelBase
     ensure_has_sharing_token :readonly_sharing_token
     ensure_has_sharing_token :readwrite_sharing_token
     ensure_has_referring_page_ids
+    ensure_has_refers_to_page_ids
     super
   end
 
@@ -60,6 +62,12 @@ class Page < ModelBase
   private def ensure_has_referring_page_ids
     if ! self.referring_page_ids
       self.referring_page_ids = []
+    end
+  end
+
+  private def ensure_has_refers_to_page_ids
+    if ! self.refers_to_page_ids
+      self.refers_to_page_ids = []
     end
   end
 
