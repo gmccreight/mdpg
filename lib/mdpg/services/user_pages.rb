@@ -3,6 +3,9 @@ require 'securerandom'
 class PageAlreadyExistsException < Exception
 end
 
+class PageCannotBeDeletedBecauseItHasReferringPages < Exception
+end
+
 class UserPages < Struct.new(:user)
 
   def create_page opts
@@ -57,6 +60,9 @@ class UserPages < Struct.new(:user)
 
   def delete_page name
     if page = find_page_with_name(name)
+      if page.referring_page_ids && page.referring_page_ids.size > 0
+        raise PageCannotBeDeletedBecauseItHasReferringPages
+      end
       user.remove_page(page)
       user_page_tags = UserPageTags.new(user, page)
       user_page_tags.remove_all()

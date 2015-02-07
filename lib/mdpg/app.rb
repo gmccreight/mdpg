@@ -62,8 +62,12 @@ class App
   end
 
   def page_delete page
-    UserPages.new(current_user).delete_page page.name
-    set_redirect_to "/"
+    begin
+      UserPages.new(current_user).delete_page page.name
+      set_redirect_to "/"
+    rescue PageCannotBeDeletedBecauseItHasReferringPages
+      add_error "the page cannot be deleted because other pages refer to it"
+    end
   end
 
   def update_page_from_readwrite_token readwrite_token, new_text
