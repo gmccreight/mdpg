@@ -78,12 +78,31 @@ class ModelBase
   end
 
   def save
+    ensure_attr_defaults
     if validates?
       possibly_update_revision()
       data_store.set data_key, persistable_data
       update_unique_id_indexes()
     end
   end
+
+  private def attr_defaults
+    {}
+  end
+
+  private def ensure_attr_defaults
+    attr_defaults.each_key do |key|
+      ensure_attribute_with_default key, attr_defaults[key]
+    end
+  end
+
+  private def ensure_attribute_with_default attr_name, default_value
+    if ! self.send(attr_name)
+      self.send("#{attr_name}=",
+        default_value)
+    end
+  end
+
 
   private def possibly_update_revision
     if is_versioned?

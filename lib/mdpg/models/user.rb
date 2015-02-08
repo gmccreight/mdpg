@@ -8,6 +8,13 @@ class User < ModelBase
 
   attr_accessor *ATTRS
 
+  private def attr_defaults
+    {
+      access_token: RandStringGenerator.rand_string_of_length(32),
+      salt: RandStringGenerator.rand_string_of_length(32)
+    }
+  end
+
   def self.authenticate email, password
     user = self.find_by_index :email, email
     return nil if ! user
@@ -28,8 +35,7 @@ class User < ModelBase
   end
 
   def save
-    ensure_access_token()
-    ensure_salt()
+    ensure_attr_defaults
     possibly_create_hashed_password()
     super
   end
@@ -72,18 +78,6 @@ class User < ModelBase
 
   private def hash_this_password(password)
     Digest::SHA1.hexdigest(password + self.salt)
-  end
-
-  private def ensure_salt
-    if ! self.salt
-      self.salt = RandStringGenerator.rand_string_of_length 32
-    end
-  end
-
-  private def ensure_access_token
-    if ! self.access_token
-      self.access_token = RandStringGenerator.rand_string_of_length 32
-    end
   end
 
 end
