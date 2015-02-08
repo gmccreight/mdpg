@@ -36,13 +36,17 @@ class UserPages < Struct.new(:user)
 
     page_ids_removed(old_ids, new_ids).each do |page_id|
       target_page = Page.find(page_id)
-      PageReferrersUpdater.new.remove_page_id_from_referrers(page.id, target_page)
+      PageReferrersUpdater.new.remove_page_id_from_referrers(
+        page.id, target_page
+      )
     end
 
     new_ids.each do |page_id|
       if ! old_ids.include?(page_id)
         target_page = Page.find(page_id)
-        PageReferrersUpdater.new.add_page_id_to_referrers(page.id, target_page)
+        PageReferrersUpdater.new.add_page_id_to_referrers(
+          page.id, target_page
+        )
       end
     end
 
