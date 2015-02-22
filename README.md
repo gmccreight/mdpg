@@ -47,7 +47,8 @@ expectations, and I'll stub out any outbound query messages.
 
 ## 4.0!
 
-I wanna maintain a 4.0 on Code Climate.
+I wanna maintain a 4.0 on Code Climate.  Of course I realize this is a silly
+goal, but what's life without silly goals?
 
 ## Fun!
 
