@@ -31,7 +31,7 @@ task :backup do
   exec "./bin/ops/backup"
 end
 
-desc "copy production data"
+desc "copy production data so you can use it with local server"
 task :copy do
   exec "./bin/ops/copy_production_data"
 end
