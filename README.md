@@ -29,8 +29,8 @@ A secondary, but also critically important, goal is that the codebase be
 ready-to-refactor at all times.  I guess this means aiming for 100% test
 coverage, but I'm not going to be pedantic about it.  Basically, the point of
 this goal is that I can't often get several hours of hacking time set aside,
-but I can get half and hour here and half an hour there.  I want the code to
-facilitate making very quick changes and refactorings.
+but I can get a half hour here and there.  I want the code to facilitate making
+very quick changes and refactorings.
 
 In his book, "The Clean Coder", Uncle Bob Martin says:
 
