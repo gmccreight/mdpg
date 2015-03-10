@@ -4,9 +4,8 @@
   %h2 Referers
 
   - refering_page_ids.each do |page_id|
-    - if page = Page.find(page_id)
-      - page_name = page.name
-      %a{:href => "/p/#{page_name}", :style => "margin-left:10px;"}
-        = page_name
+    - page_name = Page.find(page_id).name
+    %a{:href => "/p/#{page_name}", :style => "margin-left:10px;"}
+      = page_name
 
   %div{:style => "margin-bottom:20px;"}

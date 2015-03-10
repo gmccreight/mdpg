@@ -69,6 +69,13 @@ class UserPages < Struct.new(:user)
       if page.referring_page_ids && page.referring_page_ids.size > 0
         raise PageCannotBeDeletedBecauseItHasReferringPages
       end
+      if page.refers_to_page_ids && page.refers_to_page_ids.size > 0
+        page.refers_to_page_ids.each do |page_id_referred_to|
+          PageReferrersUpdater.new.remove_page_id_from_referrers(
+            page.id, Page.find(page_id_referred_to)
+          )
+        end
+      end
       user.remove_page(page)
       user_page_tags = UserPageTags.new(user, page)
       user_page_tags.remove_all()

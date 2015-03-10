@@ -275,12 +275,30 @@ describe "page" do
       assert_equal "could not find that page", last_response.body
     end
 
-    it "should not delete a page that has a referring page" do
-      UserPages.new(@user).create_page name:"referring-page",
-        text:"link to [[original-good-page-name]]"
+    describe "pages with referrals" do
 
-      delete_page "original-good-page-name"
-      assert last_response.body.include? "cannot be deleted"
+      it "should not delete a page that has a referring page" do
+        UserPages.new(@user).create_page name:"referring-page",
+          text:"link to [[original-good-page-name]]"
+
+        delete_page "original-good-page-name"
+        assert last_response.body.include? "cannot be deleted"
+      end
+
+      it "should delete a page that refers to another" do
+        new_page = UserPages.new(@user).create_page name:"referring-page",
+          text:"link to [[original-good-page-name]]"
+
+        delete_page "referring-page"
+
+        follow_redirect_with_authenticated_user!(@user)
+        follow_redirect_with_authenticated_user!(@user)
+        assert last_response.body.include? "Edited"
+
+        get_page "original-good-page-name"
+        assert last_response.body.include? "I have something"
+      end
+
     end
 
   end
