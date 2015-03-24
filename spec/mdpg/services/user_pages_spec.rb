@@ -194,6 +194,67 @@ describe UserPages do
       assert_equal "hello-4", new_page.name
     end
 
+    describe "where the name already ends in a -1 or -v1" do
+
+      def page_should_duplicate_to before, after
+        @page.name = before
+        @page.save
+        new_page = @user_pages.duplicate_page before
+        assert_equal after, new_page.name
+      end
+
+      describe "without a v" do
+
+        it "should simply increment the -1 to -2" do
+          page_should_duplicate_to "test-1", "test-2"
+        end
+
+        it "should simply increment the -2 to -3" do
+          page_should_duplicate_to "test-2", "test-3"
+        end
+
+        it "should simply increment the -3 to -4" do
+          page_should_duplicate_to "test-3", "test-4"
+        end
+
+        it "should work with big numbers, too" do
+          page_should_duplicate_to "test-1001", "test-1002"
+        end
+
+        it "should increment past a pre-existing page" do
+          @user_pages.create_page name:"test-5"
+          page_should_duplicate_to "test-4", "test-6"
+        end
+
+      end
+
+      describe "with a v" do
+
+        it "should simply increment the -v1 to -v2" do
+          page_should_duplicate_to "test-v1", "test-v2"
+        end
+
+        it "should simply increment the -v2 to -v3" do
+          page_should_duplicate_to "test-v2", "test-v3"
+        end
+
+        it "should simply increment the -v3 to -v4" do
+          page_should_duplicate_to "test-v3", "test-v4"
+        end
+
+        it "should work with big numbers, too" do
+          page_should_duplicate_to "test-v1001", "test-v1002"
+        end
+
+        it "should increment past a pre-existing page" do
+          @user_pages.create_page name:"test-v5"
+          page_should_duplicate_to "test-v4", "test-v6"
+        end
+
+      end
+
+    end
+
   end
 
 end
