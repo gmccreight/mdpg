@@ -23,22 +23,23 @@ class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
   end
 
   private def propose_name_for(name, increment)
-    regex = %r{-(v?)(\d+)$}
+    version_suffix_regex = %r{-(v?)(\d+)$}
 
-    had_a_v = false
+    version_suffix_contained_a_v = false
 
-    if match = name.match(regex)
-      had_a_v = match[1] && match[1] != ""
-      digit = match[2].to_i
-      if increment < digit
-        increment = digit + 1
+    if match = name.match(version_suffix_regex)
+      version_suffix_contained_a_v = match[1] && match[1] != ""
+      version_suffix_digit = match[2].to_i
+      if increment < version_suffix_digit
+        increment = version_suffix_digit + 1
       end
     end
 
-    name_stripped = name.sub(regex, "")
+    name_stripped_of_suffix = name.sub(version_suffix_regex, "")
 
-    maybe_v = had_a_v ? "v" : ""
-    "#{name_stripped}-#{maybe_v}#{increment}"
+    maybe_v = version_suffix_contained_a_v ? "v" : ""
+
+    "#{name_stripped_of_suffix}-#{maybe_v}#{increment}"
   end
 
 end
