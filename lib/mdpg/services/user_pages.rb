@@ -85,19 +85,8 @@ class UserPages < Struct.new(:user)
 
   def duplicate_page name
     if original_page = find_page_with_name(name)
-      increment = 2
-      new_name = "#{name}-#{increment}"
-      while find_page_with_name(new_name)
-        increment += 1
-        new_name = "#{name}-#{increment}"
-      end
-      new_page = create_page({:name => new_name})
-      new_page.text = original_page.text
-
-      user_page_tags = UserPageTags.new(user, original_page)
-      user_page_tags.duplicate_tags_to_other_page(new_page)
-
-      new_page.save()
+      duplicator = UserPageDuplicator.new(self, user, original_page)
+      new_page = duplicator.duplicate()
       return new_page
     end
     nil
