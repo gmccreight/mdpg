@@ -46,6 +46,11 @@ task :server do
   exec "./bin/run_server"
 end
 
+desc "run ./bin/hack if you have one"
+task :hack do
+  exec "./bin/hack"
+end
+
 desc "run the tests ten times for timing"
 task :time do
   exec "
