@@ -55,4 +55,38 @@ describe Page do
 
   end
 
+  describe "pulling meta-data" do
+
+    it "should allow for meta-information" do
+      text =
+        "this is a test\n" +
+        "mdpg-meta:{\"needs_work\":false, \"is_done\":true}\n" +
+        "cool stuff"
+      page = Page.create name:"testing", text:text
+      assert_equal 2, page.meta.keys.size
+      assert_equal false, page.meta[:needs_work]
+      assert_equal true, page.meta[:is_done]
+    end
+
+    it "should use the first mdpg-meta" do
+      text =
+        "this is a test\n" +
+        "mdpg-meta:{\"needs_work\":false, \"is_done\":true}\n" +
+        "cool stuff\n" +
+        "mdpg-meta:{\"other_name\":\"wendy\"}\n"
+      page = Page.create name:"testing", text:text
+      assert_equal 2, page.meta.keys.size
+    end
+
+    it "should be very strict in the formatting" do
+      text =
+        "this is a test\n" +
+        " mdpg-meta:{\"needs_work\":false, \"is_done\":true}\n" +
+        "cool stuff\n"
+      page = Page.create name:"testing", text:text
+      assert_equal nil, page.meta
+    end
+
+  end
+
 end

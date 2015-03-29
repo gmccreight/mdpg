@@ -27,6 +27,13 @@ class Page < ModelBase
     referring_page_ids && referring_page_ids.size > 0
   end
 
+  def meta
+    meta_line = text.lines.select{|x| x =~ /^mdpg-meta:\{/}.first
+    return nil if ! meta_line
+    json_data = meta_line.sub(/^mdpg-meta:/, '')
+    JSON.parse(json_data, {symbolize_names:true})
+  end
+
   private def string_contains? string, query
     string.include? query
   end
