@@ -1,3 +1,4 @@
 #!/bin/bash
 
-find . -type f | egrep "\.(coffee|css|haml|md|rb)" | xargs egrep "^.{79}"
+find . -name "*app_data*" -prune -o -print | \
+egrep "\.(coffee|css|haml|md|rb|sh)" | xargs egrep "^.{79}"
