@@ -151,9 +151,9 @@ class App
   end
 
   def recent_pages how_many = 25
-    edited_pages = _recent_pages_for(current_user.recent_edited_page_ids, how_many)
-    viewed_pages = _recent_pages_for(current_user.recent_viewed_page_ids, how_many)
-    {:edited_pages => edited_pages, :viewed_pages => viewed_pages}
+    edited = _recent_pages_for(current_user.recent_edited_page_ids, how_many)
+    viewed = _recent_pages_for(current_user.recent_viewed_page_ids, how_many)
+    {:edited_pages => edited, :viewed_pages => viewed}
   end
 
   def stats
