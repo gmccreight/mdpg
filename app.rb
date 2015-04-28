@@ -191,7 +191,8 @@ end
 
 get '/page/recent' do
   app = authorize!
-  haml :page_recent, :locals => app.recent_pages()
+  how_many = params["how_many"] ? params["how_many"].to_i : 25
+  haml :page_recent, :locals => app.recent_pages(how_many)
 end
 
 get '/stats' do

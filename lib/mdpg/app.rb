@@ -150,9 +150,9 @@ class App
     end
   end
 
-  def recent_pages
-    edited_pages = _recent_pages_for(current_user.recent_edited_page_ids)
-    viewed_pages = _recent_pages_for(current_user.recent_viewed_page_ids)
+  def recent_pages how_many = 25
+    edited_pages = _recent_pages_for(current_user.recent_edited_page_ids, how_many)
+    viewed_pages = _recent_pages_for(current_user.recent_viewed_page_ids, how_many)
     {:edited_pages => edited_pages, :viewed_pages => viewed_pages}
   end
 
@@ -180,9 +180,9 @@ class App
     errors << error.to_s
   end
 
-  private def _recent_pages_for page_ids
+  private def _recent_pages_for page_ids, how_many
     ids = page_ids || []
-    ids[0..25].map{|id| Page.find(id)}
+    ids[0..how_many-1].map{|id| Page.find(id)}
   end
 
 end
