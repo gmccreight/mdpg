@@ -8,10 +8,6 @@ class UserPage < Struct.new(:user, :page)
     page_links().internal_links_to_page_name_links_for_editing(page.text)
   end
 
-  def text_for_saving
-
-  end
-
   def page_links
     PageLinks.new(user)
   end
