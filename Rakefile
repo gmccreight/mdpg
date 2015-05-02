@@ -36,11 +36,6 @@ task :copy do
   exec "./bin/ops/copy_production_data"
 end
 
-desc "run the mutant tests"
-task :mut do
-  exec "./bin/mutant"
-end
-
 desc "run the server"
 task :server do
   exec "./bin/run_server"
