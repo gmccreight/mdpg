@@ -11,7 +11,7 @@ class UserPageTags < Struct.new(:user, :page)
     end
 
     if ObjectTags.new(page).add_tag tag_name
-      h = _get_tags_hash()
+      h = get_tags_hash()
       if ! h.has_key?(tag_name)
         h[tag_name] = {}
       end
@@ -30,7 +30,7 @@ class UserPageTags < Struct.new(:user, :page)
     end
 
     if ObjectTags.new(page).remove_tag tag_name
-      _remove_tag_from_tags_hash tag_name
+      remove_tag_from_tags_hash tag_name
       true
     else
       false
@@ -38,8 +38,8 @@ class UserPageTags < Struct.new(:user, :page)
 
   end
 
-  def _remove_tag_from_tags_hash tag_name
-    h = _get_tags_hash()
+  private def remove_tag_from_tags_hash tag_name
+    h = get_tags_hash()
     return if ! h.has_key?(tag_name)
 
     page_id_string = page.id.to_s
@@ -104,15 +104,15 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   def get_tags
-    _get_tags_hash().keys.sort
+    get_tags_hash().keys.sort
   end
 
   def has_tag_with_name? tag_name
-    _get_tags_hash().has_key?(tag_name)
+    get_tags_hash().has_key?(tag_name)
   end
 
   def get_pages_for_tag_with_name tag_name
-    hash = _get_tags_hash()
+    hash = get_tags_hash()
     if hash.has_key?(tag_name)
       hash[tag_name].keys.map{|id_string| Page.find(id_string.to_i)}
     else
@@ -121,7 +121,7 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   def tag_count tag
-    h = _get_tags_hash()
+    h = get_tags_hash()
     return 0 if ! h.has_key?(tag)
     return h[tag].keys.size
   end
@@ -130,7 +130,7 @@ class UserPageTags < Struct.new(:user, :page)
     ObjectTags.new(x).get_tags
   end
 
-  private def _get_tags_hash
+  private def get_tags_hash
     h = user.page_tags || {}
     h.default = {}
     h
