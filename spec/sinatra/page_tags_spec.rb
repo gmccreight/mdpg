@@ -117,7 +117,7 @@ describe "page_tags" do
       it "should *also* add the page to the user's page_tags" do
         @user.reload
         user_page_tags = UserPageTags.new(@user, @page)
-        assert_equal ["new-1"], user_page_tags.get_tags()
+        assert_equal ["new-1"], user_page_tags.get_tag_names()
       end
 
     end
