@@ -49,13 +49,6 @@ In his book, "The Clean Coder", Uncle Bob Martin says:
 context of where you are. You can return to it after an interruption and
 continue to make that failing test pass."
 
-## Actual Unit Tests
-
-I'm taking testing inspiration from Sandi Metz's book, POODR, and from the
-Destroy All Software screencast series.  As part of that, I want my unit tests
-to be as isolated as possible.  I'll check outbound command messages with mock
-expectations, and I'll stub out any outbound query messages.
-
 ## 4.0!
 
 I wanna maintain a 4.0 on Code Climate.  Of course I realize this is a silly
