@@ -33,7 +33,7 @@ describe PageView do
 
       it "should not show the edit button when readonly sharing token" do
         vm = PageView.new(@user, @page, :readonly)
-        assert ! vm.should_show_edit_button?
+        refute vm.should_show_edit_button?
       end
 
     end

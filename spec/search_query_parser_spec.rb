@@ -55,7 +55,7 @@ describe SearchQueryParser do
 
     it "should not force a full search if no ! at the end" do
       @parser.query = "notes"
-      assert ! @parser.should_force_full_search?()
+      refute @parser.should_force_full_search?()
     end
 
   end
@@ -70,7 +70,7 @@ describe SearchQueryParser do
 
     it "should not open a normal search in edit mode" do
       @parser.query = "notes"
-      assert ! @parser.should_open_in_edit_mode?()
+      refute @parser.should_open_in_edit_mode?()
     end
 
   end

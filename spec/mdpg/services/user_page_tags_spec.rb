@@ -142,8 +142,8 @@ describe UserPageTags do
       assert tag_names.include?("jazz")
       assert tag_names.include?("assets")
 
-      assert ! tag_names.include?("color")
-      assert ! tag_names.include?("swimming")
+      refute tag_names.include?("color")
+      refute tag_names.include?("swimming")
     end
 
   end
