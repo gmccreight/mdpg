@@ -16,25 +16,18 @@ class PageRefersToUpdater
   end
 
   private def remove_outdated_refers_to
-    for_page_id(removed_page_ids) do |page_id, target_page|
+    removed_pages.each do |target_page|
       PageReferrersUpdater.new.remove_page_id_from_referrers(
-        page_id, target_page
+        @page.id, target_page
       )
     end
   end
 
   private def add_new_refers_to
-    for_page_id(added_page_ids) do |page_id, target_page|
+    added_pages.each do |target_page|
       PageReferrersUpdater.new.add_page_id_to_referrers(
-        page_id, target_page
+        @page.id, target_page
       )
-    end
-  end
-
-  private def for_page_id page_ids
-    page_ids.each do |target_page_id|
-      target_page = Page.find(target_page_id)
-      yield @page.id, target_page
     end
   end
 
@@ -43,12 +36,16 @@ class PageRefersToUpdater
     @page.save
   end
 
-  private def added_page_ids
-    @new_ids - @old_ids
+  private def added_pages
+    pages_for(@new_ids - @old_ids)
   end
 
-  private def removed_page_ids
-    @old_ids - @new_ids
+  private def removed_pages
+    pages_for(@old_ids - @new_ids)
+  end
+
+  private def pages_for page_ids
+    page_ids.map{|x| Page.find(x)}
   end
 
 end
