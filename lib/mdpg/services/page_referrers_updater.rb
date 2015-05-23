@@ -1,6 +1,6 @@
 class PageReferrersUpdater
 
-  def add_page_id_to_referrers(page_id, target_page)
+  def add_page_id_to_referrers page_id, target_page
     if target_page.has_any_referring_pages?
       if ! target_page.referring_page_ids.include?(page_id)
         ids = target_page.referring_page_ids
@@ -15,7 +15,7 @@ class PageReferrersUpdater
     end
   end
 
-  def remove_page_id_from_referrers(page_id, target_page)
+  def remove_page_id_from_referrers page_id, target_page
     if target_page.has_any_referring_pages?
       if target_page.referring_page_ids.include?(page_id)
         target_page.referring_page_ids = target_page.referring_page_ids.
