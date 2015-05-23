@@ -96,7 +96,6 @@ class App
   def page_update_text page, new_text
     user_pages = UserPages.new(current_user)
     user_pages.update_page_text_to(page, new_text)
-    page.save
     user_pages.page_was_updated page
 
     set_redirect_to "/p/#{page.name}"
