@@ -10,12 +10,12 @@ class PageRefersToUpdater
   end
 
   def update
-    remove_referrers
-    add_referrers
+    remove_outdated_refers_to
+    add_new_refers_to
     save_refers_to_page_ids_to_page
   end
 
-  private def remove_referrers
+  private def remove_outdated_refers_to
     for_page_id(removed_page_ids) do |page_id, target_page|
       PageReferrersUpdater.new.remove_page_id_from_referrers(
         page_id, target_page
@@ -23,7 +23,7 @@ class PageRefersToUpdater
     end
   end
 
-  private def add_referrers
+  private def add_new_refers_to
     for_page_id(added_page_ids) do |page_id, target_page|
       PageReferrersUpdater.new.add_page_id_to_referrers(
         page_id, target_page
