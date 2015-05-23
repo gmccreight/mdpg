@@ -27,41 +27,15 @@ class UserPages < Struct.new(:user)
     page
   end
 
-  def update_page_text_to page, text
-    page_links = PageLinks.new(user)
-    old_ids = page.refers_to_page_ids || []
-    page.text = page_links.page_name_links_to_ids(text)
-    page.save
-    new_ids = page_links.get_page_ids(page.text)
-
-    page_ids_removed(old_ids, new_ids).each do |page_id|
-      target_page = Page.find(page_id)
-      PageReferrersUpdater.new.remove_page_id_from_referrers(
-        page.id, target_page
-      )
-    end
-
-    new_ids.each do |page_id|
-      if ! old_ids.include?(page_id)
-        target_page = Page.find(page_id)
-        PageReferrersUpdater.new.add_page_id_to_referrers(
-          page.id, target_page
-        )
-      end
-    end
-
-    page.refers_to_page_ids = new_ids
-    page.save
+  def update_page_text_to page, new_text
+    set_page_text_with_links_escaped(page, new_text)
+    PageRefersToUpdater.new(page, user).update
   end
 
-  private def page_ids_removed old_ids, new_ids
-    results = []
-    old_ids.each do |old_id|
-      if ! new_ids.include?(old_id)
-        results << old_id
-      end
-    end
-    results
+  private def set_page_text_with_links_escaped page, new_text
+    page_links = PageLinks.new(user)
+    page.text = page_links.page_name_links_to_ids(new_text)
+    page.save
   end
 
   def delete_page name
