@@ -18,7 +18,7 @@ out a lot of ideas.
 ### Fast Tests
 
 First and foremost, I want the tests to run extremely quickly.  Even the
-integration tests.  This is the primarly design goal.  All else is secondary.
+integration tests.  This is the primary design goal; all else is secondary.
 If the tests take more than a second to run on a top-of-the-line computer,
 then we're not meeting our goal.
 
