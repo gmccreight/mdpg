@@ -15,7 +15,7 @@ class DataStore < Struct.new(:data_dir_or_memory)
       data = get_in_memory_value(key)
       if ! data
         filename = full_path_for_key key
-        if File.exists? filename
+        if File.exist? filename
           @disk_gets << key
           File.open(filename) do |file|
             data = YAML.load(file.read)
