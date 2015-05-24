@@ -8,6 +8,11 @@ end
 
 class UserPages < Struct.new(:user)
 
+  def initialize(user)
+    @pages_cache = nil
+    super(user)
+  end
+
   def create_page opts
     if opts[:name]
       if find_page_with_name(opts[:name])
@@ -23,6 +28,7 @@ class UserPages < Struct.new(:user)
     if page
       update_page_text_to(page, page.text)
       user.add_page page
+      page_ids_or_names_have_changed
     end
     page
   end
@@ -30,12 +36,6 @@ class UserPages < Struct.new(:user)
   def update_page_text_to page, new_text
     set_page_text_with_links_escaped(page, new_text)
     PageRefersToUpdater.new(page, user).update
-  end
-
-  private def set_page_text_with_links_escaped page, new_text
-    page_links = PageLinks.new(user)
-    page.text = page_links.page_name_links_to_ids(new_text)
-    page.save
   end
 
   def delete_page name
@@ -54,6 +54,7 @@ class UserPages < Struct.new(:user)
       user_page_tags = UserPageTags.new(user, page)
       user_page_tags.remove_all()
       page.virtual_delete()
+      page_ids_or_names_have_changed
     end
   end
 
@@ -61,6 +62,7 @@ class UserPages < Struct.new(:user)
     if original_page = find_page_with_name(name)
       duplicator = UserPageDuplicator.new(self, user, original_page)
       new_page = duplicator.duplicate()
+      page_ids_or_names_have_changed
       return new_page
     end
     nil
@@ -71,7 +73,11 @@ class UserPages < Struct.new(:user)
       raise PageAlreadyExistsException
     else
       page.name = new_name
-      return page.save()
+      worked = page.save()
+      if worked
+        page_ids_or_names_have_changed
+      end
+      return worked
     end
   end
 
@@ -98,12 +104,31 @@ class UserPages < Struct.new(:user)
   end
 
   def pages
-    return [] if ! user.page_ids()
-    user.page_ids().map{|x| page = Page.find(x); page}
+    return @pages_cache if @pages_cache
+    if ! user.page_ids()
+      @pages_cache = []
+    else
+      @pages_cache = user.page_ids().map{|x| page = Page.find(x); page}
+    end
+    @pages_cache
+  end
+
+  private def set_page_text_with_links_escaped page, new_text
+    page_links = PageLinks.new(user)
+    page.text = page_links.page_name_links_to_ids(new_text)
+    page.save
   end
 
   private def page_ids_and_names
     pages.map{|x| [x.id, x.name]}
+  end
+
+  private def page_ids_or_names_have_changed
+    clear_caches
+  end
+
+  private def clear_caches
+    @pages_cache = nil
   end
 
 end

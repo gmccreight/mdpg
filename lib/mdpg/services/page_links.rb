@@ -1,6 +1,11 @@
 class PageLinks < Struct.new(:user)
 
-  def get_page_ids(text)
+  def initialize user
+    @user_pages = UserPages.new(user)
+    super(user)
+  end
+
+  def get_page_ids text
     page_names = []
     alter_text(text) {|name| page_names << name}
     page_names.map{|x| user_page_for_name(x)}.compact.map{|x| x.id}
@@ -27,8 +32,7 @@ class PageLinks < Struct.new(:user)
   end
 
   private def user_page_for_name page_name
-    user_pages = UserPages.new(user)
-    user_pages.find_page_with_name(page_name)
+    @user_pages.find_page_with_name(page_name)
   end
 
   private def alter_text text
