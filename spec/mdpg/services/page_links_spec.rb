@@ -44,9 +44,20 @@ describe PageLinks do
         @page_links.page_name_links_to_ids("[[zebra-training]]"))
     end
 
-    it "should not make change if no such page exists" do
-      assert_equal("[[no-such-page]]",
-        @page_links.page_name_links_to_ids("[[no-such-page]]"))
+    describe "where the page does not exist" do
+
+      it "should not make change if no such page exists" do
+        assert_equal("[[no-such-page]]",
+          @page_links.page_name_links_to_ids("[[no-such-page]]"))
+      end
+
+      it "should create a page if the link had new- at the start" do
+        assert_match(/\[\[mdpgpage:\d+\]\]/,
+          @page_links.page_name_links_to_ids("[[new-a-great-page]]"))
+        new_page_id = @user_pages.find_page_with_name("a-great-page").id
+        assert_equal "a-great-page", Page.find(new_page_id).name
+      end
+
     end
 
   end
