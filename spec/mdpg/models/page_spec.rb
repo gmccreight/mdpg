@@ -17,6 +17,11 @@ describe Page do
       assert_equal page.name, "good"
     end
 
+    it "should make the text an empty string by default" do
+      page = Page.create name:"good"
+      assert_equal "", page.text
+    end
+
   end
 
   describe "updating" do

@@ -29,7 +29,7 @@ class PageView < Struct.new(:user, :page, :token_type)
 
   def fully_rendered_text
     text = PageLinks.new(user)
-      .internal_links_to_user_clickable_links(page.text) || ""
+      .internal_links_to_user_clickable_links(page.text)
     rendered_markdown text
   end
 
