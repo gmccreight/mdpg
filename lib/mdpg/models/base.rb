@@ -103,7 +103,6 @@ class ModelBase
     end
   end
 
-
   private def possibly_update_revision
     if is_versioned?
       set_max_revision()
