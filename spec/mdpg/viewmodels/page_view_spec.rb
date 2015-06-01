@@ -108,6 +108,7 @@ describe PageView do
       %w{colour great green gross}.each do |tag|
         @page_1_vm.add_tag tag
       end
+
       %w{green greed}.each do |tag|
         @page_2_vm.add_tag tag
       end
@@ -115,10 +116,6 @@ describe PageView do
 
     it "should find a similar tag from other pages but not this one" do
       assert_equal ["greed"], @page_1_vm.tag_suggestions_for("greet")
-    end
-
-    it "should return all the tags, minus the current page's if *" do
-      assert_equal %w{colour great gross}, @page_2_vm.tag_suggestions_for("*")
     end
 
   end
