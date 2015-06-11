@@ -11,8 +11,8 @@ describe PagePartials do
         and also
         with [[:partial:coolname:end]]
       EOF
-      partial = PagePartials.new
-      partial.process(text)
+      partial = PagePartials.new(text)
+      partial.process
       assert_equal ["coolname"], partial.list
     end
 
@@ -23,10 +23,27 @@ describe PagePartials do
         and also
         with [[:partial:coolname:end:axzegdababuwxnc]]
       EOF
-      partial = PagePartials.new
-      partial.process(text)
+      partial = PagePartials.new(text)
+      partial.process
       refute partial.had_error?
       assert_equal ["coolname"], partial.list
+    end
+
+    describe "text for a given partial" do
+
+      it "should give the text for a partial" do
+        text = (<<-EOF).gsub(/^ +/, '')
+          here is some text
+          with [[:partial:coolname:start:axzegdababuwxnc]] in it
+          and also
+          with [[:partial:coolname:end:axzegdababuwxnc]]
+        EOF
+        partial = PagePartials.new(text)
+        partial.process
+        result_with_no_newlines = partial.text_for("coolname").gsub(/\n/, " ")
+        assert_equal "in it and also with", result_with_no_newlines
+      end
+
     end
 
   end
@@ -40,8 +57,8 @@ describe PagePartials do
         and also
         with [[:partial:coolname:end]]
       EOF
-      partial = PagePartials.new
-      partial.process(text)
+      partial = PagePartials.new(text)
+      partial.process
       refute partial.had_error?
     end
 
@@ -53,8 +70,8 @@ describe PagePartials do
         wait... this is a bad partial with no end [[:partial:bad:start]]
         with [[:partial:coolname:end]]
       EOF
-      partial = PagePartials.new
-      partial.process(text)
+      partial = PagePartials.new(text)
+      partial.process
       assert partial.had_error?
       assert_equal ["bad"], partial.partial_names_with_errors
     end
@@ -67,8 +84,8 @@ describe PagePartials do
         [[:partial:coolname:start]]
         with [[:partial:coolname:end]]
       EOF
-      partial = PagePartials.new
-      partial.process(text)
+      partial = PagePartials.new(text)
+      partial.process
       assert partial.had_error?
       assert_equal ["coolname"], partial.partial_names_with_errors
     end

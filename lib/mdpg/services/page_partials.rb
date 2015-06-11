@@ -4,13 +4,14 @@ end
 
 class PagePartials
 
-  def initialize
+  def initialize(text)
+    @text = text
     reset
   end
 
-  def process text
+  def process
     reset
-    process_text text
+    process_text @text
   end
 
   def had_error?
@@ -25,13 +26,29 @@ class PagePartials
     @partials.map{|x| x.name}
   end
 
+  def text_for partial_name
+    partial = partial_with_name_or_identifier(partial_name, partial_name)
+    @text[partial.start_char..partial.end_char].strip
+  end
+
+  def partial_with_name_or_identifier name, identifier
+    array = @partials.
+      select{|x|
+        x.name == name ||
+          (x.identifier == identifier && identifier != nil)
+      }
+
+    return nil if ! array
+    array.first
+  end
+
   private def reset
     @partials = []
   end
 
   private def process_text text
 
-    text.gsub(partial_regex) do
+    text.gsub(partial_regex).with_index do |m, i|
 
       name = $1
       start_or_end = $2
@@ -41,20 +58,19 @@ class PagePartials
         identifier = identifier[1..-1]
       end
 
-      partial = @partials.
-        select{|x|
-          x.name == name || (x.identifier == identifier && identifier != nil)
-        }.first
+      partial = partial_with_name_or_identifier(name, identifier)
 
       if start_or_end == "start"
         if ! partial
-          @partials << Partial.new(0, nil, name, identifier, 1)
+          offset = Regexp.last_match.offset(0)[1]
+          @partials << Partial.new(offset, nil, name, identifier, 1)
         else
           partial.count += 1
         end
       elsif start_or_end == "end"
         partial.count += 1
-        partial.end_char = 10
+        offset = Regexp.last_match.offset(0)[0] - 1
+        partial.end_char = offset
       end
 
     end
