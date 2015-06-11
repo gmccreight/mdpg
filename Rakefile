@@ -31,9 +31,14 @@ task :backup do
   exec "./bin/ops/backup"
 end
 
-desc "copy production data so you can use it with local server"
+desc "copy production data - preserves backup of local data"
 task :copy do
   exec "./bin/ops/copy_production_data"
+end
+
+desc "sync production data - does not preserve local data"
+task :sync do
+  exec "./bin/ops/sync_production_data"
 end
 
 desc "run the server"
