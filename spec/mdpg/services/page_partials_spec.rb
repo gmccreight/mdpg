@@ -44,6 +44,23 @@ describe PagePartials do
         assert_equal "in it and also with", result_with_no_newlines
       end
 
+      it "should not include other partial tags" do
+        text = (<<-EOF).gsub(/^ +/, '')
+          here is some text
+          with [[:partial:coolname:start:axzegdababuwxnc]] in it
+
+          [[:partial:otherone:start]]
+          and also
+          with [[:partial:coolname:end:axzegdababuwxnc]]
+          this is the end
+          [[:partial:otherone:end]]
+        EOF
+        partial = PagePartials.new(text)
+        partial.process
+        result_with_no_newlines = partial.text_for("coolname").gsub(/\n/, " ")
+        assert_equal "in it and also with", result_with_no_newlines
+      end
+
     end
 
   end
