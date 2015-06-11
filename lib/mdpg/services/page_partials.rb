@@ -27,8 +27,10 @@ class PagePartials
   end
 
   def text_for partial_name
+    return nil if had_error?
     partial = partial_with_name_or_identifier(partial_name, partial_name)
-    @text[partial.start_char..partial.end_char].strip
+    internal_text = @text[partial.start_char..partial.end_char].strip
+    internal_text.gsub(partial_regex(remove_space:true), "")
   end
 
   def partial_with_name_or_identifier name, identifier
@@ -48,7 +50,7 @@ class PagePartials
 
   private def process_text text
 
-    text.gsub(partial_regex).with_index do |m, i|
+    text.gsub(partial_regex(remove_space:false)).with_index do |m, i|
 
       name = $1
       start_or_end = $2
@@ -77,8 +79,21 @@ class PagePartials
 
   end
 
-  private def partial_regex
-    %r{\[\[:partial:(#{Token::TOKEN_REGEX_STR}):(start|end)(:#{Token::TOKEN_REGEX_STR})?\]\]}
+  private def partial_regex remove_space:
+    internal = "
+      \\[\\[
+      :partial
+      :(#{Token::TOKEN_REGEX_STR})
+      :(start|end)
+      (:#{Token::TOKEN_REGEX_STR})?
+      \\]\\]
+    "
+    if remove_space
+      %r{\s?#{internal}\s?}x
+    else
+      %r{#{internal}}x
+    end
+
   end
 
 end
