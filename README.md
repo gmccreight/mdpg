@@ -83,10 +83,16 @@ is a hash of the data's key.
 
 Another nice side-effect of the quick backup is that it makes it easy to
 quickly load the production data into the development environment.  As of this
-writing (Feb 2015) it takes about 3 seconds to load the 11,000 files of
-production data into the development environment.
+writing (Jun 2015) it takes less than a second to load the incremental changes
+to the > 20,000 files of production data into the development environment.
 
-The command to run the copying of production data to development is:
+The command to run the sync of production data to development is:
+
+    rake sync
+
+There is also another, similar, command which will get you a local copy of
+production data, but will also preserve a timestamped version of your
+pre-existing development data:
 
     rake copy
 
