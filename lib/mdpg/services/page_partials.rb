@@ -1,8 +1,11 @@
+class Partial < Struct.new(:start_char, :end_char, :name, :identifier, :count)
+
+end
+
 class PagePartials
 
   def initialize
     reset
-
   end
 
   def process text
@@ -15,57 +18,51 @@ class PagePartials
   end
 
   def partial_names_with_errors
-    result = []
-    @partials_count_for.keys.each do |partial_name|
-      if @partials_count_for[partial_name] != 2 ||
-          ! @partials_status_for.has_key?(partial_name) ||
-          @partials_status_for[partial_name] != "closed"
-        result << partial_name
-      end
-    end
-    result
+    @partials.select{|x| x.count != 2 || x.end_char == nil}.map{|x| x.name}
   end
 
   def list
-    result = []
-    @partials_status_for.keys.each do |partial_name|
-      if @partials_status_for[partial_name] == "closed"
-        result << partial_name
-      end
-    end
-    result
+    @partials.map{|x| x.name}
   end
 
   private def reset
-    @partials_count_for = {}
-    @partials_count_for.default = 0
-
-    @partials_status_for = {}
+    @partials = []
   end
 
   private def process_text text
 
     text.gsub(partial_regex) do
-      partial_name = $1
-      start_or_end = $2
 
-      @partials_count_for[partial_name] += 1
+      name = $1
+      start_or_end = $2
+      identifier = $3
+
+      if identifier
+        identifier = identifier[1..-1]
+      end
+
+      partial = @partials.
+        select{|x|
+          x.name == name || (x.identifier == identifier && identifier != nil)
+        }.first
 
       if start_or_end == "start"
-        if ! @partials_status_for.has_key?(partial_name)
-          @partials_status_for[partial_name] = "opened"
+        if ! partial
+          @partials << Partial.new(0, nil, name, identifier, 1)
+        else
+          partial.count += 1
         end
       elsif start_or_end == "end"
-        if @partials_status_for[partial_name] = "opened"
-          @partials_status_for[partial_name] = "closed"
-        end
+        partial.count += 1
+        partial.end_char = 10
       end
+
     end
 
   end
 
   private def partial_regex
-    %r{\[\[:partial:(#{Token::TOKEN_REGEX_STR}):(start|end)\]\]}
+    %r{\[\[:partial:(#{Token::TOKEN_REGEX_STR}):(start|end)(:#{Token::TOKEN_REGEX_STR})?\]\]}
   end
 
 end
