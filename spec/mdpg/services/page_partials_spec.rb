@@ -2,16 +2,33 @@ require_relative "../../spec_helper"
 
 describe PagePartials do
 
-  it "should list fully opened and closed partials" do
-    text = (<<-EOF).gsub(/^ +/, '')
-      here is some text
-      with [[:partial:coolname:start]] in it
-      and also
-      with [[:partial:coolname:end]]
-    EOF
-    partial = PagePartials.new
-    partial.process(text)
-    assert_equal ["coolname"], partial.list
+  describe "success" do
+
+    it "should list fully opened and closed partials" do
+      text = (<<-EOF).gsub(/^ +/, '')
+        here is some text
+        with [[:partial:coolname:start]] in it
+        and also
+        with [[:partial:coolname:end]]
+      EOF
+      partial = PagePartials.new
+      partial.process(text)
+      assert_equal ["coolname"], partial.list
+    end
+
+    it "should list fully opened and closed partials using uniq id syntax" do
+      text = (<<-EOF).gsub(/^ +/, '')
+        here is some text
+        with [[:partial:coolname:start:axzegdababuwxnc]] in it
+        and also
+        with [[:partial:coolname:end:axzegdababuwxnc]]
+      EOF
+      partial = PagePartials.new
+      partial.process(text)
+      refute partial.had_error?
+      assert_equal ["coolname"], partial.list
+    end
+
   end
 
   describe "errors" do
