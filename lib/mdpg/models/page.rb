@@ -47,7 +47,6 @@ class Page < ModelBase
       readonly_sharing_token: RandStringGenerator.rand_string_of_length(32),
       readwrite_sharing_token: RandStringGenerator.rand_string_of_length(32),
       referring_page_ids: [],
-      referring_page_ids: [],
       text: ""
     }
   end
