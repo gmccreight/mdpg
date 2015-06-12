@@ -8,6 +8,11 @@ gem "coffee-script"
 
 gem "rack-test", require: "rack/test"
 
+# These are temporarily necessary in Ruby 2.2.2
+# We might be able to remove them later
+gem "test-unit"
+gem "minitest"
+
 gem "ruby-prof"
 gem "rerun"
 
