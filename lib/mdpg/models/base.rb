@@ -140,7 +140,7 @@ class ModelBase
   end
 
   private def set_var name, value
-     instance_variable_set name, value
+    instance_variable_set name, value
   end
 
   private def get_ids_for_association_of_type type
