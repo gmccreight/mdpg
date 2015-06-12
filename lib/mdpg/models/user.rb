@@ -10,8 +10,8 @@ class User < ModelBase
 
   private def attr_defaults
     {
-      access_token: RandStringGenerator.rand_string_of_length(32),
-      salt: RandStringGenerator.rand_string_of_length(32)
+      access_token: Proc.new{RandStringGenerator.rand_string_of_length(32)},
+      salt: Proc.new{RandStringGenerator.rand_string_of_length(32)}
     }
   end
 

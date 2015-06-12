@@ -44,8 +44,10 @@ class Page < ModelBase
 
   private def attr_defaults
     {
-      readonly_sharing_token: RandStringGenerator.rand_string_of_length(32),
-      readwrite_sharing_token: RandStringGenerator.rand_string_of_length(32),
+      readonly_sharing_token:
+        Proc.new{RandStringGenerator.rand_string_of_length(32)},
+      readwrite_sharing_token:
+        Proc.new{RandStringGenerator.rand_string_of_length(32)},
       referring_page_ids: [],
       text: ""
     }
