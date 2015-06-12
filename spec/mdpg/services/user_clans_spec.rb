@@ -3,6 +3,7 @@ require_relative "../../spec_helper"
 describe UserClans do
 
   before do
+    $data_store = get_memory_datastore()
     @user = create_user
 
     @zebra_clan = Clan.create name:"zebra-training"

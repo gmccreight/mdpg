@@ -3,6 +3,7 @@ require_relative "../../spec_helper"
 describe UserPages do
 
   before do
+    $data_store = get_memory_datastore()
     @user = create_user
 
     @zebra_page = Page.create name:"zebra-training",

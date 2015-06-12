@@ -3,7 +3,7 @@ require_relative "../../spec_helper"
 describe PageReferrersUpdater do
 
   before do
-    $data_store = get_memory_datastore
+    $data_store = get_memory_datastore()
     @user = create_user
     @page = create_page
     @referrers_updater = PageReferrersUpdater.new
