@@ -22,8 +22,8 @@ integration tests.  This is the primary design goal; all else is secondary.
 If the tests take more than a second to run on a top-of-the-line computer,
 then we're not meeting our goal.
 
-As of this writing (Sep 2014), the tests run in 0.5 seconds on my Macbook Pro.
-There are 288 assertions, many of which are high-level in Rack::Test.
+As of this writing (June 2015), the tests run in 0.6 seconds on my Macbook Pro.
+There are 345 assertions, many of which are high-level in Rack::Test.
 
 ### Fast Deploys
 
@@ -31,7 +31,7 @@ I also want to be able to deploy in less than a second.  This is, again, all
 about lowering the barrier to making changes in the system.  If I can run
 all the tests and deploy in two seconds, I'm likely to do it often.
 
-As of this writing (May 2015) it takes less than a second to deploy to
+As of this writing (June 2015) it takes less than a second to deploy to
 production.
 
 ## Readily Refactorable
