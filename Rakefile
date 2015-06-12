@@ -8,7 +8,7 @@ end
 
 desc "run the tests and profile them"
 task :prof do
-  exec "ruby-prof ./bin/tests/spec.rb 2>/dev/null | head -n 50"
+  exec "ruby-prof --min_percent=1 ./bin/tests/spec.rb 2>/dev/null"
 end
 
 desc "run all the tests, including style and coverage ones"
