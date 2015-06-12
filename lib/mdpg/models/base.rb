@@ -101,8 +101,7 @@ class ModelBase
       if default_value.class == Proc
         default_value = default_value.call
       end
-      self.send("#{attr_name}=",
-        default_value)
+      self.send "#{attr_name}=", default_value
     end
   end
 
