@@ -2,6 +2,53 @@ require_relative "../../spec_helper"
 
 describe PagePartials do
 
+  describe "adding unique identifiers to partial definitions" do
+
+    it "should add missing identifier to partial definition without one" do
+      text = (<<-EOF).gsub(/^ +/, '')
+        start of the text
+
+        [[:partial:quote1:start:aaaxxxbbb]]
+        here is a quote
+        [[:partial:quote1:end:aaaxxxbbb]]
+
+        and then some additional content
+
+        [[:partial:quote2:start]]
+        here is another quote
+        [[:partial:quote2:end]]
+
+        end of text
+      EOF
+      partial = PagePartials.new(text)
+
+      # Make the new identifier be a known value
+      def partial.get_new_identifier
+        "bbbegdababuwxxx"
+      end
+
+      new_text = partial.add_any_missing_identifiers
+
+      expected_text = (<<-EOF).gsub(/^ +/, '')
+        start of the text
+
+        [[:partial:quote1:start:aaaxxxbbb]]
+        here is a quote
+        [[:partial:quote1:end:aaaxxxbbb]]
+
+        and then some additional content
+
+        [[:partial:quote2:start:bbbegdababuwxxx]]
+        here is another quote
+        [[:partial:quote2:end:bbbegdababuwxxx]]
+
+        end of text
+      EOF
+      assert_equal expected_text, new_text
+    end
+
+  end
+
   describe "success" do
 
     it "should list fully opened and closed partials" do

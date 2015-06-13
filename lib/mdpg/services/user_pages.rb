@@ -34,8 +34,14 @@ class UserPages < Struct.new(:user)
   end
 
   def update_page_text_to page, new_text
+    new_text = add_missing_identifiers_to_partial_definitions(new_text)
     set_page_text_with_links_escaped(page, new_text)
     PageRefersToUpdater.new(page, user).update
+  end
+
+  private def add_missing_identifiers_to_partial_definitions(text)
+    partial = PagePartials.new(text)
+    partial.add_any_missing_identifiers
   end
 
   def delete_page name
