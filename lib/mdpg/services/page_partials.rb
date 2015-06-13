@@ -14,6 +14,33 @@ class PagePartials
     process_text @text
   end
 
+  def add_any_missing_identifiers
+    return @text if ! has_any_partial_definitions?
+
+    process
+    return @text if had_error?
+
+    return @text if ! any_missing_identifiers?
+
+    text = @text
+    list.each do |name|
+      identifier = get_new_identifier
+      ["start", "end"].each do |start_or_end|
+        text = text.gsub(
+          "[[:partial:#{name}:#{start_or_end}]]",
+          "[[:partial:#{name}:#{start_or_end}:#{identifier}]]"
+        )
+      end
+    end
+
+    text
+
+  end
+
+  def has_any_partial_definitions?
+    @text.match(partial_regex(remove_space:false))
+  end
+
   def had_error?
     partial_names_with_errors.size > 0
   end
@@ -24,6 +51,10 @@ class PagePartials
 
   def list
     @partials.map{|x| x.name}
+  end
+
+  def any_missing_identifiers?
+    @partials.map{|x| x.identifier}
   end
 
   def text_for partial_name
@@ -42,6 +73,10 @@ class PagePartials
 
     return nil if ! array
     array.first
+  end
+
+  def get_new_identifier
+    RandStringGenerator.rand_string_of_length(32)
   end
 
   private def reset
