@@ -26,7 +26,14 @@ class PageView < Struct.new(:user, :page, :token_type)
   def fully_rendered_text
     text = PageLinks.new(user)
       .internal_links_to_user_clickable_links(page.text)
+    text = text_with_stylized_partial_definitions(text, name)
     rendered_markdown text
+  end
+
+  def text_with_stylized_partial_definitions text, page_name
+    PagePartials.new(text).replace_definitions_with do |name, se|
+      %Q{<span style="background-color:#ddd;"> #{page_name}:#{name} - #{se} </span>}
+    end
   end
 
   def rendered_markdown(text)
