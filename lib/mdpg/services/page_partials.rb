@@ -14,6 +14,12 @@ class PagePartials
     process_text @text
   end
 
+  def identifier_for partial_name
+    return nil if had_error?
+    partial = partial_with_name_or_identifier(partial_name, partial_name)
+    partial.identifier
+  end
+
   def add_any_missing_identifiers
     return @text if ! has_any_partial_definitions?
 
