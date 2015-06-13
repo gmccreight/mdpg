@@ -18,8 +18,8 @@ class PagePartials
     return @text if ! has_any_partial_definitions?
 
     process
-    return @text if had_error?
 
+    return @text if had_error?
     return @text if ! any_missing_identifiers?
 
     text = @text
@@ -37,8 +37,12 @@ class PagePartials
 
   end
 
-  def has_any_partial_definitions?
-    @text.match(partial_regex(remove_space:false))
+  def replace_definitions_with
+    @text.gsub(partial_regex(remove_space:false)) do
+      name = $1
+      start_or_end = $2
+      yield name, start_or_end
+    end
   end
 
   def had_error?
@@ -53,10 +57,6 @@ class PagePartials
     @partials.map{|x| x.name}
   end
 
-  def any_missing_identifiers?
-    @partials.map{|x| x.identifier}
-  end
-
   def text_for partial_name
     return nil if had_error?
     partial = partial_with_name_or_identifier(partial_name, partial_name)
@@ -64,7 +64,15 @@ class PagePartials
     internal_text.gsub(partial_regex(remove_space:true), "")
   end
 
-  def partial_with_name_or_identifier name, identifier
+  private def has_any_partial_definitions?
+    @text.match(partial_regex(remove_space:false))
+  end
+
+  private def any_missing_identifiers?
+    @partials.map{|x| x.identifier}
+  end
+
+  private def partial_with_name_or_identifier name, identifier
     array = @partials.
       select{|x|
         x.name == name ||
@@ -75,7 +83,7 @@ class PagePartials
     array.first
   end
 
-  def get_new_identifier
+  private def get_new_identifier
     RandStringGenerator.rand_string_of_length(32)
   end
 
