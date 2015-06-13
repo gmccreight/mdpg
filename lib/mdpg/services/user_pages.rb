@@ -35,8 +35,49 @@ class UserPages < Struct.new(:user)
 
   def update_page_text_to page, new_text
     new_text = add_missing_identifiers_to_partial_definitions(new_text)
-    set_page_text_with_links_escaped(page, new_text)
+    new_text = page_text_with_links_escaped(new_text)
+    new_text = page_text_with_partial_includes_canonicalized(new_text)
+
+    page.text = new_text
+    page.save
+
     PageRefersToUpdater.new(page, user).update
+  end
+
+  private def page_text_with_partial_includes_canonicalized new_text
+    new_text = new_text.gsub(
+      /\[\[(#{Token::TOKEN_REGEX_STR}):(#{Token::TOKEN_REGEX_STR})\]\]/
+    ) do
+        page_name = $1
+        partial_name = $2
+
+        result = ""
+
+        if page_name == "mdpgpage"
+          result = "[[#{page_name}:#{partial_name}]]"
+        else
+          page = find_page_with_name(page_name)
+
+          if page
+            partials = PagePartials.new(page.text)
+            partials.process
+            identifier = partials.identifier_for(partial_name)
+
+            if identifier
+              result = "[[mdpgpage:#{page.id}:#{identifier}]]"
+            end
+          end
+        end
+
+        if result == ""
+          result = "[[#{page_name}:#{partial_name}]]"
+        end
+
+        result
+    end
+
+    new_text
+
   end
 
   private def add_missing_identifiers_to_partial_definitions(text)
@@ -119,10 +160,9 @@ class UserPages < Struct.new(:user)
     @pages_cache
   end
 
-  private def set_page_text_with_links_escaped page, new_text
+  private def page_text_with_links_escaped new_text
     page_links = PageLinks.new(user)
-    page.text = page_links.page_name_links_to_ids(new_text)
-    page.save
+    page_links.page_name_links_to_ids(new_text)
   end
 
   private def page_ids_and_names

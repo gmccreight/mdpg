@@ -76,6 +76,19 @@ describe PagePartials do
       assert_equal ["coolname"], partial.list
     end
 
+    it "should give the uniq id for a name" do
+      text = (<<-EOF).gsub(/^ +/, '')
+        here is some text
+        with [[:partial:coolname:start:axzegdababuwxnc]] in it
+        and also
+        with [[:partial:coolname:end:axzegdababuwxnc]]
+      EOF
+      partial = PagePartials.new(text)
+      partial.process
+      refute partial.had_error?
+      assert_equal "axzegdababuwxnc", partial.identifier_for("coolname")
+    end
+
     describe "text for a given partial" do
 
       it "should give the text for a partial" do
