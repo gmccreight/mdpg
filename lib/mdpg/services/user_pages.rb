@@ -45,39 +45,7 @@ class UserPages < Struct.new(:user)
   end
 
   private def page_text_with_partial_includes_canonicalized new_text
-    new_text = new_text.gsub(
-      /\[\[(#{Token::TOKEN_REGEX_STR}):(#{Token::TOKEN_REGEX_STR})\]\]/
-    ) do
-        page_name = $1
-        partial_name = $2
-
-        result = ""
-
-        if page_name == "mdpgpage"
-          result = "[[#{page_name}:#{partial_name}]]"
-        else
-          page = find_page_with_name(page_name)
-
-          if page
-            partials = PagePartials.new(page.text)
-            partials.process
-            identifier = partials.identifier_for(partial_name)
-
-            if identifier
-              result = "[[mdpgpage:#{page.id}:#{identifier}]]"
-            end
-          end
-        end
-
-        if result == ""
-          result = "[[#{page_name}:#{partial_name}]]"
-        end
-
-        result
-    end
-
-    new_text
-
+    PagePartialIncluder.new(self).normalize_links_to_partials(new_text)
   end
 
   private def add_missing_identifiers_to_partial_definitions(text)
