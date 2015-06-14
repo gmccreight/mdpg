@@ -24,10 +24,17 @@ class PageView < Struct.new(:user, :page, :token_type)
   end
 
   def fully_rendered_text
+    text = text_before_markdown_parsing
+    rendered_markdown text
+  end
+
+  def text_before_markdown_parsing
     text = PageLinks.new(user)
       .internal_links_to_user_clickable_links(page.text)
     text = text_with_stylized_partial_definitions(text, name)
-    rendered_markdown text
+    text = PagePartialIncluder.new.
+      replace_links_to_partials_with_actual_content(text)
+    text
   end
 
   def text_with_stylized_partial_definitions text, page_name

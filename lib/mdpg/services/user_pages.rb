@@ -45,7 +45,7 @@ class UserPages < Struct.new(:user)
   end
 
   private def page_text_with_partial_includes_canonicalized new_text
-    PagePartialIncluder.new(self).normalize_links_to_partials(new_text)
+    PagePartialIncluder.new().normalize_links_to_partials(new_text, self)
   end
 
   private def add_missing_identifiers_to_partial_definitions(text)

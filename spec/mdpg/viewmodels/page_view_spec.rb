@@ -43,6 +43,50 @@ describe PageView do
 
   describe "rendered html for page" do
 
+    describe "which includes partials from other pages" do
+
+      it "should be able to include partial page from other page" do
+
+        ident = "abababababababab"
+
+        other_text = (<<-EOF).gsub(/^ +/, '')
+          something that we're talking about
+          with [[:partial:important-idea:start:#{ident}]]
+          John James said: "this is an important idea"
+          [[:partial:important-idea:end:#{ident}]]
+        EOF
+        other_page = Page.create name:"other-page", text:other_text
+
+        this_text = (<<-EOF).gsub(/^ +/, '')
+          From the other page:
+
+          [[mdpgpage:#{other_page.id}:#{ident}]]
+
+          is what it was talking about
+        EOF
+
+        this_page = Page.create name:"this-page", text:this_text
+
+        page_vm = PageView.new(@user, this_page, nil)
+
+        expected_text = (<<-EOF).gsub(/^ +/, '')
+          From the other page:
+
+          [[#{other_page.name}:abababababababab:start]]
+
+          John James said: "this is an important idea"
+
+          [[#{other_page.name}:abababababababab:end]]
+
+          is what it was talking about
+        EOF
+
+        assert_equal expected_text, page_vm.text_before_markdown_parsing
+
+      end
+
+    end
+
     it "should render the page's markdown as html" do
       assert_equal "<p>This is <em>bongos</em>, indeed.</p>\n",
         @page_1_vm.fully_rendered_text()
