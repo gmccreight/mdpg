@@ -29,6 +29,11 @@ body {
   width:300px;
 }
 
+a, a:visited {
+  color:#3f80b0;
+  text-decoration:none;
+}
+
 .header_cls form {
   margin-right:20px;
   display:inline;
