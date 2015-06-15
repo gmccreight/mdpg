@@ -22,8 +22,8 @@ integration tests.  This is the primary design goal; all else is secondary.
 If the tests take more than a second to run on a top-of-the-line computer,
 then we're not meeting our goal.
 
-As of this writing (June 2015), the tests run in 0.6 seconds on my Macbook Pro.
-There are 345 assertions, many of which are high-level in Rack::Test.
+As of this writing (June 2015), the tests run in 0.6 seconds on my Macbook
+Pro.  There are 345 assertions, many of which are high-level in Rack::Test.
 
 ### Fast Deploys
 
