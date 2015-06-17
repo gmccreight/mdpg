@@ -49,10 +49,17 @@ describe PageView do
 
         ident = "abababababababab"
 
-        other_text = (<<-EOF).gsub(/^ +/, '')
+        other_text = (<<-EOF).gsub(/^[ ]{10}/, '')
           something that we're talking about
           with [[#important-idea:#{ident}]]
-          John James said: "this is an important idea"
+
+          * check this
+              * indented
+
+          John James said: "this is an important command:"
+
+              ls -l
+
           [[#important-idea:#{ident}]]
         EOF
         other_page = Page.create name:"other-page", text:other_text
@@ -69,14 +76,25 @@ describe PageView do
 
         page_vm = PageView.new(@user, this_page, nil)
 
-        expected_text = (<<-EOF).gsub(/^ +/, '')
+        expected_text = (<<-EOF).gsub(/^[ ]{10}/, '')
           From the other page:
 
-          [[#{other_page.name}#important-idea:start]]
 
-          John James said: "this is an important idea"
+          <div class='transcluded-section-header top-header'>
+            <a href='/p/other-page'>other-page</a>#important-idea
+          </div>
 
-          [[#{other_page.name}#important-idea:end]]
+          * check this
+              * indented
+
+          John James said: "this is an important command:"
+
+              ls -l
+
+          <div class='transcluded-section-header bottom-header'>
+            &nbsp;
+          </div>
+
 
           is what it was talking about
         EOF

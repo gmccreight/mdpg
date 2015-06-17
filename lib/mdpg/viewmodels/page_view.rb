@@ -32,8 +32,25 @@ class PageView < Struct.new(:user, :page, :token_type)
     text = PageLinks.new(user)
       .internal_links_to_user_clickable_links(page.text)
     text = text_with_stylized_labeled_section_definitions(text, name)
-    text = LabeledSectionTranscluder.new.
-      transclude_the_sections(text)
+    text = text_with_labeled_sections_transcluded(text)
+    text
+  end
+
+  private def text_with_labeled_sections_transcluded(text)
+    text = LabeledSectionTranscluder.new.transclude_the_sections(text) do
+        |page, section, section_name, section_identifier|
+"
+<div class='transcluded-section-header top-header'>
+  <a href='/p/#{page.name}'>#{page.name}</a>##{section_name}
+</div>
+
+#{section.text_for(section_identifier)}
+
+<div class='transcluded-section-header bottom-header'>
+  &nbsp;
+</div>
+"
+    end
     text
   end
 

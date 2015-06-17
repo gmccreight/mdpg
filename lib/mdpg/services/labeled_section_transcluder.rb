@@ -29,11 +29,7 @@ class LabeledSectionTranscluder
 
       section_name = section.name_for(section_identifier)
 
-      "[[#{page.name}##{section_name}:start]]
-
-      #{section.text_for(section_identifier)}
-
-      [[#{page.name}##{section_name}:end]]".gsub(/^[ ]+/, '')
+      yield page, section, section_name, section_identifier
     end
   end
 
