@@ -20,7 +20,7 @@ class PagePartialIncluder
       end
   end
 
-  def normalize_links_to_partials text, user_pages
+  def user_facing_links_to_internal_links text, user_pages
     text = text.gsub(
       /\[\[(#{Token::TOKEN_REGEX_STR})#(#{Token::TOKEN_REGEX_STR})\]\]/
     ) do
