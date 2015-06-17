@@ -43,6 +43,68 @@ describe PageView do
 
   describe "rendered html for page" do
 
+    describe "which includes partials from other pages" do
+
+      it "should be able to include partial page from other page" do
+
+        ident = "abababababababab"
+
+        other_text = (<<-EOF).gsub(/^[ ]{10}/, '')
+          something that we're talking about
+          with [[#important-idea:#{ident}]]
+
+          * check this
+              * indented
+
+          John James said: "this is an important command:"
+
+              ls -l
+
+          [[#important-idea:#{ident}]]
+        EOF
+        other_page = Page.create name:"other-page", text:other_text
+
+        this_text = (<<-EOF).gsub(/^ +/, '')
+          From the other page:
+
+          [[mdpgpage:#{other_page.id}:#{ident}]]
+
+          is what it was talking about
+        EOF
+
+        this_page = Page.create name:"this-page", text:this_text
+
+        page_vm = PageView.new(@user, this_page, nil)
+
+        expected_text = (<<-EOF).gsub(/^[ ]{10}/, '')
+          From the other page:
+
+
+          <div class='transcluded-section-header top-header'>
+            <a href='/p/other-page'>other-page</a>#important-idea
+          </div>
+
+          * check this
+              * indented
+
+          John James said: "this is an important command:"
+
+              ls -l
+
+          <div class='transcluded-section-header bottom-header'>
+            &nbsp;
+          </div>
+
+
+          is what it was talking about
+        EOF
+
+        assert_equal expected_text, page_vm.text_before_markdown_parsing
+
+      end
+
+    end
+
     it "should render the page's markdown as html" do
       assert_equal "<p>This is <em>bongos</em>, indeed.</p>\n",
         @page_1_vm.fully_rendered_text()

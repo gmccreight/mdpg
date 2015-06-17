@@ -67,6 +67,15 @@ table.tag_table_cls, table.tag_table_cls td {
   padding:2px;
 }
 
+.transcluded-section-header {
+  background-color:#eee;
+  padding:4px;
+}
+
+.transcluded-section-header.top-header {
+  background-color:#ddd;
+}
+
 #sharing_tokens_id {
   margin-top:10px;
 }

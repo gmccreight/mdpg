@@ -34,8 +34,24 @@ class UserPages < Struct.new(:user)
   end
 
   def update_page_text_to page, new_text
-    set_page_text_with_links_escaped(page, new_text)
+    new_text = add_missing_identifiers_to_partial_definitions(new_text)
+    new_text = page_text_with_links_escaped(new_text)
+    new_text = page_text_with_partial_includes_canonicalized(new_text)
+
+    page.text = new_text
+    page.save
+
     PageRefersToUpdater.new(page, user).update
+  end
+
+  private def page_text_with_partial_includes_canonicalized new_text
+    LabeledSectionTranscluder.new().
+      user_facing_links_to_internal_links(new_text, self)
+  end
+
+  private def add_missing_identifiers_to_partial_definitions(text)
+    partial = LabeledSections.new(text)
+    partial.add_any_missing_identifiers
   end
 
   def delete_page name
@@ -113,10 +129,9 @@ class UserPages < Struct.new(:user)
     @pages_cache
   end
 
-  private def set_page_text_with_links_escaped page, new_text
+  private def page_text_with_links_escaped new_text
     page_links = PageLinks.new(user)
-    page.text = page_links.page_name_links_to_ids(new_text)
-    page.save
+    page_links.page_name_links_to_ids(new_text)
   end
 
   private def page_ids_and_names
