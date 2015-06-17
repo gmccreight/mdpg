@@ -1,5 +1,20 @@
 class PagePartialIncluder
 
+  def get_page_ids(user_pages, text)
+
+    ids = []
+
+    text.gsub(
+      /\[\[mdpgpage:(\d+):#{Token::TOKEN_REGEX_STR}\]\]/
+    ) do
+      page_id = $1.to_i
+      ids << page_id
+    end
+
+    ids
+
+  end
+
   def replace_links_to_partials_with_actual_content text
     text.gsub(
       /\[\[mdpgpage:(\d+):(#{Token::TOKEN_REGEX_STR})\]\]/
