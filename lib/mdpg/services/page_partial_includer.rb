@@ -27,11 +27,13 @@ class PagePartialIncluder
         partial = PagePartials.new(Page.find(page_id).text)
         partial.process
 
-        "[[#{page.name}##{partial_identifier}:start]]
+        partial_name = partial.name_for(partial_identifier)
+
+        "[[#{page.name}##{partial_name}:start]]
 
         #{partial.text_for(partial_identifier)}
 
-        [[#{page.name}##{partial_identifier}:end]]".gsub(/^[ ]+/, '')
+        [[#{page.name}##{partial_name}:end]]".gsub(/^[ ]+/, '')
       end
   end
 
