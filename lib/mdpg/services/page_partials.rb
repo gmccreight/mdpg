@@ -50,8 +50,7 @@ class PagePartials
   def replace_definitions_with
     @text.gsub(partial_regex(remove_space:false)) do
       name = $1
-      start_or_end = $2
-      yield name, start_or_end
+      yield name
     end
   end
 
