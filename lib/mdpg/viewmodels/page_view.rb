@@ -31,20 +31,20 @@ class PageView < Struct.new(:user, :page, :token_type)
   def text_before_markdown_parsing
     text = PageLinks.new(user)
       .internal_links_to_user_clickable_links(page.text)
-    text = text_with_stylized_partial_definitions(text, name)
+    text = text_with_stylized_labeled_section_definitions(text, name)
     text = LabeledSectionTranscluder.new.
       transclude_the_sections(text)
     text
   end
 
-  def text_with_stylized_partial_definitions text, page_name
+  private def text_with_stylized_labeled_section_definitions text, page_name
     LabeledSections.new(text).replace_definitions_with do |name|
       %Q{<span style="background-color:#ddd;"> #{page_name}##{name}} +
        "</span>"
     end
   end
 
-  def rendered_markdown(text)
+  private def rendered_markdown(text)
     markdown = ::Redcarpet::Markdown.new(Redcarpet::Render::HTML,
       :autolink => true, :space_after_headers => true, :tables => true)
     markdown.render text
