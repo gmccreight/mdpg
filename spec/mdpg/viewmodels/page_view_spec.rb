@@ -51,9 +51,9 @@ describe PageView do
 
         other_text = (<<-EOF).gsub(/^ +/, '')
           something that we're talking about
-          with [[:partial:important-idea:start:#{ident}]]
+          with [[#important-idea:#{ident}]]
           John James said: "this is an important idea"
-          [[:partial:important-idea:end:#{ident}]]
+          [[#important-idea:#{ident}]]
         EOF
         other_page = Page.create name:"other-page", text:other_text
 

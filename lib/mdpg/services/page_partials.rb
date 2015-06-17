@@ -31,12 +31,10 @@ class PagePartials
     text = @text
     list.each do |name|
       identifier = get_new_identifier
-      ["start", "end"].each do |start_or_end|
-        text = text.gsub(
-          "[[:partial:#{name}:#{start_or_end}]]",
-          "[[:partial:#{name}:#{start_or_end}:#{identifier}]]"
-        )
-      end
+      text = text.gsub(
+        "[[##{name}]]",
+        "[[##{name}:#{identifier}]]"
+      )
     end
 
     text
@@ -102,8 +100,7 @@ class PagePartials
     text.gsub(partial_regex(remove_space:false)).with_index do |m, i|
 
       name = $1
-      start_or_end = $2
-      identifier = $3
+      identifier = $2
 
       if identifier
         identifier = identifier[1..-1]
@@ -111,17 +108,15 @@ class PagePartials
 
       partial = partial_with_name_or_identifier(name, identifier)
 
-      if start_or_end == "start"
-        if ! partial
-          offset = Regexp.last_match.offset(0)[1]
-          @partials << Partial.new(offset, nil, name, identifier, 1)
-        else
-          partial.count += 1
+      if partial
+        if partial.count == 1
+          offset = Regexp.last_match.offset(0)[0] - 1
+          partial.end_char = offset
         end
-      elsif start_or_end == "end"
         partial.count += 1
-        offset = Regexp.last_match.offset(0)[0] - 1
-        partial.end_char = offset
+      else
+        offset = Regexp.last_match.offset(0)[1]
+        @partials << Partial.new(offset, nil, name, identifier, 1)
       end
 
     end
@@ -131,9 +126,7 @@ class PagePartials
   private def partial_regex remove_space:
     internal = "
       \\[\\[
-      :partial
-      :(#{Token::TOKEN_REGEX_STR})
-      :(start|end)
+      [#](#{Token::TOKEN_REGEX_STR})
       (:#{Token::TOKEN_REGEX_STR})?
       \\]\\]
     "

@@ -8,15 +8,15 @@ describe PagePartials do
       text = (<<-EOF).gsub(/^ +/, '')
         start of the text
 
-        [[:partial:quote1:start:aaaxxxbbb]]
+        [[#quote1:aaaxxxbbb]]
         here is a quote
-        [[:partial:quote1:end:aaaxxxbbb]]
+        [[#quote1:aaaxxxbbb]]
 
         and then some additional content
 
-        [[:partial:quote2:start]]
+        [[#quote2]]
         here is another quote
-        [[:partial:quote2:end]]
+        [[#quote2]]
 
         end of text
       EOF
@@ -32,15 +32,15 @@ describe PagePartials do
       expected_text = (<<-EOF).gsub(/^ +/, '')
         start of the text
 
-        [[:partial:quote1:start:aaaxxxbbb]]
+        [[#quote1:aaaxxxbbb]]
         here is a quote
-        [[:partial:quote1:end:aaaxxxbbb]]
+        [[#quote1:aaaxxxbbb]]
 
         and then some additional content
 
-        [[:partial:quote2:start:bbbegdababuwxxx]]
+        [[#quote2:bbbegdababuwxxx]]
         here is another quote
-        [[:partial:quote2:end:bbbegdababuwxxx]]
+        [[#quote2:bbbegdababuwxxx]]
 
         end of text
       EOF
@@ -54,9 +54,9 @@ describe PagePartials do
     it "should list fully opened and closed partials" do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
-        with [[:partial:coolname:start]] in it
+        with [[#coolname]] in it
         and also
-        with [[:partial:coolname:end]]
+        with [[#coolname]]
       EOF
       partial = PagePartials.new(text)
       partial.process
@@ -66,9 +66,9 @@ describe PagePartials do
     it "should list fully opened and closed partials using uniq id syntax" do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
-        with [[:partial:coolname:start:axzegdababuwxnc]] in it
+        with [[#coolname:axzegdababuwxnc]] in it
         and also
-        with [[:partial:coolname:end:axzegdababuwxnc]]
+        with [[#coolname:axzegdababuwxnc]]
       EOF
       partial = PagePartials.new(text)
       partial.process
@@ -79,9 +79,9 @@ describe PagePartials do
     it "should give the uniq id for a name" do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
-        with [[:partial:coolname:start:axzegdababuwxnc]] in it
+        with [[#coolname:axzegdababuwxnc]] in it
         and also
-        with [[:partial:coolname:end:axzegdababuwxnc]]
+        with [[#coolname:axzegdababuwxnc]]
       EOF
       partial = PagePartials.new(text)
       partial.process
@@ -94,9 +94,9 @@ describe PagePartials do
       it "should give the text for a partial" do
         text = (<<-EOF).gsub(/^ +/, '')
           here is some text
-          with [[:partial:coolname:start:axzegdababuwxnc]] in it
+          with [[#coolname:axzegdababuwxnc]] in it
           and also
-          with [[:partial:coolname:end:axzegdababuwxnc]]
+          with [[#coolname:axzegdababuwxnc]]
         EOF
         partial = PagePartials.new(text)
         partial.process
@@ -107,13 +107,13 @@ describe PagePartials do
       it "should not include other partial tags" do
         text = (<<-EOF).gsub(/^ +/, '')
           here is some text
-          with [[:partial:coolname:start:axzegdababuwxnc]] in it
+          with [[#coolname:axzegdababuwxnc]] in it
 
-          [[:partial:otherone:start]]
+          [[#otherone]]
           and also
-          with [[:partial:coolname:end:axzegdababuwxnc]]
+          with [[#coolname:axzegdababuwxnc]]
           this is the end
-          [[:partial:otherone:end]]
+          [[#otherone]]
         EOF
         partial = PagePartials.new(text)
         partial.process
@@ -130,9 +130,9 @@ describe PagePartials do
     it "should not have any for well formatted partials" do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
-        with [[:partial:coolname:start]] in it
+        with [[#coolname]] in it
         and also
-        with [[:partial:coolname:end]]
+        with [[#coolname]]
       EOF
       partial = PagePartials.new(text)
       partial.process
@@ -142,10 +142,10 @@ describe PagePartials do
     it "should have an error for an un-closed partial" do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
-        with [[:partial:coolname:start]] in it
+        with [[#coolname]] in it
         and also
-        wait... this is a bad partial with no end [[:partial:bad:start]]
-        with [[:partial:coolname:end]]
+        wait... this is a bad partial with no end [[#bad]]
+        with [[#coolname]]
       EOF
       partial = PagePartials.new(text)
       partial.process
@@ -156,10 +156,10 @@ describe PagePartials do
     it "should have an error for a partial with too many starts" do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
-        with [[:partial:coolname:start]] in it
+        with [[#coolname]] in it
         and also
-        [[:partial:coolname:start]]
-        with [[:partial:coolname:end]]
+        [[#coolname]]
+        with [[#coolname]]
       EOF
       partial = PagePartials.new(text)
       partial.process
