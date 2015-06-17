@@ -12,17 +12,17 @@ class PagePartialIncluder
         partial = PagePartials.new(Page.find(page_id).text)
         partial.process
 
-        "[[#{page.name}:#{partial_identifier}:start]]
+        "[[#{page.name}##{partial_identifier}:start]]
 
         #{partial.text_for(partial_identifier)}
 
-        [[#{page.name}:#{partial_identifier}:end]]".gsub(/^[ ]+/, '')
+        [[#{page.name}##{partial_identifier}:end]]".gsub(/^[ ]+/, '')
       end
   end
 
   def normalize_links_to_partials text, user_pages
     text = text.gsub(
-      /\[\[(#{Token::TOKEN_REGEX_STR}):(#{Token::TOKEN_REGEX_STR})\]\]/
+      /\[\[(#{Token::TOKEN_REGEX_STR})#(#{Token::TOKEN_REGEX_STR})\]\]/
     ) do
         page_name = $1
         partial_name = $2
@@ -46,7 +46,7 @@ class PagePartialIncluder
         end
 
         if result == ""
-          result = "[[#{page_name}:#{partial_name}]]"
+          result = "[[#{page_name}##{partial_name}]]"
         end
 
         result

@@ -72,11 +72,11 @@ describe PageView do
         expected_text = (<<-EOF).gsub(/^ +/, '')
           From the other page:
 
-          [[#{other_page.name}:abababababababab:start]]
+          [[#{other_page.name}#abababababababab:start]]
 
           John James said: "this is an important idea"
 
-          [[#{other_page.name}:abababababababab:end]]
+          [[#{other_page.name}#abababababababab:end]]
 
           is what it was talking about
         EOF

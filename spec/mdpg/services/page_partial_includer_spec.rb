@@ -23,7 +23,7 @@ describe PagePartialIncluder do
     this_text = (<<-EOF).gsub(/^ +/, '')
       From the other page:
 
-      [[other-page:important-idea]]
+      [[other-page#important-idea]]
 
       is what it was talking about
     EOF
