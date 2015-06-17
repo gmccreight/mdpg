@@ -20,6 +20,12 @@ class PagePartials
     partial.identifier
   end
 
+  def name_for partial_id
+    return nil if had_error?
+    partial = partial_with_name_or_identifier(partial_id, partial_id)
+    partial.name
+  end
+
   def add_any_missing_identifiers
     return @text if ! has_any_partial_definitions?
 

@@ -56,5 +56,36 @@ class PagePartialIncluder
 
   end
 
+  def internal_links_to_user_facing_links text
+    text = text.gsub(
+      /\[\[mdpgpage:(\d+):(#{Token::TOKEN_REGEX_STR})\]\]/
+    ) do
+        page_id = $1.to_i
+        partial_id = $2
+
+        result = ""
+
+        page = Page.find(page_id)
+
+        if page
+          partials = PagePartials.new(page.text)
+          partials.process
+          partial_name = partials.name_for(partial_id)
+
+          if partial_name
+            result = "[[#{page.name}##{partial_name}]]"
+          end
+        end
+
+        if result == ""
+          result = "[[mdpgpage:#{page_id}##{partial_id}]]"
+        end
+
+        result
+    end
+
+    text
+
+  end
 
 end
