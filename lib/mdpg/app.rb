@@ -46,8 +46,7 @@ class App
   end
 
   def page_edit page
-    page_text = PageLinks.new(current_user)
-      .internal_links_to_page_name_links_for_editing(page.text)
+    page_text = PageEditView.new(current_user, page).get_text
     {:page => page, :page_text => page_text, :readwrite_token => nil}
   end
 
