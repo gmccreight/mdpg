@@ -2,6 +2,10 @@ require_relative "../../spec_helper"
 
 describe LabeledSections do
 
+  before do
+    $data_store = get_memory_datastore()
+  end
+
   describe "adding unique identifiers to section definitions" do
 
     it "should add missing identifier to section definition without one" do
