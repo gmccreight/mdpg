@@ -1,6 +1,6 @@
 require_relative "../../spec_helper"
 
-describe PagePartialIncluder do
+describe LabeledSectionTranscluder do
 
   before do
     $data_store = get_memory_datastore()

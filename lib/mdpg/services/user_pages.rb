@@ -45,12 +45,12 @@ class UserPages < Struct.new(:user)
   end
 
   private def page_text_with_partial_includes_canonicalized new_text
-    PagePartialIncluder.new().
+    LabeledSectionTranscluder.new().
       user_facing_links_to_internal_links(new_text, self)
   end
 
   private def add_missing_identifiers_to_partial_definitions(text)
-    partial = PagePartials.new(text)
+    partial = LabeledSections.new(text)
     partial.add_any_missing_identifiers
   end
 

@@ -1,8 +1,8 @@
-class Partial < Struct.new(:start_char, :end_char, :name, :identifier, :count)
+class Section < Struct.new(:start_char, :end_char, :name, :identifier, :count)
 
 end
 
-class PagePartials
+class LabeledSections
 
   def initialize(text)
     @text = text
@@ -14,20 +14,20 @@ class PagePartials
     process_text @text
   end
 
-  def identifier_for partial_name
+  def identifier_for section_name
     return nil if had_error?
-    partial = partial_with_name_or_identifier(partial_name, partial_name)
-    partial.identifier
+    section = section_with_name_or_identifier(section_name, section_name)
+    section.identifier
   end
 
-  def name_for partial_id
+  def name_for section_id
     return nil if had_error?
-    partial = partial_with_name_or_identifier(partial_id, partial_id)
-    partial.name
+    section = section_with_name_or_identifier(section_id, section_id)
+    section.name
   end
 
   def add_any_missing_identifiers
-    return @text if ! has_any_partial_definitions?
+    return @text if ! has_any_section_definitions?
 
     process
 
@@ -48,41 +48,41 @@ class PagePartials
   end
 
   def replace_definitions_with
-    @text.gsub(partial_regex(remove_space:false)) do
+    @text.gsub(section_regex(remove_space:false)) do
       name = $1
       yield name
     end
   end
 
   def had_error?
-    partial_names_with_errors.size > 0
+    section_names_with_errors.size > 0
   end
 
-  def partial_names_with_errors
-    @partials.select{|x| x.count != 2 || x.end_char == nil}.map{|x| x.name}
+  def section_names_with_errors
+    @sections.select{|x| x.count != 2 || x.end_char == nil}.map{|x| x.name}
   end
 
   def list
-    @partials.map{|x| x.name}
+    @sections.map{|x| x.name}
   end
 
-  def text_for partial_name
+  def text_for section_name
     return nil if had_error?
-    partial = partial_with_name_or_identifier(partial_name, partial_name)
-    internal_text = @text[partial.start_char..partial.end_char].strip
-    internal_text.gsub(partial_regex(remove_space:true), "")
+    section = section_with_name_or_identifier(section_name, section_name)
+    internal_text = @text[section.start_char..section.end_char].strip
+    internal_text.gsub(section_regex(remove_space:true), "")
   end
 
-  private def has_any_partial_definitions?
-    @text.match(partial_regex(remove_space:false))
+  private def has_any_section_definitions?
+    @text.match(section_regex(remove_space:false))
   end
 
   private def any_missing_identifiers?
-    @partials.map{|x| x.identifier}
+    @sections.map{|x| x.identifier}
   end
 
-  private def partial_with_name_or_identifier name, identifier
-    array = @partials.
+  private def section_with_name_or_identifier name, identifier
+    array = @sections.
       select{|x|
         x.name == name ||
           (x.identifier == identifier && identifier != nil)
@@ -97,12 +97,12 @@ class PagePartials
   end
 
   private def reset
-    @partials = []
+    @sections = []
   end
 
   private def process_text text
 
-    text.gsub(partial_regex(remove_space:false)).with_index do |m, i|
+    text.gsub(section_regex(remove_space:false)).with_index do |m, i|
 
       name = $1
       identifier = $2
@@ -111,24 +111,24 @@ class PagePartials
         identifier = identifier[1..-1]
       end
 
-      partial = partial_with_name_or_identifier(name, identifier)
+      section = section_with_name_or_identifier(name, identifier)
 
-      if partial
-        if partial.count == 1
+      if section
+        if section.count == 1
           offset = Regexp.last_match.offset(0)[0] - 1
-          partial.end_char = offset
+          section.end_char = offset
         end
-        partial.count += 1
+        section.count += 1
       else
         offset = Regexp.last_match.offset(0)[1]
-        @partials << Partial.new(offset, nil, name, identifier, 1)
+        @sections << Section.new(offset, nil, name, identifier, 1)
       end
 
     end
 
   end
 
-  private def partial_regex remove_space:
+  private def section_regex remove_space:
     internal = "
       \\[\\[
       [#](#{Token::TOKEN_REGEX_STR})

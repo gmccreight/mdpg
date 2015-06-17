@@ -2,7 +2,7 @@ class PageRefersToUpdater
 
   def initialize page, user
     page_links = PageLinks.new(user)
-    page_partial_includer = PagePartialIncluder.new
+    page_partial_includer = LabeledSectionTranscluder.new
 
     @user = user
     @page = page

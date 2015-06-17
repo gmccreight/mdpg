@@ -32,13 +32,13 @@ class PageView < Struct.new(:user, :page, :token_type)
     text = PageLinks.new(user)
       .internal_links_to_user_clickable_links(page.text)
     text = text_with_stylized_partial_definitions(text, name)
-    text = PagePartialIncluder.new.
-      replace_links_to_partials_with_actual_content(text)
+    text = LabeledSectionTranscluder.new.
+      transclude_the_sections(text)
     text
   end
 
   def text_with_stylized_partial_definitions text, page_name
-    PagePartials.new(text).replace_definitions_with do |name|
+    LabeledSections.new(text).replace_definitions_with do |name|
       %Q{<span style="background-color:#ddd;"> #{page_name}##{name}} +
        "</span>"
     end

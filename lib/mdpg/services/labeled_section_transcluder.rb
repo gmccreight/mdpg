@@ -1,4 +1,4 @@
-class PagePartialIncluder
+class LabeledSectionTranscluder
 
   def get_page_ids(user_pages, text)
 
@@ -15,25 +15,25 @@ class PagePartialIncluder
 
   end
 
-  def replace_links_to_partials_with_actual_content text
+  def transclude_the_sections text
     text.gsub(
       /\[\[mdpgpage:(\d+):(#{Token::TOKEN_REGEX_STR})\]\]/
     ) do
         page_id = $1.to_i
-        partial_identifier = $2
+        section_identifier = $2
 
         page = Page.find(page_id)
 
-        partial = PagePartials.new(Page.find(page_id).text)
-        partial.process
+        section = LabeledSections.new(Page.find(page_id).text)
+        section.process
 
-        partial_name = partial.name_for(partial_identifier)
+        section_name = section.name_for(section_identifier)
 
-        "[[#{page.name}##{partial_name}:start]]
+        "[[#{page.name}##{section_name}:start]]
 
-        #{partial.text_for(partial_identifier)}
+        #{section.text_for(section_identifier)}
 
-        [[#{page.name}##{partial_name}:end]]".gsub(/^[ ]+/, '')
+        [[#{page.name}##{section_name}:end]]".gsub(/^[ ]+/, '')
       end
   end
 
@@ -42,19 +42,19 @@ class PagePartialIncluder
       /\[\[(#{Token::TOKEN_REGEX_STR})#(#{Token::TOKEN_REGEX_STR})\]\]/
     ) do
         page_name = $1
-        partial_name = $2
+        section_name = $2
 
         result = ""
 
         if page_name == "mdpgpage"
-          result = "[[#{page_name}:#{partial_name}]]"
+          result = "[[#{page_name}:#{section_name}]]"
         else
           page = user_pages.find_page_with_name(page_name)
 
           if page
-            partials = PagePartials.new(page.text)
-            partials.process
-            identifier = partials.identifier_for(partial_name)
+            sections = LabeledSections.new(page.text)
+            sections.process
+            identifier = sections.identifier_for(section_name)
 
             if identifier
               result = "[[mdpgpage:#{page.id}:#{identifier}]]"
@@ -63,7 +63,7 @@ class PagePartialIncluder
         end
 
         if result == ""
-          result = "[[#{page_name}##{partial_name}]]"
+          result = "[[#{page_name}##{section_name}]]"
         end
 
         result
@@ -78,24 +78,24 @@ class PagePartialIncluder
       /\[\[mdpgpage:(\d+):(#{Token::TOKEN_REGEX_STR})\]\]/
     ) do
         page_id = $1.to_i
-        partial_id = $2
+        section_id = $2
 
         result = ""
 
         page = Page.find(page_id)
 
         if page
-          partials = PagePartials.new(page.text)
-          partials.process
-          partial_name = partials.name_for(partial_id)
+          sections = LabeledSections.new(page.text)
+          sections.process
+          section_name = sections.name_for(section_id)
 
-          if partial_name
-            result = "[[#{page.name}##{partial_name}]]"
+          if section_name
+            result = "[[#{page.name}##{section_name}]]"
           end
         end
 
         if result == ""
-          result = "[[mdpgpage:#{page_id}##{partial_id}]]"
+          result = "[[mdpgpage:#{page_id}##{section_id}]]"
         end
 
         result
