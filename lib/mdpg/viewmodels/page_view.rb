@@ -39,8 +39,8 @@ class PageView < Struct.new(:user, :page, :token_type)
 
   def text_with_stylized_partial_definitions text, page_name
     PagePartials.new(text).replace_definitions_with do |name, se|
-      %Q{<span style="background-color:#ddd;"> #{page_name}:#{name}} +
-       " - #{se} </span>"
+      %Q{<span style="background-color:#ddd;"> #{page_name}##{name}} +
+       "</span>"
     end
   end
 
