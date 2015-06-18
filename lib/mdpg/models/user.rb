@@ -6,7 +6,7 @@ class User < ModelBase
     :page_ids, :recent_edited_page_ids, :recent_viewed_page_ids, :clan_ids,
     :page_tags, :is_admin]
 
-  attr_accessor *ATTRS
+  attr_accessor(*ATTRS)
 
   private def attr_defaults
     {

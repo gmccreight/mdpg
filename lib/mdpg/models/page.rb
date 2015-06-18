@@ -5,7 +5,7 @@ class Page < ModelBase
     :readwrite_sharing_token_activated, :referring_page_ids,
     :refers_to_page_ids]
 
-  attr_accessor *ATTRS
+  attr_accessor(*ATTRS)
 
   def text_contains? query
     string_contains? text.downcase, query.downcase
