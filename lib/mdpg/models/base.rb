@@ -4,7 +4,6 @@ class ModelBase
 
   def initialize
     @id = nil
-    @errors = []
     @data_store = $data_store
   end
 
@@ -55,11 +54,7 @@ class ModelBase
     keyname = "#{get_data_prefix}-index-#{index_name}"
     hash = data_store.get(keyname)
     if hash
-      if hash.has_key?(key)
-        return find hash[key]
-      else
-        return nil
-      end
+      return find hash[key]
     else
       return nil
     end
