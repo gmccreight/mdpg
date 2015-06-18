@@ -24,12 +24,12 @@ class LabeledSectionTranscluder
 
       page = Page.find(page_id)
 
-      section = LabeledSections.new(Page.find(page_id).text)
-      section.process
+      parser = LabeledSectionParser.new(Page.find(page_id).text)
+      parser.process
 
-      section_name = section.name_for(section_identifier)
+      section_name = parser.name_for(section_identifier)
 
-      yield page, section, section_name, section_identifier
+      yield page, parser, section_name, section_identifier
     end
   end
 
@@ -48,9 +48,9 @@ class LabeledSectionTranscluder
         page = user_pages.find_page_with_name(page_name)
 
         if page
-          sections = LabeledSections.new(page.text)
-          sections.process
-          identifier = sections.identifier_for(section_name)
+          parser = LabeledSectionParser.new(page.text)
+          parser.process
+          identifier = parser.identifier_for(section_name)
 
           if identifier
             result = "[[mdpgpage:#{page.id}:#{identifier}]]"
@@ -81,9 +81,9 @@ class LabeledSectionTranscluder
       page = Page.find(page_id)
 
       if page
-        sections = LabeledSections.new(page.text)
-        sections.process
-        section_name = sections.name_for(section_id)
+        parser = LabeledSectionParser.new(page.text)
+        parser.process
+        section_name = parser.name_for(section_id)
 
         if section_name
           result = "[[#{page.name}##{section_name}]]"

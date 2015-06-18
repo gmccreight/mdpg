@@ -1,6 +1,6 @@
 require_relative "../../spec_helper"
 
-describe LabeledSections do
+describe LabeledSectionParser do
 
   before do
     $data_store = get_memory_datastore()
@@ -24,14 +24,14 @@ describe LabeledSections do
 
         end of text
       EOF
-      section = LabeledSections.new(text)
+      parser = LabeledSectionParser.new(text)
 
       # Make the new identifier be a known value
-      def section.get_new_identifier
+      def parser.get_new_identifier
         "bbbegdababuwxxx"
       end
 
-      new_text = section.add_any_missing_identifiers
+      new_text = parser.add_any_missing_identifiers
 
       expected_text = (<<-EOF).gsub(/^ +/, '')
         start of the text
@@ -62,9 +62,9 @@ describe LabeledSections do
         and also
         with [[#coolname]]
       EOF
-      section = LabeledSections.new(text)
-      section.process
-      assert_equal ["coolname"], section.list
+      parser = LabeledSectionParser.new(text)
+      parser.process
+      assert_equal ["coolname"], parser.list
     end
 
     it "should list fully opened and closed sections using uniq id syntax" do
@@ -74,10 +74,10 @@ describe LabeledSections do
         and also
         with [[#coolname:axzegdababuwxnc]]
       EOF
-      section = LabeledSections.new(text)
-      section.process
-      refute section.had_error?
-      assert_equal ["coolname"], section.list
+      parser = LabeledSectionParser.new(text)
+      parser.process
+      refute parser.had_error?
+      assert_equal ["coolname"], parser.list
     end
 
     it "should give the uniq id for a name" do
@@ -87,10 +87,10 @@ describe LabeledSections do
         and also
         with [[#coolname:axzegdababuwxnc]]
       EOF
-      section = LabeledSections.new(text)
-      section.process
-      refute section.had_error?
-      assert_equal "axzegdababuwxnc", section.identifier_for("coolname")
+      parser = LabeledSectionParser.new(text)
+      parser.process
+      refute parser.had_error?
+      assert_equal "axzegdababuwxnc", parser.identifier_for("coolname")
     end
 
     describe "text for a given section" do
@@ -102,9 +102,9 @@ describe LabeledSections do
           and also
           with [[#coolname:axzegdababuwxnc]]
         EOF
-        section = LabeledSections.new(text)
-        section.process
-        result_with_no_newlines = section.text_for("coolname").gsub(/\n/, " ")
+        parser = LabeledSectionParser.new(text)
+        parser.process
+        result_with_no_newlines = parser.text_for("coolname").gsub(/\n/, " ")
         assert_equal "in it and also with", result_with_no_newlines
       end
 
@@ -119,9 +119,9 @@ describe LabeledSections do
           this is the end
           [[#otherone]]
         EOF
-        section = LabeledSections.new(text)
-        section.process
-        result_with_no_newlines = section.text_for("coolname").gsub(/\n/, " ")
+        parser = LabeledSectionParser.new(text)
+        parser.process
+        result_with_no_newlines = parser.text_for("coolname").gsub(/\n/, " ")
         assert_equal "in it and also with", result_with_no_newlines
       end
 
@@ -138,9 +138,9 @@ describe LabeledSections do
         and also
         with [[#coolname]]
       EOF
-      section = LabeledSections.new(text)
-      section.process
-      refute section.had_error?
+      parser = LabeledSectionParser.new(text)
+      parser.process
+      refute parser.had_error?
     end
 
     it "should have an error for an un-closed section" do
@@ -151,10 +151,10 @@ describe LabeledSections do
         wait... this is a bad section with no end [[#bad]]
         with [[#coolname]]
       EOF
-      section = LabeledSections.new(text)
-      section.process
-      assert section.had_error?
-      assert_equal ["bad"], section.section_names_with_errors
+      parser = LabeledSectionParser.new(text)
+      parser.process
+      assert parser.had_error?
+      assert_equal ["bad"], parser.section_names_with_errors
     end
 
     it "should have an error for a section with too many starts" do
@@ -165,10 +165,10 @@ describe LabeledSections do
         [[#coolname]]
         with [[#coolname]]
       EOF
-      section = LabeledSections.new(text)
-      section.process
-      assert section.had_error?
-      assert_equal ["coolname"], section.section_names_with_errors
+      parser = LabeledSectionParser.new(text)
+      parser.process
+      assert parser.had_error?
+      assert_equal ["coolname"], parser.section_names_with_errors
     end
 
   end

@@ -2,7 +2,7 @@ class Section < Struct.new(:start_char, :end_char, :name, :identifier, :count)
 
 end
 
-class LabeledSections
+class LabeledSectionParser
 
   def initialize(text)
     @text = text

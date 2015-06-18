@@ -55,7 +55,7 @@ class PageView < Struct.new(:user, :page, :token_type)
   end
 
   private def text_with_stylized_labeled_section_definitions text, page_name
-    LabeledSections.new(text).replace_definitions_with do |name|
+    LabeledSectionParser.new(text).replace_definitions_with do |name|
       %Q{<span style="background-color:#ddd;"> #{page_name}##{name}} +
        "</span>"
     end

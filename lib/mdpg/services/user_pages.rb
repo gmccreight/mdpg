@@ -50,8 +50,8 @@ class UserPages < Struct.new(:user)
   end
 
   private def add_missing_identifiers_to_partial_definitions(text)
-    partial = LabeledSections.new(text)
-    partial.add_any_missing_identifiers
+    parser = LabeledSectionParser.new(text)
+    parser.add_any_missing_identifiers
   end
 
   def delete_page name
