@@ -102,7 +102,7 @@ class LabeledSectionParser
 
   private def process_text text
 
-    text.gsub(section_regex(remove_space:false)).with_index do |m, i|
+    text.gsub(section_regex(remove_space:false)).with_index do
 
       name = $1
       identifier = $2
