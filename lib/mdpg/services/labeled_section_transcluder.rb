@@ -1,6 +1,6 @@
 class LabeledSectionTranscluder
 
-  def get_page_ids(user_pages, text)
+  def get_page_ids(text)
 
     ids = []
 

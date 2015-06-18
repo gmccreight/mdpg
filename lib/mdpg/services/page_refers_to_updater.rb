@@ -2,19 +2,17 @@ class PageRefersToUpdater
 
   def initialize page, user
     page_links = PageLinks.new(user)
-    page_partial_includer = LabeledSectionTranscluder.new
+    transcluder = LabeledSectionTranscluder.new
 
     @user = user
     @page = page
 
     page_links_ids = page_links.get_page_ids(@page.text)
 
-    partial_pages_ids = page_partial_includer.get_page_ids(
-      UserPages.new(user), @page.text
-    )
+    transcluded_page_ids = transcluder.get_page_ids(@page.text)
 
     @old_ids = page.refers_to_page_ids || []
-    @new_ids = [page_links_ids + partial_pages_ids].flatten.uniq
+    @new_ids = [page_links_ids + transcluded_page_ids].flatten.uniq
   end
 
   def update
