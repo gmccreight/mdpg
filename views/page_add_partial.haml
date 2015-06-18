@@ -1,7 +1,7 @@
 %form#add_page_id{:action => "/page/add", :method => "post",
   "ng-controller" => "TokenNameCtrl"}
 
-  new page:
+  new:
   %input{:type => "text", :name => "name", :autocorrect => "off",
   :autocapitalize => "off", "ng-model" => "tokenName",
   "ng-change" => "normalize()"}
