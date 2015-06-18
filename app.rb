@@ -69,7 +69,7 @@ end
 
 post '/s/:readwrite_token/update' do |readwrite_token|
   app = _app_get
-  result = app.update_page_from_readwrite_token readwrite_token, params[:text]
+  app.update_page_from_readwrite_token readwrite_token, params[:text]
   _app_handle_result app
 end
 
@@ -93,7 +93,7 @@ end
 
 get '/t/:name' do |tag_name|
   app = authorize!
-  result = app.tag.get_details(tag_name)
+  app.tag.get_details(tag_name)
   _app_handle_result app
   haml :tag_details, :locals => app.tag.get_details(tag_name)
 end
@@ -121,7 +121,7 @@ post '/p/:name/delete' do |page_name|
 end
 
 post '/p/:name/duplicate' do |page_name|
-  if page = get_user_page(page_name)
+  if get_user_page(page_name)
     new_page = UserPages.new(current_user).duplicate_page page_name
     redirect "/p/" + new_page.name
   end
