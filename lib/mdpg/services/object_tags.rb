@@ -3,7 +3,7 @@ require 'mdpg/token'
 class ObjectTags < Struct.new(:object)
 
   def add_tag name
-    if error = Token.new(name).validate
+    if Token.new(name).validate
       return false
     end
 
@@ -19,7 +19,7 @@ class ObjectTags < Struct.new(:object)
   end
 
   def remove_tag name
-    if error = Token.new(name).validate
+    if Token.new(name).validate
       return false
     end
 

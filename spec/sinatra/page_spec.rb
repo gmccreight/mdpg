@@ -286,7 +286,7 @@ describe "page" do
       end
 
       it "should delete a page that refers to another" do
-        new_page = UserPages.new(@user).create_page name:"referring-page",
+        UserPages.new(@user).create_page name:"referring-page",
           text:"link to [[original-good-page-name]]"
 
         delete_page "referring-page"

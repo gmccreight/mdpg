@@ -7,7 +7,7 @@ describe "tag" do
 
     @user = User.create name:"Jordan",
       email:"jordan@example.com", password:"cool"
-    user_pages = UserPages.new @user
+    UserPages.new @user
     @page = UserPages.new(@user).create_page name:"a-good-page",
       text:"I wish I had something *interesting* to say!"
   end

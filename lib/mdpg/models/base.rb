@@ -157,13 +157,13 @@ class ModelBase
       keyname = "#{get_data_prefix}-index-#{attribute_symbol}"
       hash = data_store.get(keyname) || {}
       value = get_var "@#{attribute_symbol}"
-      remove_any_preexisting_unique_indexes hash, self.id
+      remove_any_preexisting_unique_indexes hash
       hash[value] = self.id
       data_store.set(keyname, hash)
     end
   end
 
-  private def remove_any_preexisting_unique_indexes hash, id
+  private def remove_any_preexisting_unique_indexes hash
     hash.keys.each do |key|
       if hash[key] == self.id
         hash.delete(key)

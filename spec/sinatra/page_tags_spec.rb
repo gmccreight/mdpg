@@ -9,7 +9,7 @@ describe "page_tags" do
       email:"jordan@example.com", password:"cool"
     @other_user = User.create name:"Other",
       email:"other@example.com", password:"other"
-    user_pages = UserPages.new @user
+    UserPages.new @user
     @page = UserPages.new(@user).create_page name:"a-good-page",
       text:"I wish I had something *interesting* to say!"
   end
@@ -54,7 +54,7 @@ describe "page_tags" do
       add_tag @user, "a-good-page", "fool-right"
       add_tag @user, "a-good-page", "car"
 
-      other_page = UserPages.new(@user).create_page name:"other-page",
+      UserPages.new(@user).create_page name:"other-page",
         text:"nothing really"
       add_tag @user, "other-page", "foolish"
     end

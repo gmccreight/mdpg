@@ -31,7 +31,7 @@ describe UserPages do
 
     it "should not add the page if it has a bad name" do
       initial_num_pages = @user.page_ids.size
-      page = @user_pages.create_page name:"Bad Name"
+      @user_pages.create_page name:"Bad Name"
       assert_equal initial_num_pages, @user.page_ids.size
     end
 

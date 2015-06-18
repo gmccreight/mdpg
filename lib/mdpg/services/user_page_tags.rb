@@ -6,7 +6,7 @@ end
 class UserPageTags < Struct.new(:user, :page)
 
   def add_tag tag_name
-    if error = Token.new(tag_name).validate
+    if Token.new(tag_name).validate
       return false
     end
 
@@ -25,7 +25,7 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   def remove_tag tag_name
-    if error = Token.new(tag_name).validate
+    if Token.new(tag_name).validate
       return false
     end
 
