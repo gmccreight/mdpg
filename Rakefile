@@ -16,6 +16,11 @@ task :ta do
   exec "./bin/tests/all.sh"
 end
 
+desc "run all the style tests"
+task :style do
+  exec "./bin/tests/all_style.sh"
+end
+
 desc "run coverage and send to coveralls"
 task :cov do
   exec "COVERALLS_RUN_LOCALLY=1 rake"

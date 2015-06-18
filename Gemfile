@@ -16,6 +16,8 @@ gem "minitest"
 gem "ruby-prof"
 gem "rerun"
 
+gem 'rubocop', require: false
+
 gem "coveralls", require: false
 
 group :test do
