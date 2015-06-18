@@ -34,9 +34,9 @@ class UserPages < Struct.new(:user)
   end
 
   def update_page_text_to page, new_text
-    new_text = add_missing_identifiers_to_partial_definitions(new_text)
+    new_text = add_missing_identifiers_to_labeled_sections(new_text)
     new_text = page_text_with_links_escaped(new_text)
-    new_text = page_text_with_partial_includes_canonicalized(new_text)
+    new_text = page_text_with_labeled_section_includes_canonicalized(new_text)
 
     page.text = new_text
     page.save
@@ -44,12 +44,12 @@ class UserPages < Struct.new(:user)
     PageRefersToUpdater.new(page, user).update
   end
 
-  private def page_text_with_partial_includes_canonicalized new_text
+  private def page_text_with_labeled_section_includes_canonicalized new_text
     LabeledSectionTranscluder.new().
       user_facing_links_to_internal_links(new_text, self)
   end
 
-  private def add_missing_identifiers_to_partial_definitions(text)
+  private def add_missing_identifiers_to_labeled_sections(text)
     parser = LabeledSectionParser.new(text)
     parser.add_any_missing_identifiers
   end
