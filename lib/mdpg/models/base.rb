@@ -63,8 +63,6 @@ class ModelBase
     else
       return nil
     end
-
-    self.new().find_by_index(index_name, value)
   end
 
   def add_associated_object object
