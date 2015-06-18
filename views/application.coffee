@@ -104,6 +104,9 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
 focusOnSearchField = ->
   $("#search_form_id").find("input").focus()
 
+focusOnNewPageField = ->
+  $("#add_page_id").find("input").focus()
+
 focusOnTagInput = ->
   $("#tag_input_id").focus()
 
@@ -119,6 +122,7 @@ $ ->
   tagInputKecode = 84
   navigateToEditPageKeycode = 69
   navigateToRecentPagesKeycode = 82
+  newPageInputCode = 78
   recentPagesCharsTyped = []
 
   $("#index_ns_id #add_page_id input").focus()
@@ -165,3 +169,7 @@ $ ->
       if e.keyCode is tagInputKecode
         e.preventDefault()
         focusOnTagInput()
+
+      if e.keyCode is newPageInputCode
+        e.preventDefault()
+        focusOnNewPageField()
