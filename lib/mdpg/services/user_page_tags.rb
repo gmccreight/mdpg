@@ -84,8 +84,8 @@ class UserPageTags < Struct.new(:user, :page)
     end
   end
 
-  def sorted_associated_tags tagname
-    counts = _associated_tags_counts tagname
+  def sorted_associated_tags tag_name
+    counts = _associated_tags_counts tag_name
     counts.to_a.sort do |a,b|
       comp = (b[1] <=> a[1])
       comp.zero? ? (a[0] <=> b[0]) : comp
@@ -141,14 +141,14 @@ class UserPageTags < Struct.new(:user, :page)
     user.save
   end
 
-  private def _associated_tags_counts tagname
+  private def _associated_tags_counts tag_name
 
     count_for = {}
     count_for.default = 0
 
     tags_on_current_page = []
 
-    pages = get_pages_for_tag_with_name tagname
+    pages = get_pages_for_tag_with_name tag_name
 
     pages.each do |page_in_loop|
       tags_for_page(page_in_loop).each do |tag|
@@ -160,8 +160,8 @@ class UserPageTags < Struct.new(:user, :page)
       end
     end
 
-    tags_on_current_page.each do |tagname|
-      count_for.delete(tagname)
+    tags_on_current_page.each do |current_page_tag_name|
+      count_for.delete(current_page_tag_name)
     end
 
     count_for
