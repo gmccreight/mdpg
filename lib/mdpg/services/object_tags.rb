@@ -23,7 +23,8 @@ class ObjectTags < Struct.new(:object)
       return false
     end
 
-    if tag = tag_with_name(name)
+    tag = tag_with_name(name)
+    if tag
       tag.remove_associated_object object
       tag.save
       object.remove_tag tag

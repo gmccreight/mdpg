@@ -7,7 +7,8 @@ class PageSharingTokens < Struct.new(:page)
 
   def self.find_page_by_token token
     TOKEN_TYPES.each do |type|
-      if page = Page.find_by_index(:"#{type}_sharing_token", token)
+      page = Page.find_by_index(:"#{type}_sharing_token", token)
+      if page
         if self._get_sharing_token_of_type_is_actived page, type
           return [page, type]
         end
@@ -23,7 +24,8 @@ class PageSharingTokens < Struct.new(:page)
 
   def rename_sharing_token type, new_token
     return :token_type_does_not_exist if ! TOKEN_TYPES.include?(type)
-    if error = Token.new(new_token).validate
+    error = Token.new(new_token).validate
+    if error
       return error
     else
       found_page, _token_type = self.class.find_page_by_token(new_token)

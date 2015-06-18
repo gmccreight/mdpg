@@ -55,7 +55,8 @@ class UserPages < Struct.new(:user)
   end
 
   def delete_page name
-    if page = find_page_with_name(name)
+    page = find_page_with_name(name)
+    if page
       if page.referring_page_ids && page.referring_page_ids.size > 0
         raise PageCannotBeDeletedBecauseItHasReferringPages
       end
@@ -75,7 +76,8 @@ class UserPages < Struct.new(:user)
   end
 
   def duplicate_page name
-    if original_page = find_page_with_name(name)
+    original_page = find_page_with_name(name)
+    if original_page
       duplicator = UserPageDuplicator.new(self, user, original_page)
       new_page = duplicator.duplicate()
       page_ids_or_names_have_changed

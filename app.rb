@@ -78,7 +78,8 @@ get '/p/:name' do |page_name|
   #   Profiler__.start_profile
   # end
 
-  if page = get_user_page(page_name)
+  page = get_user_page(page_name)
+  if page
     app = _app_get
     haml :page, :locals => app.page_get(page)
   end
@@ -99,21 +100,24 @@ get '/t/:name' do |tag_name|
 end
 
 get '/p/:name/edit' do |page_name|
-  if page = get_user_page(page_name)
+  page = get_user_page(page_name)
+  if page
     app = _app_get
     haml :page_edit, :locals => app.page_edit(page)
   end
 end
 
 get '/p/:name/tags' do |page_name|
-  if page = get_user_page(page_name)
+  page = get_user_page(page_name)
+  if page
     app = _app_get
     return app.page_tag.all_for_page page
   end
 end
 
 post '/p/:name/delete' do |page_name|
-  if page = get_user_page(page_name)
+  page = get_user_page(page_name)
+  if page
     app = _app_get
     app.page_delete page
     _app_handle_result app
@@ -128,7 +132,8 @@ post '/p/:name/duplicate' do |page_name|
 end
 
 post '/p/:name/rename' do |page_name|
-  if page = get_user_page(page_name)
+  page = get_user_page(page_name)
+  if page
     app = _app_get
     app.page_rename page, params[:new_name]
     _app_handle_result app
@@ -140,7 +145,8 @@ post '/p/:name/update_sharing_token' do |page_name|
   new_token = params[:new_token]
   is_activated = params[:is_activated]
 
-  if page = get_user_page(page_name)
+  page = get_user_page(page_name)
+  if page
     app = _app_get()
     app.update_page_sharing_token page, token_type, new_token, is_activated
     _app_handle_result app
@@ -158,7 +164,8 @@ end
 get '/p/:name/tag_suggestions' do |page_name|
   tag_typed = params[:tagTyped]
 
-  if page = get_user_page(page_name)
+  page = get_user_page(page_name)
+  if page
     app = _app_get
     return app.page_tag.suggestions page, tag_typed
   end
@@ -167,14 +174,16 @@ end
 post '/p/:name/tags' do |page_name|
   tag_name = attr_for_request_payload "text"
 
-  if page = get_user_page(page_name)
+  page = get_user_page(page_name)
+  if page
     app = _app_get
     return app.page_tag.add(page, tag_name)
   end
 end
 
 delete '/p/:name/tags/:tag_name' do |page_name, tag_name|
-  if page = get_user_page(page_name)
+  page = get_user_page(page_name)
+  if page
     app = _app_get
     return app.page_tag.delete(page, tag_name)
   end
@@ -182,7 +191,8 @@ end
 
 post '/p/:name/update' do |page_name|
   new_text = params[:text]
-  if page = get_user_page(page_name)
+  page = get_user_page(page_name)
+  if page
     app = authorize!
     app.page_update_text page, new_text
     _app_handle_result app
@@ -223,7 +233,8 @@ end
 
 def get_user_page page_name
   authorize!
-  if page = UserPages.new(current_user).find_page_with_name(page_name)
+  page = UserPages.new(current_user).find_page_with_name(page_name)
+  if page
     page
   else
     error "could not find that page"
@@ -238,7 +249,8 @@ end
 
 def current_user
   if get_access_token()
-    if user = User.find_by_index(:access_token, get_access_token())
+    user = User.find_by_index(:access_token, get_access_token())
+    if user
       return user
     else
       clear_access_token()

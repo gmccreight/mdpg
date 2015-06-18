@@ -28,7 +28,8 @@ class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
 
     version_suffix_contained_a_v = false
 
-    if match = name.match(version_suffix_regex)
+    match = name.match(version_suffix_regex)
+    if match
       version_suffix_contained_a_v = match[1] && match[1] != ""
       version_suffix_digit = match[2].to_i
       if increment < version_suffix_digit

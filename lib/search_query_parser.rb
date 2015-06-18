@@ -20,7 +20,8 @@ class SearchQueryParser < Struct.new(:query)
   end
 
   def tags
-    if m = query.match(TAGS_REGEX_STR)
+    m = query.match(TAGS_REGEX_STR)
+    if m
       tag_string = m[1]
       tags = tag_string.split(/,/)
       return tags
@@ -29,7 +30,8 @@ class SearchQueryParser < Struct.new(:query)
   end
 
   private def orig_search_str
-    if m = query.match(/^(.+?)(?:#{TAGS_REGEX_STR})/)
+    m = query.match(/^(.+?)(?:#{TAGS_REGEX_STR})/)
+    if m
       m[1]
     else
       query

@@ -23,7 +23,8 @@ class PageLinks < Struct.new(:user)
     return text if ! text
     text.gsub(/\[\[(#{Token::TOKEN_REGEX_STR})\]\]/) do
       page_name = $1
-      if page = user_page_for_name(page_name)
+      page = user_page_for_name(page_name)
+      if page
         "[[mdpgpage:#{page.id}]]"
       elsif page_name =~ /^new-/
         new_name = page_name.sub(/^new-/, '')

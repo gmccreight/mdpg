@@ -34,7 +34,8 @@ class ModelBase
 
   def find id
     self.id = id
-    if attrs = data_store.get(data_key)
+    attrs = data_store.get(data_key)
+    if attrs
       self.load(attrs)
       self
     else
@@ -52,7 +53,8 @@ class ModelBase
 
   def find_by_index index_name, key
     keyname = "#{get_data_prefix}-index-#{index_name}"
-    if hash = data_store.get(keyname)
+    hash = data_store.get(keyname)
+    if hash
       if hash.has_key?(key)
         return find hash[key]
       else

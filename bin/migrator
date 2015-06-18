@@ -8,7 +8,8 @@ user = User.find(1)
 user_pages = UserPages.new user
 
 (1..2000).each do |id|
-  if page = Page.find(id)
+  page = Page.find(id)
+  if page
     if page.text =~ /mdpgpage/
       p page.id
       user_pages.update_page_text_to(page, page.text)
