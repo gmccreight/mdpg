@@ -119,8 +119,7 @@ describe Search do
         end
 
         it "should find text if text matches and tag limiter matches" do
-          search_gets(
-            "cars tags:cat,vehicular,dog", 0, 1, 0)
+          search_gets "cars tags:cat,vehicular,dog", 0, 1, 0
         end
 
         it "should not find text if text matches but tags do not" do
