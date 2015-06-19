@@ -133,7 +133,7 @@ describe "page_tags" do
 
   end
 
-  def get_tag_details_page tag_name
+  def get_tag_page tag_name
     get "/t/#{tag_name}", {}, authenticated_session(@user)
   end
 
@@ -144,13 +144,13 @@ describe "page_tags" do
     end
 
     it "should list the pages associated with a tag" do
-      get_tag_details_page "new-1"
+      get_tag_page "new-1"
       expected = "a-good-page"
       assert last_response.body.include? expected
     end
 
     it "should mention that a user does not have a tag if they do not" do
-      get_tag_details_page "non-existent-tag"
+      get_tag_page "non-existent-tag"
       expected = "you do not have any pages tagged 'non-existent-tag'"
       assert last_response.body.include? expected
     end

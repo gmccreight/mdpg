@@ -1,6 +1,6 @@
 #page_search_ns_id
 
-  = haml :header_partial, :locals => {:page_name => nil}
+  = haml :header_partial, locals:{page_name:nil}
 
   %h3
     #{pages_where_name_matches.size} pages with matching names
@@ -22,4 +22,5 @@
     #{tags_where_name_matches.size} tags with matching names
   %table.tag_table_cls
     - tags_where_name_matches.each do |tag|
-      = haml :tag_row_partial, :locals => {:tag => tag, :user => user}
+      = haml :tag_row_partial,
+        locals: {tag:tag, user:user, newline_per_tag:false}

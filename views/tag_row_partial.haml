@@ -16,4 +16,7 @@
     - page_names.each do |page_name|
       %a{:href => "/p/#{page_name}"}
         = page_name
-      &nbsp;
+      - if newline_per_tag
+        %br
+      - else
+        &nbsp;

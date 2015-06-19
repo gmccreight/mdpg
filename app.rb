@@ -96,7 +96,7 @@ get '/t/:name' do |tag_name|
   app = authorize!
   app.tag.get_details(tag_name)
   _app_handle_result app
-  haml :tag_details, :locals => app.tag.get_details(tag_name)
+  haml :page_tag, :locals => app.tag.get_details(tag_name)
 end
 
 get '/p/:name/edit' do |page_name|
