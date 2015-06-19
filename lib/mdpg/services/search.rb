@@ -10,7 +10,6 @@ class Search
 
   def search query
     @search_parser.query = query
-    @search_string = @search_parser.search_string()
 
     names = search_names()
 
@@ -23,11 +22,15 @@ class Search
     }
   end
 
+  private def search_string
+    @search_string ||= @search_parser.search_strings()[0]
+  end
+
   private def redirect_to_perfect_match(names)
     return nil if @search_parser.should_force_full_search?()
 
-    if names.size > 0 && names.map(&:name).include?(@search_string)
-      return @search_string
+    if names.size > 0 && names.map(&:name).include?(search_string)
+      return search_string
     end
 
     nil
@@ -35,16 +38,16 @@ class Search
 
   private def search_names
     pages_containing_one_of_the_tags(
-      @user_pages.pages_with_names_containing_text(@search_string))
+      @user_pages.pages_with_names_containing_text(search_string))
   end
 
   private def search_texts
     pages_containing_one_of_the_tags(
-      @user_pages.pages_with_text_containing_text(@search_string))
+      @user_pages.pages_with_text_containing_text(search_string))
   end
 
   private def search_tags
-    @user_page_tags.search(@search_string)
+    @user_page_tags.search(search_string)
   end
 
   private def pages_containing_one_of_the_tags pages

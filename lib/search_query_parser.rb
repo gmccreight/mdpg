@@ -4,10 +4,11 @@ class SearchQueryParser < Struct.new(:query)
   SHOULD_FORCE_FULL_SEARCH_REGEX_STR = "!$"
   OPEN_RESULT_IN_EDIT_MODE_REGEX_STR = "\\s+e$"
 
-  def search_string
+  def search_strings
     str = orig_search_str
     str = str.gsub(/#{SHOULD_FORCE_FULL_SEARCH_REGEX_STR}/, "")
     str = str.gsub(/#{OPEN_RESULT_IN_EDIT_MODE_REGEX_STR}/, "")
+    str = strings_for_string(str)
     str
   end
 
@@ -27,6 +28,20 @@ class SearchQueryParser < Struct.new(:query)
       return tags
     end
     []
+  end
+
+  private def strings_for_string str
+    are_multiple_tokens_required = false
+    str = str.gsub(/^\+\s*/) do
+      are_multiple_tokens_required = true
+      ''
+    end
+
+    if are_multiple_tokens_required
+      str.split(/\s+/)
+    else
+      [str]
+    end
   end
 
   private def orig_search_str

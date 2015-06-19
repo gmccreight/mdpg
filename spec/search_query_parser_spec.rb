@@ -12,17 +12,27 @@ describe SearchQueryParser do
 
     it "should return a simple search string unchanged" do
       @parser.query = "notes"
-      assert_equal "notes", @parser.search_string()
+      assert_equal ["notes"], @parser.search_strings
     end
 
     it "should strip the ! off the end of a query that forces full results" do
       @parser.query = "notes!"
-      assert_equal "notes", @parser.search_string()
+      assert_equal ["notes"], @parser.search_strings
     end
 
     it "should return the search string with the tags removed" do
       @parser.query = "kittens tags:grown-man,old"
-      assert_equal "kittens", @parser.search_string()
+      assert_equal ["kittens"], @parser.search_strings
+    end
+
+    it "should return multiple words in a single search string by default" do
+      @parser.query = "i love cats"
+      assert_equal ["i love cats"], @parser.search_strings
+    end
+
+    it "should have many required tokens if starts with a +" do
+      @parser.query = "+ i love cats"
+      assert_equal ["i", "love", "cats"], @parser.search_strings
     end
 
   end
@@ -65,7 +75,7 @@ describe SearchQueryParser do
     it "should open a single result in edit mode if search ends in space e" do
       @parser.query = "notes e"
       assert @parser.should_open_in_edit_mode?()
-      assert_equal "notes", @parser.search_string()
+      assert_equal ["notes"], @parser.search_strings
     end
 
     it "should not open a normal search in edit mode" do
