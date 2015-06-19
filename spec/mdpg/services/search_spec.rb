@@ -27,6 +27,34 @@ describe Search do
     search_gets "car", 0, 1, 0
   end
 
+  describe "force multiple tokens" do
+
+    describe "names" do
+
+      it "should return a page if all the tokens match" do
+        search_gets "+ good name", 1, 0, 0
+      end
+
+      it "should not return a page if one of the tokens does not match" do
+        search_gets "+ good nothing", 0, 0, 0
+      end
+
+    end
+
+    describe "texts" do
+
+      it "should return a page if all the tokens match" do
+        search_gets "+ wish something", 0, 1, 0
+      end
+
+      it "should not return a page if one of the tokens does not match" do
+        search_gets "+ wish nothing", 0, 0, 0
+      end
+
+    end
+
+  end
+
   describe "case insensitivity" do
 
     it "should ignore case and find lower case version of query" do
