@@ -14,7 +14,7 @@ describe 'auth' do
 
       RubyProf.start
 
-      post '/login', {email: 'jordan@example.com', password: 'cool'}
+      post '/login', { email: 'jordan@example.com', password: 'cool' }
       follow_redirect!
       follow_redirect!
       assert last_response.body.include? 'Edited'
@@ -28,14 +28,14 @@ describe 'auth' do
   end
 
   it 'should move to the recent pages page after auth' do
-    post '/login', {email: 'jordan@example.com', password: 'cool'}
+    post '/login', { email: 'jordan@example.com', password: 'cool' }
     follow_redirect!
     follow_redirect!
     assert last_response.body.include? 'Edited'
   end
 
   it 'should stay logged in and logged out after moving to those states' do
-    post '/login', {email: 'jordan@example.com', password: 'cool'}
+    post '/login', { email: 'jordan@example.com', password: 'cool' }
     follow_redirect!
     follow_redirect!
     assert last_response.body.include? 'Edited'

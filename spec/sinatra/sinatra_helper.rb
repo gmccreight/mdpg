@@ -13,7 +13,7 @@ def app
 end
 
 def authenticated_session(user)
-  {'HTTP_COOKIE' => "access_token=#{user.access_token}"}
+  { 'HTTP_COOKIE' => "access_token=#{user.access_token}" }
 end
 
 def follow_redirect_with_authenticated_user!(user)

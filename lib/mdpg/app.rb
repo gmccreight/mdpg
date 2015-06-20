@@ -35,19 +35,19 @@ class App
       set_redirect_to '/'
     else
       pageView = PageView.new(nil, page, token_type)
-      return {viewmodel: pageView, mode: :shared}
+      return { viewmodel: pageView, mode: :shared }
     end
   end
 
   def page_get(page)
     pageView = PageView.new(current_user, page, nil)
     UserRecentPages.new(current_user).add_to_recent_viewed_pages_list(page)
-    {viewmodel: pageView, mode: :normal}
+    { viewmodel: pageView, mode: :normal }
   end
 
   def page_edit(page)
     page_text = PageEditView.new(current_user, page).get_text
-    {page: page, page_text: page_text, readwrite_token: nil}
+    { page: page, page_text: page_text, readwrite_token: nil }
   end
 
   def edit_page_from_readwrite_token(readwrite_token)
@@ -55,8 +55,8 @@ class App
     if page && token_type == :readwrite
       page_text = PageLinks.new(nil)
         .internal_links_to_page_name_links_for_editing(page.text)
-      {page: page, page_text: page_text,
-        readwrite_token: readwrite_token}
+      { page: page, page_text: page_text,
+        readwrite_token: readwrite_token }
     end
   end
 
@@ -151,12 +151,12 @@ class App
   def recent_pages(how_many = 25)
     edited = _recent_pages_for(current_user.recent_edited_page_ids, how_many)
     viewed = _recent_pages_for(current_user.recent_viewed_page_ids, how_many)
-    {edited_pages: edited, viewed_pages: viewed}
+    { edited_pages: edited, viewed_pages: viewed }
   end
 
   def stats
     pages = UserPages.new(current_user).pages
-    {pages: pages}
+    { pages: pages }
   end
 
   def page_add(name)

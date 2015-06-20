@@ -20,15 +20,15 @@ describe 'page' do
   end
 
   def add_page(name)
-    post '/page/add', {name: name}, authenticated_session(@user)
+    post '/page/add', { name: name }, authenticated_session(@user)
   end
 
   def update_page(name, text)
-    post "/p/#{name}/update", {text: text}, authenticated_session(@user)
+    post "/p/#{name}/update", { text: text }, authenticated_session(@user)
   end
 
   def update_page_with_readwrite_token(token, text)
-    post "/s/#{token}/update", {text: text}
+    post "/s/#{token}/update", { text: text }
   end
 
   def delete_page(name)
@@ -36,7 +36,7 @@ describe 'page' do
   end
 
   def rename_page(name, new_name)
-    post "/p/#{name}/rename", {new_name: new_name},
+    post "/p/#{name}/rename", { new_name: new_name },
       authenticated_session(@user)
   end
 
@@ -209,7 +209,7 @@ describe 'page' do
 
     def update_sharing_token(type, new_token)
       post "/p/#{@page.name}/update_sharing_token",
-        {token_type: type, new_token: new_token, is_activated: true},
+        { token_type: type, new_token: new_token, is_activated: true },
         authenticated_session(@user)
     end
 
