@@ -32,7 +32,7 @@ class DataStore < Struct.new(:data_dir_or_memory)
       set_in_memory_value(key, data)
     else
       set_in_memory_value(key, data)
-      FileUtils.mkdir_p(data_dir_or_memory + "/" + directory_for_key(key))
+      FileUtils.mkdir_p(data_dir_or_memory + '/' + directory_for_key(key))
       @disk_sets << key
       File.open(full_path_for_key(key), 'w') do |file|
         file.write YAML.dump(data)
@@ -41,7 +41,7 @@ class DataStore < Struct.new(:data_dir_or_memory)
   end
 
   def virtual_delete key
-    set(key + "__deleted", get(key))
+    set(key + '__deleted', get(key))
 
     if data_dir_or_memory == :memory
       @data.delete key
@@ -66,7 +66,7 @@ class DataStore < Struct.new(:data_dir_or_memory)
   end
 
   private def full_path_for_key key
-    data_dir_or_memory + "/" + directory_for_key(key) + "/" + key
+    data_dir_or_memory + '/' + directory_for_key(key) + '/' + key
   end
 
   private def directory_for_key key

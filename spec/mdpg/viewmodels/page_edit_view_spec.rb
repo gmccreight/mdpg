@@ -1,4 +1,4 @@
-require_relative "../../spec_helper"
+require_relative '../../spec_helper'
 
 describe PageEditView do
 
@@ -7,20 +7,20 @@ describe PageEditView do
     @user = create_user
   end
 
-  describe "text you see in edit box" do
+  describe 'text you see in edit box' do
 
-    it "should be what is in the text" do
-      page = Page.create name:"my-bongos",
-        text:"This is *bongos*, indeed."
+    it 'should be what is in the text' do
+      page = Page.create name:'my-bongos',
+        text:'This is *bongos*, indeed.'
       vm = PageEditView.new(@user, page)
-      expected = "This is *bongos*, indeed."
+      expected = 'This is *bongos*, indeed.'
       assert_equal expected, vm.get_text
     end
 
-    it "should translate partial includes to other pages into easy-edit" do
+    it 'should translate partial includes to other pages into easy-edit' do
       user_pages = UserPages.new @user
 
-      ident = "abababababababab"
+      ident = 'abababababababab'
 
       other_text = (<<-EOF).gsub(/^ +/, '')
         something that we're talking about
@@ -28,7 +28,7 @@ describe PageEditView do
         John James said: "this is an important idea"
         [[#important-idea:#{ident}]]
       EOF
-      other_page = user_pages.create_page name:"other-page", text:other_text
+      other_page = user_pages.create_page name:'other-page', text:other_text
 
       this_text = (<<-EOF).gsub(/^ +/, '')
         From the other page:
@@ -38,7 +38,7 @@ describe PageEditView do
         is what it was talking about
       EOF
 
-      this_page = user_pages.create_page name:"this-page", text:this_text
+      this_page = user_pages.create_page name:'this-page', text:this_text
 
       expected_internal_text = (<<-EOF).gsub(/^ +/, '')
         From the other page:

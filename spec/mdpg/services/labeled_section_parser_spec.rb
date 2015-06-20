@@ -1,4 +1,4 @@
-require_relative "../../spec_helper"
+require_relative '../../spec_helper'
 
 describe LabeledSectionParser do
 
@@ -6,9 +6,9 @@ describe LabeledSectionParser do
     $data_store = get_memory_datastore
   end
 
-  describe "adding unique identifiers to section definitions" do
+  describe 'adding unique identifiers to section definitions' do
 
-    it "should add missing identifier to section definition without one" do
+    it 'should add missing identifier to section definition without one' do
       text = (<<-EOF).gsub(/^ +/, '')
         start of the text
 
@@ -28,7 +28,7 @@ describe LabeledSectionParser do
 
       # Make the new identifier be a known value
       def parser.get_new_identifier
-        "bbbegdababuwxxx"
+        'bbbegdababuwxxx'
       end
 
       new_text = parser.add_any_missing_identifiers
@@ -53,9 +53,9 @@ describe LabeledSectionParser do
 
   end
 
-  describe "success" do
+  describe 'success' do
 
-    it "should list fully opened and closed sections" do
+    it 'should list fully opened and closed sections' do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
         with [[#coolname]] in it
@@ -64,10 +64,10 @@ describe LabeledSectionParser do
       EOF
       parser = LabeledSectionParser.new(text)
       parser.process
-      assert_equal ["coolname"], parser.list
+      assert_equal ['coolname'], parser.list
     end
 
-    it "should list fully opened and closed sections using uniq id syntax" do
+    it 'should list fully opened and closed sections using uniq id syntax' do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
         with [[#coolname:axzegdababuwxnc]] in it
@@ -77,10 +77,10 @@ describe LabeledSectionParser do
       parser = LabeledSectionParser.new(text)
       parser.process
       refute parser.had_error?
-      assert_equal ["coolname"], parser.list
+      assert_equal ['coolname'], parser.list
     end
 
-    it "should give the uniq id for a name" do
+    it 'should give the uniq id for a name' do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
         with [[#coolname:axzegdababuwxnc]] in it
@@ -90,12 +90,12 @@ describe LabeledSectionParser do
       parser = LabeledSectionParser.new(text)
       parser.process
       refute parser.had_error?
-      assert_equal "axzegdababuwxnc", parser.identifier_for("coolname")
+      assert_equal 'axzegdababuwxnc', parser.identifier_for('coolname')
     end
 
-    describe "text for a given section" do
+    describe 'text for a given section' do
 
-      it "should give the text for a section" do
+      it 'should give the text for a section' do
         text = (<<-EOF).gsub(/^ +/, '')
           here is some text
           with [[#coolname:axzegdababuwxnc]] in it
@@ -104,11 +104,11 @@ describe LabeledSectionParser do
         EOF
         parser = LabeledSectionParser.new(text)
         parser.process
-        result_with_no_newlines = parser.text_for("coolname").gsub(/\n/, " ")
-        assert_equal "in it and also with", result_with_no_newlines
+        result_with_no_newlines = parser.text_for('coolname').gsub(/\n/, ' ')
+        assert_equal 'in it and also with', result_with_no_newlines
       end
 
-      it "should not include other section tags" do
+      it 'should not include other section tags' do
         text = (<<-EOF).gsub(/^ +/, '')
           here is some text
           with [[#coolname:axzegdababuwxnc]] in it
@@ -121,17 +121,17 @@ describe LabeledSectionParser do
         EOF
         parser = LabeledSectionParser.new(text)
         parser.process
-        result_with_no_newlines = parser.text_for("coolname").gsub(/\n/, " ")
-        assert_equal "in it and also with", result_with_no_newlines
+        result_with_no_newlines = parser.text_for('coolname').gsub(/\n/, ' ')
+        assert_equal 'in it and also with', result_with_no_newlines
       end
 
     end
 
   end
 
-  describe "errors" do
+  describe 'errors' do
 
-    it "should not have any for well formatted sections" do
+    it 'should not have any for well formatted sections' do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
         with [[#coolname]] in it
@@ -143,7 +143,7 @@ describe LabeledSectionParser do
       refute parser.had_error?
     end
 
-    it "should have an error for an un-closed section" do
+    it 'should have an error for an un-closed section' do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
         with [[#coolname]] in it
@@ -154,10 +154,10 @@ describe LabeledSectionParser do
       parser = LabeledSectionParser.new(text)
       parser.process
       assert parser.had_error?
-      assert_equal ["bad"], parser.section_names_with_errors
+      assert_equal ['bad'], parser.section_names_with_errors
     end
 
-    it "should have an error for a section with too many starts" do
+    it 'should have an error for a section with too many starts' do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
         with [[#coolname]] in it
@@ -168,7 +168,7 @@ describe LabeledSectionParser do
       parser = LabeledSectionParser.new(text)
       parser.process
       assert parser.had_error?
-      assert_equal ["coolname"], parser.section_names_with_errors
+      assert_equal ['coolname'], parser.section_names_with_errors
     end
 
   end

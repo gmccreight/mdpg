@@ -3,7 +3,7 @@ require 'haml'
 require 'coffee-script'
 require 'json'
 
-if ENV["profiler"]
+if ENV['profiler']
   require 'profiler'
 end
 
@@ -13,10 +13,10 @@ $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 require 'mdpg'
 
 if ! $data_store
-  $data_store = DataStore.new "./.app_data"
+  $data_store = DataStore.new './.app_data'
 end
 
-if ENV["mdpg_production"]
+if ENV['mdpg_production']
   set :port, 80
   set :environment, :production
 end
@@ -127,7 +127,7 @@ end
 post '/p/:name/duplicate' do |page_name|
   if get_user_page(page_name)
     new_page = UserPages.new(current_user).duplicate_page page_name
-    redirect "/p/" + new_page.name
+    redirect '/p/' + new_page.name
   end
 end
 
@@ -172,7 +172,7 @@ get '/p/:name/tag_suggestions' do |page_name|
 end
 
 post '/p/:name/tags' do |page_name|
-  tag_name = attr_for_request_payload "text"
+  tag_name = attr_for_request_payload 'text'
 
   page = get_user_page(page_name)
   if page
@@ -201,7 +201,7 @@ end
 
 get '/page/recent' do
   app = authorize!
-  how_many = params["how_many"] ? params["how_many"].to_i : 25
+  how_many = params['how_many'] ? params['how_many'].to_i : 25
   haml :page_recent, :locals => app.recent_pages(how_many)
 end
 
@@ -212,7 +212,7 @@ end
 
 post '/page/add' do
   app = authorize!
-  app.page_add(params["name"])
+  app.page_add(params['name'])
   _app_handle_result app
 end
 
@@ -237,7 +237,7 @@ def get_user_page page_name
   if page
     page
   else
-    error "could not find that page"
+    error 'could not find that page'
   end
 end
 
@@ -264,7 +264,7 @@ def get_access_token
 end
 
 def set_access_token token
-  response.set_cookie 'access_token', {:value => token, :max_age => "2592000"}
+  response.set_cookie 'access_token', {:value => token, :max_age => '2592000'}
 end
 
 def clear_access_token

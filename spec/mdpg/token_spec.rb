@@ -1,57 +1,57 @@
-require_relative "../spec_helper"
+require_relative '../spec_helper'
 
 describe Token do
 
-  describe "validate" do
+  describe 'validate' do
 
     def validate text
       Token.new(text).validate
     end
 
-    describe "nil or blank" do
+    describe 'nil or blank' do
 
-      it "when nil" do
+      it 'when nil' do
         assert_equal :blank, validate(nil)
       end
 
-      it "when blank" do
-        assert_equal :blank, validate("")
+      it 'when blank' do
+        assert_equal :blank, validate('')
       end
 
     end
 
-    describe "length" do
+    describe 'length' do
 
-      it "when too short" do
-        assert_equal :too_short, validate("x")
+      it 'when too short' do
+        assert_equal :too_short, validate('x')
       end
 
-      it "when too long" do
-        assert_equal :too_long, validate("x" * 100)
+      it 'when too long' do
+        assert_equal :too_long, validate('x' * 100)
       end
 
-      it "when just right" do
-        assert_equal nil, validate("hello-there")
+      it 'when just right' do
+        assert_equal nil, validate('hello-there')
       end
 
     end
 
-    describe "character set" do
+    describe 'character set' do
 
-      it "should not allow underscores" do
-        assert_equal :only_a_z_0_9_and_hyphens_ok, validate("hellothere_")
+      it 'should not allow underscores' do
+        assert_equal :only_a_z_0_9_and_hyphens_ok, validate('hellothere_')
       end
 
-      it "should not allow spaces" do
-        assert_equal :only_a_z_0_9_and_hyphens_ok, validate("hello there")
+      it 'should not allow spaces' do
+        assert_equal :only_a_z_0_9_and_hyphens_ok, validate('hello there')
       end
 
-      it "should allow numbers" do
-        assert_equal nil, validate("hello-there-89")
+      it 'should allow numbers' do
+        assert_equal nil, validate('hello-there-89')
       end
 
-      it "should allow a-z and hyphens" do
-        assert_equal nil, validate("hello-there")
+      it 'should allow a-z and hyphens' do
+        assert_equal nil, validate('hello-there')
       end
 
     end

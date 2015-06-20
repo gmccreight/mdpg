@@ -25,7 +25,7 @@ class App
   end
 
   def errors_message
-    errors.join(", ")
+    errors.join(', ')
   end
 
   def get_page_from_sharing_token page_sharing_token
@@ -63,9 +63,9 @@ class App
   def page_delete page
     begin
       UserPages.new(current_user).delete_page page.name
-      set_redirect_to "/"
+      set_redirect_to '/'
     rescue PageCannotBeDeletedBecauseItHasReferringPages
-      add_error "the page cannot be deleted because other pages refer to it"
+      add_error 'the page cannot be deleted because other pages refer to it'
     end
   end
 
@@ -88,7 +88,7 @@ class App
         set_redirect_to "/p/#{original_name}"
       end
     rescue PageAlreadyExistsException
-      add_error "a page with that name already exists"
+      add_error 'a page with that name already exists'
     end
   end
 
@@ -105,7 +105,7 @@ class App
     results = searcher.search query
 
     if results[:redirect]
-      maybe_edit_mode = results[:redirect_to_edit_mode] ? "/edit" : ""
+      maybe_edit_mode = results[:redirect_to_edit_mode] ? '/edit' : ''
       set_redirect_to "/p/#{results[:redirect]}#{maybe_edit_mode}"
       return
     end
@@ -144,7 +144,7 @@ class App
         add_error error_message.to_s
       end
     rescue SharingTokenAlreadyExistsException
-      add_error "a page with that token already exists"
+      add_error 'a page with that token already exists'
     end
   end
 
@@ -162,11 +162,11 @@ class App
   def page_add name
     begin
       user_pages = UserPages.new(current_user)
-      page = user_pages.create_page name:name, text:""
-      path = page ? "/p/#{page.name}/edit" : "/"
+      page = user_pages.create_page name:name, text:''
+      path = page ? "/p/#{page.name}/edit" : '/'
       set_redirect_to path
     rescue PageAlreadyExistsException
-      add_error "a page with that name already exists"
+      add_error 'a page with that name already exists'
     end
   end
 

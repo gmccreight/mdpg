@@ -1,4 +1,4 @@
-require "similar_token_finder"
+require 'similar_token_finder'
 
 class TagAlreadyExistsForPageException < Exception
 end

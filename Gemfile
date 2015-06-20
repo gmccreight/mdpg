@@ -1,24 +1,24 @@
 source 'https://rubygems.org'
 
-gem "sinatra"
-gem "redcarpet"
-gem "align"
-gem "haml"
-gem "coffee-script"
+gem 'sinatra'
+gem 'redcarpet'
+gem 'align'
+gem 'haml'
+gem 'coffee-script'
 
-gem "rack-test", require: "rack/test"
+gem 'rack-test', require: 'rack/test'
 
 # These are temporarily necessary in Ruby 2.2.2
 # We might be able to remove them later
-gem "test-unit"
-gem "minitest"
+gem 'test-unit'
+gem 'minitest'
 
-gem "ruby-prof"
-gem "rerun"
+gem 'ruby-prof'
+gem 'rerun'
 
 gem 'rubocop', require: false
 
-gem "coveralls", require: false
+gem 'coveralls', require: false
 
 group :test do
   gem 'rake'

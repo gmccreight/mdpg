@@ -3,60 +3,60 @@ require 'rake/testtask'
 task :default => [:test]
 
 Rake::TestTask.new do |t|
-  t.pattern = "spec/**/*_spec.rb"
+  t.pattern = 'spec/**/*_spec.rb'
 end
 
-desc "run the tests and profile them"
+desc 'run the tests and profile them'
 task :prof do
-  exec "ruby-prof --min_percent=1 ./bin/tests/spec.rb 2>/dev/null"
+  exec 'ruby-prof --min_percent=1 ./bin/tests/spec.rb 2>/dev/null'
 end
 
-desc "run all the tests, including style and coverage ones"
+desc 'run all the tests, including style and coverage ones'
 task :ta do
-  exec "./bin/tests/all.sh"
+  exec './bin/tests/all.sh'
 end
 
-desc "run all the style tests"
+desc 'run all the style tests'
 task :style do
-  exec "./bin/tests/all_style.sh"
+  exec './bin/tests/all_style.sh'
 end
 
-desc "run coverage and send to coveralls"
+desc 'run coverage and send to coveralls'
 task :cov do
-  exec "COVERALLS_RUN_LOCALLY=1 rake"
+  exec 'COVERALLS_RUN_LOCALLY=1 rake'
 end
 
-desc "deploy to production"
+desc 'deploy to production'
 task :dep do
-  exec "./bin/ops/deploy"
+  exec './bin/ops/deploy'
 end
 
-desc "backup production data to local machine"
+desc 'backup production data to local machine'
 task :backup do
-  exec "./bin/ops/backup"
+  exec './bin/ops/backup'
 end
 
-desc "copy production data - preserves backup of local data"
+desc 'copy production data - preserves backup of local data'
 task :copy do
-  exec "./bin/ops/copy_production_data"
+  exec './bin/ops/copy_production_data'
 end
 
-desc "sync production data - does not preserve local data"
+desc 'sync production data - does not preserve local data'
 task :sync do
-  exec "./bin/ops/sync_production_data"
+  exec './bin/ops/sync_production_data'
 end
 
-desc "run the server"
+desc 'run the server'
 task :server do
-  exec "./bin/run_server"
+  exec './bin/run_server'
 end
 
-desc "run ./bin/hack if you have one"
+desc 'run ./bin/hack if you have one'
 task :hack do
-  exec "./bin/hack"
+  exec './bin/hack'
 end
 
-desc "run the tests ten times for timing"
+desc 'run the tests ten times for timing'
 task :time do
   exec "
     for i in {1..10};

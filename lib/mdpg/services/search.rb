@@ -1,4 +1,4 @@
-require "search_query_parser"
+require 'search_query_parser'
 
 class Search
 

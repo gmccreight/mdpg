@@ -32,9 +32,9 @@ class LabeledSectionTranscluder
       page_name = $1
       section_name = $2
 
-      result = ""
+      result = ''
 
-      if page_name == "mdpgpage"
+      if page_name == 'mdpgpage'
         result = "[[#{page_name}:#{section_name}]]"
       else
         page = user_pages.find_page_with_name(page_name)
@@ -49,7 +49,7 @@ class LabeledSectionTranscluder
         end
       end
 
-      if result == ""
+      if result == ''
         result = "[[#{page_name}##{section_name}]]"
       end
 
@@ -65,7 +65,7 @@ class LabeledSectionTranscluder
       page_id = $1.to_i
       section_id = $2
 
-      result = ""
+      result = ''
 
       page = Page.find(page_id)
 
@@ -78,7 +78,7 @@ class LabeledSectionTranscluder
         end
       end
 
-      if result == ""
+      if result == ''
         result = "[[mdpgpage:#{page_id}##{section_id}]]"
       end
 

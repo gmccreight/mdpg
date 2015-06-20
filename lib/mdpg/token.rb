@@ -1,6 +1,6 @@
 class Token < Struct.new(:text)
 
-  TOKEN_REGEX_STR = "[a-z0-9-]+"
+  TOKEN_REGEX_STR = '[a-z0-9-]+'
 
   def validate
     return :blank if ! text || text.empty?

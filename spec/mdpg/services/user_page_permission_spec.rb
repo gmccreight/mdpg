@@ -1,4 +1,4 @@
-require_relative "../../spec_helper"
+require_relative '../../spec_helper'
 
 describe UserPagePermission do
 
@@ -27,19 +27,19 @@ describe UserPagePermission do
     UserPagePermission.new(user, page).can_write?
   end
 
-  describe "owner" do
+  describe 'owner' do
 
-    it "should be able to read one of their pages" do
+    it 'should be able to read one of their pages' do
       assert can_read?(@user1, @page1)
     end
 
-    it "should be able to write one of their pages" do
+    it 'should be able to write one of their pages' do
       assert can_write?(@user1, @page1)
     end
 
   end
 
-  describe "unrelated person" do
+  describe 'unrelated person' do
 
     it "should not be able to read one of user 1's pages" do
       refute can_read?(@user2, @page1)
@@ -49,7 +49,7 @@ describe UserPagePermission do
       refute can_write?(@user2, @page1)
     end
 
-    it "user 1 should not be able to read an unrelated page" do
+    it 'user 1 should not be able to read an unrelated page' do
       refute can_read?(@user1, @page3)
     end
 

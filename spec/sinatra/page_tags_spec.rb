@@ -1,17 +1,17 @@
 require File.expand_path '../sinatra_helper.rb', __FILE__
 
-describe "page_tags" do
+describe 'page_tags' do
 
   before do
     $data_store = get_memory_datastore
 
-    @user = User.create name:"Jordan",
-      email:"jordan@example.com", password:"cool"
-    @other_user = User.create name:"Other",
-      email:"other@example.com", password:"other"
+    @user = User.create name:'Jordan',
+      email:'jordan@example.com', password:'cool'
+    @other_user = User.create name:'Other',
+      email:'other@example.com', password:'other'
     UserPages.new @user
-    @page = UserPages.new(@user).create_page name:"a-good-page",
-      text:"I wish I had something *interesting* to say!"
+    @page = UserPages.new(@user).create_page name:'a-good-page',
+      text:'I wish I had something *interesting* to say!'
   end
 
   def get_tags user, page_name
@@ -33,100 +33,100 @@ describe "page_tags" do
       authenticated_session(user)
   end
 
-  describe "deleting" do
+  describe 'deleting' do
 
     before do
-      add_tag @user, "a-good-page", "new-1"
+      add_tag @user, 'a-good-page', 'new-1'
     end
 
-    it "should delete an existing tag" do
-      assert_equal ["new-1"], ObjectTags.new(@page.reload).sorted_tag_names
-      delete_tag @user, "a-good-page", "new-1"
+    it 'should delete an existing tag' do
+      assert_equal ['new-1'], ObjectTags.new(@page.reload).sorted_tag_names
+      delete_tag @user, 'a-good-page', 'new-1'
       assert_equal [], ObjectTags.new(@page.reload).sorted_tag_names
     end
 
   end
 
-  describe "suggestions" do
+  describe 'suggestions' do
 
     before do
-      add_tag @user, "a-good-page", "food-fight"
-      add_tag @user, "a-good-page", "fool-right"
-      add_tag @user, "a-good-page", "car"
+      add_tag @user, 'a-good-page', 'food-fight'
+      add_tag @user, 'a-good-page', 'fool-right'
+      add_tag @user, 'a-good-page', 'car'
 
-      UserPages.new(@user).create_page name:"other-page",
-        text:"nothing really"
-      add_tag @user, "other-page", "foolish"
+      UserPages.new(@user).create_page name:'other-page',
+        text:'nothing really'
+      add_tag @user, 'other-page', 'foolish'
     end
 
-    it "should only give matching tags that do not already exist on page" do
-      get_tag_suggestions @user, "a-good-page", "foo"
+    it 'should only give matching tags that do not already exist on page' do
+      get_tag_suggestions @user, 'a-good-page', 'foo'
       hash = JSON.parse last_response.body
-      tags = hash["tags"]
-      assert_equal ["foolish"], tags
+      tags = hash['tags']
+      assert_equal ['foolish'], tags
     end
 
   end
 
-  describe "getting" do
+  describe 'getting' do
 
     before do
-      add_tag @user, "a-good-page", "new-1"
+      add_tag @user, 'a-good-page', 'new-1'
     end
 
-    it "should get tags for the page that exists" do
-      get_tags @user, "a-good-page"
+    it 'should get tags for the page that exists' do
+      get_tags @user, 'a-good-page'
       array = JSON.parse last_response.body
       assert_equal 1, array.size
-      assert_equal "new-1", array[0]["text"]
-      assert_equal [], array[0]["associated"]
+      assert_equal 'new-1', array[0]['text']
+      assert_equal [], array[0]['associated']
     end
 
-    it "should not get tags for the page that does not exist" do
-      get_tags @user, "a-non-existent-page"
-      assert_equal "could not find that page", last_response.body
+    it 'should not get tags for the page that does not exist' do
+      get_tags @user, 'a-non-existent-page'
+      assert_equal 'could not find that page', last_response.body
     end
 
-    it "should not get tags for the page that is not one of yours" do
-      get_tags @other_user, "a-good-page"
-      assert_equal "could not find that page", last_response.body
+    it 'should not get tags for the page that is not one of yours' do
+      get_tags @other_user, 'a-good-page'
+      assert_equal 'could not find that page', last_response.body
     end
 
   end
 
-  describe "adding" do
+  describe 'adding' do
 
-    describe "successfully" do
+    describe 'successfully' do
 
       before do
-        add_tag @user, "a-good-page", "new-1"
+        add_tag @user, 'a-good-page', 'new-1'
       end
 
-      it "should return a success message" do
+      it 'should return a success message' do
         attrs = JSON.parse last_response.body
-        assert attrs.has_key?("success")
-        assert_equal "added tag new-1", attrs["success"]
+        assert attrs.has_key?('success')
+        assert_equal 'added tag new-1', attrs['success']
       end
 
-      it "should add the tag to the page" do
+      it 'should add the tag to the page' do
         @page.reload
         object_tags = ObjectTags.new(@page)
-        assert_equal ["new-1"], object_tags.sorted_tag_names
+        assert_equal ['new-1'], object_tags.sorted_tag_names
       end
 
       it "should *also* add the page to the user's page_tags" do
         @user.reload
         user_page_tags = UserPageTags.new(@user, @page)
-        assert_equal ["new-1"], user_page_tags.get_tag_names
+        assert_equal ['new-1'], user_page_tags.get_tag_names
       end
 
     end
 
-    describe "unsuccessfully" do
+    describe 'unsuccessfully' do
 
-      it "should fail if the page does not exist" do
-        add_tag @user, "a-bad-page", "new-1"
-        assert_equal "could not find that page", last_response.body
+      it 'should fail if the page does not exist' do
+        add_tag @user, 'a-bad-page', 'new-1'
+        assert_equal 'could not find that page', last_response.body
       end
 
     end
@@ -137,20 +137,20 @@ describe "page_tags" do
     get "/t/#{tag_name}", {}, authenticated_session(@user)
   end
 
-  describe "get the tag details page" do
+  describe 'get the tag details page' do
 
     before do
-      add_tag @user, "a-good-page", "new-1"
+      add_tag @user, 'a-good-page', 'new-1'
     end
 
-    it "should list the pages associated with a tag" do
-      get_tag_page "new-1"
-      expected = "a-good-page"
+    it 'should list the pages associated with a tag' do
+      get_tag_page 'new-1'
+      expected = 'a-good-page'
       assert last_response.body.include? expected
     end
 
-    it "should mention that a user does not have a tag if they do not" do
-      get_tag_page "non-existent-tag"
+    it 'should mention that a user does not have a tag if they do not' do
+      get_tag_page 'non-existent-tag'
       expected = "you do not have any pages tagged 'non-existent-tag'"
       assert last_response.body.include? expected
     end

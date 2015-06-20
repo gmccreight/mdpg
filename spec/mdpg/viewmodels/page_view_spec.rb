@@ -1,12 +1,12 @@
-require_relative "../../spec_helper"
+require_relative '../../spec_helper'
 
 describe PageView do
 
   before do
     $data_store = get_memory_datastore
     @user = create_user
-    @page = Page.create name:"my-bongos",
-      text:"This is *bongos*, indeed."
+    @page = Page.create name:'my-bongos',
+      text:'This is *bongos*, indeed.'
     @page_1_vm = PageView.new(@user, @page, nil)
   end
 
@@ -18,21 +18,21 @@ describe PageView do
     ObjectTags.new(@page)
   end
 
-  describe "which things to show" do
+  describe 'which things to show' do
 
-    describe "edit button" do
+    describe 'edit button' do
 
-      it "should show the edit button when no sharing token" do
+      it 'should show the edit button when no sharing token' do
         vm = PageView.new(@user, @page, nil)
         assert vm.should_show_edit_button?
       end
 
-      it "should show the edit button when readwrite sharing token" do
+      it 'should show the edit button when readwrite sharing token' do
         vm = PageView.new(@user, @page, :readwrite)
         assert vm.should_show_edit_button?
       end
 
-      it "should not show the edit button when readonly sharing token" do
+      it 'should not show the edit button when readonly sharing token' do
         vm = PageView.new(@user, @page, :readonly)
         refute vm.should_show_edit_button?
       end
@@ -41,13 +41,13 @@ describe PageView do
 
   end
 
-  describe "rendered html for page" do
+  describe 'rendered html for page' do
 
-    describe "which includes partials from other pages" do
+    describe 'which includes partials from other pages' do
 
-      it "should be able to include partial page from other page" do
+      it 'should be able to include partial page from other page' do
 
-        ident = "abababababababab"
+        ident = 'abababababababab'
 
         other_text = (<<-EOF).gsub(/^[ ]{10}/, '')
           something that we're talking about
@@ -62,7 +62,7 @@ describe PageView do
 
           [[#important-idea:#{ident}]]
         EOF
-        other_page = Page.create name:"other-page", text:other_text
+        other_page = Page.create name:'other-page', text:other_text
 
         this_text = (<<-EOF).gsub(/^ +/, '')
           From the other page:
@@ -72,7 +72,7 @@ describe PageView do
           is what it was talking about
         EOF
 
-        this_page = Page.create name:"this-page", text:this_text
+        this_page = Page.create name:'this-page', text:this_text
 
         page_vm = PageView.new(@user, this_page, nil)
 
@@ -112,60 +112,60 @@ describe PageView do
 
   end
 
-  describe "new tag for page" do
+  describe 'new tag for page' do
 
-    it "should add a new tag to both page and user" do
-      @page_1_vm.add_tag("good-stuff")
-      assert page_1_tags.has_tag_with_name?("good-stuff")
-      assert user_1_page_tags.has_tag_with_name?("good-stuff")
-      assert_equal 1, user_1_page_tags.tag_count("good-stuff")
+    it 'should add a new tag to both page and user' do
+      @page_1_vm.add_tag('good-stuff')
+      assert page_1_tags.has_tag_with_name?('good-stuff')
+      assert user_1_page_tags.has_tag_with_name?('good-stuff')
+      assert_equal 1, user_1_page_tags.tag_count('good-stuff')
     end
 
-    it "should be able to remove an existing tag" do
-      @page_1_vm.add_tag("good-stuff")
-      @page_1_vm.remove_tag("good-stuff")
-      refute page_1_tags.has_tag_with_name?("good-stuff")
-      refute user_1_page_tags.has_tag_with_name?("good-stuff")
-      assert_equal 0, user_1_page_tags.tag_count("good-stuff")
+    it 'should be able to remove an existing tag' do
+      @page_1_vm.add_tag('good-stuff')
+      @page_1_vm.remove_tag('good-stuff')
+      refute page_1_tags.has_tag_with_name?('good-stuff')
+      refute user_1_page_tags.has_tag_with_name?('good-stuff')
+      assert_equal 0, user_1_page_tags.tag_count('good-stuff')
     end
 
   end
 
-  describe "multiple pages with same tag" do
+  describe 'multiple pages with same tag' do
 
     before do
-      page_2 = Page.create name:"food", text:"foo"
+      page_2 = Page.create name:'food', text:'foo'
       @page_2_vm = PageView.new(@user, page_2)
 
-      @page_1_vm.add_tag("good-stuff")
-      @page_2_vm.add_tag("good-stuff")
+      @page_1_vm.add_tag('good-stuff')
+      @page_2_vm.add_tag('good-stuff')
     end
 
     it "should increment the user's tags count to 2" do
-      assert_equal 2, user_1_page_tags.tag_count("good-stuff")
+      assert_equal 2, user_1_page_tags.tag_count('good-stuff')
     end
 
   end
 
-  describe "same tag as before" do
+  describe 'same tag as before' do
 
-    it "should not add the same tag again" do
-      @page_1_vm.add_tag("good-stuff")
-      assert page_1_tags.has_tag_with_name?("good-stuff")
-      assert user_1_page_tags.has_tag_with_name?("good-stuff")
-      assert_equal 1, user_1_page_tags.tag_count("good-stuff")
+    it 'should not add the same tag again' do
+      @page_1_vm.add_tag('good-stuff')
+      assert page_1_tags.has_tag_with_name?('good-stuff')
+      assert user_1_page_tags.has_tag_with_name?('good-stuff')
+      assert_equal 1, user_1_page_tags.tag_count('good-stuff')
 
-      @page_1_vm.add_tag("good-stuff")
-      assert user_1_page_tags.has_tag_with_name?("good-stuff")
-      assert_equal 1, user_1_page_tags.tag_count("good-stuff")
+      @page_1_vm.add_tag('good-stuff')
+      assert user_1_page_tags.has_tag_with_name?('good-stuff')
+      assert_equal 1, user_1_page_tags.tag_count('good-stuff')
     end
 
   end
 
-  describe "suggested tags" do
+  describe 'suggested tags' do
 
     before do
-      page_2 = Page.create name:"food", text:"foo"
+      page_2 = Page.create name:'food', text:'foo'
       @page_2_vm = PageView.new(@user, page_2)
 
       %w{colour great green gross}.each do |tag|
@@ -177,8 +177,8 @@ describe PageView do
       end
     end
 
-    it "should find a similar tag from other pages but not this one" do
-      assert_equal ["greed"], @page_1_vm.tag_suggestions_for("greet")
+    it 'should find a similar tag from other pages but not this one' do
+      assert_equal ['greed'], @page_1_vm.tag_suggestions_for('greet')
     end
 
   end

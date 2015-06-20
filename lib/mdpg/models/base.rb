@@ -127,7 +127,7 @@ class ModelBase
   end
 
   private def get_data_prefix
-    type_name_for_object(self) + "data"
+    type_name_for_object(self) + 'data'
   end
 
   private def get_var name
@@ -202,12 +202,12 @@ class ModelBase
   end
 
   private def max_revision
-    data_store.get(revisionless_data_key + "-max-revision") || -1
+    data_store.get(revisionless_data_key + '-max-revision') || -1
   end
 
   private def set_max_revision
     rev = max_revision
-    data_store.set(revisionless_data_key + "-max-revision", rev + 1)
+    data_store.set(revisionless_data_key + '-max-revision', rev + 1)
   end
 
   private def data_key

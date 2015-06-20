@@ -70,7 +70,7 @@ class LabeledSectionParser
     return nil if had_error?
     section = section_with_name_or_identifier(section_name, section_name)
     internal_text = @text[section.start_char..section.end_char].strip
-    internal_text.gsub(section_regex(remove_space:true), "")
+    internal_text.gsub(section_regex(remove_space:true), '')
   end
 
   private def has_any_section_definitions?

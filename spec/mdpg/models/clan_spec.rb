@@ -1,4 +1,4 @@
-require_relative "../../spec_helper"
+require_relative '../../spec_helper'
 
 describe Clan do
 
@@ -10,11 +10,11 @@ describe Clan do
     Clan.create name:name
   end
 
-  describe "creation" do
+  describe 'creation' do
 
-    it "should make a clan" do
-      clan = create_clan_with_name "good"
-      assert_equal clan.name, "good"
+    it 'should make a clan' do
+      clan = create_clan_with_name 'good'
+      assert_equal clan.name, 'good'
     end
 
   end

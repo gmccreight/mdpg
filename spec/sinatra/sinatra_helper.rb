@@ -19,10 +19,10 @@ end
 def follow_redirect_with_authenticated_user!(user)
   unless last_response.redirect?
     raise Error.new(
-      "Last response was not a redirect. Cannot follow_redirect!"
+      'Last response was not a redirect. Cannot follow_redirect!'
     )
   end
   auth_cookie = authenticated_session(user)
-  get(last_response["Location"], {},
-      { "HTTP_REFERER" => last_request.url }.merge(auth_cookie))
+  get(last_response['Location'], {},
+      { 'HTTP_REFERER' => last_request.url }.merge(auth_cookie))
 end

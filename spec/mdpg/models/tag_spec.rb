@@ -1,4 +1,4 @@
-require_relative "../../spec_helper"
+require_relative '../../spec_helper'
 
 describe Tag do
 
@@ -6,16 +6,16 @@ describe Tag do
     $data_store = get_memory_datastore
   end
 
-  describe "find by name" do
+  describe 'find by name' do
 
-    it "should find a tag by name if exists" do
-      Tag.create name:"food"
-      tag = Tag.find_by_index :name, "food"
+    it 'should find a tag by name if exists' do
+      Tag.create name:'food'
+      tag = Tag.find_by_index :name, 'food'
       assert_equal 1, tag.id
     end
 
-    it "should not find a tag by name if it does not exist" do
-      tag = Tag.find_by_index :name, "not-there"
+    it 'should not find a tag by name if it does not exist' do
+      tag = Tag.find_by_index :name, 'not-there'
       assert_equal nil, tag
     end
 

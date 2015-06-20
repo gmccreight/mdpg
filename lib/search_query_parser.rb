@@ -1,13 +1,13 @@
 class SearchQueryParser < Struct.new(:query)
 
-  TAGS_REGEX_STR = "\\s+tags:([a-z\\-][a-z\\-,*]+)"
-  SHOULD_FORCE_FULL_SEARCH_REGEX_STR = "!$"
-  OPEN_RESULT_IN_EDIT_MODE_REGEX_STR = "\\s+e$"
+  TAGS_REGEX_STR = '\\s+tags:([a-z\\-][a-z\\-,*]+)'
+  SHOULD_FORCE_FULL_SEARCH_REGEX_STR = '!$'
+  OPEN_RESULT_IN_EDIT_MODE_REGEX_STR = '\\s+e$'
 
   def search_strings
     str = orig_search_str
-    str = str.gsub(/#{SHOULD_FORCE_FULL_SEARCH_REGEX_STR}/, "")
-    str = str.gsub(/#{OPEN_RESULT_IN_EDIT_MODE_REGEX_STR}/, "")
+    str = str.gsub(/#{SHOULD_FORCE_FULL_SEARCH_REGEX_STR}/, '')
+    str = str.gsub(/#{OPEN_RESULT_IN_EDIT_MODE_REGEX_STR}/, '')
     str = strings_for_string(str)
     str
   end

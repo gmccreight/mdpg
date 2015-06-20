@@ -1,4 +1,4 @@
-require "rand_string_generator"
+require 'rand_string_generator'
 
 class User < ModelBase
 

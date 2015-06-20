@@ -49,7 +49,7 @@ class Page < ModelBase
       readwrite_sharing_token:
         Proc.new{RandStringGenerator.rand_string_of_length(32)},
       referring_page_ids: [],
-      text: ""
+      text: ''
     }
   end
 

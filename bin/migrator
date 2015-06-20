@@ -2,7 +2,7 @@
 
 require 'mdpg'
 
-$data_store = DataStore.new "./.app_data"
+$data_store = DataStore.new './.app_data'
 
 user = User.find(1)
 user_pages = UserPages.new user
