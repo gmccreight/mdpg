@@ -18,7 +18,7 @@ describe LabeledSectionTranscluder do
       John James said: "this is an important idea"
       [[#important-idea:#{ident}]]
     EOF
-    other_page = user_pages.create_page name:'other-page', text:other_text
+    other_page = user_pages.create_page name: 'other-page', text: other_text
 
     this_text = (<<-EOF).gsub(/^ +/, '')
       From the other page:
@@ -28,7 +28,7 @@ describe LabeledSectionTranscluder do
       is what it was talking about
     EOF
 
-    this_page = user_pages.create_page name:'this-page', text:this_text
+    this_page = user_pages.create_page name: 'this-page', text: this_text
 
     expected_text = (<<-EOF).gsub(/^ +/, '')
       From the other page:

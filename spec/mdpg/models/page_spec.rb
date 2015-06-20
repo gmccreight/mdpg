@@ -7,7 +7,7 @@ describe Page do
   end
 
   def create_page_with_name name
-    Page.create name:name, text:'foo'
+    Page.create name: name, text: 'foo'
   end
 
   describe 'creation' do
@@ -18,7 +18,7 @@ describe Page do
     end
 
     it 'should make the text an empty string by default' do
-      page = Page.create name:'good'
+      page = Page.create name: 'good'
       assert_equal '', page.text
     end
 
@@ -67,7 +67,7 @@ describe Page do
         "this is a test\n" +
         "mdpg-meta:{\"needs_work\":false, \"is_done\":true}\n" +
         'cool stuff'
-      page = Page.create name:'testing', text:text
+      page = Page.create name: 'testing', text: text
       assert_equal 2, page.meta.keys.size
       assert_equal false, page.meta[:needs_work]
       assert_equal true, page.meta[:is_done]
@@ -79,7 +79,7 @@ describe Page do
         "mdpg-meta:{\"needs_work\":false, \"is_done\":true}\n" +
         "cool stuff\n" +
         "mdpg-meta:{\"other_name\":\"wendy\"}\n"
-      page = Page.create name:'testing', text:text
+      page = Page.create name: 'testing', text: text
       assert_equal 2, page.meta.keys.size
     end
 
@@ -88,7 +88,7 @@ describe Page do
         "this is a test\n" +
         " mdpg-meta:{\"needs_work\":false, \"is_done\":true}\n" +
         "cool stuff\n"
-      page = Page.create name:'testing', text:text
+      page = Page.create name: 'testing', text: text
       assert_equal nil, page.meta
     end
 

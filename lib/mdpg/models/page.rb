@@ -31,7 +31,7 @@ class Page < ModelBase
     meta_line = text.lines.select{|x| x =~ /^mdpg-meta:\{/}.first
     return nil if ! meta_line
     json_data = meta_line.sub(/^mdpg-meta:/, '')
-    JSON.parse(json_data, {symbolize_names:true})
+    JSON.parse(json_data, {symbolize_names: true})
   end
 
   private def string_contains? string, query

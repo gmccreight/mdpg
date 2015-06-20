@@ -4,7 +4,7 @@ describe ObjectTags do
 
   before do
     $data_store = get_memory_datastore
-    @object = Page.create name:'killer', revision:1
+    @object = Page.create name: 'killer', revision: 1
     @object_tags = ObjectTags.new(@object)
   end
 
@@ -54,7 +54,7 @@ describe ObjectTags do
 
       it 'should update to show multiple pages associated with same tag' do
         @object_tags.add_tag 'cool-house'
-        other_page = Page.create name:'killer-fu'
+        other_page = Page.create name: 'killer-fu'
         other_page_tags = ObjectTags.new(other_page)
         other_page_tags.add_tag 'cool-house'
         assert_equal [@object.id, other_page.id],
@@ -92,7 +92,7 @@ describe ObjectTags do
       end
 
       it 'should remove one of the pages associated with the tag' do
-        other_page = Page.create name:'killer-fu'
+        other_page = Page.create name: 'killer-fu'
         other_page_tags = ObjectTags.new(other_page)
         other_page_tags.add_tag 'cool-house'
 

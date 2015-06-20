@@ -5,13 +5,13 @@ describe 'page_tags' do
   before do
     $data_store = get_memory_datastore
 
-    @user = User.create name:'Jordan',
-      email:'jordan@example.com', password:'cool'
-    @other_user = User.create name:'Other',
-      email:'other@example.com', password:'other'
+    @user = User.create name: 'Jordan',
+      email: 'jordan@example.com', password: 'cool'
+    @other_user = User.create name: 'Other',
+      email: 'other@example.com', password: 'other'
     UserPages.new @user
-    @page = UserPages.new(@user).create_page name:'a-good-page',
-      text:'I wish I had something *interesting* to say!'
+    @page = UserPages.new(@user).create_page name: 'a-good-page',
+      text: 'I wish I had something *interesting* to say!'
   end
 
   def get_tags user, page_name
@@ -54,8 +54,8 @@ describe 'page_tags' do
       add_tag @user, 'a-good-page', 'fool-right'
       add_tag @user, 'a-good-page', 'car'
 
-      UserPages.new(@user).create_page name:'other-page',
-        text:'nothing really'
+      UserPages.new(@user).create_page name: 'other-page',
+        text: 'nothing really'
       add_tag @user, 'other-page', 'foolish'
     end
 

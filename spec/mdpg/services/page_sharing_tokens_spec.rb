@@ -7,7 +7,7 @@ describe PageSharingTokens do
   end
 
   def create_page_with_name name
-    Page.create name:name, text:'foo'
+    Page.create name: name, text: 'foo'
   end
 
   describe 'finding by various sharing tokens' do

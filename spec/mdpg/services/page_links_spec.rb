@@ -6,10 +6,10 @@ describe PageLinks do
     $data_store = get_memory_datastore()
     @user = create_user
 
-    @zebra_page = Page.create name:'zebra-training',
-      text:'page 1'
-    @alaska_page = Page.create name:'alaska-crab',
-      text:"link to [[mdpgpage:#{@zebra_page.id}]]"
+    @zebra_page = Page.create name: 'zebra-training',
+      text: 'page 1'
+    @alaska_page = Page.create name: 'alaska-crab',
+      text: "link to [[mdpgpage:#{@zebra_page.id}]]"
 
     @user.add_page @zebra_page
     @user.add_page @alaska_page

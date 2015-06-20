@@ -7,8 +7,8 @@ describe User do
   end
 
   def create_user_with_name name
-    User.create name:name, email:'good@email.com',
-      password:'cool'
+    User.create name: name, email: 'good@email.com',
+      password: 'cool'
   end
 
   describe 'creation' do
@@ -20,7 +20,7 @@ describe User do
     end
 
     it 'should make a user without email' do
-      user = User.create name:'John', password:'cool'
+      user = User.create name: 'John', password: 'cool'
       assert_equal 1, user.id
       assert_equal nil, user.email
     end
@@ -87,7 +87,7 @@ describe User do
   describe 'finding by and indexed attribute' do
 
     it 'should find by an email that exists' do
-      User.create name:'John', email:'good@email.com', password:'cool'
+      User.create name: 'John', email: 'good@email.com', password: 'cool'
       user = User.find_by_index :email, 'good@email.com'
       assert_equal 1, user.id
       assert_equal 'John', user.name
@@ -98,7 +98,7 @@ describe User do
   describe 'authentication' do
 
     before do
-      User.create name:'John', email:'good@email.com', password:'cool'
+      User.create name: 'John', email: 'good@email.com', password: 'cool'
     end
 
     it 'should authenticate a user by correct name and email' do
@@ -122,7 +122,7 @@ describe User do
   describe 'pages' do
 
     before do
-      @user = User.create name:'John', email:'good@email.com', password:'cool'
+      @user = User.create name: 'John', email: 'good@email.com', password: 'cool'
     end
 
     it 'should add, remove, and persist pages' do
@@ -144,7 +144,7 @@ describe User do
   describe 'clans' do
 
     before do
-      @user = User.create name:'John', email:'good@email.com', password:'cool'
+      @user = User.create name: 'John', email: 'good@email.com', password: 'cool'
     end
 
     it 'should add, remove, and persist clans' do

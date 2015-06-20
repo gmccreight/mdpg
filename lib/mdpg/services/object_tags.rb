@@ -10,7 +10,7 @@ class ObjectTags < Struct.new(:object)
     return false if has_tag_with_name?(name)
 
     tag = Tag.find_by_index(:name, name) ||
-      Tag.create(name:name)
+      Tag.create(name: name)
 
     tag.add_associated_object object
     tag.save

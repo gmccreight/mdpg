@@ -5,8 +5,8 @@ describe PageView do
   before do
     $data_store = get_memory_datastore
     @user = create_user
-    @page = Page.create name:'my-bongos',
-      text:'This is *bongos*, indeed.'
+    @page = Page.create name: 'my-bongos',
+      text: 'This is *bongos*, indeed.'
     @page_1_vm = PageView.new(@user, @page, nil)
   end
 
@@ -62,7 +62,7 @@ describe PageView do
 
           [[#important-idea:#{ident}]]
         EOF
-        other_page = Page.create name:'other-page', text:other_text
+        other_page = Page.create name: 'other-page', text: other_text
 
         this_text = (<<-EOF).gsub(/^ +/, '')
           From the other page:
@@ -72,7 +72,7 @@ describe PageView do
           is what it was talking about
         EOF
 
-        this_page = Page.create name:'this-page', text:this_text
+        this_page = Page.create name: 'this-page', text: this_text
 
         page_vm = PageView.new(@user, this_page, nil)
 
@@ -134,7 +134,7 @@ describe PageView do
   describe 'multiple pages with same tag' do
 
     before do
-      page_2 = Page.create name:'food', text:'foo'
+      page_2 = Page.create name: 'food', text: 'foo'
       @page_2_vm = PageView.new(@user, page_2)
 
       @page_1_vm.add_tag('good-stuff')
@@ -165,7 +165,7 @@ describe PageView do
   describe 'suggested tags' do
 
     before do
-      page_2 = Page.create name:'food', text:'foo'
+      page_2 = Page.create name: 'food', text: 'foo'
       @page_2_vm = PageView.new(@user, page_2)
 
       %w{colour great green gross}.each do |tag|

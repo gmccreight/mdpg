@@ -48,7 +48,7 @@ class LabeledSectionParser
   end
 
   def replace_definitions_with
-    @text.gsub(section_regex(remove_space:false)) do
+    @text.gsub(section_regex(remove_space: false)) do
       name = $1
       yield name
     end
@@ -70,11 +70,11 @@ class LabeledSectionParser
     return nil if had_error?
     section = section_with_name_or_identifier(section_name, section_name)
     internal_text = @text[section.start_char..section.end_char].strip
-    internal_text.gsub(section_regex(remove_space:true), '')
+    internal_text.gsub(section_regex(remove_space: true), '')
   end
 
   private def has_any_section_definitions?
-    @text.match(section_regex(remove_space:false))
+    @text.match(section_regex(remove_space: false))
   end
 
   private def any_missing_identifiers?
@@ -102,7 +102,7 @@ class LabeledSectionParser
 
   private def process_text text
 
-    text.gsub(section_regex(remove_space:false)).with_index do
+    text.gsub(section_regex(remove_space: false)).with_index do
 
       name = $1
       identifier = $2

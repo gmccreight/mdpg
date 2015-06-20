@@ -6,10 +6,10 @@ describe UserPages do
     $data_store = get_memory_datastore
     @user = create_user
 
-    @zebra_page = Page.create name:'zebra-training',
-      text:'the text for page 1'
-    @alaska_page = Page.create name:'alaska-crab',
-      text:'the text for page 2'
+    @zebra_page = Page.create name: 'zebra-training',
+      text: 'the text for page 1'
+    @alaska_page = Page.create name: 'alaska-crab',
+      text: 'the text for page 2'
 
     @user.add_page @zebra_page
     @user.add_page @alaska_page
@@ -25,25 +25,25 @@ describe UserPages do
 
     it 'should add the newly created page to the user' do
       initial_num_pages = @user.page_ids.size
-      @user_pages.create_page name:'hello'
+      @user_pages.create_page name: 'hello'
       assert_equal initial_num_pages + 1, @user.page_ids.size
     end
 
     it 'should not add the page if it has a bad name' do
       initial_num_pages = @user.page_ids.size
-      @user_pages.create_page name:'Bad Name'
+      @user_pages.create_page name: 'Bad Name'
       assert_equal initial_num_pages, @user.page_ids.size
     end
 
     it 'should not add the page if it already exists' do
-      @user_pages.create_page name:'hello'
+      @user_pages.create_page name: 'hello'
       assert_raises PageAlreadyExistsException do
-        @user_pages.create_page name:'hello'
+        @user_pages.create_page name: 'hello'
       end
     end
 
     it 'should provide a default 32 character hexcode if name is empty' do
-      page = @user_pages.create_page name:''
+      page = @user_pages.create_page name: ''
       assert page.name.size == 32
     end
 
@@ -52,10 +52,10 @@ describe UserPages do
   describe 'delete page' do
 
     before do
-      @user = User.create name:'Jordan'
+      @user = User.create name: 'Jordan'
       @user_pages = UserPages.new(@user)
 
-      @page = @user_pages.create_page name:'hello'
+      @page = @user_pages.create_page name: 'hello'
 
       @user_page_tags = UserPageTags.new(@user, @page)
       @user_page_tags.add_tag 'cool-house'
@@ -146,10 +146,10 @@ describe UserPages do
   describe 'duplicating a page' do
 
     before do
-      @user = User.create name:'Jordan'
+      @user = User.create name: 'Jordan'
       @user_pages = UserPages.new(@user)
 
-      @page = @user_pages.create_page name:'hello'
+      @page = @user_pages.create_page name: 'hello'
       @page.text = 'world'
       @page.save
 
@@ -171,7 +171,7 @@ describe UserPages do
     end
 
     it "should only duplicate the page's tags, not all page tags" do
-      different_page = @user_pages.create_page name:'different-page'
+      different_page = @user_pages.create_page name: 'different-page'
       user_a_different_page_tags = UserPageTags.new(@user, different_page)
       user_a_different_page_tags.add_tag 'tag-on-different-page'
 
@@ -183,14 +183,14 @@ describe UserPages do
     end
 
     it 'should increment if page name taken' do
-      @user_pages.create_page name:'hello-2'
+      @user_pages.create_page name: 'hello-2'
       new_page = @user_pages.duplicate_page 'hello'
       assert_equal 'hello-3', new_page.name
     end
 
     it 'should increment if page name taken - multiple times' do
-      @user_pages.create_page name:'hello-2'
-      @user_pages.create_page name:'hello-3'
+      @user_pages.create_page name: 'hello-2'
+      @user_pages.create_page name: 'hello-3'
       new_page = @user_pages.duplicate_page 'hello'
       assert_equal 'hello-4', new_page.name
     end
@@ -223,7 +223,7 @@ describe UserPages do
         end
 
         it 'should increment past a pre-existing page' do
-          @user_pages.create_page name:'test-5'
+          @user_pages.create_page name: 'test-5'
           page_should_duplicate_to 'test-4', 'test-6'
         end
 
@@ -248,7 +248,7 @@ describe UserPages do
         end
 
         it 'should increment past a pre-existing page' do
-          @user_pages.create_page name:'test-v5'
+          @user_pages.create_page name: 'test-v5'
           page_should_duplicate_to 'test-v4', 'test-v6'
         end
 

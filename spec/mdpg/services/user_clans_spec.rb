@@ -6,8 +6,8 @@ describe UserClans do
     $data_store = get_memory_datastore
     @user = create_user
 
-    @zebra_clan = Clan.create name:'zebra-training'
-    @alaska_clan = Clan.create name:'alaska-crab'
+    @zebra_clan = Clan.create name: 'zebra-training'
+    @alaska_clan = Clan.create name: 'alaska-crab'
 
     @user.add_clan @zebra_clan
     @user.add_clan @alaska_clan

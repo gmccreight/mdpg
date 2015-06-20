@@ -9,7 +9,7 @@ describe Tag do
   describe 'find by name' do
 
     it 'should find a tag by name if exists' do
-      Tag.create name:'food'
+      Tag.create name: 'food'
       tag = Tag.find_by_index :name, 'food'
       assert_equal 1, tag.id
     end

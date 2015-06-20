@@ -15,17 +15,17 @@ end
 
 def create_clan data = {}
   name = data.has_key?(:name) || _random_string_of_length(8)
-  Clan.create name:name
+  Clan.create name: name
 end
 
 def create_page data = {}
   name = data.has_key?(:name) || _random_string_of_length(8)
-  Page.create name:name
+  Page.create name: name
 end
 
 def create_user data = {}
   name = data.has_key?(:name) || 'Jordan'
-  User.create name:name
+  User.create name: name
 end
 
 def _random_string_of_length length

@@ -5,10 +5,10 @@ describe Search do
   before do
     $data_store = get_memory_datastore()
     @user = create_user
-    @page_1 = UserPages.new(@user).create_page name:'good-page-name',
-      text:'I wish I had something *interesting* to say!'
+    @page_1 = UserPages.new(@user).create_page name: 'good-page-name',
+      text: 'I wish I had something *interesting* to say!'
 
-    @page_2 = UserPages.new(@user).create_page name:'cool', text:'Fast cars'
+    @page_2 = UserPages.new(@user).create_page name: 'cool', text: 'Fast cars'
     @searcher = Search.new(@user)
   end
 

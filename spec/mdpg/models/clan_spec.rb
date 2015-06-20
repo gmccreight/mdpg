@@ -7,7 +7,7 @@ describe Clan do
   end
 
   def create_clan_with_name name
-    Clan.create name:name
+    Clan.create name: name
   end
 
   describe 'creation' do

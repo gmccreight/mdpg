@@ -20,14 +20,14 @@ describe PageRefersToUpdater do
         John James said: "this is an important idea"
         [[#important-idea:#{ident}]]
       EOF
-      other_page = @user_pages.create_page name:'other-page', text:other_text
+      other_page = @user_pages.create_page name: 'other-page', text: other_text
 
       this_text = (<<-EOF).gsub(/^ +/, '')
         I'm including this:
         [[other-page#important-idea]]
         because it is so important
       EOF
-      page = @user_pages.create_page name:'this-page', text:this_text
+      page = @user_pages.create_page name: 'this-page', text: this_text
 
       assert_equal [other_page.id], page.reload.refers_to_page_ids
       assert_equal [page.id], other_page.reload.referring_page_ids
@@ -47,11 +47,11 @@ describe PageRefersToUpdater do
         John James said: "this is an important idea"
         [[#important-idea:#{ident}]]
       EOF
-      other_page_1 = @user_pages.create_page name:'other-page-1',
-        text:other_page_1_text
+      other_page_1 = @user_pages.create_page name: 'other-page-1',
+        text: other_page_1_text
 
-      other_page_2 = @user_pages.create_page name:'other-page-2',
-        text:'just some text'
+      other_page_2 = @user_pages.create_page name: 'other-page-2',
+        text: 'just some text'
 
       this_text = (<<-EOF).gsub(/^ +/, '')
         I'm including this:
@@ -62,7 +62,7 @@ describe PageRefersToUpdater do
 
         And also a different page [[other-page-2]]
       EOF
-      page = @user_pages.create_page name:'this-page', text:this_text
+      page = @user_pages.create_page name: 'this-page', text: this_text
 
       assert_equal [other_page_1.id, other_page_2.id],
         page.reload.refers_to_page_ids
