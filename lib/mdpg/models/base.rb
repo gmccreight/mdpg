@@ -92,7 +92,7 @@ class ModelBase
   end
 
   private def ensure_attribute_with_default(attr_name, default_value)
-    if ! self.send(attr_name)
+    if !self.send(attr_name)
       if default_value.class == Proc
         default_value = default_value.call
       end
@@ -169,7 +169,7 @@ class ModelBase
 
   private def persistable_data
     h = {}
-    persistable_attributes.each{|key| h[key] = get_var("@#{key}")}
+    persistable_attributes.each { |key| h[key] = get_var("@#{key}") }
     h
   end
 
@@ -194,7 +194,7 @@ class ModelBase
   end
 
   private def persistable_attributes
-    @persistable_attributes ||= attributes.reject{|x| x == :data_store}
+    @persistable_attributes ||= attributes.reject { |x| x == :data_store }
   end
 
   private def attributes

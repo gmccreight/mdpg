@@ -9,7 +9,7 @@ class UserPagePermission < Struct.new(:user, :page)
   end
 
   private def is_owned_by?
-    return false if ! user.page_ids
+    return false if !user.page_ids
     user.page_ids.include? page.id
   end
 

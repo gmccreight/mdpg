@@ -51,7 +51,7 @@ class PageRefersToUpdater
   end
 
   private def pages_for(page_ids)
-    page_ids.map{|x| Page.find(x)}
+    page_ids.map { |x| Page.find(x) }
   end
 
 end

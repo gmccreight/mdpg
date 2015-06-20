@@ -10,14 +10,14 @@ class User < ModelBase
 
   private def attr_defaults
     {
-      access_token: Proc.new{RandStringGenerator.rand_string_of_length(32)},
-      salt: Proc.new{RandStringGenerator.rand_string_of_length(32)}
+      access_token: Proc.new { RandStringGenerator.rand_string_of_length(32) },
+      salt: Proc.new { RandStringGenerator.rand_string_of_length(32) }
     }
   end
 
   def self.authenticate(email, password)
     user = self.find_by_index :email, email
-    return nil if ! user
+    return nil if !user
     if user.password_authenticates?(password)
       return user
     end

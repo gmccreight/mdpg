@@ -31,7 +31,7 @@ class App
   def get_page_from_sharing_token(page_sharing_token)
     page, token_type =
       PageSharingTokens.find_page_by_token(page_sharing_token)
-    if ! page
+    if !page
       set_redirect_to '/'
     else
       pageView = PageView.new(nil, page, token_type)
@@ -119,7 +119,7 @@ class App
   end
 
   def root
-    if ! current_user
+    if !current_user
       set_redirect_to '/login'
       return
     end
@@ -180,7 +180,7 @@ class App
 
   private def _recent_pages_for(page_ids, how_many)
     ids = page_ids || []
-    ids[0..how_many-1].map{|id| Page.find(id)}
+    ids[0..how_many - 1].map { |id| Page.find(id) }
   end
 
 end

@@ -28,8 +28,8 @@ class Page < ModelBase
   end
 
   def meta
-    meta_line = text.lines.select{|x| x =~ /^mdpg-meta:\{/}.first
-    return nil if ! meta_line
+    meta_line = text.lines.select { |x| x =~ /^mdpg-meta:\{/ }.first
+    return nil if !meta_line
     json_data = meta_line.sub(/^mdpg-meta:/, '')
     JSON.parse(json_data, symbolize_names: true)
   end
@@ -45,9 +45,9 @@ class Page < ModelBase
   private def attr_defaults
     {
       readonly_sharing_token:
-        Proc.new{RandStringGenerator.rand_string_of_length(32)},
+        Proc.new { RandStringGenerator.rand_string_of_length(32) },
       readwrite_sharing_token:
-        Proc.new{RandStringGenerator.rand_string_of_length(32)},
+        Proc.new { RandStringGenerator.rand_string_of_length(32) },
       referring_page_ids: [],
       text: ''
     }
@@ -59,7 +59,7 @@ class Page < ModelBase
 
   private def validates?
     errors = Token.new(name).validate
-    return ! errors
+    return !errors
   end
 
 end

@@ -27,7 +27,7 @@ class UserRecentPages < Struct.new(:user)
 
   private def remove_from_recent_pages_lists(page, pre_existing_ids)
     ids = pre_existing_ids || []
-    ids.reject{|x| x == page.id}
+    ids.reject { |x| x == page.id }
   end
 
 end

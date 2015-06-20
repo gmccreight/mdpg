@@ -27,12 +27,12 @@ class LabeledSectionParser
   end
 
   def add_any_missing_identifiers
-    return @text if ! has_any_section_definitions?
+    return @text if !has_any_section_definitions?
 
     process
 
     return @text if had_error?
-    return @text if ! any_missing_identifiers?
+    return @text if !any_missing_identifiers?
 
     text = @text
     list.each do |name|
@@ -59,11 +59,11 @@ class LabeledSectionParser
   end
 
   def section_names_with_errors
-    @sections.select{|x| x.count != 2 || x.end_char == nil}.map{|x| x.name}
+    @sections.select { |x| x.count != 2 || x.end_char == nil }.map { |x| x.name }
   end
 
   def list
-    @sections.map{|x| x.name}
+    @sections.map { |x| x.name }
   end
 
   def text_for(section_name)
@@ -78,7 +78,7 @@ class LabeledSectionParser
   end
 
   private def any_missing_identifiers?
-    @sections.map{|x| x.identifier}
+    @sections.map { |x| x.identifier }
   end
 
   private def section_with_name_or_identifier(name, identifier)
@@ -88,7 +88,7 @@ class LabeledSectionParser
           (x.identifier == identifier && identifier != nil)
       }
 
-    return nil if ! array
+    return nil if !array
     array.first
   end
 
