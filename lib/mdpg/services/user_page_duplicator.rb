@@ -2,7 +2,7 @@ class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
 
   def duplicate
     new_page_name = new_name(original_page.name)
-    new_page = user_pages.create_page({:name => new_page_name})
+    new_page = user_pages.create_page({name: new_page_name})
 
     user_pages.update_page_text_to(new_page, original_page.text)
 

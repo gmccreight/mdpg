@@ -14,7 +14,7 @@ describe 'page_search' do
   end
 
   def search_pages query
-    post '/page/search', {:query => query}, authenticated_session(@user)
+    post '/page/search', {query: query}, authenticated_session(@user)
   end
 
   it 'should integrate the search ok' do

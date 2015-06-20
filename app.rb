@@ -25,7 +25,7 @@ get '/' do
   app = authorize!
   results = app.root
   _app_handle_result app
-  haml :index, :locals => results
+  haml :index, locals: results
 end
 
 get '/application.js' do
@@ -57,14 +57,14 @@ get '/s/:name' do |page_sharing_token|
   app = _app_get
   result = app.get_page_from_sharing_token page_sharing_token
   _app_handle_result app
-  haml :page, :locals => result
+  haml :page, locals: result
 end
 
 get '/s/:readwrite_token/edit' do |readwrite_token|
   app = _app_get
   result = app.edit_page_from_readwrite_token readwrite_token
   _app_handle_result app
-  haml :page_edit, :locals => result
+  haml :page_edit, locals: result
 end
 
 post '/s/:readwrite_token/update' do |readwrite_token|
@@ -81,7 +81,7 @@ get '/p/:name' do |page_name|
   page = get_user_page(page_name)
   if page
     app = _app_get
-    haml :page, :locals => app.page_get(page)
+    haml :page, locals: app.page_get(page)
   end
 
   # p $data_store.report
@@ -96,14 +96,14 @@ get '/t/:name' do |tag_name|
   app = authorize!
   app.tag.get_details(tag_name)
   _app_handle_result app
-  haml :page_tag, :locals => app.tag.get_details(tag_name)
+  haml :page_tag, locals: app.tag.get_details(tag_name)
 end
 
 get '/p/:name/edit' do |page_name|
   page = get_user_page(page_name)
   if page
     app = _app_get
-    haml :page_edit, :locals => app.page_edit(page)
+    haml :page_edit, locals: app.page_edit(page)
   end
 end
 
@@ -202,12 +202,12 @@ end
 get '/page/recent' do
   app = authorize!
   how_many = params['how_many'] ? params['how_many'].to_i : 25
-  haml :page_recent, :locals => app.recent_pages(how_many)
+  haml :page_recent, locals: app.recent_pages(how_many)
 end
 
 get '/stats' do
   app = authorize!
-  haml :page_stats, :locals => app.stats
+  haml :page_stats, locals: app.stats
 end
 
 post '/page/add' do
@@ -228,7 +228,7 @@ def post_or_get_search
   app = authorize!
   results = app.page_search(params[:query])
   _app_handle_result app
-  haml :page_search, :locals => results
+  haml :page_search, locals: results
 end
 
 def get_user_page page_name
@@ -264,11 +264,11 @@ def get_access_token
 end
 
 def set_access_token token
-  response.set_cookie 'access_token', {:value => token, :max_age => '2592000'}
+  response.set_cookie 'access_token', {value: token, max_age: '2592000'}
 end
 
 def clear_access_token
-  response.set_cookie 'access_token', {:value => '', :max_age => '0'}
+  response.set_cookie 'access_token', {value: '', max_age: '0'}
 end
 
 def authorize!

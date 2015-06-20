@@ -14,11 +14,11 @@ class Search
     names = search_names
 
     {
-      :names => names,
-      :texts => search_texts,
-      :tags => search_tags,
-      :redirect => redirect_to_perfect_match(names),
-      :redirect_to_edit_mode => @search_parser.should_open_in_edit_mode?
+      names: names,
+      texts: search_texts,
+      tags: search_tags,
+      redirect: redirect_to_perfect_match(names),
+      redirect_to_edit_mode: @search_parser.should_open_in_edit_mode?
     }
   end
 

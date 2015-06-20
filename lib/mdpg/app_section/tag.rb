@@ -14,7 +14,7 @@ module AppSection
     def get_details tag_name
       user_page_tags = UserPageTags.new(current_user, nil)
       if user_page_tags.get_pages_for_tag_with_name(tag_name).size > 0
-        return {:user => current_user, :tag_name => tag_name}
+        return {user: current_user, tag_name: tag_name}
       else
         @app.add_error "you do not have any pages tagged '#{tag_name}'"
       end

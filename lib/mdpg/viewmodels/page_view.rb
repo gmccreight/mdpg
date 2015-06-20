@@ -63,7 +63,7 @@ class PageView < Struct.new(:user, :page, :token_type)
 
   private def rendered_markdown(text)
     markdown = ::Redcarpet::Markdown.new(Redcarpet::Render::HTML,
-      :autolink => true, :space_after_headers => true, :tables => true)
+      autolink: true, space_after_headers: true, tables: true)
     markdown.render text
   end
 

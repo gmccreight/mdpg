@@ -24,7 +24,7 @@ describe 'page_tags' do
   end
 
   def add_tag user, page_name, tag_name
-    post "/p/#{page_name}/tags", {:text => tag_name}.to_json,
+    post "/p/#{page_name}/tags", {text: tag_name}.to_json,
       authenticated_session(user)
   end
 
