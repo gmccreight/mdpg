@@ -13,7 +13,7 @@ class UserPages < Struct.new(:user)
     super(user)
   end
 
-  def create_page opts
+  def create_page(opts)
     if opts[:name]
       if find_page_with_name(opts[:name])
         raise PageAlreadyExistsException
@@ -33,7 +33,7 @@ class UserPages < Struct.new(:user)
     page
   end
 
-  def update_page_text_to page, new_text
+  def update_page_text_to(page, new_text)
     new_text = add_missing_identifiers_to_labeled_sections(new_text)
     new_text = page_text_with_links_escaped(new_text)
     new_text = page_text_with_labeled_section_includes_canonicalized(new_text)
@@ -44,7 +44,7 @@ class UserPages < Struct.new(:user)
     PageRefersToUpdater.new(page, user).update
   end
 
-  private def page_text_with_labeled_section_includes_canonicalized new_text
+  private def page_text_with_labeled_section_includes_canonicalized(new_text)
     LabeledSectionTranscluder.new.
       user_facing_links_to_internal_links(new_text, self)
   end
@@ -54,7 +54,7 @@ class UserPages < Struct.new(:user)
     parser.add_any_missing_identifiers
   end
 
-  def delete_page name
+  def delete_page(name)
     page = find_page_with_name(name)
     if page
       if page.referring_page_ids && page.referring_page_ids.size > 0
@@ -75,7 +75,7 @@ class UserPages < Struct.new(:user)
     end
   end
 
-  def duplicate_page name
+  def duplicate_page(name)
     original_page = find_page_with_name(name)
     if original_page
       duplicator = UserPageDuplicator.new(self, user, original_page)
@@ -86,7 +86,7 @@ class UserPages < Struct.new(:user)
     nil
   end
 
-  def rename_page page, new_name
+  def rename_page(page, new_name)
     if find_page_with_name new_name
       raise PageAlreadyExistsException
     else
@@ -99,21 +99,21 @@ class UserPages < Struct.new(:user)
     end
   end
 
-  def page_was_updated page
+  def page_was_updated(page)
     UserRecentPages.new(user).add_to_recent_edited_pages_list(page)
   end
 
-  def find_page_with_name name
+  def find_page_with_name(name)
     matching_pages = pages.select{|page| page.name == name}
     return nil if ! matching_pages
     matching_pages.first
   end
 
-  def pages_with_names_containing_text query
+  def pages_with_names_containing_text(query)
     pages.select{|page| page.name_contains?(query)}
   end
 
-  def pages_with_text_containing_text query
+  def pages_with_text_containing_text(query)
     pages.select{|page| page.text_contains?(query)}
   end
 
@@ -131,7 +131,7 @@ class UserPages < Struct.new(:user)
     @pages_cache
   end
 
-  private def page_text_with_links_escaped new_text
+  private def page_text_with_links_escaped(new_text)
     page_links = PageLinks.new(user)
     page_links.page_name_links_to_ids(new_text)
   end

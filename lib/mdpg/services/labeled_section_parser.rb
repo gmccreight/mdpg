@@ -14,13 +14,13 @@ class LabeledSectionParser
     process_text @text
   end
 
-  def identifier_for section_name
+  def identifier_for(section_name)
     return nil if had_error?
     section = section_with_name_or_identifier(section_name, section_name)
     section.identifier
   end
 
-  def name_for section_id
+  def name_for(section_id)
     return nil if had_error?
     section = section_with_name_or_identifier(section_id, section_id)
     section.name
@@ -66,7 +66,7 @@ class LabeledSectionParser
     @sections.map{|x| x.name}
   end
 
-  def text_for section_name
+  def text_for(section_name)
     return nil if had_error?
     section = section_with_name_or_identifier(section_name, section_name)
     internal_text = @text[section.start_char..section.end_char].strip
@@ -81,7 +81,7 @@ class LabeledSectionParser
     @sections.map{|x| x.identifier}
   end
 
-  private def section_with_name_or_identifier name, identifier
+  private def section_with_name_or_identifier(name, identifier)
     array = @sections.
       select{|x|
         x.name == name ||
@@ -100,7 +100,7 @@ class LabeledSectionParser
     @sections = []
   end
 
-  private def process_text text
+  private def process_text(text)
 
     text.gsub(section_regex(remove_space: false)).with_index do
 
@@ -128,7 +128,7 @@ class LabeledSectionParser
 
   end
 
-  private def section_regex remove_space:
+  private def section_regex(remove_space:)
     internal = "
       \\[\\[
       [#](#{Token::TOKEN_REGEX_STR})

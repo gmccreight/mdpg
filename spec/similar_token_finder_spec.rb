@@ -4,7 +4,7 @@ require 'similar_token_finder'
 
 describe SimilarTokenFinder do
 
-  def get_similar_tokens query, tokens
+  def get_similar_tokens(query, tokens)
     SimilarTokenFinder.new.get_similar_tokens(query, tokens)
   end
 

@@ -9,7 +9,7 @@ class LabeledSectionTranscluder
     ids
   end
 
-  def transclude_the_sections text
+  def transclude_the_sections(text)
     text.gsub(internal_link_regex) do
       page_id = $1.to_i
       section_identifier = $2
@@ -25,7 +25,7 @@ class LabeledSectionTranscluder
     end
   end
 
-  def user_facing_links_to_internal_links text, user_pages
+  def user_facing_links_to_internal_links(text, user_pages)
     text = text.gsub(
       /\[\[(#{Token::TOKEN_REGEX_STR})#(#{Token::TOKEN_REGEX_STR})\]\]/
     ) do
@@ -60,7 +60,7 @@ class LabeledSectionTranscluder
 
   end
 
-  def internal_links_to_user_facing_links text
+  def internal_links_to_user_facing_links(text)
     text = text.gsub(internal_link_regex) do
       page_id = $1.to_i
       section_id = $2
@@ -89,7 +89,7 @@ class LabeledSectionTranscluder
 
   end
 
-  private def parser_with_processed_text_for text
+  private def parser_with_processed_text_for(text)
     parser = LabeledSectionParser.new(text)
     parser.process
     parser

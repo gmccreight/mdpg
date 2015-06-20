@@ -2,7 +2,7 @@ require 'mdpg/token'
 
 class ObjectTags < Struct.new(:object)
 
-  def add_tag name
+  def add_tag(name)
     if Token.new(name).validate
       return false
     end
@@ -18,7 +18,7 @@ class ObjectTags < Struct.new(:object)
     object.save
   end
 
-  def remove_tag name
+  def remove_tag(name)
     if Token.new(name).validate
       return false
     end
@@ -32,11 +32,11 @@ class ObjectTags < Struct.new(:object)
     end
   end
 
-  def has_tag_with_name? name
+  def has_tag_with_name?(name)
     !! tag_with_name(name)
   end
 
-  def tag_with_name name
+  def tag_with_name(name)
     tags_with_name = get_tags.select{|tag| tag.name == name}
     if tags_with_name.size > 0
       return tags_with_name.first

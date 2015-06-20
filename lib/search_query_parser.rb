@@ -30,7 +30,7 @@ class SearchQueryParser < Struct.new(:query)
     []
   end
 
-  private def strings_for_string str
+  private def strings_for_string(str)
     are_multiple_tokens_required = false
     str = str.gsub(/^\+\s*/) do
       are_multiple_tokens_required = true

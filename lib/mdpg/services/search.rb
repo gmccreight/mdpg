@@ -2,13 +2,13 @@ require 'search_query_parser'
 
 class Search
 
-  private def initialize user
+  private def initialize(user)
     @user_pages = UserPages.new(user)
     @user_page_tags = UserPageTags.new(user, nil)
     @search_parser = SearchQueryParser.new
   end
 
-  def search query
+  def search(query)
     @search_parser.query = query
 
     names = search_names
@@ -75,7 +75,7 @@ class Search
     @user_page_tags.search(search_string)
   end
 
-  private def pages_containing_one_of_the_tags pages
+  private def pages_containing_one_of_the_tags(pages)
     return pages if @search_parser.tags.size == 0
 
     pages.select{|page|

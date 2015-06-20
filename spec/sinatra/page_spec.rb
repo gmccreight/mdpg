@@ -11,31 +11,31 @@ describe 'page' do
       text: 'I have something *interesting* to say!'
   end
 
-  def get_page name
+  def get_page(name)
     get "/p/#{name}", {}, authenticated_session(@user)
   end
 
-  def edit_page name
+  def edit_page(name)
     get "/p/#{name}/edit", {}, authenticated_session(@user)
   end
 
-  def add_page name
+  def add_page(name)
     post '/page/add', {name: name}, authenticated_session(@user)
   end
 
-  def update_page name, text
+  def update_page(name, text)
     post "/p/#{name}/update", {text: text}, authenticated_session(@user)
   end
 
-  def update_page_with_readwrite_token token, text
+  def update_page_with_readwrite_token(token, text)
     post "/s/#{token}/update", {text: text}
   end
 
-  def delete_page name
+  def delete_page(name)
     post "/p/#{name}/delete", {}, authenticated_session(@user)
   end
 
-  def rename_page name, new_name
+  def rename_page(name, new_name)
     post "/p/#{name}/rename", {new_name: new_name},
       authenticated_session(@user)
   end
@@ -63,7 +63,7 @@ describe 'page' do
 
   describe 'viewing via the public share link' do
 
-    def get_shared_page long_readonly_token
+    def get_shared_page(long_readonly_token)
       get "/s/#{long_readonly_token}", {}, authenticated_session(@user)
     end
 
@@ -207,7 +207,7 @@ describe 'page' do
 
   describe 'update_sharing_token' do
 
-    def update_sharing_token type, new_token
+    def update_sharing_token(type, new_token)
       post "/p/#{@page.name}/update_sharing_token",
         {token_type: type, new_token: new_token, is_activated: true},
         authenticated_session(@user)

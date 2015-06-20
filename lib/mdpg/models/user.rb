@@ -15,7 +15,7 @@ class User < ModelBase
     }
   end
 
-  def self.authenticate email, password
+  def self.authenticate(email, password)
     user = self.find_by_index :email, email
     return nil if ! user
     if user.password_authenticates?(password)
@@ -24,13 +24,13 @@ class User < ModelBase
     nil
   end
 
-  def create opts = {}
+  def create(opts = {})
     @password = opts[:password]
     opts.delete :password
     super opts
   end
 
-  def password= password
+  def password=(password)
     @password = password
   end
 
@@ -40,28 +40,28 @@ class User < ModelBase
     super
   end
 
-  def password_authenticates? password
+  def password_authenticates?(password)
     self.hashed_password == hash_this_password(password)
   end
 
-  def add_page page
+  def add_page(page)
     add_associated_object page
     UserRecentPages.new(self).add_to_recent_edited_pages_list(page)
     save
   end
 
-  def remove_page page
+  def remove_page(page)
     remove_associated_object page
     UserRecentPages.new(self).remove_from_all_recent_pages_lists(page)
     save
   end
 
-  def add_clan clan
+  def add_clan(clan)
     add_associated_object clan
     save
   end
 
-  def remove_clan clan
+  def remove_clan(clan)
     remove_associated_object clan
     save
   end

@@ -6,7 +6,7 @@ describe Page do
     $data_store = get_memory_datastore
   end
 
-  def create_page_with_name name
+  def create_page_with_name(name)
     Page.create name: name, text: 'foo'
   end
 

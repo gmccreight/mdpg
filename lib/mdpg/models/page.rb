@@ -7,19 +7,19 @@ class Page < ModelBase
 
   attr_accessor(*ATTRS)
 
-  def text_contains? query
+  def text_contains?(query)
     string_contains? text.downcase, query.downcase
   end
 
-  def name_contains? query
+  def name_contains?(query)
     string_contains? name, query.downcase
   end
 
-  def add_tag tag
+  def add_tag(tag)
     add_associated_object tag
   end
 
-  def remove_tag tag
+  def remove_tag(tag)
     remove_associated_object tag
   end
 
@@ -34,7 +34,7 @@ class Page < ModelBase
     JSON.parse(json_data, {symbolize_names: true})
   end
 
-  private def string_contains? string, query
+  private def string_contains?(string, query)
     string.include? query
   end
 

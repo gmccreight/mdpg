@@ -4,7 +4,7 @@ describe Token do
 
   describe 'validate' do
 
-    def validate text
+    def validate(text)
       Token.new(text).validate
     end
 

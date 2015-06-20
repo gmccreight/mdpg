@@ -7,19 +7,19 @@ class ModelBase
     @data_store = $data_store
   end
 
-  def self.create opts = {}
+  def self.create(opts = {})
     self.new.create(opts)
   end
 
-  def self.find id
+  def self.find(id)
     self.new.find(id)
   end
 
-  def self.find_by_index index_name, value
+  def self.find_by_index(index_name, value)
     self.new.find_by_index(index_name, value)
   end
 
-  def create opts
+  def create(opts)
     @id = get_max_id + 1
 
     add_attributes_from_hash opts
@@ -31,7 +31,7 @@ class ModelBase
     nil
   end
 
-  def find id
+  def find(id)
     self.id = id
     attrs = data_store.get(data_key)
     if attrs
@@ -50,7 +50,7 @@ class ModelBase
     data_store.virtual_delete(data_key)
   end
 
-  def find_by_index index_name, key
+  def find_by_index(index_name, key)
     keyname = "#{get_data_prefix}-index-#{index_name}"
     hash = data_store.get(keyname)
     if hash
@@ -60,15 +60,15 @@ class ModelBase
     end
   end
 
-  def add_associated_object object
+  def add_associated_object(object)
     alter_associated_object object, :add
   end
 
-  def remove_associated_object object
+  def remove_associated_object(object)
     alter_associated_object object, :remove
   end
 
-  def load attrs
+  def load(attrs)
     add_attributes_from_hash attrs
   end
 
@@ -91,7 +91,7 @@ class ModelBase
     end
   end
 
-  private def ensure_attribute_with_default attr_name, default_value
+  private def ensure_attribute_with_default(attr_name, default_value)
     if ! self.send(attr_name)
       if default_value.class == Proc
         default_value = default_value.call
@@ -111,7 +111,7 @@ class ModelBase
     false
   end
 
-  private def alter_associated_object object, add_or_remove
+  private def alter_associated_object(object, add_or_remove)
     type = type_name_for_object object
     ids = get_ids_for_association_of_type type
     if add_or_remove == :add
@@ -122,7 +122,7 @@ class ModelBase
     set_ids_for_association_of_type type, ids.sort.uniq
   end
 
-  private def type_name_for_object object
+  private def type_name_for_object(object)
     object.class.name.split('::').last.downcase
   end
 
@@ -130,20 +130,20 @@ class ModelBase
     type_name_for_object(self) + 'data'
   end
 
-  private def get_var name
+  private def get_var(name)
     instance_variable_get name
   end
 
-  private def set_var name, value
+  private def set_var(name, value)
     instance_variable_set name, value
   end
 
-  private def get_ids_for_association_of_type type
+  private def get_ids_for_association_of_type(type)
     ids = get_var "@#{type}_ids"
     ids || []
   end
 
-  private def set_ids_for_association_of_type type, val
+  private def set_ids_for_association_of_type(type, val)
     set_var("@#{type}_ids", val)
   end
 
@@ -158,7 +158,7 @@ class ModelBase
     end
   end
 
-  private def remove_any_preexisting_unique_indexes hash
+  private def remove_any_preexisting_unique_indexes(hash)
     hash.keys.each do |key|
       if hash[key] == self.id
         hash.delete(key)
@@ -185,7 +185,7 @@ class ModelBase
     true
   end
 
-  private def set_max_id val
+  private def set_max_id(val)
     data_store.set("#{get_data_prefix()}-max-id", val)
   end
 

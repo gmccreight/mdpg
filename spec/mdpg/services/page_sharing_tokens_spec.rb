@@ -6,7 +6,7 @@ describe PageSharingTokens do
     $data_store = get_memory_datastore()
   end
 
-  def create_page_with_name name
+  def create_page_with_name(name)
     Page.create name: name, text: 'foo'
   end
 
@@ -45,7 +45,7 @@ describe PageSharingTokens do
 
   describe 'renaming sharing token' do
 
-    def create_page_and_rename_token_to type, name
+    def create_page_and_rename_token_to(type, name)
       @page = create_page_with_name 'the-page'
       tokens = PageSharingTokens.new(@page)
       tokens.activate_sharing_token type

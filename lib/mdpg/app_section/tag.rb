@@ -11,7 +11,7 @@ module AppSection
       @current_user
     end
 
-    def get_details tag_name
+    def get_details(tag_name)
       user_page_tags = UserPageTags.new(current_user, nil)
       if user_page_tags.get_pages_for_tag_with_name(tag_name).size > 0
         return {user: current_user, tag_name: tag_name}
@@ -20,7 +20,7 @@ module AppSection
       end
     end
 
-    def rename tag_name, new_name
+    def rename(tag_name, new_name)
       begin
         UserPageTags.new(current_user, nil)
           .change_tag_for_all_pages(tag_name, new_name)

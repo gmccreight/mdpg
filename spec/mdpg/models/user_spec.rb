@@ -6,7 +6,7 @@ describe User do
     $data_store = get_memory_datastore
   end
 
-  def create_user_with_name name
+  def create_user_with_name(name)
     User.create name: name, email: 'good@email.com',
       password: 'cool'
   end

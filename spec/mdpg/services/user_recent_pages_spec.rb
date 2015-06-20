@@ -17,7 +17,7 @@ describe UserRecentPages do
     UserRecentPages.new(@user).add_to_recent_edited_pages_list @page3
   end
 
-  def page_ids_should_be expected
+  def page_ids_should_be(expected)
     assert_equal expected, @user.recent_edited_page_ids
   end
 

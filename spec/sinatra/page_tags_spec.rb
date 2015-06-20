@@ -14,21 +14,21 @@ describe 'page_tags' do
       text: 'I wish I had something *interesting* to say!'
   end
 
-  def get_tags user, page_name
+  def get_tags(user, page_name)
     get "/p/#{page_name}/tags", {}, authenticated_session(user)
   end
 
-  def get_tag_suggestions user, page_name, tag_typed
+  def get_tag_suggestions(user, page_name, tag_typed)
     get "/p/#{page_name}/tag_suggestions?tagTyped=#{tag_typed}",
       {}, authenticated_session(user)
   end
 
-  def add_tag user, page_name, tag_name
+  def add_tag(user, page_name, tag_name)
     post "/p/#{page_name}/tags", {text: tag_name}.to_json,
       authenticated_session(user)
   end
 
-  def delete_tag user, page_name, tag_name
+  def delete_tag(user, page_name, tag_name)
     delete "/p/#{page_name}/tags/#{tag_name}", {},
       authenticated_session(user)
   end
@@ -133,7 +133,7 @@ describe 'page_tags' do
 
   end
 
-  def get_tag_page tag_name
+  def get_tag_page(tag_name)
     get "/t/#{tag_name}", {}, authenticated_session(@user)
   end
 

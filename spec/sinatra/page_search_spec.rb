@@ -13,7 +13,7 @@ describe 'page_search' do
       text: 'Fast cars'
   end
 
-  def search_pages query
+  def search_pages(query)
     post '/page/search', {query: query}, authenticated_session(@user)
   end
 

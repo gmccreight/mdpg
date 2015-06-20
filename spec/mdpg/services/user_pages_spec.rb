@@ -197,7 +197,7 @@ describe UserPages do
 
     describe 'where the name already ends in a -1 or -v1' do
 
-      def page_should_duplicate_to before, after
+      def page_should_duplicate_to(before, after)
         @page.name = before
         @page.save
         new_page = @user_pages.duplicate_page before

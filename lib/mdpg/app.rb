@@ -28,7 +28,7 @@ class App
     errors.join(', ')
   end
 
-  def get_page_from_sharing_token page_sharing_token
+  def get_page_from_sharing_token(page_sharing_token)
     page, token_type =
       PageSharingTokens.find_page_by_token(page_sharing_token)
     if ! page
@@ -39,18 +39,18 @@ class App
     end
   end
 
-  def page_get page
+  def page_get(page)
     pageView = PageView.new(current_user, page, nil)
     UserRecentPages.new(current_user).add_to_recent_viewed_pages_list(page)
     {viewmodel: pageView, mode: :normal}
   end
 
-  def page_edit page
+  def page_edit(page)
     page_text = PageEditView.new(current_user, page).get_text
     {page: page, page_text: page_text, readwrite_token: nil}
   end
 
-  def edit_page_from_readwrite_token readwrite_token
+  def edit_page_from_readwrite_token(readwrite_token)
     page, token_type = PageSharingTokens.find_page_by_token(readwrite_token)
     if page && token_type == :readwrite
       page_text = PageLinks.new(nil)
@@ -60,7 +60,7 @@ class App
     end
   end
 
-  def page_delete page
+  def page_delete(page)
     begin
       UserPages.new(current_user).delete_page page.name
       set_redirect_to '/'
@@ -69,7 +69,7 @@ class App
     end
   end
 
-  def update_page_from_readwrite_token readwrite_token, new_text
+  def update_page_from_readwrite_token(readwrite_token, new_text)
     page, token_type = PageSharingTokens.find_page_by_token(readwrite_token)
     if page && token_type == :readwrite
       page.text = new_text
@@ -78,7 +78,7 @@ class App
     end
   end
 
-  def page_rename page, new_name
+  def page_rename(page, new_name)
     begin
       original_name = page.name
       if UserPages.new(current_user).rename_page(page, new_name)
@@ -92,7 +92,7 @@ class App
     end
   end
 
-  def page_update_text page, new_text
+  def page_update_text(page, new_text)
     user_pages = UserPages.new(current_user)
     user_pages.update_page_text_to(page, new_text)
     user_pages.page_was_updated page
@@ -100,7 +100,7 @@ class App
     set_redirect_to "/p/#{page.name}"
   end
 
-  def page_search query
+  def page_search(query)
     searcher = Search.new current_user
     results = searcher.search query
 
@@ -126,7 +126,7 @@ class App
     set_redirect_to '/page/recent'
   end
 
-  def update_page_sharing_token page, token_type, new_token, is_activated
+  def update_page_sharing_token(page, token_type, new_token, is_activated)
 
     if is_activated
       PageSharingTokens.new(page).activate_sharing_token token_type
@@ -148,7 +148,7 @@ class App
     end
   end
 
-  def recent_pages how_many = 25
+  def recent_pages(how_many = 25)
     edited = _recent_pages_for(current_user.recent_edited_page_ids, how_many)
     viewed = _recent_pages_for(current_user.recent_viewed_page_ids, how_many)
     {edited_pages: edited, viewed_pages: viewed}
@@ -159,7 +159,7 @@ class App
     {pages: pages}
   end
 
-  def page_add name
+  def page_add(name)
     begin
       user_pages = UserPages.new(current_user)
       page = user_pages.create_page name: name, text: ''
@@ -170,15 +170,15 @@ class App
     end
   end
 
-  def set_redirect_to path
+  def set_redirect_to(path)
     @redirect_to = path
   end
 
-  def add_error error
+  def add_error(error)
     errors << error.to_s
   end
 
-  private def _recent_pages_for page_ids, how_many
+  private def _recent_pages_for(page_ids, how_many)
     ids = page_ids || []
     ids[0..how_many-1].map{|id| Page.find(id)}
   end

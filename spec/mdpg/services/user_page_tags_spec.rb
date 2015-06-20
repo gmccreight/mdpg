@@ -157,7 +157,7 @@ describe UserPageTags do
       %w{green}.each{|x| @user_page_tags.add_tag x}
     end
 
-    def page_ids_for_tag tag
+    def page_ids_for_tag(tag)
       @user_page_tags.get_pages_for_tag_with_name(tag).map{|page| page.id}
     end
 

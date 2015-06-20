@@ -12,7 +12,7 @@ describe Search do
     @searcher = Search.new(@user)
   end
 
-  def search_gets query, names, texts, tags
+  def search_gets(query, names, texts, tags)
     results = @searcher.search query
     assert_equal names, results[:names].size
     assert_equal texts, results[:texts].size
@@ -69,7 +69,7 @@ describe Search do
 
   describe 'redirecting to single page that matches by name' do
 
-    def search_redirects query, pagename_or_nil
+    def search_redirects(query, pagename_or_nil)
       results = @searcher.search query
       assert_equal pagename_or_nil, results[:redirect]
     end

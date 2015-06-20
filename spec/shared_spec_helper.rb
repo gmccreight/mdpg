@@ -13,21 +13,21 @@ def get_memory_datastore
   @data ||= DataStore.new :memory
 end
 
-def create_clan data = {}
+def create_clan(data = {})
   name = data.has_key?(:name) || _random_string_of_length(8)
   Clan.create name: name
 end
 
-def create_page data = {}
+def create_page(data = {})
   name = data.has_key?(:name) || _random_string_of_length(8)
   Page.create name: name
 end
 
-def create_user data = {}
+def create_user(data = {})
   name = data.has_key?(:name) || 'Jordan'
   User.create name: name
 end
 
-def _random_string_of_length length
+def _random_string_of_length(length)
   (0...length).map{(65+rand(26)).chr}.join.downcase
 end

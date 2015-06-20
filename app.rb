@@ -231,7 +231,7 @@ def post_or_get_search
   haml :page_search, locals: results
 end
 
-def get_user_page page_name
+def get_user_page(page_name)
   authorize!
   page = UserPages.new(current_user).find_page_with_name(page_name)
   if page
@@ -241,7 +241,7 @@ def get_user_page page_name
   end
 end
 
-def attr_for_request_payload attr
+def attr_for_request_payload(attr)
   request.body.rewind
   request_payload = JSON.parse request.body.read
   request_payload[attr]
@@ -263,7 +263,7 @@ def get_access_token
   request.cookies['access_token']
 end
 
-def set_access_token token
+def set_access_token(token)
   response.set_cookie 'access_token', {value: token, max_age: '2592000'}
 end
 
@@ -280,7 +280,7 @@ def _app_get
   App.new(current_user)
 end
 
-def _app_handle_result app
+def _app_handle_result(app)
   if app.had_error?
     error app.errors_message
   elsif app.redirect_to != nil

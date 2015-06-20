@@ -6,11 +6,11 @@ class PageView < Struct.new(:user, :page, :token_type)
     page.name
   end
 
-  def add_tag tag
+  def add_tag(tag)
     user_page_tags.add_tag tag
   end
 
-  def remove_tag tag
+  def remove_tag(tag)
     user_page_tags.remove_tag tag
   end
 
@@ -18,7 +18,7 @@ class PageView < Struct.new(:user, :page, :token_type)
     token_type == nil || token_type == :readwrite
   end
 
-  def tag_suggestions_for partial_or_full_tag_name
+  def tag_suggestions_for(partial_or_full_tag_name)
     all_tags = user_page_tags.search(partial_or_full_tag_name)
     all_tags - ObjectTags.new(page).sorted_tag_names
   end
@@ -54,7 +54,7 @@ class PageView < Struct.new(:user, :page, :token_type)
     text
   end
 
-  private def text_with_stylized_labeled_section_definitions text, page_name
+  private def text_with_stylized_labeled_section_definitions(text, page_name)
     LabeledSectionParser.new(text).replace_definitions_with do |name|
       %Q{<span style="background-color:#ddd;"> #{page_name}##{name}} +
        '</span>'

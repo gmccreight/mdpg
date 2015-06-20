@@ -6,7 +6,7 @@ describe Clan do
     $data_store = get_memory_datastore
   end
 
-  def create_clan_with_name name
+  def create_clan_with_name(name)
     Clan.create name: name
   end
 

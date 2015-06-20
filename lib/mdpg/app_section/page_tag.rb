@@ -11,7 +11,7 @@ module AppSection
       @current_user
     end
 
-    def all_for_page page
+    def all_for_page(page)
       object_tags = ObjectTags.new(page)
       user_page_tags = UserPageTags.new(current_user, page)
       sorted_tag_names = object_tags.sorted_tag_names
@@ -24,13 +24,13 @@ module AppSection
       results.to_json
     end
 
-    def suggestions page, tag_typed
+    def suggestions(page, tag_typed)
       tags = PageView.new(current_user, page, nil).
         tag_suggestions_for(tag_typed)
       {tags: tags}.to_json
     end
 
-    def add page, tag_name
+    def add(page, tag_name)
       pageView = PageView.new(current_user, page, nil)
       if pageView.add_tag(tag_name)
         UserPages.new(current_user).page_was_updated page
@@ -40,7 +40,7 @@ module AppSection
       end
     end
 
-    def delete page, tag_name
+    def delete(page, tag_name)
       pageView = PageView.new(current_user, page, nil)
       if pageView.remove_tag(tag_name)
         UserPages.new(current_user).page_was_updated page

@@ -9,13 +9,13 @@ describe PageReferrersUpdater do
     @referrers_updater = PageReferrersUpdater.new
   end
 
-  def add page_ids
+  def add(page_ids)
     page_ids.each do |page_id|
       @referrers_updater.add_page_id_to_referrers(page_id, @page)
     end
   end
 
-  def remove page_ids
+  def remove(page_ids)
     page_ids.each do |page_id|
       @referrers_updater.remove_page_id_from_referrers(page_id, @page)
     end

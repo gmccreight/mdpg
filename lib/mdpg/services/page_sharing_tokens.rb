@@ -5,7 +5,7 @@ class PageSharingTokens < Struct.new(:page)
 
   TOKEN_TYPES = [:readonly, :readwrite]
 
-  def self.find_page_by_token token
+  def self.find_page_by_token(token)
     TOKEN_TYPES.each do |type|
       page = Page.find_by_index(:"#{type}_sharing_token", token)
       if page
@@ -17,12 +17,12 @@ class PageSharingTokens < Struct.new(:page)
     [nil, nil]
   end
 
-  def self._get_sharing_token_of_type_is_actived page, type
+  def self._get_sharing_token_of_type_is_actived(page, type)
     val = page.send :"#{type}_sharing_token_activated"
     !! val
   end
 
-  def rename_sharing_token type, new_token
+  def rename_sharing_token(type, new_token)
     return :token_type_does_not_exist if ! TOKEN_TYPES.include?(type)
     error = Token.new(new_token).validate
     if error
@@ -40,15 +40,15 @@ class PageSharingTokens < Struct.new(:page)
     nil
   end
 
-  def activate_sharing_token type
+  def activate_sharing_token(type)
     _set_activation type, true
   end
 
-  def deactivate_sharing_token type
+  def deactivate_sharing_token(type)
     _set_activation type, false
   end
 
-  private def _set_activation type, value
+  private def _set_activation(type, value)
     return :token_type_does_not_exist if ! TOKEN_TYPES.include?(type)
     page.send :"#{type}_sharing_token_activated=", value
     page.save

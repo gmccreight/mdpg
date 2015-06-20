@@ -1,6 +1,6 @@
 class PageRefersToUpdater
 
-  def initialize page, user
+  def initialize(page, user)
     page_links = PageLinks.new(user)
     transcluder = LabeledSectionTranscluder.new
 
@@ -50,7 +50,7 @@ class PageRefersToUpdater
     pages_for(@old_ids - @new_ids)
   end
 
-  private def pages_for page_ids
+  private def pages_for(page_ids)
     page_ids.map{|x| Page.find(x)}
   end
 
