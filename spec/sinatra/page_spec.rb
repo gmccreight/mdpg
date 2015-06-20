@@ -145,7 +145,7 @@ describe 'page' do
         follow_redirect_with_authenticated_user!(@user)
         assert last_request.url.include? '/p/original-good-page-name'
         assert last_response.body.include?(
-          '<a href="/p/other-page-1">other-page-1</a> and ' +
+          '<a href="/p/other-page-1">other-page-1</a> and ' \
           '<a href="/p/other-page-2">other-page-2</a>'
         )
 
