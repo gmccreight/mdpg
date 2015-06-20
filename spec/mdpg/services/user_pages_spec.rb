@@ -154,8 +154,8 @@ describe UserPages do
       assert_equal 'world', new_page.text
 
       user_page_tags = UserPageTags.new @user, new_page
-      assert_equal ['cool-house'], user_page_tags.
-        tags_for_page(new_page).map { |x| x.name }
+      assert_equal ['cool-house'], user_page_tags
+        .tags_for_page(new_page).map { |x| x.name }
     end
 
     it "should only duplicate the page's tags, not all page tags" do
@@ -166,8 +166,8 @@ describe UserPages do
       new_page = @user_pages.duplicate_page 'hello'
 
       user_page_tags = UserPageTags.new @user, new_page
-      assert_equal ['cool-house'], user_page_tags.
-        tags_for_page(new_page).map { |x| x.name }
+      assert_equal ['cool-house'], user_page_tags
+        .tags_for_page(new_page).map { |x| x.name }
     end
 
     it 'should increment if page name taken' do

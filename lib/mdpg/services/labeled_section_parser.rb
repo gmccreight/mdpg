@@ -82,8 +82,8 @@ class LabeledSectionParser
   end
 
   private def section_with_name_or_identifier(name, identifier)
-    array = @sections.
-      select{|x|
+    array = @sections
+      .select{|x|
         x.name == name ||
           (x.identifier == identifier && identifier != nil)
       }

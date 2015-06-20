@@ -45,8 +45,8 @@ class UserPages < Struct.new(:user)
   end
 
   private def page_text_with_labeled_section_includes_canonicalized(new_text)
-    LabeledSectionTranscluder.new.
-      user_facing_links_to_internal_links(new_text, self)
+    LabeledSectionTranscluder.new
+      .user_facing_links_to_internal_links(new_text, self)
   end
 
   private def add_missing_identifiers_to_labeled_sections(text)
