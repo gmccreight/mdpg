@@ -1,3 +1,9 @@
 # We have one global variable that we need
 Style/GlobalVars:
   AllowedVariables: [$data_store]
+
+Style/AlignParameters:
+  Enabled: false
+
+Style/AlignHash:
+  Enabled: false
