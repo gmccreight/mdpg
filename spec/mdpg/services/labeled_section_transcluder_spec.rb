@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 describe LabeledSectionTranscluder do
   before do
-    $data_store = get_memory_datastore
+    $data_store = memory_datastore
   end
 
   it 'should be able to include partial page from other page' do

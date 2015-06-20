@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 describe Page do
   before do
-    $data_store = get_memory_datastore
+    $data_store = memory_datastore
   end
 
   def create_page_with_name(name)

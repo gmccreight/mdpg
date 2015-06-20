@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 describe PageEditView do
   before do
-    $data_store = get_memory_datastore
+    $data_store = memory_datastore
     @user = create_user
   end
 

@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 describe PageView do
   before do
-    $data_store = get_memory_datastore
+    $data_store = memory_datastore
     @user = create_user
     @page = Page.create name: 'my-bongos',
       text: 'This is *bongos*, indeed.'

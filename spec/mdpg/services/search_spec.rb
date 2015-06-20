@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 describe Search do
   before do
-    $data_store = get_memory_datastore
+    $data_store = memory_datastore
     @user = create_user
     @page_1 = UserPages.new(@user).create_page name: 'good-page-name',
       text: 'I wish I had something *interesting* to say!'

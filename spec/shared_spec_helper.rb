@@ -9,7 +9,7 @@ end
 require 'mdpg'
 require 'minitest/autorun'
 
-def get_memory_datastore
+def memory_datastore
   @data ||= DataStore.new :memory
 end
 

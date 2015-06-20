@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 describe LabeledSectionParser do
   before do
-    $data_store = get_memory_datastore
+    $data_store = memory_datastore
   end
 
   describe 'adding unique identifiers to section definitions' do

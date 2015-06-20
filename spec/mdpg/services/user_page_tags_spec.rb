@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 describe UserPageTags do
   before do
-    $data_store = get_memory_datastore
+    $data_store = memory_datastore
     @user = create_user
     @page = create_page
     @user_page_tags = UserPageTags.new(@user, @page)

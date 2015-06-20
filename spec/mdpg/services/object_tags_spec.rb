@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 describe ObjectTags do
   before do
-    $data_store = get_memory_datastore
+    $data_store = memory_datastore
     @object = Page.create name: 'killer', revision: 1
     @object_tags = ObjectTags.new(@object)
   end
