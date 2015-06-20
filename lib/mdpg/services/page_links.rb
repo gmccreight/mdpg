@@ -7,7 +7,7 @@ class PageLinks < Struct.new(:user)
   def get_page_ids(text)
     page_names = []
     alter_text(text) { |name| page_names << name }
-    page_names.map { |x| user_page_for_name(x) }.compact.map { |x| x.id }
+    page_names.map { |x| user_page_for_name(x) }.compact.map(&:id)
   end
 
   def internal_links_to_user_clickable_links(text)

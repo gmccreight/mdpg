@@ -50,6 +50,6 @@ class ObjectTags < Struct.new(:object)
   end
 
   def sorted_tag_names
-    get_tags.map { |tag| tag.name }.sort
+    get_tags.map(&:name).sort
   end
 end

@@ -57,7 +57,7 @@ class Search
 
     search_strings.each do |string|
       found_pages = yield string
-      found_page_ids = found_pages.map { |x| x.id }
+      found_page_ids = found_pages.map(&:id)
 
       if pages == nil
         pages = found_pages

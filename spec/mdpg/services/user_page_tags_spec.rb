@@ -144,7 +144,7 @@ describe UserPageTags do
     end
 
     def page_ids_for_tag(tag)
-      @user_page_tags.get_pages_for_tag_with_name(tag).map { |page| page.id }
+      @user_page_tags.get_pages_for_tag_with_name(tag).map(&:id)
     end
 
     it 'should get pages for a tag that was added to multiple pages' do

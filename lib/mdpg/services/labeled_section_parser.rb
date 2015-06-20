@@ -57,11 +57,11 @@ class LabeledSectionParser
   end
 
   def section_names_with_errors
-    @sections.select { |x| x.count != 2 || x.end_char == nil }.map { |x| x.name }
+    @sections.select { |x| x.count != 2 || x.end_char == nil }.map(&:name)
   end
 
   def list
-    @sections.map { |x| x.name }
+    @sections.map(&:name)
   end
 
   def text_for(section_name)
@@ -76,7 +76,7 @@ class LabeledSectionParser
   end
 
   private def any_missing_identifiers?
-    @sections.map { |x| x.identifier }
+    @sections.map(&:identifier)
   end
 
   private def section_with_name_or_identifier(name, identifier)
