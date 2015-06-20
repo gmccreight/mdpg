@@ -5,7 +5,7 @@ require "search_query_parser"
 describe SearchQueryParser do
 
   before do
-    @parser = SearchQueryParser.new()
+    @parser = SearchQueryParser.new
   end
 
   describe "search string" do
@@ -41,12 +41,12 @@ describe SearchQueryParser do
 
     it "should work with a singular tag" do
       @parser.query = "kittens tags:pepper"
-      assert_equal %w{pepper}, @parser.tags()
+      assert_equal %w{pepper}, @parser.tags
     end
 
     it "should work with multiple tags" do
       @parser.query = "kittens tags:grown-man,old"
-      assert_equal %w{grown-man old}, @parser.tags()
+      assert_equal %w{grown-man old}, @parser.tags
     end
 
     it "should return an empty array if no tags" do

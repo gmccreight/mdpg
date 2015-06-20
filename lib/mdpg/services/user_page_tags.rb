@@ -11,7 +11,7 @@ class UserPageTags < Struct.new(:user, :page)
     end
 
     if ObjectTags.new(page).add_tag tag_name
-      h = get_tags_hash()
+      h = get_tags_hash
       if ! h.has_key?(tag_name)
         h[tag_name] = {}
       end
@@ -39,7 +39,7 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   private def remove_tag_from_tags_hash tag_name
-    h = get_tags_hash()
+    h = get_tags_hash
     return if ! h.has_key?(tag_name)
 
     page_id_string = page.id.to_s
@@ -94,7 +94,7 @@ class UserPageTags < Struct.new(:user, :page)
 
   def search query
     query.downcase!
-    SimilarTokenFinder.new.get_similar_tokens(query, get_tag_names())
+    SimilarTokenFinder.new.get_similar_tokens(query, get_tag_names)
   end
 
   def remove_all
@@ -104,15 +104,15 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   def get_tag_names
-    get_tags_hash().keys.sort
+    get_tags_hash.keys.sort
   end
 
   def has_tag_with_name? tag_name
-    get_tags_hash().has_key?(tag_name)
+    get_tags_hash.has_key?(tag_name)
   end
 
   def get_pages_for_tag_with_name tag_name
-    hash = get_tags_hash()
+    hash = get_tags_hash
     if hash.has_key?(tag_name)
       hash[tag_name].keys.map{|id_string| Page.find(id_string.to_i)}
     else
@@ -121,7 +121,7 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   def tag_count tag
-    h = get_tags_hash()
+    h = get_tags_hash
     return 0 if ! h.has_key?(tag)
     return h[tag].keys.size
   end

@@ -23,7 +23,7 @@ end
 
 get '/' do
   app = authorize!
-  results = app.root()
+  results = app.root
   _app_handle_result app
   haml :index, :locals => results
 end
@@ -49,7 +49,7 @@ post '/login' do
 end
 
 get '/logout' do
-  clear_access_token()
+  clear_access_token
   redirect '/'
 end
 
@@ -84,7 +84,7 @@ get '/p/:name' do |page_name|
     haml :page, :locals => app.page_get(page)
   end
 
-  # p $data_store.report()
+  # p $data_store.report
 
   # if ENV["profiler"]
   #   Profiler__.stop_profile
@@ -147,7 +147,7 @@ post '/p/:name/update_sharing_token' do |page_name|
 
   page = get_user_page(page_name)
   if page
-    app = _app_get()
+    app = _app_get
     app.update_page_sharing_token page, token_type, new_token, is_activated
     _app_handle_result app
   end
@@ -207,7 +207,7 @@ end
 
 get '/stats' do
   app = authorize!
-  haml :page_stats, :locals => app.stats()
+  haml :page_stats, :locals => app.stats
 end
 
 post '/page/add' do
@@ -248,12 +248,12 @@ def attr_for_request_payload attr
 end
 
 def current_user
-  if get_access_token()
-    user = User.find_by_index(:access_token, get_access_token())
+  if get_access_token
+    user = User.find_by_index(:access_token, get_access_token)
     if user
       return user
     else
-      clear_access_token()
+      clear_access_token
     end
   end
   nil
@@ -273,7 +273,7 @@ end
 
 def authorize!
   redirect '/login' unless current_user
-  _app_get()
+  _app_get
 end
 
 def _app_get
@@ -282,7 +282,7 @@ end
 
 def _app_handle_result app
   if app.had_error?
-    error app.errors_message()
+    error app.errors_message
   elsif app.redirect_to != nil
     redirect app.redirect_to
   end

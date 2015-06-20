@@ -45,7 +45,7 @@ class UserPages < Struct.new(:user)
   end
 
   private def page_text_with_labeled_section_includes_canonicalized new_text
-    LabeledSectionTranscluder.new().
+    LabeledSectionTranscluder.new.
       user_facing_links_to_internal_links(new_text, self)
   end
 
@@ -69,8 +69,8 @@ class UserPages < Struct.new(:user)
       end
       user.remove_page(page)
       user_page_tags = UserPageTags.new(user, page)
-      user_page_tags.remove_all()
-      page.virtual_delete()
+      user_page_tags.remove_all
+      page.virtual_delete
       page_ids_or_names_have_changed
     end
   end
@@ -79,7 +79,7 @@ class UserPages < Struct.new(:user)
     original_page = find_page_with_name(name)
     if original_page
       duplicator = UserPageDuplicator.new(self, user, original_page)
-      new_page = duplicator.duplicate()
+      new_page = duplicator.duplicate
       page_ids_or_names_have_changed
       return new_page
     end
@@ -91,7 +91,7 @@ class UserPages < Struct.new(:user)
       raise PageAlreadyExistsException
     else
       page.name = new_name
-      worked = page.save()
+      worked = page.save
       if worked
         page_ids_or_names_have_changed
       end
@@ -123,10 +123,10 @@ class UserPages < Struct.new(:user)
 
   def pages
     return @pages_cache if @pages_cache
-    if ! user.page_ids()
+    if ! user.page_ids
       @pages_cache = []
     else
-      @pages_cache = user.page_ids().map{|x| page = Page.find(x); page}
+      @pages_cache = user.page_ids.map{|x| page = Page.find(x); page}
     end
     @pages_cache
   end

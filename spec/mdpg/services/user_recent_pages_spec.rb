@@ -3,9 +3,9 @@ require_relative "../../spec_helper"
 describe UserRecentPages do
 
   before do
-    $data_store = get_memory_datastore()
+    $data_store = get_memory_datastore
     @user = User.create name:"John", email:"good@email.com", password:"cool"
-    add_some_recent_pages()
+    add_some_recent_pages
   end
 
   def add_some_recent_pages
@@ -18,7 +18,7 @@ describe UserRecentPages do
   end
 
   def page_ids_should_be expected
-    assert_equal expected, @user.recent_edited_page_ids()
+    assert_equal expected, @user.recent_edited_page_ids
   end
 
   it "should add a second recent page after the first one" do

@@ -8,19 +8,19 @@ class ModelBase
   end
 
   def self.create opts = {}
-    self.new().create(opts)
+    self.new.create(opts)
   end
 
   def self.find id
-    self.new().find(id)
+    self.new.find(id)
   end
 
   def self.find_by_index index_name, value
-    self.new().find_by_index(index_name, value)
+    self.new.find_by_index(index_name, value)
   end
 
   def create opts
-    @id = get_max_id() + 1
+    @id = get_max_id + 1
 
     add_attributes_from_hash opts
 
@@ -75,9 +75,9 @@ class ModelBase
   def save
     ensure_attr_defaults
     if validates?
-      possibly_update_revision()
+      possibly_update_revision
       data_store.set data_key, persistable_data
-      update_unique_id_indexes()
+      update_unique_id_indexes
     end
   end
 
@@ -206,14 +206,14 @@ class ModelBase
   end
 
   private def set_max_revision
-    rev = max_revision()
+    rev = max_revision
     data_store.set(revisionless_data_key + "-max-revision", rev + 1)
   end
 
   private def data_key
     if is_versioned?
-      rev = max_revision()
-      revisionless_data_key() + "-#{rev}"
+      rev = max_revision
+      revisionless_data_key + "-#{rev}"
     else
       revisionless_data_key
     end

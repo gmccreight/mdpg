@@ -14,7 +14,7 @@ module AppSection
     def all_for_page page
       object_tags = ObjectTags.new(page)
       user_page_tags = UserPageTags.new(current_user, page)
-      sorted_tag_names = object_tags.sorted_tag_names()
+      sorted_tag_names = object_tags.sorted_tag_names
       results = sorted_tag_names.map do |tagname|
         {
           :text => tagname,

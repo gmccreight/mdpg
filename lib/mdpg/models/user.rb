@@ -36,7 +36,7 @@ class User < ModelBase
 
   def save
     ensure_attr_defaults
-    possibly_create_hashed_password()
+    possibly_create_hashed_password
     super
   end
 

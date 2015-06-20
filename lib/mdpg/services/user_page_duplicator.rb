@@ -9,7 +9,7 @@ class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
     user_page_tags = UserPageTags.new(user, original_page)
     user_page_tags.duplicate_tags_to_other_page(new_page)
 
-    new_page.save()
+    new_page.save
     return new_page
   end
 

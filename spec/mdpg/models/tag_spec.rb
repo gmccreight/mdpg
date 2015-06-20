@@ -3,7 +3,7 @@ require_relative "../../spec_helper"
 describe Tag do
 
   before do
-    $data_store = get_memory_datastore()
+    $data_store = get_memory_datastore
   end
 
   describe "find by name" do

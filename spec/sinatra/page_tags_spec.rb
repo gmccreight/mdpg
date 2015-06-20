@@ -3,7 +3,7 @@ require File.expand_path '../sinatra_helper.rb', __FILE__
 describe "page_tags" do
 
   before do
-    $data_store = get_memory_datastore()
+    $data_store = get_memory_datastore
 
     @user = User.create name:"Jordan",
       email:"jordan@example.com", password:"cool"
@@ -40,9 +40,9 @@ describe "page_tags" do
     end
 
     it "should delete an existing tag" do
-      assert_equal ["new-1"], ObjectTags.new(@page.reload).sorted_tag_names()
+      assert_equal ["new-1"], ObjectTags.new(@page.reload).sorted_tag_names
       delete_tag @user, "a-good-page", "new-1"
-      assert_equal [], ObjectTags.new(@page.reload).sorted_tag_names()
+      assert_equal [], ObjectTags.new(@page.reload).sorted_tag_names
     end
 
   end
@@ -111,13 +111,13 @@ describe "page_tags" do
       it "should add the tag to the page" do
         @page.reload
         object_tags = ObjectTags.new(@page)
-        assert_equal ["new-1"], object_tags.sorted_tag_names()
+        assert_equal ["new-1"], object_tags.sorted_tag_names
       end
 
       it "should *also* add the page to the user's page_tags" do
         @user.reload
         user_page_tags = UserPageTags.new(@user, @page)
-        assert_equal ["new-1"], user_page_tags.get_tag_names()
+        assert_equal ["new-1"], user_page_tags.get_tag_names
       end
 
     end

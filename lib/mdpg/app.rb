@@ -21,11 +21,11 @@ class App
   end
 
   def had_error?
-    errors().size > 0
+    errors.size > 0
   end
 
   def errors_message
-    errors().join(", ")
+    errors.join(", ")
   end
 
   def get_page_from_sharing_token page_sharing_token

@@ -3,7 +3,7 @@ require_relative "../../spec_helper"
 describe UserPages do
 
   before do
-    $data_store = get_memory_datastore()
+    $data_store = get_memory_datastore
     @user = create_user
 
     @zebra_page = Page.create name:"zebra-training",
@@ -77,9 +77,9 @@ describe UserPages do
     end
 
     it "should remove tag from user if was only on this one page" do
-      assert_equal ["cool-house"], @user_page_tags.get_tag_names()
+      assert_equal ["cool-house"], @user_page_tags.get_tag_names
       @user_pages.delete_page @page.name
-      assert_equal [], @user_page_tags.get_tag_names()
+      assert_equal [], @user_page_tags.get_tag_names
     end
 
   end
@@ -89,7 +89,7 @@ describe UserPages do
       [@alaska_page.id, "alaska-crab"],
       [@zebra_page.id, "zebra-training"]
     ]
-    assert_equal expected, @user_pages.page_ids_and_names_sorted_by_name()
+    assert_equal expected, @user_pages.page_ids_and_names_sorted_by_name
   end
 
   describe "page with name" do

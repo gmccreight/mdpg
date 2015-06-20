@@ -3,7 +3,7 @@ require_relative "../../spec_helper"
 describe PageView do
 
   before do
-    $data_store = get_memory_datastore()
+    $data_store = get_memory_datastore
     @user = create_user
     @page = Page.create name:"my-bongos",
       text:"This is *bongos*, indeed."
@@ -107,7 +107,7 @@ describe PageView do
 
     it "should render the page's markdown as html" do
       assert_equal "<p>This is <em>bongos</em>, indeed.</p>\n",
-        @page_1_vm.fully_rendered_text()
+        @page_1_vm.fully_rendered_text
     end
 
   end

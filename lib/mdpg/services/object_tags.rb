@@ -47,11 +47,11 @@ class ObjectTags < Struct.new(:object)
 
   def get_tags
     return [] if ! object.tag_ids
-    object.tag_ids().map{|x| tag = Tag.find(x); tag}
+    object.tag_ids.map{|x| tag = Tag.find(x); tag}
   end
 
   def sorted_tag_names
-    get_tags().map{|tag| tag.name}.sort
+    get_tags.map{|tag| tag.name}.sort
   end
 
 end

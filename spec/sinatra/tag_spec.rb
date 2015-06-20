@@ -3,7 +3,7 @@ require File.expand_path '../sinatra_helper.rb', __FILE__
 describe "tag" do
 
   before do
-    $data_store = get_memory_datastore()
+    $data_store = get_memory_datastore
 
     @user = User.create name:"Jordan",
       email:"jordan@example.com", password:"cool"
@@ -36,9 +36,9 @@ describe "tag" do
       rename_tag @user, "new-1", "new-2"
       follow_redirect_with_authenticated_user!(@user.reload)
       assert_equal ["new-2"],
-        UserPageTags.new(@user, @page.reload).get_tag_names()
+        UserPageTags.new(@user, @page.reload).get_tag_names
       assert_equal ["new-2"],
-        UserPageTags.new(@user, @other_page.reload).get_tag_names()
+        UserPageTags.new(@user, @other_page.reload).get_tag_names
     end
 
   end

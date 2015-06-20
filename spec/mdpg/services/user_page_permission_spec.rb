@@ -3,7 +3,7 @@ require_relative "../../spec_helper"
 describe UserPagePermission do
 
   before do
-    $data_store = get_memory_datastore()
+    $data_store = get_memory_datastore
 
     @user1 = create_user
 

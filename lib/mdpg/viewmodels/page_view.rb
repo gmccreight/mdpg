@@ -7,11 +7,11 @@ class PageView < Struct.new(:user, :page, :token_type)
   end
 
   def add_tag tag
-    user_page_tags().add_tag tag
+    user_page_tags.add_tag tag
   end
 
   def remove_tag tag
-    user_page_tags().remove_tag tag
+    user_page_tags.remove_tag tag
   end
 
   def should_show_edit_button?
@@ -20,7 +20,7 @@ class PageView < Struct.new(:user, :page, :token_type)
 
   def tag_suggestions_for partial_or_full_tag_name
     all_tags = user_page_tags.search(partial_or_full_tag_name)
-    all_tags - ObjectTags.new(page).sorted_tag_names()
+    all_tags - ObjectTags.new(page).sorted_tag_names
   end
 
   def fully_rendered_text

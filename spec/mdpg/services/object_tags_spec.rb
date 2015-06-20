@@ -3,7 +3,7 @@ require_relative "../../spec_helper"
 describe ObjectTags do
 
   before do
-    $data_store = get_memory_datastore()
+    $data_store = get_memory_datastore
     @object = Page.create name:"killer", revision:1
     @object_tags = ObjectTags.new(@object)
   end
@@ -15,7 +15,7 @@ describe ObjectTags do
   end
 
   def sorted_tag_names
-    @object_tags.sorted_tag_names()
+    @object_tags.sorted_tag_names
   end
 
   describe "adding" do
@@ -27,19 +27,19 @@ describe ObjectTags do
 
     it "should not add a tag if the name does not validate" do
       @object_tags.add_tag "not a valid name"
-      assert_equal [], sorted_tag_names()
+      assert_equal [], sorted_tag_names
     end
 
     it "should be able to add multiple different tags" do
       @object_tags.add_tag "cool-house"
       @object_tags.add_tag "adam"
-      assert_equal ["adam", "cool-house"], sorted_tag_names()
+      assert_equal ["adam", "cool-house"], sorted_tag_names
     end
 
     it "should be not add the same tag more than once" do
       @object_tags.add_tag "cool-house"
       @object_tags.add_tag "cool-house"
-      assert_equal ["cool-house"], sorted_tag_names()
+      assert_equal ["cool-house"], sorted_tag_names
     end
 
     describe "list of object ids associated with tag" do

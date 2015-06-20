@@ -3,7 +3,7 @@ require_relative "../../spec_helper"
 describe Page do
 
   before do
-    $data_store = get_memory_datastore()
+    $data_store = get_memory_datastore
   end
 
   def create_page_with_name name
@@ -54,7 +54,7 @@ describe Page do
       page = Page.find(1)
       assert_equal 1, page.id
 
-      page.virtual_delete()
+      page.virtual_delete
       assert_nil Page.find(1)
     end
 

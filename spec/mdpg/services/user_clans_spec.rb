@@ -3,7 +3,7 @@ require_relative "../../spec_helper"
 describe UserClans do
 
   before do
-    $data_store = get_memory_datastore()
+    $data_store = get_memory_datastore
     @user = create_user
 
     @zebra_clan = Clan.create name:"zebra-training"
@@ -20,7 +20,7 @@ describe UserClans do
       [@alaska_clan.id, "alaska-crab"],
       [@zebra_clan.id, "zebra-training"]
     ]
-    assert_equal expected, @user_clans.clan_ids_and_names_sorted_by_name()
+    assert_equal expected, @user_clans.clan_ids_and_names_sorted_by_name
   end
 
 end

@@ -5,25 +5,25 @@ class Search
   private def initialize user
     @user_pages = UserPages.new(user)
     @user_page_tags = UserPageTags.new(user, nil)
-    @search_parser = SearchQueryParser.new()
+    @search_parser = SearchQueryParser.new
   end
 
   def search query
     @search_parser.query = query
 
-    names = search_names()
+    names = search_names
 
     {
       :names => names,
-      :texts => search_texts(),
-      :tags => search_tags(),
+      :texts => search_texts,
+      :tags => search_tags,
       :redirect => redirect_to_perfect_match(names),
-      :redirect_to_edit_mode => @search_parser.should_open_in_edit_mode?()
+      :redirect_to_edit_mode => @search_parser.should_open_in_edit_mode?
     }
   end
 
   private def search_strings
-    @search_strings ||= @search_parser.search_strings()
+    @search_strings ||= @search_parser.search_strings
   end
 
   private def search_string
@@ -31,7 +31,7 @@ class Search
   end
 
   private def redirect_to_perfect_match(names)
-    return nil if @search_parser.should_force_full_search?()
+    return nil if @search_parser.should_force_full_search?
 
     if names.size > 0 && names.map(&:name).include?(search_string)
       return search_string
@@ -79,7 +79,7 @@ class Search
     return pages if @search_parser.tags.size == 0
 
     pages.select{|page|
-      (ObjectTags.new(page).sorted_tag_names() & @search_parser.tags).size > 0
+      (ObjectTags.new(page).sorted_tag_names & @search_parser.tags).size > 0
     }
   end
 
