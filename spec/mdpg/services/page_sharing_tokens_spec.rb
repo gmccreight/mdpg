@@ -17,7 +17,7 @@ describe PageSharingTokens do
       PageSharingTokens.new(page).activate_sharing_token :readonly
 
       found_page, _token_type = PageSharingTokens.find_page_by_token(
-                                      page.readonly_sharing_token)
+        page.readonly_sharing_token)
       assert_equal page.id, found_page.id
     end
 
@@ -27,7 +27,7 @@ describe PageSharingTokens do
       PageSharingTokens.new(page).activate_sharing_token :readwrite
 
       found_page, _token_type = PageSharingTokens.find_page_by_token(
-                                      page.readwrite_sharing_token)
+        page.readwrite_sharing_token)
       assert_equal page.id, found_page.id
     end
 
@@ -35,7 +35,7 @@ describe PageSharingTokens do
       page = create_page_with_name 'the-page'
       assert_equal page.readwrite_sharing_token.size, 32
       found_page, _token_type = PageSharingTokens.find_page_by_token(
-                                      page.readwrite_sharing_token)
+        page.readwrite_sharing_token)
       assert found_page == nil
     end
   end
