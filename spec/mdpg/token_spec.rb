@@ -1,15 +1,12 @@
 require_relative '../spec_helper'
 
 describe Token do
-
   describe 'validate' do
-
     def validate(text)
       Token.new(text).validate
     end
 
     describe 'nil or blank' do
-
       it 'when nil' do
         assert_equal :blank, validate(nil)
       end
@@ -17,11 +14,9 @@ describe Token do
       it 'when blank' do
         assert_equal :blank, validate('')
       end
-
     end
 
     describe 'length' do
-
       it 'when too short' do
         assert_equal :too_short, validate('x')
       end
@@ -33,11 +28,9 @@ describe Token do
       it 'when just right' do
         assert_equal nil, validate('hello-there')
       end
-
     end
 
     describe 'character set' do
-
       it 'should not allow underscores' do
         assert_equal :only_a_z_0_9_and_hyphens_ok, validate('hellothere_')
       end
@@ -53,9 +46,6 @@ describe Token do
       it 'should allow a-z and hyphens' do
         assert_equal nil, validate('hello-there')
       end
-
     end
-
   end
-
 end

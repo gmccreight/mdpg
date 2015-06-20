@@ -1,14 +1,12 @@
 require_relative '../../spec_helper'
 
 describe PageEditView do
-
   before do
     $data_store = get_memory_datastore
     @user = create_user
   end
 
   describe 'text you see in edit box' do
-
     it 'should be what is in the text' do
       page = Page.create name: 'my-bongos',
         text: 'This is *bongos*, indeed.'
@@ -60,9 +58,6 @@ describe PageEditView do
 
       vm = PageEditView.new(@user, this_page)
       assert_equal expected_editing_text, vm.get_text
-
     end
-
   end
-
 end

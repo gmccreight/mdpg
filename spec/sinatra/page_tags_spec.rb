@@ -1,7 +1,6 @@
 require File.expand_path '../sinatra_helper.rb', __FILE__
 
 describe 'page_tags' do
-
   before do
     $data_store = get_memory_datastore
 
@@ -34,7 +33,6 @@ describe 'page_tags' do
   end
 
   describe 'deleting' do
-
     before do
       add_tag @user, 'a-good-page', 'new-1'
     end
@@ -44,11 +42,9 @@ describe 'page_tags' do
       delete_tag @user, 'a-good-page', 'new-1'
       assert_equal [], ObjectTags.new(@page.reload).sorted_tag_names
     end
-
   end
 
   describe 'suggestions' do
-
     before do
       add_tag @user, 'a-good-page', 'food-fight'
       add_tag @user, 'a-good-page', 'fool-right'
@@ -65,11 +61,9 @@ describe 'page_tags' do
       tags = hash['tags']
       assert_equal ['foolish'], tags
     end
-
   end
 
   describe 'getting' do
-
     before do
       add_tag @user, 'a-good-page', 'new-1'
     end
@@ -91,13 +85,10 @@ describe 'page_tags' do
       get_tags @other_user, 'a-good-page'
       assert_equal 'could not find that page', last_response.body
     end
-
   end
 
   describe 'adding' do
-
     describe 'successfully' do
-
       before do
         add_tag @user, 'a-good-page', 'new-1'
       end
@@ -119,18 +110,14 @@ describe 'page_tags' do
         user_page_tags = UserPageTags.new(@user, @page)
         assert_equal ['new-1'], user_page_tags.get_tag_names
       end
-
     end
 
     describe 'unsuccessfully' do
-
       it 'should fail if the page does not exist' do
         add_tag @user, 'a-bad-page', 'new-1'
         assert_equal 'could not find that page', last_response.body
       end
-
     end
-
   end
 
   def get_tag_page(tag_name)
@@ -138,7 +125,6 @@ describe 'page_tags' do
   end
 
   describe 'get the tag details page' do
-
     before do
       add_tag @user, 'a-good-page', 'new-1'
     end
@@ -154,7 +140,5 @@ describe 'page_tags' do
       expected = "you do not have any pages tagged 'non-existent-tag'"
       assert last_response.body.include? expected
     end
-
   end
-
 end

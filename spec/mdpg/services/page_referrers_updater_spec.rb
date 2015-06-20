@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe PageReferrersUpdater do
-
   before do
     $data_store = get_memory_datastore()
     @user = create_user
@@ -22,7 +21,6 @@ describe PageReferrersUpdater do
   end
 
   describe 'adding' do
-
     it 'should work even if list is nil (upgrade)' do
       @page.referring_page_ids = nil
       add [21]
@@ -30,7 +28,6 @@ describe PageReferrersUpdater do
     end
 
     describe 'to an empy list' do
-
       before do
         assert_equal @page.referring_page_ids, []
       end
@@ -50,13 +47,10 @@ describe PageReferrersUpdater do
         add [20]
         assert_equal @page.referring_page_ids, [20, 21]
       end
-
     end
-
   end
 
   describe 'removing' do
-
     it 'should remove a single one' do
       add [20, 21, 22]
       remove [21]
@@ -88,7 +82,5 @@ describe PageReferrersUpdater do
       remove [80]
       assert_equal @page.referring_page_ids, []
     end
-
   end
-
 end

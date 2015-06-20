@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe UserRecentPages do
-
   before do
     $data_store = get_memory_datastore
     @user = User.create name: 'John', email: 'good@email.com', password: 'cool'
@@ -29,5 +28,4 @@ describe UserRecentPages do
     UserRecentPages.new(@user).add_to_recent_edited_pages_list @page2
     page_ids_should_be [@page2.id, @page3.id, @page1.id]
   end
-
 end

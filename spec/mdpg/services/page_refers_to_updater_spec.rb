@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe PageRefersToUpdater do
-
   before do
     $data_store = get_memory_datastore()
     @user = create_user
@@ -9,9 +8,7 @@ describe PageRefersToUpdater do
   end
 
   describe 'partial includes' do
-
     it 'should set up referrals between included pages' do
-
       ident = 'alsdkjfwijalkfjlsdkfj'
 
       other_text = (<<-EOF).gsub(/^ +/, '')
@@ -32,13 +29,10 @@ describe PageRefersToUpdater do
       assert_equal [other_page.id], page.reload.refers_to_page_ids
       assert_equal [page.id], other_page.reload.referring_page_ids
     end
-
   end
 
   describe 'partial includes AND page links' do
-
     it 'should work with both types of referrals to other pages' do
-
       ident = 'alsdkjfwijalkfjlsdkfj'
 
       other_page_1_text = (<<-EOF).gsub(/^ +/, '')
@@ -70,7 +64,5 @@ describe PageRefersToUpdater do
       assert_equal [page.id], other_page_1.reload.referring_page_ids
       assert_equal [page.id], other_page_2.reload.referring_page_ids
     end
-
   end
-
 end

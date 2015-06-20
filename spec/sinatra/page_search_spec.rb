@@ -1,7 +1,6 @@
 require File.expand_path '../sinatra_helper.rb', __FILE__
 
 describe 'page_search' do
-
   before do
     $data_store = get_memory_datastore()
 
@@ -37,5 +36,4 @@ describe 'page_search' do
     text = last_response.body
     assert text.include? '1 pages with matching name'
   end
-
 end

@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe User do
-
   before do
     $data_store = get_memory_datastore
   end
@@ -12,7 +11,6 @@ describe User do
   end
 
   describe 'creation' do
-
     it 'should make a user with email' do
       user = create_user_with_name 'John'
       assert_equal 1, user.id
@@ -32,11 +30,9 @@ describe User do
       u2 = create_user_with_name 'Tim'
       assert_equal 2, u2.id
     end
-
   end
 
   describe 'finding' do
-
     before do
       create_user_with_name 'John'
       create_user_with_name 'Tim'
@@ -53,11 +49,9 @@ describe User do
     it 'should not find a non-existant user' do
       assert_equal nil, User.find(3)
     end
-
   end
 
   describe 'updating' do
-
     it 'should update a user' do
       create_user_with_name 'John'
       user = User.find(1)
@@ -79,24 +73,19 @@ describe User do
 
       reloaded_user = User.find(1)
       assert reloaded_user.hashed_password != orig_hashed_password
-
     end
-
   end
 
   describe 'finding by and indexed attribute' do
-
     it 'should find by an email that exists' do
       User.create name: 'John', email: 'good@email.com', password: 'cool'
       user = User.find_by_index :email, 'good@email.com'
       assert_equal 1, user.id
       assert_equal 'John', user.name
     end
-
   end
 
   describe 'authentication' do
-
     before do
       User.create name: 'John', email: 'good@email.com', password: 'cool'
     end
@@ -116,11 +105,9 @@ describe User do
       user = User.authenticate 'good@email.com', 'badpassword'
       assert_equal nil, user
     end
-
   end
 
   describe 'pages' do
-
     before do
       @user = User.create name: 'John', email: 'good@email.com', password: 'cool'
     end
@@ -138,11 +125,9 @@ describe User do
       @user.save
       assert_equal [page1.id, page3.id], User.find(1).page_ids
     end
-
   end
 
   describe 'clans' do
-
     before do
       @user = User.create name: 'John', email: 'good@email.com', password: 'cool'
     end
@@ -160,7 +145,5 @@ describe User do
       @user.save
       assert_equal [clan1.id, clan3.id], User.find(1).clan_ids
     end
-
   end
-
 end

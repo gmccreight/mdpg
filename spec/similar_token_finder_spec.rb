@@ -3,7 +3,6 @@ require_relative './spec_helper'
 require 'similar_token_finder'
 
 describe SimilarTokenFinder do
-
   def get_similar_tokens(query, tokens)
     SimilarTokenFinder.new.get_similar_tokens(query, tokens)
   end
@@ -19,5 +18,4 @@ describe SimilarTokenFinder do
     assert_equal ['my-cool-pagename', 'anotherpagename'],
       get_similar_tokens('mycoolpagename', tokens)
   end
-
 end

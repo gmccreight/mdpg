@@ -5,9 +5,7 @@ if ENV['perf']
   require 'tmpdir'
 
   describe 'Perfomance' do
-
     describe 'get and set' do
-
       before do
         @temp_dir = Dir.mktmpdir
         @data = DataStore.new @temp_dir
@@ -35,9 +33,7 @@ if ENV['perf']
         assert_equal hash_length, hash2.length
         assert_equal 'hello', hash2['3'.to_sym]
       end
-
     end
-
   end
 
 end

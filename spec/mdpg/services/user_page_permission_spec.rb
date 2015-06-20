@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe UserPagePermission do
-
   before do
     $data_store = get_memory_datastore
 
@@ -16,7 +15,6 @@ describe UserPagePermission do
     @user1.remove_page @page3
 
     @user2 = create_user
-
   end
 
   def can_read?(user, page)
@@ -28,7 +26,6 @@ describe UserPagePermission do
   end
 
   describe 'owner' do
-
     it 'should be able to read one of their pages' do
       assert can_read?(@user1, @page1)
     end
@@ -36,11 +33,9 @@ describe UserPagePermission do
     it 'should be able to write one of their pages' do
       assert can_write?(@user1, @page1)
     end
-
   end
 
   describe 'unrelated person' do
-
     it "should not be able to read one of user 1's pages" do
       refute can_read?(@user2, @page1)
     end
@@ -52,7 +47,5 @@ describe UserPagePermission do
     it 'user 1 should not be able to read an unrelated page' do
       refute can_read?(@user1, @page3)
     end
-
   end
-
 end

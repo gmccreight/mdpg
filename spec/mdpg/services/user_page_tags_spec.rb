@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe UserPageTags do
-
   before do
     $data_store = get_memory_datastore
     @user = create_user
@@ -10,7 +9,6 @@ describe UserPageTags do
   end
 
   describe 'adding' do
-
     it 'should be able to add a user tag' do
       @user_page_tags.add_tag 'cool-house'
       assert @user_page_tags.has_tag_with_name?('cool-house')
@@ -32,11 +30,9 @@ describe UserPageTags do
       @user_page_tags.add_tag 'cool-house'
       assert_equal ['cool-house'], @user_page_tags.get_tag_names
     end
-
   end
 
   describe 'changing' do
-
     before do
       @user_page_tags.add_tag 'cool'
       @user_page_tags.add_tag 'adam'
@@ -54,7 +50,6 @@ describe UserPageTags do
     end
 
     describe 'bulk' do
-
       before do
         @page_2 = create_page
         @user_page_tags_2 = UserPageTags.new(@user, @page_2)
@@ -69,13 +64,10 @@ describe UserPageTags do
         assert_equal ['hello'],
           ObjectTags.new(@page_2.reload).sorted_tag_names
       end
-
     end
-
   end
 
   describe 'removing' do
-
     before do
       @user_page_tags.add_tag 'cool-house'
       @user_page_tags.add_tag 'adam'
@@ -91,11 +83,9 @@ describe UserPageTags do
       @user_page_tags.remove_tag 'does-not-exist'
       assert_equal ['adam', 'cool-house'], @user_page_tags.get_tag_names
     end
-
   end
 
   describe 'searching' do
-
     before do
       %w{color jazz green colour}.each{|x| @user_page_tags.add_tag x}
     end
@@ -111,11 +101,9 @@ describe UserPageTags do
     it 'should not return any results if no matches' do
       assert_equal [], @user_page_tags.search('what')
     end
-
   end
 
   describe 'counting' do
-
     before do
       %w{green color swimming}.each{|x| @user_page_tags.add_tag x}
 
@@ -145,11 +133,9 @@ describe UserPageTags do
       refute tag_names.include?('color')
       refute tag_names.include?('swimming')
     end
-
   end
 
   describe 'getting the pages that have been tagged' do
-
     before do
       %w{color jazz green colour}.each{|x| @user_page_tags.add_tag x}
       @another_page = create_page
@@ -172,11 +158,9 @@ describe UserPageTags do
     it 'should get no pages for a tag that has been added to no pages' do
       assert_equal [], page_ids_for_tag('not-a-tag-with-a-page')
     end
-
   end
 
   describe 'duplicate tags to other page' do
-
     before do
       %w{color jazz}.each{|x| @user_page_tags.add_tag x}
       @another_page = create_page
@@ -187,7 +171,5 @@ describe UserPageTags do
       user_another_page_tags = UserPageTags.new(@user, @another_page)
       assert_equal %w{color jazz}, user_another_page_tags.get_tag_names
     end
-
   end
-
 end

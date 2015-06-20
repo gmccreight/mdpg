@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe UserClans do
-
   before do
     $data_store = get_memory_datastore
     @user = create_user
@@ -22,5 +21,4 @@ describe UserClans do
     ]
     assert_equal expected, @user_clans.clan_ids_and_names_sorted_by_name
   end
-
 end

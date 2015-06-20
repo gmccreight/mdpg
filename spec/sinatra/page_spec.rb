@@ -1,7 +1,6 @@
 require File.expand_path '../sinatra_helper.rb', __FILE__
 
 describe 'page' do
-
   before do
     $data_store = get_memory_datastore()
 
@@ -41,7 +40,6 @@ describe 'page' do
   end
 
   describe 'viewing' do
-
     it 'should get a page that is owned by the user' do
       get_page 'original-good-page-name'
       expected = "<p>I have something <em>interesting</em> to say!</p>\n"
@@ -58,11 +56,9 @@ describe 'page' do
       follow_redirect!
       assert last_response.body.include? 'Please login'
     end
-
   end
 
   describe 'viewing via the public share link' do
-
     def get_shared_page(long_readonly_token)
       get "/s/#{long_readonly_token}", {}, authenticated_session(@user)
     end
@@ -84,11 +80,9 @@ describe 'page' do
       follow_redirect!
       assert last_response.body.include? 'Please login'
     end
-
   end
 
   describe 'creating' do
-
     it 'should be able to add a new page' do
       add_page 'new-page'
       follow_redirect_with_authenticated_user!(@user)
@@ -100,11 +94,9 @@ describe 'page' do
       add_page 'page-that-will-already-exist'
       assert_equal 'a page with that name already exists', last_response.body
     end
-
   end
 
   describe 'updating' do
-
     it 'should update the text of a page and redirect back to the page' do
       update_page 'original-good-page-name', 'some *new* text'
       follow_redirect_with_authenticated_user!(@user)
@@ -118,7 +110,6 @@ describe 'page' do
     end
 
     describe 'referrals' do
-
       it 'should work for a single case' do
         other_page_1 = UserPages.new(@user).create_page name: 'other-page-1',
           text: 'cool'
@@ -176,13 +167,10 @@ describe 'page' do
         assert_equal [], other_page_1.reload.referring_page_ids
         assert_equal [@page.id], other_page_2.reload.referring_page_ids
       end
-
     end
-
   end
 
   describe 'rename' do
-
     it 'should rename a page and redirect you to it' do
       rename_page 'original-good-page-name', 'a-renamed-page'
       follow_redirect_with_authenticated_user!(@user)
@@ -202,11 +190,9 @@ describe 'page' do
       rename_page 'original-good-page-name', 'already-taken-page-name'
       assert_equal 'a page with that name already exists', last_response.body
     end
-
   end
 
   describe 'update_sharing_token' do
-
     def update_sharing_token(type, new_token)
       post "/p/#{@page.name}/update_sharing_token",
         { token_type: type, new_token: new_token, is_activated: true },
@@ -241,11 +227,9 @@ describe 'page' do
       update_sharing_token 'readonly', 's'
       assert_equal 'too_short', last_response.body
     end
-
   end
 
   describe 'updating page using readwrite_sharing_token' do
-
     before do
       @page.readwrite_sharing_token = 'right-token'
       @page.readwrite_sharing_token_activated = true
@@ -261,11 +245,9 @@ describe 'page' do
       update_page_with_readwrite_token 'wrong-token', 'new text'
       assert 'new text' != @page.reload.text
     end
-
   end
 
   describe 'deleting' do
-
     it 'should delete a page and redirect back to the home page' do
       delete_page 'original-good-page-name'
       follow_redirect_with_authenticated_user!(@user)
@@ -276,7 +258,6 @@ describe 'page' do
     end
 
     describe 'pages with referrals' do
-
       it 'should not delete a page that has a referring page' do
         UserPages.new(@user).create_page name: 'referring-page',
           text: 'link to [[original-good-page-name]]'
@@ -298,29 +279,22 @@ describe 'page' do
         get_page 'original-good-page-name'
         assert last_response.body.include? 'I have something'
       end
-
     end
-
   end
 
   describe 'editing' do
-
     it 'should render the edit page with the unprocessed text' do
       edit_page 'original-good-page-name'
       expected = 'I have something *interesting* to say!'
       assert last_response.body.include? expected
     end
-
   end
 
   describe 'recently viewed of edited pages' do
-
     it 'should show the recently-created page' do
       get '/page/recent', {}, authenticated_session(@user)
       expected = 'original-good-page-name'
       assert last_response.body.include? expected
     end
-
   end
-
 end

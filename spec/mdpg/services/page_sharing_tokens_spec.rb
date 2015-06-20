@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe PageSharingTokens do
-
   before do
     $data_store = get_memory_datastore()
   end
@@ -11,7 +10,6 @@ describe PageSharingTokens do
   end
 
   describe 'finding by various sharing tokens' do
-
     it 'should find by activated readonly_sharing_token' do
       create_page_with_name 'not-the-page'
       page = create_page_with_name 'the-page'
@@ -40,11 +38,9 @@ describe PageSharingTokens do
                                       page.readwrite_sharing_token)
       assert found_page == nil
     end
-
   end
 
   describe 'renaming sharing token' do
-
     def create_page_and_rename_token_to(type, name)
       @page = create_page_with_name 'the-page'
       tokens = PageSharingTokens.new(@page)
@@ -94,7 +90,5 @@ describe PageSharingTokens do
         :bogus, 'too')
       assert_equal :token_type_does_not_exist, result
     end
-
   end
-
 end

@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe PageView do
-
   before do
     $data_store = get_memory_datastore
     @user = create_user
@@ -19,9 +18,7 @@ describe PageView do
   end
 
   describe 'which things to show' do
-
     describe 'edit button' do
-
       it 'should show the edit button when no sharing token' do
         vm = PageView.new(@user, @page, nil)
         assert vm.should_show_edit_button?
@@ -36,17 +33,12 @@ describe PageView do
         vm = PageView.new(@user, @page, :readonly)
         refute vm.should_show_edit_button?
       end
-
     end
-
   end
 
   describe 'rendered html for page' do
-
     describe 'which includes partials from other pages' do
-
       it 'should be able to include partial page from other page' do
-
         ident = 'abababababababab'
 
         other_text = (<<-EOF).gsub(/^[ ]{10}/, '')
@@ -100,20 +92,16 @@ describe PageView do
         EOF
 
         assert_equal expected_text, page_vm.text_before_markdown_parsing
-
       end
-
     end
 
     it "should render the page's markdown as html" do
       assert_equal "<p>This is <em>bongos</em>, indeed.</p>\n",
         @page_1_vm.fully_rendered_text
     end
-
   end
 
   describe 'new tag for page' do
-
     it 'should add a new tag to both page and user' do
       @page_1_vm.add_tag('good-stuff')
       assert page_1_tags.has_tag_with_name?('good-stuff')
@@ -128,11 +116,9 @@ describe PageView do
       refute user_1_page_tags.has_tag_with_name?('good-stuff')
       assert_equal 0, user_1_page_tags.tag_count('good-stuff')
     end
-
   end
 
   describe 'multiple pages with same tag' do
-
     before do
       page_2 = Page.create name: 'food', text: 'foo'
       @page_2_vm = PageView.new(@user, page_2)
@@ -144,11 +130,9 @@ describe PageView do
     it "should increment the user's tags count to 2" do
       assert_equal 2, user_1_page_tags.tag_count('good-stuff')
     end
-
   end
 
   describe 'same tag as before' do
-
     it 'should not add the same tag again' do
       @page_1_vm.add_tag('good-stuff')
       assert page_1_tags.has_tag_with_name?('good-stuff')
@@ -159,11 +143,9 @@ describe PageView do
       assert user_1_page_tags.has_tag_with_name?('good-stuff')
       assert_equal 1, user_1_page_tags.tag_count('good-stuff')
     end
-
   end
 
   describe 'suggested tags' do
-
     before do
       page_2 = Page.create name: 'food', text: 'foo'
       @page_2_vm = PageView.new(@user, page_2)
@@ -180,7 +162,5 @@ describe PageView do
     it 'should find a similar tag from other pages but not this one' do
       assert_equal ['greed'], @page_1_vm.tag_suggestions_for('greet')
     end
-
   end
-
 end

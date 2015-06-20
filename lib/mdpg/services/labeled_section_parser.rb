@@ -103,7 +103,6 @@ class LabeledSectionParser
   private def process_text(text)
 
     text.gsub(section_regex(remove_space: false)).with_index do
-
       name = $1
       identifier = $2
 
@@ -123,7 +122,6 @@ class LabeledSectionParser
         offset = Regexp.last_match.offset(0)[1]
         @sections << Section.new(offset, nil, name, identifier, 1)
       end
-
     end
 
   end

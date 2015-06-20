@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe UserPages do
-
   before do
     $data_store = get_memory_datastore
     @user = create_user
@@ -18,7 +17,6 @@ describe UserPages do
   end
 
   describe 'adds page to user' do
-
     before do
       @user_pages = UserPages.new(@user)
     end
@@ -46,11 +44,9 @@ describe UserPages do
       page = @user_pages.create_page name: ''
       assert page.name.size == 32
     end
-
   end
 
   describe 'delete page' do
-
     before do
       @user = User.create name: 'Jordan'
       @user_pages = UserPages.new(@user)
@@ -81,7 +77,6 @@ describe UserPages do
       @user_pages.delete_page @page.name
       assert_equal [], @user_page_tags.get_tag_names
     end
-
   end
 
   it 'should list the page ids and names sorted by name' do
@@ -93,7 +88,6 @@ describe UserPages do
   end
 
   describe 'page with name' do
-
     it 'should return a page with a matching name' do
       assert_equal 'alaska-crab',
         @user_pages.find_page_with_name('alaska-crab').name
@@ -102,11 +96,9 @@ describe UserPages do
     it 'should not return a page if the user does not have that page' do
       assert_nil @user_pages.find_page_with_name('non-existent')
     end
-
   end
 
   describe 'pages_with_text_containing_text' do
-
     it 'should give a single result if only one page matches' do
       assert_equal ['alaska-crab'],
         @user_pages.pages_with_text_containing_text('page 2').map(&:name)
@@ -121,11 +113,9 @@ describe UserPages do
       assert_equal ['alaska-crab'],
         @user_pages.pages_with_text_containing_text('Page 2').map(&:name)
     end
-
   end
 
   describe 'pages_with_names_containing_text' do
-
     it 'should give a single result if only one page matches' do
       assert_equal ['alaska-crab'],
         @user_pages.pages_with_names_containing_text('lask').map(&:name)
@@ -140,11 +130,9 @@ describe UserPages do
       assert_equal ['alaska-crab'],
         @user_pages.pages_with_names_containing_text('Alaska').map(&:name)
     end
-
   end
 
   describe 'duplicating a page' do
-
     before do
       @user = User.create name: 'Jordan'
       @user_pages = UserPages.new(@user)
@@ -196,7 +184,6 @@ describe UserPages do
     end
 
     describe 'where the name already ends in a -1 or -v1' do
-
       def page_should_duplicate_to(before, after)
         @page.name = before
         @page.save
@@ -205,7 +192,6 @@ describe UserPages do
       end
 
       describe 'without a v' do
-
         it 'should simply increment the -1 to -2' do
           page_should_duplicate_to 'test-1', 'test-2'
         end
@@ -226,11 +212,9 @@ describe UserPages do
           @user_pages.create_page name: 'test-5'
           page_should_duplicate_to 'test-4', 'test-6'
         end
-
       end
 
       describe 'with a v' do
-
         it 'should simply increment the -v1 to -v2' do
           page_should_duplicate_to 'test-v1', 'test-v2'
         end
@@ -251,11 +235,7 @@ describe UserPages do
           @user_pages.create_page name: 'test-v5'
           page_should_duplicate_to 'test-v4', 'test-v6'
         end
-
       end
-
     end
-
   end
-
 end

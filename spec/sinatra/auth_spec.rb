@@ -1,7 +1,6 @@
 require File.expand_path '../sinatra_helper.rb', __FILE__
 
 describe 'auth' do
-
   before do
     $data_store = get_memory_datastore()
     @user = User.create name: 'Jordan',
@@ -53,5 +52,4 @@ describe 'auth' do
     follow_redirect!
     assert last_response.body.include? 'Please login'
   end
-
 end

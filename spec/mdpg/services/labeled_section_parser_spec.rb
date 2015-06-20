@@ -1,13 +1,11 @@
 require_relative '../../spec_helper'
 
 describe LabeledSectionParser do
-
   before do
     $data_store = get_memory_datastore
   end
 
   describe 'adding unique identifiers to section definitions' do
-
     it 'should add missing identifier to section definition without one' do
       text = (<<-EOF).gsub(/^ +/, '')
         start of the text
@@ -50,11 +48,9 @@ describe LabeledSectionParser do
       EOF
       assert_equal expected_text, new_text
     end
-
   end
 
   describe 'success' do
-
     it 'should list fully opened and closed sections' do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
@@ -94,7 +90,6 @@ describe LabeledSectionParser do
     end
 
     describe 'text for a given section' do
-
       it 'should give the text for a section' do
         text = (<<-EOF).gsub(/^ +/, '')
           here is some text
@@ -124,13 +119,10 @@ describe LabeledSectionParser do
         result_with_no_newlines = parser.text_for('coolname').gsub(/\n/, ' ')
         assert_equal 'in it and also with', result_with_no_newlines
       end
-
     end
-
   end
 
   describe 'errors' do
-
     it 'should not have any for well formatted sections' do
       text = (<<-EOF).gsub(/^ +/, '')
         here is some text
@@ -170,7 +162,5 @@ describe LabeledSectionParser do
       assert parser.had_error?
       assert_equal ['coolname'], parser.section_names_with_errors
     end
-
   end
-
 end

@@ -1,7 +1,6 @@
 require File.expand_path '../sinatra_helper.rb', __FILE__
 
 describe 'tag' do
-
   before do
     $data_store = get_memory_datastore
 
@@ -23,7 +22,6 @@ describe 'tag' do
   end
 
   describe 'renaming' do
-
     before do
       add_tag @user, 'a-good-page', 'new-1'
 
@@ -40,7 +38,5 @@ describe 'tag' do
       assert_equal ['new-2'],
         UserPageTags.new(@user, @other_page.reload).get_tag_names
     end
-
   end
-
 end

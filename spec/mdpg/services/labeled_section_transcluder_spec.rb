@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe LabeledSectionTranscluder do
-
   before do
     $data_store = get_memory_datastore
   end
@@ -39,7 +38,5 @@ describe LabeledSectionTranscluder do
     EOF
 
     assert_equal expected_text, this_page.text
-
   end
-
 end

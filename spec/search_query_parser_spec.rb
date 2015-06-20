@@ -3,13 +3,11 @@ require_relative './spec_helper'
 require 'search_query_parser'
 
 describe SearchQueryParser do
-
   before do
     @parser = SearchQueryParser.new
   end
 
   describe 'search string' do
-
     it 'should return a simple search string unchanged' do
       @parser.query = 'notes'
       assert_equal ['notes'], @parser.search_strings
@@ -34,11 +32,9 @@ describe SearchQueryParser do
       @parser.query = '+ i love cats'
       assert_equal ['i', 'love', 'cats'], @parser.search_strings
     end
-
   end
 
   describe 'tags' do
-
     it 'should work with a singular tag' do
       @parser.query = 'kittens tags:pepper'
       assert_equal %w{pepper}, @parser.tags
@@ -53,11 +49,9 @@ describe SearchQueryParser do
       @parser.query = 'kittens'
       assert_equal [], @parser.tags()
     end
-
   end
 
   describe 'force full search' do
-
     it 'should force a full search if the query ends with !' do
       @parser.query = 'notes!'
       assert @parser.should_force_full_search?()
@@ -67,11 +61,9 @@ describe SearchQueryParser do
       @parser.query = 'notes'
       refute @parser.should_force_full_search?()
     end
-
   end
 
   describe 'open single result in edit mode' do
-
     it 'should open a single result in edit mode if search ends in space e' do
       @parser.query = 'notes e'
       assert @parser.should_open_in_edit_mode?()
@@ -82,7 +74,5 @@ describe SearchQueryParser do
       @parser.query = 'notes'
       refute @parser.should_open_in_edit_mode?()
     end
-
   end
-
 end

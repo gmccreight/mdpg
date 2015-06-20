@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe ObjectTags do
-
   before do
     $data_store = get_memory_datastore
     @object = Page.create name: 'killer', revision: 1
@@ -19,7 +18,6 @@ describe ObjectTags do
   end
 
   describe 'adding' do
-
     it 'should be able to add a object tag' do
       @object_tags.add_tag 'cool-house'
       assert @object_tags.has_tag_with_name?('cool-house')
@@ -43,7 +41,6 @@ describe ObjectTags do
     end
 
     describe 'list of object ids associated with tag' do
-
       it 'should update for each tag' do
         @object_tags.add_tag 'cool-house'
         @object_tags.add_tag 'adam'
@@ -60,13 +57,10 @@ describe ObjectTags do
         assert_equal [@object.id, other_page.id],
           page_ids_for_tag_with_name('cool-house')
       end
-
     end
-
   end
 
   describe 'removing' do
-
     before do
       @object_tags.add_tag 'cool-house'
       @object_tags.add_tag 'adam'
@@ -84,7 +78,6 @@ describe ObjectTags do
     end
 
     describe 'list of object ids associated with tag' do
-
       it 'should remove the only page associated with the tag' do
         assert_equal [@object.id], page_ids_for_tag_with_name('cool-house')
         @object_tags.remove_tag 'cool-house'
@@ -103,9 +96,6 @@ describe ObjectTags do
 
         assert_equal [@object.id], page_ids_for_tag_with_name('cool-house')
       end
-
     end
-
   end
-
 end

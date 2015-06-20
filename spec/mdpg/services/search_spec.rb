@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe Search do
-
   before do
     $data_store = get_memory_datastore()
     @user = create_user
@@ -28,9 +27,7 @@ describe Search do
   end
 
   describe 'force multiple tokens' do
-
     describe 'names' do
-
       it 'should return a page if all the tokens match' do
         search_gets '+ good name', 1, 0, 0
       end
@@ -38,11 +35,9 @@ describe Search do
       it 'should not return a page if one of the tokens does not match' do
         search_gets '+ good nothing', 0, 0, 0
       end
-
     end
 
     describe 'texts' do
-
       it 'should return a page if all the tokens match' do
         search_gets '+ wish something', 0, 1, 0
       end
@@ -50,13 +45,10 @@ describe Search do
       it 'should not return a page if one of the tokens does not match' do
         search_gets '+ wish nothing', 0, 0, 0
       end
-
     end
-
   end
 
   describe 'case insensitivity' do
-
     it 'should ignore case and find lower case version of query' do
       search_gets 'Car', 0, 1, 0
     end
@@ -64,11 +56,9 @@ describe Search do
     it 'should ignore case and find upper case page text' do
       search_gets 'fast', 0, 1, 0
     end
-
   end
 
   describe 'redirecting to single page that matches by name' do
-
     def search_redirects(query, pagename_or_nil)
       results = @searcher.search query
       assert_equal pagename_or_nil, results[:redirect]
@@ -94,11 +84,9 @@ describe Search do
       UserPages.new(@user).delete_page 'good-page-name'
       search_redirects 'good-page-name', nil
     end
-
   end
 
   describe 'tags' do
-
     before do
       UserPageTags.new(@user, @page_1).add_tag 'wishing'
       UserPageTags.new(@user, @page_1).add_tag 'blog-ideas'
@@ -107,7 +95,6 @@ describe Search do
     end
 
     describe 'searching for tag name' do
-
       it 'should find single exact match' do
         search_gets 'vehicular', 0, 0, 1
       end
@@ -119,13 +106,10 @@ describe Search do
       it 'should return only one tag even if multiple found' do
         search_gets 'blog-ideas', 0, 0, 1
       end
-
     end
 
     describe 'search with tags limiter' do
-
       describe 'names' do
-
         it 'should find name if name matches and tag limiter matches' do
           search_gets 'good tags:wishing', 1, 0, 0
         end
@@ -137,11 +121,9 @@ describe Search do
         it 'should not find name if name matches but tags do not' do
           search_gets 'good tags:nope', 0, 0, 0
         end
-
       end
 
       describe 'texts' do
-
         it 'should find text if text matches and tag limiter matches' do
           search_gets 'cars tags:vehicular', 0, 1, 0
         end
@@ -153,11 +135,7 @@ describe Search do
         it 'should not find text if text matches but tags do not' do
           search_gets 'cars tags:nope', 0, 0, 0
         end
-
       end
-
     end
-
   end
-
 end
