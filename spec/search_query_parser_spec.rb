@@ -30,7 +30,7 @@ describe SearchQueryParser do
 
     it 'should have many required tokens if starts with a +' do
       @parser.query = '+ i love cats'
-      assert_equal ['i', 'love', 'cats'], @parser.search_strings
+      assert_equal %w(i love cats), @parser.search_strings
     end
   end
 

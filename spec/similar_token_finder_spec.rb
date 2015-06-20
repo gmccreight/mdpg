@@ -8,8 +8,8 @@ describe SimilarTokenFinder do
   end
 
   it 'should fuzzy match tokens, returning best matches first' do
-    tokens = ['foo', 'john', 'tofu', 'fool', 'ford', 'work', 'tomfoolery']
-    assert_equal ['tomfoolery', 'foo', 'fool'],
+    tokens = %w(foo john tofu fool ford work tomfoolery)
+    assert_equal %w(tomfoolery foo fool),
       get_similar_tokens('foo', tokens)
   end
 

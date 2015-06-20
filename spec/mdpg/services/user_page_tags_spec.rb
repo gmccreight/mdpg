@@ -40,13 +40,13 @@ describe UserPageTags do
 
     it 'should be able to change to a tag name that does not already exist' do
       assert @user_page_tags.change_tag 'adam', 'henry'
-      assert_equal ['cool', 'henry'], @user_page_tags.get_tag_names
-      assert_equal ['cool', 'henry'], ObjectTags.new(@page).sorted_tag_names
+      assert_equal %w(cool henry), @user_page_tags.get_tag_names
+      assert_equal %w(cool henry), ObjectTags.new(@page).sorted_tag_names
     end
 
     it 'should be unable to change to a tag name that already exists' do
       refute @user_page_tags.change_tag 'adam', 'cool'
-      assert_equal ['adam', 'cool'], @user_page_tags.get_tag_names
+      assert_equal %w(adam cool), @user_page_tags.get_tag_names
     end
 
     describe 'bulk' do
@@ -58,8 +58,8 @@ describe UserPageTags do
 
       it 'should be able to change the tags associated with multiple pages' do
         UserPageTags.new(@user, nil).change_tag_for_all_pages('adam', 'hello')
-        assert_equal ['cool', 'hello'], @user_page_tags.get_tag_names
-        assert_equal ['cool', 'hello'],
+        assert_equal %w(cool hello), @user_page_tags.get_tag_names
+        assert_equal %w(cool hello),
           ObjectTags.new(@page.reload).sorted_tag_names
         assert_equal ['hello'],
           ObjectTags.new(@page_2.reload).sorted_tag_names
@@ -91,7 +91,7 @@ describe UserPageTags do
     end
 
     it 'should find all tags that are relatively closely related' do
-      assert_equal ['color', 'colour'], @user_page_tags.search('color')
+      assert_equal %w(color colour), @user_page_tags.search('color')
     end
 
     it 'should even find tags that are not too closely related' do
