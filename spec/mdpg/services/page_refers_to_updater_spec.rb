@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 describe PageRefersToUpdater do
   before do
-    $data_store = get_memory_datastore()
+    $data_store = get_memory_datastore
     @user = create_user
     @user_pages = UserPages.new(@user)
   end

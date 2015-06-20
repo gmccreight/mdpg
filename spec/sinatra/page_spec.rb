@@ -2,7 +2,7 @@ require File.expand_path '../sinatra_helper.rb', __FILE__
 
 describe 'page' do
   before do
-    $data_store = get_memory_datastore()
+    $data_store = get_memory_datastore
 
     @user = User.create name: 'Jordan',
       email: 'jordan@example.com', password: 'cool'

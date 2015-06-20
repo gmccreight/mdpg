@@ -64,17 +64,17 @@ describe ObjectTags do
     before do
       @object_tags.add_tag 'cool-house'
       @object_tags.add_tag 'adam'
-      assert_equal ['adam', 'cool-house'], sorted_tag_names()
+      assert_equal ['adam', 'cool-house'], sorted_tag_names
     end
 
     it 'should be able to remove a tag' do
       @object_tags.remove_tag 'cool-house'
-      assert_equal ['adam'], sorted_tag_names()
+      assert_equal ['adam'], sorted_tag_names
     end
 
     it 'should silently fail if you try to remove a non-existent tag' do
       @object_tags.remove_tag 'does-not-exist'
-      assert_equal ['adam', 'cool-house'], sorted_tag_names()
+      assert_equal ['adam', 'cool-house'], sorted_tag_names
     end
 
     describe 'list of object ids associated with tag' do

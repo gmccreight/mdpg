@@ -102,8 +102,8 @@ class ModelBase
 
   private def possibly_update_revision
     if is_versioned?
-      set_max_revision()
-      self.revision = max_revision()
+      set_max_revision
+      self.revision = max_revision
     end
   end
 
@@ -186,11 +186,11 @@ class ModelBase
   end
 
   private def set_max_id(val)
-    data_store.set("#{get_data_prefix()}-max-id", val)
+    data_store.set("#{get_data_prefix}-max-id", val)
   end
 
   private def get_max_id
-    data_store.get("#{get_data_prefix()}-max-id") || 0
+    data_store.get("#{get_data_prefix}-max-id") || 0
   end
 
   private def persistable_attributes

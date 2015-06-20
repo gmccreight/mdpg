@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 describe PageSharingTokens do
   before do
-    $data_store = get_memory_datastore()
+    $data_store = get_memory_datastore
   end
 
   def create_page_with_name(name)
