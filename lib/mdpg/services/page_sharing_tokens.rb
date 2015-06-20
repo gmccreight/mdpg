@@ -31,7 +31,7 @@ class PageSharingTokens < Struct.new(:page)
       found_page, _token_type = self.class.find_page_by_token(new_token)
       if found_page
         if found_page.id != page.id
-          raise SharingTokenAlreadyExistsException
+          fail SharingTokenAlreadyExistsException
         end
       end
       page.send :"#{type}_sharing_token=", new_token

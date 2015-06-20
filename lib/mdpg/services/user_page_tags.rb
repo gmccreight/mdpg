@@ -67,7 +67,7 @@ class UserPageTags < Struct.new(:user, :page)
     pages.each do |x|
       user_page_tags = UserPageTags.new(user, x)
       if user_page_tags.has_tag_with_name?(new)
-        raise TagAlreadyExistsForPageException
+        fail TagAlreadyExistsForPageException
       end
     end
 

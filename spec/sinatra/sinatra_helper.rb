@@ -18,7 +18,7 @@ end
 
 def follow_redirect_with_authenticated_user!(user)
   unless last_response.redirect?
-    raise Error.new(
+    fail Error.new(
       'Last response was not a redirect. Cannot follow_redirect!'
     )
   end

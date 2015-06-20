@@ -16,7 +16,7 @@ class UserPages < Struct.new(:user)
   def create_page(opts)
     if opts[:name]
       if find_page_with_name(opts[:name])
-        raise PageAlreadyExistsException
+        fail PageAlreadyExistsException
       end
     end
 
@@ -58,7 +58,7 @@ class UserPages < Struct.new(:user)
     page = find_page_with_name(name)
     if page
       if page.referring_page_ids && page.referring_page_ids.size > 0
-        raise PageCannotBeDeletedBecauseItHasReferringPages
+        fail PageCannotBeDeletedBecauseItHasReferringPages
       end
       if page.refers_to_page_ids && page.refers_to_page_ids.size > 0
         page.refers_to_page_ids.each do |page_id_referred_to|
@@ -88,7 +88,7 @@ class UserPages < Struct.new(:user)
 
   def rename_page(page, new_name)
     if find_page_with_name new_name
-      raise PageAlreadyExistsException
+      fail PageAlreadyExistsException
     else
       page.name = new_name
       worked = page.save
