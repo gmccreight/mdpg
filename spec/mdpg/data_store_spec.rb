@@ -13,7 +13,7 @@ describe DataStore do
   end
 
   it 'sets, gets, and deletes the data' do
-    @data.set 'somekey', { hello: 'what', goodbye: 'when' }
+    @data.set 'somekey', hello: 'what', goodbye: 'when'
     hash = @data.get 'somekey'
     assert_equal 'what', hash[:hello]
     @data.virtual_delete 'somekey'

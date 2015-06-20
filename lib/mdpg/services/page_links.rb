@@ -28,7 +28,7 @@ class PageLinks < Struct.new(:user)
         "[[mdpgpage:#{page.id}]]"
       elsif page_name =~ /^new-/
         new_name = page_name.sub(/^new-/, '')
-        page = @user_pages.create_page({ name: new_name })
+        page = @user_pages.create_page(name: new_name)
         "[[mdpgpage:#{page.id}]]"
       else
         "[[#{page_name}]]"
