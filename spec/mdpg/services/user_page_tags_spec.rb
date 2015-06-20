@@ -87,7 +87,7 @@ describe UserPageTags do
 
   describe 'searching' do
     before do
-      %w{color jazz green colour}.each{|x| @user_page_tags.add_tag x}
+      %w(color jazz green colour).each{|x| @user_page_tags.add_tag x}
     end
 
     it 'should find all tags that are relatively closely related' do
@@ -105,14 +105,14 @@ describe UserPageTags do
 
   describe 'counting' do
     before do
-      %w{green color swimming}.each{|x| @user_page_tags.add_tag x}
+      %w(green color swimming).each{|x| @user_page_tags.add_tag x}
 
       another_page = create_page
       user_another_page_tags = UserPageTags.new(@user, another_page)
-      %w{green color jazz yeti}.each{|x| user_another_page_tags.add_tag x}
+      %w(green color jazz yeti).each{|x| user_another_page_tags.add_tag x}
 
       third_page_tags = UserPageTags.new(@user, create_page)
-      %w{green color jazz drums assets}.each{|x| third_page_tags.add_tag x}
+      %w(green color jazz drums assets).each{|x| third_page_tags.add_tag x}
     end
 
     it 'should return associated tags sorted by count, not including self' do
@@ -137,10 +137,10 @@ describe UserPageTags do
 
   describe 'getting the pages that have been tagged' do
     before do
-      %w{color jazz green colour}.each{|x| @user_page_tags.add_tag x}
+      %w(color jazz green colour).each{|x| @user_page_tags.add_tag x}
       @another_page = create_page
       @user_page_tags = UserPageTags.new(@user, @another_page)
-      %w{green}.each{|x| @user_page_tags.add_tag x}
+      %w(green).each{|x| @user_page_tags.add_tag x}
     end
 
     def page_ids_for_tag(tag)
@@ -162,14 +162,14 @@ describe UserPageTags do
 
   describe 'duplicate tags to other page' do
     before do
-      %w{color jazz}.each{|x| @user_page_tags.add_tag x}
+      %w(color jazz).each{|x| @user_page_tags.add_tag x}
       @another_page = create_page
     end
 
     it 'should duplicate' do
       @user_page_tags.duplicate_tags_to_other_page(@another_page)
       user_another_page_tags = UserPageTags.new(@user, @another_page)
-      assert_equal %w{color jazz}, user_another_page_tags.get_tag_names
+      assert_equal %w(color jazz), user_another_page_tags.get_tag_names
     end
   end
 end

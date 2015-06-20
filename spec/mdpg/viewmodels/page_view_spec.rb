@@ -150,11 +150,11 @@ describe PageView do
       page_2 = Page.create name: 'food', text: 'foo'
       @page_2_vm = PageView.new(@user, page_2)
 
-      %w{colour great green gross}.each do |tag|
+      %w(colour great green gross).each do |tag|
         @page_1_vm.add_tag tag
       end
 
-      %w{green greed}.each do |tag|
+      %w(green greed).each do |tag|
         @page_2_vm.add_tag tag
       end
     end

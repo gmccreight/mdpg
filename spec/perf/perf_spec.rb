@@ -16,14 +16,14 @@ if ENV['perf']
       end
 
       it 'should persist and retrieve a large array quickly' do
-        array_length = 10000
+        array_length = 10_000
         @data.set 'somekey', (1..array_length).to_a
         array2 = @data.get 'somekey'
         assert_equal array_length, array2.length
       end
 
       it 'should persist and retrieve a large hash quickly' do
-        hash_length = 10000
+        hash_length = 10_000
         hash = {}
         (1..hash_length).to_a.each do |key|
           hash[key.to_s.to_sym] = 'hello'

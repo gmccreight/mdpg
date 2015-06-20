@@ -13,7 +13,7 @@ describe 'auth' do
 
       RubyProf.start
 
-      post '/login', { email: 'jordan@example.com', password: 'cool' }
+      post '/login', email: 'jordan@example.com', password: 'cool'
       follow_redirect!
       follow_redirect!
       assert last_response.body.include? 'Edited'
