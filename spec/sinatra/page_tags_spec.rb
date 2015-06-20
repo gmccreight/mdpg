@@ -104,7 +104,7 @@ describe 'page_tags' do
 
       it 'should return a success message' do
         attrs = JSON.parse last_response.body
-        assert attrs.has_key?('success')
+        assert attrs.key?('success')
         assert_equal 'added tag new-1', attrs['success']
       end
 

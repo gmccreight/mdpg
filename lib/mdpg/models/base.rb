@@ -176,7 +176,7 @@ class ModelBase
   private def add_attributes_from_hash(opts)
     persistable_attributes.each do |key|
       next if key == :id
-      val = opts.has_key?(key) ? opts[key] : nil
+      val = opts.key?(key) ? opts[key] : nil
       set_var "@#{key}", val
     end
   end
