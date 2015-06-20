@@ -57,7 +57,7 @@ class LabeledSectionParser
   end
 
   def section_names_with_errors
-    @sections.select { |x| x.count != 2 || x.end_char == nil }.map(&:name)
+    @sections.select { |x| x.count != 2 || x.end_char.nil? }.map(&:name)
   end
 
   def list

@@ -136,7 +136,7 @@ class App
     begin
       error_message = PageSharingTokens.new(page)
         .rename_sharing_token(token_type, new_token)
-      if error_message == nil
+      if error_message.nil?
         UserPages.new(current_user).page_was_updated page
         set_redirect_to "/p/#{page.name}"
       else

@@ -36,7 +36,7 @@ describe PageSharingTokens do
       assert_equal page.readwrite_sharing_token.size, 32
       found_page, _token_type = PageSharingTokens.find_page_by_token(
         page.readwrite_sharing_token)
-      assert found_page == nil
+      assert found_page.nil?
     end
   end
 

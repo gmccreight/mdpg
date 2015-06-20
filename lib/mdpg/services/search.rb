@@ -59,7 +59,7 @@ class Search
       found_pages = yield string
       found_page_ids = found_pages.map(&:id)
 
-      if pages == nil
+      if pages.nil?
         pages = found_pages
       else
         pages = pages.select { |x| found_page_ids.include?(x.id) }

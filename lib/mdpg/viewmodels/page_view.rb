@@ -14,7 +14,7 @@ class PageView < Struct.new(:user, :page, :token_type)
   end
 
   def should_show_edit_button?
-    token_type == nil || token_type == :readwrite
+    token_type.nil? || token_type == :readwrite
   end
 
   def tag_suggestions_for(partial_or_full_tag_name)
