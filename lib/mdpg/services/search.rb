@@ -1,7 +1,6 @@
 require 'search_query_parser'
 
 class Search
-
   private def initialize(user)
     @user_pages = UserPages.new(user)
     @user_page_tags = UserPageTags.new(user, nil)
@@ -82,5 +81,4 @@ class Search
       (ObjectTags.new(page).sorted_tag_names & @search_parser.tags).size > 0
     }
   end
-
 end

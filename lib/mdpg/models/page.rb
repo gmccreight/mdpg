@@ -1,5 +1,4 @@
 class Page < ModelBase
-
   ATTRS = [:name, :text, :revision, :tag_ids, :readonly_sharing_token,
     :readwrite_sharing_token, :readonly_sharing_token_activated,
     :readwrite_sharing_token_activated, :referring_page_ids,
@@ -61,5 +60,4 @@ class Page < ModelBase
     errors = Token.new(name).validate
     return !errors
   end
-
 end

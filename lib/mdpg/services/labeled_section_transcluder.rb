@@ -1,5 +1,4 @@
 class LabeledSectionTranscluder
-
   def get_page_ids(text)
     ids = []
     text.gsub(internal_link_regex) do
@@ -98,5 +97,4 @@ class LabeledSectionTranscluder
   private def internal_link_regex
     %r{\[\[mdpgpage:(\d+):(#{Token::TOKEN_REGEX_STR})\]\]}
   end
-
 end

@@ -1,5 +1,4 @@
 class PageLinks < Struct.new(:user)
-
   def initialize(user)
     @user_pages = UserPages.new(user)
     super(user)
@@ -48,5 +47,4 @@ class PageLinks < Struct.new(:user)
       yield name
     end
   end
-
 end

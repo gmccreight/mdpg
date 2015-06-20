@@ -1,7 +1,6 @@
 require 'mdpg/token'
 
 class ObjectTags < Struct.new(:object)
-
   def add_tag(name)
     if Token.new(name).validate
       return false
@@ -53,5 +52,4 @@ class ObjectTags < Struct.new(:object)
   def sorted_tag_names
     get_tags.map { |tag| tag.name }.sort
   end
-
 end

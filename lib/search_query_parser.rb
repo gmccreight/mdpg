@@ -1,5 +1,4 @@
 class SearchQueryParser < Struct.new(:query)
-
   TAGS_REGEX_STR = '\\s+tags:([a-z\\-][a-z\\-,*]+)'
   SHOULD_FORCE_FULL_SEARCH_REGEX_STR = '!$'
   OPEN_RESULT_IN_EDIT_MODE_REGEX_STR = '\\s+e$'
@@ -52,5 +51,4 @@ class SearchQueryParser < Struct.new(:query)
       query
     end
   end
-
 end

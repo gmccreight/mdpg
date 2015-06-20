@@ -2,7 +2,6 @@ require 'mdpg/app_section/tag'
 require 'mdpg/app_section/page_tag'
 
 class App
-
   attr_accessor :current_user, :errors
   attr_reader :redirect_to
 
@@ -182,5 +181,4 @@ class App
     ids = page_ids || []
     ids[0..how_many - 1].map { |id| Page.find(id) }
   end
-
 end

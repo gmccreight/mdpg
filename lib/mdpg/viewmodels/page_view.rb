@@ -1,7 +1,6 @@
 require 'redcarpet'
 
 class PageView < Struct.new(:user, :page, :token_type)
-
   def name
     page.name
   end
@@ -74,5 +73,4 @@ class PageView < Struct.new(:user, :page, :token_type)
   private def user_page_tags
     UserPageTags.new(user, page)
   end
-
 end

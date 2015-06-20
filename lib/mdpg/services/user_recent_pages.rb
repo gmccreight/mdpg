@@ -1,5 +1,4 @@
 class UserRecentPages < Struct.new(:user)
-
   def add_to_recent_edited_pages_list(page)
     user.recent_edited_page_ids =
       get_list_with_page_added(page, user.recent_edited_page_ids)
@@ -29,5 +28,4 @@ class UserRecentPages < Struct.new(:user)
     ids = pre_existing_ids || []
     ids.reject { |x| x == page.id }
   end
-
 end

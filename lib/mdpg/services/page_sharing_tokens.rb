@@ -2,7 +2,6 @@ class SharingTokenAlreadyExistsException < Exception
 end
 
 class PageSharingTokens < Struct.new(:page)
-
   TOKEN_TYPES = [:readonly, :readwrite]
 
   def self.find_page_by_token(token)
@@ -54,5 +53,4 @@ class PageSharingTokens < Struct.new(:page)
     page.save
     true
   end
-
 end

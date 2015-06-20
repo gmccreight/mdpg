@@ -1,5 +1,4 @@
 class Token < Struct.new(:text)
-
   TOKEN_REGEX_STR = '[a-z0-9-]+'
 
   def validate
@@ -11,5 +10,4 @@ class Token < Struct.new(:text)
     end
     nil
   end
-
 end

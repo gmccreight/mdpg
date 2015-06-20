@@ -1,7 +1,6 @@
 require 'yaml'
 
 class DataStore < Struct.new(:data_dir_or_memory)
-
   def initialize(data_dir_or_memory)
     @disk_gets = []
     @disk_sets = []
@@ -77,5 +76,4 @@ class DataStore < Struct.new(:data_dir_or_memory)
   private def digest_of_key(key)
     Digest::SHA1.hexdigest(key) #like git
   end
-
 end

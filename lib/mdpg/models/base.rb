@@ -1,5 +1,4 @@
 class ModelBase
-
   attr_accessor :data_store, :id
 
   def initialize
@@ -226,5 +225,4 @@ class ModelBase
   private def unique_id_indexes
     []
   end
-
 end

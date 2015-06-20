@@ -1,9 +1,7 @@
 class Section < Struct.new(:start_char, :end_char, :name, :identifier, :count)
-
 end
 
 class LabeledSectionParser
-
   def initialize(text)
     @text = text
     reset
@@ -140,5 +138,4 @@ class LabeledSectionParser
     end
 
   end
-
 end

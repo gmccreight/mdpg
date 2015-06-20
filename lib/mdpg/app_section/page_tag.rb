@@ -1,7 +1,6 @@
 module AppSection
 
   class PageTag
-
     def initialize(app, user = nil)
       @app = app
       @current_user = user
@@ -49,7 +48,6 @@ module AppSection
         return { error: "the tag #{tag_name} could not be deleted" }.to_json
       end
     end
-
   end
 
 end

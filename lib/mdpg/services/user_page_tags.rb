@@ -4,7 +4,6 @@ class TagAlreadyExistsForPageException < Exception
 end
 
 class UserPageTags < Struct.new(:user, :page)
-
   def add_tag(tag_name)
     if Token.new(tag_name).validate
       return false
@@ -167,5 +166,4 @@ class UserPageTags < Struct.new(:user, :page)
     count_for
 
   end
-
 end

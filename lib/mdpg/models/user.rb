@@ -1,7 +1,6 @@
 require 'rand_string_generator'
 
 class User < ModelBase
-
   ATTRS = [:name, :email, :salt, :hashed_password, :access_token,
     :page_ids, :recent_edited_page_ids, :recent_viewed_page_ids, :clan_ids,
     :page_tags, :is_admin]
@@ -79,5 +78,4 @@ class User < ModelBase
   private def hash_this_password(password)
     Digest::SHA1.hexdigest(password + self.salt)
   end
-
 end

@@ -1,5 +1,4 @@
 class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
-
   def duplicate
     new_page_name = new_name(original_page.name)
     new_page = user_pages.create_page(name: new_page_name)
@@ -43,5 +42,4 @@ class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
 
     "#{name_stripped_of_suffix}-#{maybe_v}#{increment}"
   end
-
 end

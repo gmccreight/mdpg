@@ -1,5 +1,4 @@
 class UserPagePermission < Struct.new(:user, :page)
-
   def can_read?
     is_owned_by?
   end
@@ -12,5 +11,4 @@ class UserPagePermission < Struct.new(:user, :page)
     return false if !user.page_ids
     user.page_ids.include? page.id
   end
-
 end

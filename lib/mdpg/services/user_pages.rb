@@ -7,7 +7,6 @@ class PageCannotBeDeletedBecauseItHasReferringPages < Exception
 end
 
 class UserPages < Struct.new(:user)
-
   def initialize(user)
     @pages_cache = nil
     super(user)
@@ -147,5 +146,4 @@ class UserPages < Struct.new(:user)
   private def clear_caches
     @pages_cache = nil
   end
-
 end
