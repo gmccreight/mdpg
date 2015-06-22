@@ -104,7 +104,7 @@ class UserPages < Struct.new(:user)
 
   def find_page_with_name(name)
     matching_pages = pages.select { |page| page.name == name }
-    return nil if !matching_pages
+    return nil unless matching_pages
     matching_pages.first
   end
 

@@ -25,12 +25,12 @@ class LabeledSectionParser
   end
 
   def add_any_missing_identifiers
-    return @text if !has_any_section_definitions?
+    return @text unless has_any_section_definitions?
 
     process
 
     return @text if had_error?
-    return @text if !any_missing_identifiers?
+    return @text unless any_missing_identifiers?
 
     text = @text
     list.each do |name|
@@ -86,7 +86,7 @@ class LabeledSectionParser
           (x.identifier == identifier && identifier != nil)
       }
 
-    return nil if !array
+    return nil unless array
     array.first
   end
 

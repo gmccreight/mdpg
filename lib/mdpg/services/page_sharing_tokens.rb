@@ -22,7 +22,7 @@ class PageSharingTokens < Struct.new(:page)
   end
 
   def rename_sharing_token(type, new_token)
-    return :token_type_does_not_exist if !TOKEN_TYPES.include?(type)
+    return :token_type_does_not_exist unless TOKEN_TYPES.include?(type)
     error = Token.new(new_token).validate
     if error
       return error
@@ -48,7 +48,7 @@ class PageSharingTokens < Struct.new(:page)
   end
 
   private def _set_activation(type, value)
-    return :token_type_does_not_exist if !TOKEN_TYPES.include?(type)
+    return :token_type_does_not_exist unless TOKEN_TYPES.include?(type)
     page.send :"#{type}_sharing_token_activated=", value
     page.save
     true

@@ -19,7 +19,7 @@ class PageLinks < Struct.new(:user)
   end
 
   def page_name_links_to_ids(text)
-    return text if !text
+    return text unless text
     text.gsub(/\[\[(#{Token::TOKEN_REGEX_STR})\]\]/) do
       page_name = $1
       page = user_page_for_name(page_name)
@@ -40,7 +40,7 @@ class PageLinks < Struct.new(:user)
   end
 
   private def alter_text(text)
-    return text if !text
+    return text unless text
     text.gsub(/\[\[mdpgpage:(\d+)\]\]/) do
       id = $1.to_i
       name = Page.find(id).name

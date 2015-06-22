@@ -91,7 +91,7 @@ class ModelBase
   end
 
   private def ensure_attribute_with_default(attr_name, default_value)
-    if !self.send(attr_name)
+    unless self.send(attr_name)
       if default_value.class == Proc
         default_value = default_value.call
       end

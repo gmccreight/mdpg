@@ -45,7 +45,7 @@ class ObjectTags < Struct.new(:object)
   end
 
   def get_tags
-    return [] if !object.tag_ids
+    return [] unless object.tag_ids
     object.tag_ids.map { |x| tag = Tag.find(x); tag }
   end
 

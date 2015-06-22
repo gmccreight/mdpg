@@ -12,7 +12,7 @@ end
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 require 'mdpg'
 
-if ! $data_store
+unless $data_store
   $data_store = DataStore.new './.app_data'
 end
 

@@ -118,7 +118,7 @@ class App
   end
 
   def root
-    if !current_user
+    unless current_user
       set_redirect_to '/login'
       return
     end

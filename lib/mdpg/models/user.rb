@@ -16,7 +16,7 @@ class User < ModelBase
 
   def self.authenticate(email, password)
     user = self.find_by_index :email, email
-    return nil if !user
+    return nil unless user
     if user.password_authenticates?(password)
       return user
     end

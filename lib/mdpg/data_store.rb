@@ -12,7 +12,7 @@ class DataStore < Struct.new(:data_dir_or_memory)
       data = get_in_memory_value(key)
     else
       data = get_in_memory_value(key)
-      if !data
+      unless data
         filename = full_path_for_key key
         if File.exist? filename
           @disk_gets << key
