@@ -80,10 +80,10 @@ class LabeledSectionParser
 
   private def section_with_name_or_identifier(name, identifier)
     array = @sections
-      .select{|x|
+      .select do|x|
         x.name == name ||
           (x.identifier == identifier && identifier != nil)
-      }
+      end
 
     return nil unless array
     array.first

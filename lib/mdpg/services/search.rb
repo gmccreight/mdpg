@@ -75,8 +75,8 @@ class Search
   private def pages_containing_one_of_the_tags(pages)
     return pages if @search_parser.tags.size == 0
 
-    pages.select{|page|
+    pages.select do|page|
       (ObjectTags.new(page).sorted_tag_names & @search_parser.tags).size > 0
-    }
+    end
   end
 end
