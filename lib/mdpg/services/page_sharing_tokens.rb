@@ -7,10 +7,9 @@ class PageSharingTokens < Struct.new(:page)
   def self.find_page_by_token(token)
     TOKEN_TYPES.each do |type|
       page = Page.find_by_index(:"#{type}_sharing_token", token)
-      if page
-        if _get_sharing_token_of_type_is_actived page, type
-          return [page, type]
-        end
+      next unless page
+      if _get_sharing_token_of_type_is_actived page, type
+        return [page, type]
       end
     end
     [nil, nil]
