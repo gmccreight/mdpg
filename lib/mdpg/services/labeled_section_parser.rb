@@ -25,7 +25,7 @@ class LabeledSectionParser
   end
 
   def add_any_missing_identifiers
-    return @text unless has_any_section_definitions?
+    return @text unless any_section_definitions?
 
     process
 
@@ -71,7 +71,7 @@ class LabeledSectionParser
     internal_text.gsub(section_regex(remove_space: true), '')
   end
 
-  private def has_any_section_definitions?
+  private def any_section_definitions?
     @text.match(section_regex(remove_space: false))
   end
 

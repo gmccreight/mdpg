@@ -98,13 +98,13 @@ class ModelBase
   end
 
   private def possibly_update_revision
-    if is_versioned?
+    if versioned?
       set_max_revision
       self.revision = max_revision
     end
   end
 
-  private def is_versioned?
+  private def versioned?
     false
   end
 
@@ -206,7 +206,7 @@ class ModelBase
   end
 
   private def data_key
-    if is_versioned?
+    if versioned?
       rev = max_revision
       revisionless_data_key + "-#{rev}"
     else

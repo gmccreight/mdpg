@@ -4,7 +4,7 @@ class ObjectTags < Struct.new(:object)
   def add_tag(name)
     return false if Token.new(name).validate
 
-    return false if has_tag_with_name?(name)
+    return false if tag_with_name?(name)
 
     tag = Tag.find_by_index(:name, name) ||
       Tag.create(name: name)
@@ -27,7 +27,7 @@ class ObjectTags < Struct.new(:object)
     end
   end
 
-  def has_tag_with_name?(name)
+  def tag_with_name?(name)
     !!tag_with_name(name)
   end
 

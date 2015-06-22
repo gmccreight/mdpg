@@ -22,7 +22,7 @@ class Page < ModelBase
     remove_associated_object tag
   end
 
-  def has_any_referring_pages?
+  def any_referring_pages?
     referring_page_ids && referring_page_ids.size > 0
   end
 
@@ -52,7 +52,7 @@ class Page < ModelBase
     }
   end
 
-  private def is_versioned?
+  private def versioned?
     true
   end
 

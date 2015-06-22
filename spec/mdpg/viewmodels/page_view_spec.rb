@@ -102,16 +102,16 @@ describe PageView do
   describe 'new tag for page' do
     it 'should add a new tag to both page and user' do
       @page_1_vm.add_tag('good-stuff')
-      assert page_1_tags.has_tag_with_name?('good-stuff')
-      assert user_1_page_tags.has_tag_with_name?('good-stuff')
+      assert page_1_tags.tag_with_name?('good-stuff')
+      assert user_1_page_tags.tag_with_name?('good-stuff')
       assert_equal 1, user_1_page_tags.tag_count('good-stuff')
     end
 
     it 'should be able to remove an existing tag' do
       @page_1_vm.add_tag('good-stuff')
       @page_1_vm.remove_tag('good-stuff')
-      refute page_1_tags.has_tag_with_name?('good-stuff')
-      refute user_1_page_tags.has_tag_with_name?('good-stuff')
+      refute page_1_tags.tag_with_name?('good-stuff')
+      refute user_1_page_tags.tag_with_name?('good-stuff')
       assert_equal 0, user_1_page_tags.tag_count('good-stuff')
     end
   end
@@ -133,12 +133,12 @@ describe PageView do
   describe 'same tag as before' do
     it 'should not add the same tag again' do
       @page_1_vm.add_tag('good-stuff')
-      assert page_1_tags.has_tag_with_name?('good-stuff')
-      assert user_1_page_tags.has_tag_with_name?('good-stuff')
+      assert page_1_tags.tag_with_name?('good-stuff')
+      assert user_1_page_tags.tag_with_name?('good-stuff')
       assert_equal 1, user_1_page_tags.tag_count('good-stuff')
 
       @page_1_vm.add_tag('good-stuff')
-      assert user_1_page_tags.has_tag_with_name?('good-stuff')
+      assert user_1_page_tags.tag_with_name?('good-stuff')
       assert_equal 1, user_1_page_tags.tag_count('good-stuff')
     end
   end

@@ -55,7 +55,7 @@ class UserPageTags < Struct.new(:user, :page)
 
     pages.each do |x|
       user_page_tags = UserPageTags.new(user, x)
-      if user_page_tags.has_tag_with_name?(new)
+      if user_page_tags.tag_with_name?(new)
         fail TagAlreadyExistsForPageException
       end
     end
@@ -96,7 +96,7 @@ class UserPageTags < Struct.new(:user, :page)
     tags_hash.keys.sort
   end
 
-  def has_tag_with_name?(tag_name)
+  def tag_with_name?(tag_name)
     tags_hash.key?(tag_name)
   end
 

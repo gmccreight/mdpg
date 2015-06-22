@@ -20,7 +20,7 @@ describe ObjectTags do
   describe 'adding' do
     it 'should be able to add a object tag' do
       @object_tags.add_tag 'cool-house'
-      assert @object_tags.has_tag_with_name?('cool-house')
+      assert @object_tags.tag_with_name?('cool-house')
     end
 
     it 'should not add a tag if the name does not validate' do

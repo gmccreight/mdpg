@@ -11,7 +11,7 @@ describe UserPageTags do
   describe 'adding' do
     it 'should be able to add a user tag' do
       @user_page_tags.add_tag 'cool-house'
-      assert @user_page_tags.has_tag_with_name?('cool-house')
+      assert @user_page_tags.tag_with_name?('cool-house')
     end
 
     it 'should not add a tag if the name does not validate' do
