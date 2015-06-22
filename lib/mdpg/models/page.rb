@@ -58,6 +58,6 @@ class Page < ModelBase
 
   private def validates?
     errors = Token.new(name).validate
-    return !errors
+    !errors
   end
 end

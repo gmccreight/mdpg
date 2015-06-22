@@ -9,7 +9,7 @@ class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
     user_page_tags.duplicate_tags_to_other_page(new_page)
 
     new_page.save
-    return new_page
+    new_page
   end
 
   private def new_name(name)
@@ -19,7 +19,7 @@ class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
       increment += 1
       result = propose_name_for(name, increment)
     end
-    return result
+    result
   end
 
   private def propose_name_for(name, increment)

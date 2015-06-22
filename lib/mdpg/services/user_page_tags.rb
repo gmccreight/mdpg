@@ -112,7 +112,7 @@ class UserPageTags < Struct.new(:user, :page)
   def tag_count(tag)
     h = tags_hash
     return 0 unless h.key?(tag)
-    return h[tag].keys.size
+    h[tag].keys.size
   end
 
   def tags_for_page(x)
