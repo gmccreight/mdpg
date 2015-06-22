@@ -27,7 +27,7 @@ class Page < ModelBase
   end
 
   def meta
-    meta_line = text.lines.select { |x| x =~ /^mdpg-meta:\{/ }.first
+    meta_line = text.lines.find { |x| x =~ /^mdpg-meta:\{/ }
     return nil unless meta_line
     json_data = meta_line.sub(/^mdpg-meta:/, '')
     JSON.parse(json_data, symbolize_names: true)
