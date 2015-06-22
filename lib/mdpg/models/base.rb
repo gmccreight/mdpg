@@ -36,8 +36,6 @@ class ModelBase
     if attrs
       load(attrs)
       self
-    else
-      nil
     end
   end
 
