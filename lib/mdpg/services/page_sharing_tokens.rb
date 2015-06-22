@@ -18,7 +18,7 @@ class PageSharingTokens < Struct.new(:page)
 
   def self._get_sharing_token_of_type_is_actived(page, type)
     val = page.send :"#{type}_sharing_token_activated"
-    !!val
+    !val.nil?
   end
 
   def rename_sharing_token(type, new_token)

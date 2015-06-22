@@ -28,7 +28,7 @@ class ObjectTags < Struct.new(:object)
   end
 
   def tag_with_name?(name)
-    !!tag_with_name(name)
+    !tag_with_name(name).nil?
   end
 
   def tag_with_name(name)
