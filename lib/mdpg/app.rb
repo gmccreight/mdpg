@@ -33,15 +33,15 @@ class App
     if !page
       set_redirect_to '/'
     else
-      pageView = PageView.new(nil, page, token_type)
-      return { viewmodel: pageView, mode: :shared }
+      page_view = PageView.new(nil, page, token_type)
+      return { viewmodel: page_view, mode: :shared }
     end
   end
 
   def page_get(page)
-    pageView = PageView.new(current_user, page, nil)
+    page_view = PageView.new(current_user, page, nil)
     UserRecentPages.new(current_user).add_to_recent_viewed_pages_list(page)
-    { viewmodel: pageView, mode: :normal }
+    { viewmodel: page_view, mode: :normal }
   end
 
   def page_edit(page)

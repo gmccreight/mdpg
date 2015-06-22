@@ -30,8 +30,8 @@ module AppSection
     end
 
     def add(page, tag_name)
-      pageView = PageView.new(current_user, page, nil)
-      if pageView.add_tag(tag_name)
+      page_view = PageView.new(current_user, page, nil)
+      if page_view.add_tag(tag_name)
         UserPages.new(current_user).page_was_updated page
         return { success: "added tag #{tag_name}" }.to_json
       else
@@ -40,8 +40,8 @@ module AppSection
     end
 
     def delete(page, tag_name)
-      pageView = PageView.new(current_user, page, nil)
-      if pageView.remove_tag(tag_name)
+      page_view = PageView.new(current_user, page, nil)
+      if page_view.remove_tag(tag_name)
         UserPages.new(current_user).page_was_updated page
         return { success: "removed tag #{tag_name}" }.to_json
       else
