@@ -1,5 +1,5 @@
 class PageEditView < Struct.new(:user, :page)
-  def get_text
+  def text_for_editing
     text = PageLinks.new(user)
       .internal_links_to_page_name_links_for_editing(page.text)
     text = LabeledSectionTranscluder.new

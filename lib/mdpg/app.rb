@@ -45,7 +45,7 @@ class App
   end
 
   def page_edit(page)
-    page_text = PageEditView.new(current_user, page).get_text
+    page_text = PageEditView.new(current_user, page).text_for_editing
     { page: page, page_text: page_text, readwrite_token: nil }
   end
 

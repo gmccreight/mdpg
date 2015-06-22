@@ -12,7 +12,7 @@ describe PageEditView do
         text: 'This is *bongos*, indeed.'
       vm = PageEditView.new(@user, page)
       expected = 'This is *bongos*, indeed.'
-      assert_equal expected, vm.get_text
+      assert_equal expected, vm.text_for_editing
     end
 
     it 'should translate partial includes to other pages into easy-edit' do
@@ -57,7 +57,7 @@ describe PageEditView do
       EOF
 
       vm = PageEditView.new(@user, this_page)
-      assert_equal expected_editing_text, vm.get_text
+      assert_equal expected_editing_text, vm.text_for_editing
     end
   end
 end
