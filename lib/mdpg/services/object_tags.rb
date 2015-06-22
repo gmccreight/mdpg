@@ -32,7 +32,7 @@ class ObjectTags < Struct.new(:object)
   end
 
   def tag_with_name(name)
-    tags_with_name = get_tags.select { |tag| tag.name == name }
+    tags_with_name = tags.select { |tag| tag.name == name }
     if tags_with_name.size > 0
       return tags_with_name.first
     else
@@ -40,12 +40,12 @@ class ObjectTags < Struct.new(:object)
     end
   end
 
-  def get_tags
+  def tags
     return [] unless object.tag_ids
     object.tag_ids.map { |x| tag = Tag.find(x); tag }
   end
 
   def sorted_tag_names
-    get_tags.map(&:name).sort
+    tags.map(&:name).sort
   end
 end

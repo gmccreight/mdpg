@@ -83,16 +83,16 @@ class UserPageTags < Struct.new(:user, :page)
 
   def search(query)
     query.downcase!
-    SimilarTokenFinder.new.get_similar_tokens(query, get_tag_names)
+    SimilarTokenFinder.new.get_similar_tokens(query, tag_names)
   end
 
   def remove_all
-    get_tag_names.each do |tag_name|
+    tag_names.each do |tag_name|
       remove_tag tag_name
     end
   end
 
-  def get_tag_names
+  def tag_names
     tags_hash.keys.sort
   end
 
@@ -116,7 +116,7 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   def tags_for_page(x)
-    ObjectTags.new(x).get_tags
+    ObjectTags.new(x).tags
   end
 
   private def tags_hash

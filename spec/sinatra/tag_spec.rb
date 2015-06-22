@@ -34,9 +34,9 @@ describe 'tag' do
       rename_tag @user, 'new-1', 'new-2'
       follow_redirect_with_authenticated_user!(@user.reload)
       assert_equal ['new-2'],
-        UserPageTags.new(@user, @page.reload).get_tag_names
+        UserPageTags.new(@user, @page.reload).tag_names
       assert_equal ['new-2'],
-        UserPageTags.new(@user, @other_page.reload).get_tag_names
+        UserPageTags.new(@user, @other_page.reload).tag_names
     end
   end
 end

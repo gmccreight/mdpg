@@ -73,9 +73,9 @@ describe UserPages do
     end
 
     it 'should remove tag from user if was only on this one page' do
-      assert_equal ['cool-house'], @user_page_tags.get_tag_names
+      assert_equal ['cool-house'], @user_page_tags.tag_names
       @user_pages.delete_page @page.name
-      assert_equal [], @user_page_tags.get_tag_names
+      assert_equal [], @user_page_tags.tag_names
     end
   end
 

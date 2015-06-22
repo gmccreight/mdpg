@@ -13,7 +13,7 @@ describe 'page_tags' do
       text: 'I wish I had something *interesting* to say!'
   end
 
-  def get_tags(user, page_name)
+  def tags(user, page_name)
     get "/p/#{page_name}/tags", {}, authenticated_session(user)
   end
 
@@ -69,7 +69,7 @@ describe 'page_tags' do
     end
 
     it 'should get tags for the page that exists' do
-      get_tags @user, 'a-good-page'
+      tags @user, 'a-good-page'
       array = JSON.parse last_response.body
       assert_equal 1, array.size
       assert_equal 'new-1', array[0]['text']
@@ -77,12 +77,12 @@ describe 'page_tags' do
     end
 
     it 'should not get tags for the page that does not exist' do
-      get_tags @user, 'a-non-existent-page'
+      tags @user, 'a-non-existent-page'
       assert_equal 'could not find that page', last_response.body
     end
 
     it 'should not get tags for the page that is not one of yours' do
-      get_tags @other_user, 'a-good-page'
+      tags @other_user, 'a-good-page'
       assert_equal 'could not find that page', last_response.body
     end
   end
@@ -108,7 +108,7 @@ describe 'page_tags' do
       it "should *also* add the page to the user's page_tags" do
         @user.reload
         user_page_tags = UserPageTags.new(@user, @page)
-        assert_equal ['new-1'], user_page_tags.get_tag_names
+        assert_equal ['new-1'], user_page_tags.tag_names
       end
     end
 
