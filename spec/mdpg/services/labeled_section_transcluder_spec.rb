@@ -5,7 +5,7 @@ describe LabeledSectionTranscluder do
     $data_store = memory_datastore
   end
 
-  it 'should be able to include partial page from other page' do
+  it 'should be able to transclude labeled section from other page' do
     user = User.create
     user_pages = UserPages.new user
 

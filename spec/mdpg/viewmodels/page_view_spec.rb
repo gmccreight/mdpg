@@ -37,8 +37,8 @@ describe PageView do
   end
 
   describe 'rendered html for page' do
-    describe 'which includes partials from other pages' do
-      it 'should be able to include partial page from other page' do
+    describe 'which transcludes labeled sections from other pages' do
+      it 'should work' do
         ident = 'abababababababab'
 
         other_text = (<<-EOF).gsub(/^[ ]{10}/, '')
@@ -83,9 +83,7 @@ describe PageView do
 
               ls -l
 
-          <div class='transcluded-section-header bottom-header'>
-            &nbsp;
-          </div>
+          <div class='transcluded-section-header bottom-header'>&nbsp;</div>
 
 
           is what it was talking about

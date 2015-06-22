@@ -36,7 +36,7 @@ class PageView < Struct.new(:user, :page, :token_type)
   end
 
   private def text_with_labeled_sections_transcluded(text)
-    text = LabeledSectionTranscluder.new.transclude_the_sections(text) do
+    LabeledSectionTranscluder.new.transclude_the_sections(text) do
         |page, section, section_name, section_identifier|
 "
 <div class='transcluded-section-header top-header'>
@@ -45,17 +45,14 @@ class PageView < Struct.new(:user, :page, :token_type)
 
 #{section.text_for(section_identifier)}
 
-<div class='transcluded-section-header bottom-header'>
-  &nbsp;
-</div>
+<div class='transcluded-section-header bottom-header'>&nbsp;</div>
 "
     end
-    text
   end
 
   private def text_with_stylized_labeled_section_definitions(text, page_name)
     LabeledSectionParser.new(text).replace_definitions_with do |name|
-      %Q(<span style="background-color:#ddd;"> #{page_name}##{name}) +
+      %(<span style="background-color:#ddd;"> #{page_name}##{name}) +
        '</span>'
     end
   end

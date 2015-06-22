@@ -18,3 +18,11 @@ Style/AlignHash:
 # it more as we tighten up our style.
 Style/StructInheritance:
   Enabled: false
+
+# Add back in after dealing with all the other issues
+Metrics/LineLength:
+  Enabled: false
+
+# Add back in after dealing with all the other issues
+Style/Documentation:
+  Enabled: false
