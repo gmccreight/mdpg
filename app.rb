@@ -277,7 +277,7 @@ end
 def _app_handle_result(app)
   if app.had_error?
     error app.errors_message
-  elsif app.redirect_to != nil
+  elsif !app.redirect_to.nil?
     redirect app.redirect_to
   end
 end

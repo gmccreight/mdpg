@@ -82,7 +82,7 @@ class LabeledSectionParser
     array = @sections
       .select do|x|
         x.name == name ||
-          (x.identifier == identifier && identifier != nil)
+          (x.identifier == identifier && !identifier.nil?)
       end
 
     return nil unless array
