@@ -1,5 +1,4 @@
 module AppSection
-
   class PageTag
     def initialize(app, user = nil)
       @app = app
@@ -49,5 +48,4 @@ module AppSection
       end
     end
   end
-
 end
