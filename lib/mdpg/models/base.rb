@@ -7,15 +7,15 @@ class ModelBase
   end
 
   def self.create(opts = {})
-    self.new.create(opts)
+    new.create(opts)
   end
 
   def self.find(id)
-    self.new.find(id)
+    new.find(id)
   end
 
   def self.find_by_index(index_name, value)
-    self.new.find_by_index(index_name, value)
+    new.find_by_index(index_name, value)
   end
 
   def create(opts)
@@ -34,7 +34,7 @@ class ModelBase
     self.id = id
     attrs = data_store.get(data_key)
     if attrs
-      self.load(attrs)
+      load(attrs)
       self
     else
       nil
@@ -42,7 +42,7 @@ class ModelBase
   end
 
   def reload
-    find(self.id)
+    find(id)
   end
 
   def virtual_delete
@@ -91,9 +91,9 @@ class ModelBase
   end
 
   private def ensure_attribute_with_default(attr_name, default_value)
-    unless self.send(attr_name)
+    unless send(attr_name)
       default_value = default_value.call if default_value.class == Proc
-      self.send "#{attr_name}=", default_value
+      send "#{attr_name}=", default_value
     end
   end
 
@@ -150,14 +150,14 @@ class ModelBase
       hash = data_store.get(keyname) || {}
       value = get_var "@#{attribute_symbol}"
       remove_any_preexisting_unique_indexes hash
-      hash[value] = self.id
+      hash[value] = id
       data_store.set(keyname, hash)
     end
   end
 
   private def remove_any_preexisting_unique_indexes(hash)
     hash.keys.each do |key|
-      hash.delete(key) if hash[key] == self.id
+      hash.delete(key) if hash[key] == id
     end
     hash
   end

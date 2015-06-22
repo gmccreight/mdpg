@@ -15,7 +15,7 @@ class User < ModelBase
   end
 
   def self.authenticate(email, password)
-    user = self.find_by_index :email, email
+    user = find_by_index :email, email
     return nil unless user
     return user if user.password_authenticates?(password)
     nil
@@ -38,7 +38,7 @@ class User < ModelBase
   end
 
   def password_authenticates?(password)
-    self.hashed_password == hash_this_password(password)
+    hashed_password == hash_this_password(password)
   end
 
   def add_page(page)
@@ -72,6 +72,6 @@ class User < ModelBase
   end
 
   private def hash_this_password(password)
-    Digest::SHA1.hexdigest(password + self.salt)
+    Digest::SHA1.hexdigest(password + salt)
   end
 end
