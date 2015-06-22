@@ -31,9 +31,7 @@ class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
     if match
       version_suffix_contained_a_v = match[1] && match[1] != ''
       version_suffix_digit = match[2].to_i
-      if increment < version_suffix_digit
-        increment = version_suffix_digit + 1
-      end
+      increment = version_suffix_digit + 1 if increment < version_suffix_digit
     end
 
     name_stripped_of_suffix = name.sub(version_suffix_regex, '')

@@ -92,9 +92,7 @@ class ModelBase
 
   private def ensure_attribute_with_default(attr_name, default_value)
     unless self.send(attr_name)
-      if default_value.class == Proc
-        default_value = default_value.call
-      end
+      default_value = default_value.call if default_value.class == Proc
       self.send "#{attr_name}=", default_value
     end
   end
@@ -159,9 +157,7 @@ class ModelBase
 
   private def remove_any_preexisting_unique_indexes(hash)
     hash.keys.each do |key|
-      if hash[key] == self.id
-        hash.delete(key)
-      end
+      hash.delete(key) if hash[key] == self.id
     end
     hash
   end

@@ -2,9 +2,7 @@ require 'mdpg/token'
 
 class ObjectTags < Struct.new(:object)
   def add_tag(name)
-    if Token.new(name).validate
-      return false
-    end
+    return false if Token.new(name).validate
 
     return false if has_tag_with_name?(name)
 
@@ -18,9 +16,7 @@ class ObjectTags < Struct.new(:object)
   end
 
   def remove_tag(name)
-    if Token.new(name).validate
-      return false
-    end
+    return false if Token.new(name).validate
 
     tag = tag_with_name(name)
     if tag

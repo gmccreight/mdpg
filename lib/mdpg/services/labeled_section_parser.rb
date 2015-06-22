@@ -104,9 +104,7 @@ class LabeledSectionParser
       name = $1
       identifier = $2
 
-      if identifier
-        identifier = identifier[1..-1]
-      end
+      identifier = identifier[1..-1] if identifier
 
       section = section_with_name_or_identifier(name, identifier)
 

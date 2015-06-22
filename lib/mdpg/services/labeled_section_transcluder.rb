@@ -42,15 +42,11 @@ class LabeledSectionTranscluder
           parser = parser_with_processed_text_for(page.text)
           identifier = parser.identifier_for(section_name)
 
-          if identifier
-            result = "[[mdpgpage:#{page.id}:#{identifier}]]"
-          end
+          result = "[[mdpgpage:#{page.id}:#{identifier}]]" if identifier
         end
       end
 
-      if result == ''
-        result = "[[#{page_name}##{section_name}]]"
-      end
+      result = "[[#{page_name}##{section_name}]]" if result == ''
 
       result
     end
@@ -72,14 +68,10 @@ class LabeledSectionTranscluder
         parser = parser_with_processed_text_for(page.text)
         section_name = parser.name_for(section_id)
 
-        if section_name
-          result = "[[#{page.name}##{section_name}]]"
-        end
+        result = "[[#{page.name}##{section_name}]]" if section_name
       end
 
-      if result == ''
-        result = "[[mdpgpage:#{page_id}##{section_id}]]"
-      end
+      result = "[[mdpgpage:#{page_id}##{section_id}]]" if result == ''
 
       result
     end

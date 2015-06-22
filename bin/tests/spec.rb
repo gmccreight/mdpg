@@ -8,8 +8,6 @@ $: << 'lib'
 
 files = Dir.glob('spec/**/*.rb')
 
-if ARGV[0] == 'f'
-  files.reject! { |x| x =~ /sinatra/ }
-end
+files.reject! { |x| x =~ /sinatra/ } if ARGV[0] == 'f'
 
 files.each { |file| require file.sub(/^spec\/|.rb$/, '') }

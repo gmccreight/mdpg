@@ -5,15 +5,11 @@ end
 
 class UserPageTags < Struct.new(:user, :page)
   def add_tag(tag_name)
-    if Token.new(tag_name).validate
-      return false
-    end
+    return false if Token.new(tag_name).validate
 
     if ObjectTags.new(page).add_tag tag_name
       h = tags_hash
-      unless h.key?(tag_name)
-        h[tag_name] = {}
-      end
+      h[tag_name] = {} unless h.key?(tag_name)
       h[tag_name][page.id.to_s] = true
       _set_tags_hash h
       true
@@ -23,9 +19,7 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   def remove_tag(tag_name)
-    if Token.new(tag_name).validate
-      return false
-    end
+    return false if Token.new(tag_name).validate
 
     if ObjectTags.new(page).remove_tag tag_name
       remove_tag_from_tags_hash tag_name
@@ -43,9 +37,7 @@ class UserPageTags < Struct.new(:user, :page)
     return unless h[tag_name].key?(page_id_string)
 
     h[tag_name].delete(page_id_string)
-    if h[tag_name].keys.size == 0
-      h.delete(tag_name)
-    end
+    h.delete(tag_name) if h[tag_name].keys.size == 0
 
     _set_tags_hash h
   end

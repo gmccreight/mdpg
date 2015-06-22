@@ -14,14 +14,10 @@ class UserPages < Struct.new(:user)
 
   def create_page(opts)
     if opts[:name]
-      if find_page_with_name(opts[:name])
-        fail PageAlreadyExistsException
-      end
+      fail PageAlreadyExistsException if find_page_with_name(opts[:name])
     end
 
-    if opts[:name].empty?
-      opts[:name] = SecureRandom.hex
-    end
+    opts[:name] = SecureRandom.hex if opts[:name].empty?
 
     page = Page.create opts
     if page
@@ -77,9 +73,7 @@ class UserPages < Struct.new(:user)
     else
       page.name = new_name
       worked = page.save
-      if worked
-        page_ids_or_names_have_changed
-      end
+      page_ids_or_names_have_changed if worked
       return worked
     end
   end

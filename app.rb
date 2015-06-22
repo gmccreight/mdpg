@@ -3,18 +3,14 @@ require 'haml'
 require 'coffee-script'
 require 'json'
 
-if ENV['profiler']
-  require 'profiler'
-end
+require 'profiler' if ENV['profiler']
 
 #require 'pry-rescue/minitest' #slows down tests, but can be very handy
 
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 require 'mdpg'
 
-unless $data_store
-  $data_store = DataStore.new './.app_data'
-end
+$data_store = DataStore.new './.app_data' unless $data_store
 
 if ENV['mdpg_production']
   set :port, 80
@@ -42,9 +38,7 @@ end
 
 post '/login' do
   user = User.authenticate params[:email], params[:password]
-  if user
-    set_access_token user.access_token
-  end
+  set_access_token user.access_token if user
   redirect '/'
 end
 
