@@ -48,7 +48,7 @@ class ModelBase
   end
 
   def find_by_index(index_name, key)
-    keyname = "#{get_data_prefix}-index-#{index_name}"
+    keyname = "#{data_prefix}-index-#{index_name}"
     hash = data_store.get(keyname)
     if hash
       return find hash[key]
@@ -121,7 +121,7 @@ class ModelBase
     object.class.name.split('::').last.downcase
   end
 
-  private def get_data_prefix
+  private def data_prefix
     type_name_for_object(self) + 'data'
   end
 
@@ -144,7 +144,7 @@ class ModelBase
 
   private def update_unique_id_indexes
     unique_id_indexes.each do |attribute_symbol|
-      keyname = "#{get_data_prefix}-index-#{attribute_symbol}"
+      keyname = "#{data_prefix}-index-#{attribute_symbol}"
       hash = data_store.get(keyname) || {}
       value = get_var "@#{attribute_symbol}"
       remove_any_preexisting_unique_indexes hash
@@ -179,11 +179,11 @@ class ModelBase
   end
 
   private def set_max_id(val)
-    data_store.set("#{get_data_prefix}-max-id", val)
+    data_store.set("#{data_prefix}-max-id", val)
   end
 
   private def get_max_id
-    data_store.get("#{get_data_prefix}-max-id") || 0
+    data_store.get("#{data_prefix}-max-id") || 0
   end
 
   private def persistable_attributes
@@ -213,7 +213,7 @@ class ModelBase
   end
 
   private def revisionless_data_key
-    "#{get_data_prefix}-#{id}"
+    "#{data_prefix}-#{id}"
   end
 
   private def unique_id_indexes
