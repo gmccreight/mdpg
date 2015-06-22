@@ -3,7 +3,8 @@ require_relative '../../spec_helper'
 describe UserRecentPages do
   before do
     $data_store = memory_datastore
-    @user = User.create name: 'John', email: 'good@email.com', password: 'cool'
+    @user = User.create name: 'John',
+                        email: 'good@email.com', password: 'cool'
     add_some_recent_pages
   end
 

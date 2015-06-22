@@ -186,7 +186,8 @@ describe 'page' do
     end
 
     it "should not rename a page to an existing page's name" do
-      UserPages.new(@user).create_page name: 'already-taken-page-name', text: ''
+      UserPages.new(@user).create_page name: 'already-taken-page-name',
+                                       text: ''
       rename_page 'original-good-page-name', 'already-taken-page-name'
       assert_equal 'a page with that name already exists', last_response.body
     end
@@ -216,7 +217,8 @@ describe 'page' do
     end
 
     it 'should not rename token if another already has that token' do
-      other_page = UserPages.new(@user).create_page name: 'other-page', text: ''
+      other_page = UserPages.new(@user).create_page name: 'other-page',
+                                                    text: ''
       PageSharingTokens.new(other_page).activate_sharing_token :readonly
 
       update_sharing_token 'readonly', other_page.readonly_sharing_token

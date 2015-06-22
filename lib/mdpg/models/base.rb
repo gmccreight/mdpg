@@ -19,12 +19,12 @@ class ModelBase
   end
 
   def create(opts)
-    @id = get_max_id + 1
+    @id = max_id + 1
 
     add_attributes_from_hash opts
 
     if save
-      set_max_id @id
+      self.max_id = @id
       return self
     end
     nil
@@ -178,11 +178,11 @@ class ModelBase
     true
   end
 
-  private def set_max_id(val)
+  private def max_id=(val)
     data_store.set("#{data_prefix}-max-id", val)
   end
 
-  private def get_max_id
+  private def max_id
     data_store.get("#{data_prefix}-max-id") || 0
   end
 

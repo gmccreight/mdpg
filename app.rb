@@ -38,7 +38,7 @@ end
 
 post '/login' do
   user = User.authenticate params[:email], params[:password]
-  set_access_token user.access_token if user
+  self.access_token = user.access_token if user
   redirect '/'
 end
 
@@ -256,7 +256,7 @@ def access_token
   request.cookies['access_token']
 end
 
-def set_access_token(token)
+def access_token=(token)
   response.set_cookie 'access_token', value: token, max_age: '2592000'
 end
 

@@ -109,7 +109,8 @@ describe User do
 
   describe 'pages' do
     before do
-      @user = User.create name: 'John', email: 'good@email.com', password: 'cool'
+      @user = User.create name: 'John',
+                          email: 'good@email.com', password: 'cool'
     end
 
     it 'should add, remove, and persist pages' do
@@ -129,7 +130,8 @@ describe User do
 
   describe 'clans' do
     before do
-      @user = User.create name: 'John', email: 'good@email.com', password: 'cool'
+      @user = User.create name: 'John',
+                          email: 'good@email.com', password: 'cool'
     end
 
     it 'should add, remove, and persist clans' do

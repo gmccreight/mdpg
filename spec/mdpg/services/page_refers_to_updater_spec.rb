@@ -17,7 +17,8 @@ describe PageRefersToUpdater do
         John James said: "this is an important idea"
         [[#important-idea:#{ident}]]
       EOF
-      other_page = @user_pages.create_page name: 'other-page', text: other_text
+      other_page = @user_pages.create_page name: 'other-page',
+                                           text: other_text
 
       this_text = (<<-EOF).gsub(/^ +/, '')
         I'm including this:

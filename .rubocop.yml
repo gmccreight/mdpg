@@ -33,9 +33,24 @@ Style/StructInheritance:
   Enabled: false
 
 # Add back in after dealing with all the other issues
-Metrics/LineLength:
-  Enabled: false
+# Metrics/LineLength:
+#   Enabled: false
 
 # Add back in after dealing with all the other issues
 Style/Documentation:
+  Enabled: false
+
+# We rely on Code Climate to enforce this, currently.  Possibly we can be
+# more aggressive and turn this back on.
+Metrics/MethodLength:
+  Enabled: false
+
+# We rely on Code Climate to enforce this, currently.  Possibly we can be
+# more aggressive and turn this back on.
+Metrics/AbcSize:
+  Enabled: false
+
+# We rely on Code Climate to enforce this, currently.  Possibly we can be
+# more aggressive and turn this back on.
+Metrics/ClassLength:
   Enabled: false

@@ -36,13 +36,14 @@ class PageView < Struct.new(:user, :page, :token_type)
   end
 
   private def text_with_labeled_sections_transcluded(text)
-    LabeledSectionTranscluder.new.transclude_the_sections(text) do |page, section, section_name, section_identifier|
+    LabeledSectionTranscluder.new
+      .transclude_the_sections(text) do |page, sec, sec_name, sec_id|
       "
       <div class='transcluded-section-header top-header'>
-        <a href='/p/#{page.name}'>#{page.name}</a>##{section_name}
+        <a href='/p/#{page.name}'>#{page.name}</a>##{sec_name}
       </div>
 
-      #{section.text_for(section_identifier)}
+      #{sec.text_for(sec_id)}
 
       <div class='transcluded-section-header bottom-header'>&nbsp;</div>
       ".gsub(/^[ ]{6}/, '')
