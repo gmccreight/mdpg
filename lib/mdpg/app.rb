@@ -60,12 +60,10 @@ class App
   end
 
   def page_delete(page)
-    begin
-      UserPages.new(current_user).delete_page page.name
-      set_redirect_to '/'
-    rescue PageCannotBeDeletedBecauseItHasReferringPages
-      add_error 'the page cannot be deleted because other pages refer to it'
-    end
+    UserPages.new(current_user).delete_page page.name
+    set_redirect_to '/'
+  rescue PageCannotBeDeletedBecauseItHasReferringPages
+    add_error 'the page cannot be deleted because other pages refer to it'
   end
 
   def update_page_from_readwrite_token(readwrite_token, new_text)
@@ -78,17 +76,15 @@ class App
   end
 
   def page_rename(page, new_name)
-    begin
-      original_name = page.name
-      if UserPages.new(current_user).rename_page(page, new_name)
-        UserPages.new(current_user).page_was_updated page
-        set_redirect_to "/p/#{new_name}"
-      else
-        set_redirect_to "/p/#{original_name}"
-      end
-    rescue PageAlreadyExistsException
-      add_error 'a page with that name already exists'
+    original_name = page.name
+    if UserPages.new(current_user).rename_page(page, new_name)
+      UserPages.new(current_user).page_was_updated page
+      set_redirect_to "/p/#{new_name}"
+    else
+      set_redirect_to "/p/#{original_name}"
     end
+  rescue PageAlreadyExistsException
+    add_error 'a page with that name already exists'
   end
 
   def page_update_text(page, new_text)
@@ -158,14 +154,12 @@ class App
   end
 
   def page_add(name)
-    begin
-      user_pages = UserPages.new(current_user)
-      page = user_pages.create_page name: name, text: ''
-      path = page ? "/p/#{page.name}/edit" : '/'
-      set_redirect_to path
-    rescue PageAlreadyExistsException
-      add_error 'a page with that name already exists'
-    end
+    user_pages = UserPages.new(current_user)
+    page = user_pages.create_page name: name, text: ''
+    path = page ? "/p/#{page.name}/edit" : '/'
+    set_redirect_to path
+  rescue PageAlreadyExistsException
+    add_error 'a page with that name already exists'
   end
 
   def set_redirect_to(path)
