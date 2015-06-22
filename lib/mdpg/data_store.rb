@@ -74,6 +74,6 @@ class DataStore < Struct.new(:data_dir_or_memory)
   end
 
   private def digest_of_key(key)
-    Digest::SHA1.hexdigest(key) #like git
+    Digest::SHA1.hexdigest(key) # like git
   end
 end

@@ -5,7 +5,7 @@ require 'json'
 
 require 'profiler' if ENV['profiler']
 
-#require 'pry-rescue/minitest' #slows down tests, but can be very handy
+# require 'pry-rescue/minitest' #slows down tests, but can be very handy
 
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 require 'mdpg'
