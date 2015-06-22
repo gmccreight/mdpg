@@ -110,9 +110,9 @@ class ModelBase
     type = type_name_for_object object
     ids = get_ids_for_association_of_type type
     if add_or_remove == :add
-      ids = ids + [object.id]
+      ids += [object.id]
     elsif add_or_remove == :remove
-      ids = ids - [object.id]
+      ids -= [object.id]
     end
     set_ids_for_association_of_type type, ids.sort.uniq
   end
