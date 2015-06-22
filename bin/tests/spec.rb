@@ -10,4 +10,4 @@ files = Dir.glob('spec/**/*.rb')
 
 files.reject! { |x| x =~ /sinatra/ } if ARGV[0] == 'f'
 
-files.each { |file| require file.sub(/^spec\/|.rb$/, '') }
+files.each { |file| require file.sub(%r{^spec/|.rb$}, '') }
