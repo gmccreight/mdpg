@@ -8,6 +8,6 @@ class UserClans < Struct.new(:user)
   end
 
   private def clans
-    user.clan_ids.map { |x| clan = Clan.find(x); clan }
+    user.clan_ids.map { |x| Clan.find(x) }
   end
 end

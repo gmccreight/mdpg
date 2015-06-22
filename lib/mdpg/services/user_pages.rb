@@ -105,7 +105,7 @@ class UserPages < Struct.new(:user)
     if !user.page_ids
       @pages_cache = []
     else
-      @pages_cache = user.page_ids.map { |x| page = Page.find(x); page }
+      @pages_cache = user.page_ids.map { |x| Page.find(x) }
     end
     @pages_cache
   end
