@@ -52,7 +52,6 @@ class LabeledSectionTranscluder
     end
 
     text
-
   end
 
   def internal_links_to_user_facing_links(text)
@@ -77,7 +76,6 @@ class LabeledSectionTranscluder
     end
 
     text
-
   end
 
   private def parser_with_processed_text_for(text)

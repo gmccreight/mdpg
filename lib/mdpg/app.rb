@@ -126,7 +126,6 @@ class App
   end
 
   def update_page_sharing_token(page, token_type, new_token, is_activated)
-
     if is_activated
       PageSharingTokens.new(page).activate_sharing_token token_type
     else

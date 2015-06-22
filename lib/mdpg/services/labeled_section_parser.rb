@@ -42,7 +42,6 @@ class LabeledSectionParser
     end
 
     text
-
   end
 
   def replace_definitions_with
@@ -99,7 +98,6 @@ class LabeledSectionParser
   end
 
   private def process_text(text)
-
     text.gsub(section_regex(remove_space: false)).with_index do
       name = $1
       identifier = $2
@@ -119,7 +117,6 @@ class LabeledSectionParser
         @sections << Section.new(offset, nil, name, identifier, 1)
       end
     end
-
   end
 
   private def section_regex(remove_space:)
@@ -134,6 +131,5 @@ class LabeledSectionParser
     else
       /#{internal}/x
     end
-
   end
 end

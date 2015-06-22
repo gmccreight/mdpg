@@ -52,7 +52,6 @@ class Search
   end
 
   private def shared_search_for
-
     pages = nil
 
     search_strings.each do |string|
@@ -67,7 +66,6 @@ class Search
     end
 
     pages_containing_one_of_the_tags(pages)
-
   end
 
   private def search_tags

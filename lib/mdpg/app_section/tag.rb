@@ -28,7 +28,6 @@ module AppSection
         @app.add_error
           'a tag with that name already exists on some of the pages'
       end
-
     end
   end
 

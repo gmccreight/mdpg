@@ -1,6 +1,5 @@
 class PageReferrersUpdater
   def add_page_id_to_referrers(page_id, target_page)
-
     unless target_page.any_referring_pages?
       target_page.referring_page_ids = [page_id]
       target_page.save
