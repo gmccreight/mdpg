@@ -19,12 +19,12 @@ class ObjectTags < Struct.new(:object)
     return false if Token.new(name).validate
 
     tag = tag_with_name(name)
-    if tag
-      tag.remove_associated_object object
-      tag.save
-      object.remove_tag tag
-      object.save
-    end
+    return unless tag
+
+    tag.remove_associated_object object
+    tag.save
+    object.remove_tag tag
+    object.save
   end
 
   def tag_with_name?(name)

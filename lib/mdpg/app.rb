@@ -51,12 +51,12 @@ class App
 
   def edit_page_from_readwrite_token(readwrite_token)
     page, token_type = PageSharingTokens.find_page_by_token(readwrite_token)
-    if page && token_type == :readwrite
-      page_text = PageLinks.new(nil)
-        .internal_links_to_page_name_links_for_editing(page.text)
-      { page: page, page_text: page_text,
-        readwrite_token: readwrite_token }
-    end
+    return if !page || token_type != :readwrite
+
+    page_text = PageLinks.new(nil)
+      .internal_links_to_page_name_links_for_editing(page.text)
+    { page: page, page_text: page_text,
+      readwrite_token: readwrite_token }
   end
 
   def page_delete(page)
@@ -68,11 +68,11 @@ class App
 
   def update_page_from_readwrite_token(readwrite_token, new_text)
     page, token_type = PageSharingTokens.find_page_by_token(readwrite_token)
-    if page && token_type == :readwrite
-      page.text = new_text
-      page.save
-      redirect_to_path "/s/#{readwrite_token}"
-    end
+    return if !page || token_type != :readwrite
+
+    page.text = new_text
+    page.save
+    redirect_to_path "/s/#{readwrite_token}"
   end
 
   def page_rename(page, new_name)

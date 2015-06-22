@@ -6,11 +6,11 @@ class PageReferrersUpdater
       return
     end
 
-    unless target_page.referring_page_ids.include?(page_id)
-      target_page.referring_page_ids += [page_id]
-      target_page.referring_page_ids.sort!
-      target_page.save
-    end
+    return if target_page.referring_page_ids.include?(page_id)
+
+    target_page.referring_page_ids += [page_id]
+    target_page.referring_page_ids.sort!
+    target_page.save
   end
 
   def remove_page_id_from_referrers(page_id, target_page)

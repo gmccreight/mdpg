@@ -33,10 +33,10 @@ class ModelBase
   def find(id)
     self.id = id
     attrs = data_store.get(data_key)
-    if attrs
-      load(attrs)
-      self
-    end
+    return unless attrs
+
+    load(attrs)
+    self
   end
 
   def reload
@@ -71,11 +71,11 @@ class ModelBase
 
   def save
     ensure_attr_defaults
-    if validates?
-      possibly_update_revision
-      data_store.set data_key, persistable_data
-      update_unique_id_indexes
-    end
+    return unless validates?
+
+    possibly_update_revision
+    data_store.set data_key, persistable_data
+    update_unique_id_indexes
   end
 
   private def attr_defaults
@@ -89,17 +89,17 @@ class ModelBase
   end
 
   private def ensure_attribute_with_default(attr_name, default_value)
-    unless send(attr_name)
-      default_value = default_value.call if default_value.class == Proc
-      send "#{attr_name}=", default_value
-    end
+    return if send(attr_name)
+
+    default_value = default_value.call if default_value.class == Proc
+    send "#{attr_name}=", default_value
   end
 
   private def possibly_update_revision
-    if versioned?
-      set_max_revision
-      self.revision = max_revision
-    end
+    return unless versioned?
+
+    set_max_revision
+    self.revision = max_revision
   end
 
   private def versioned?
