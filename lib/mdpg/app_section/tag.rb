@@ -5,9 +5,7 @@ module AppSection
       @current_user = user
     end
 
-    def current_user
-      @current_user
-    end
+    attr_reader :current_user
 
     def get_details(tag_name)
       user_page_tags = UserPageTags.new(current_user, nil)

@@ -5,9 +5,7 @@ module AppSection
       @current_user = user
     end
 
-    def current_user
-      @current_user
-    end
+    attr_reader :current_user
 
     def all_for_page(page)
       object_tags = ObjectTags.new(page)

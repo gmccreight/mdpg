@@ -27,9 +27,7 @@ class User < ModelBase
     super opts
   end
 
-  def password=(password)
-    @password = password
-  end
+  attr_writer :password
 
   def save
     ensure_attr_defaults
