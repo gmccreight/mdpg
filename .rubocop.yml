@@ -1,3 +1,11 @@
+AllCops:
+  Include:
+    - '**/Rakefile'
+  Exclude:
+    - 'bin/hack'
+    - 'bin/migrator'
+    - 'bin/seeder'
+
 # We have one global variable that we need.
 Style/GlobalVars:
   AllowedVariables: [$data_store]
