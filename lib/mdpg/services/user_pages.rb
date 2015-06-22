@@ -76,13 +76,12 @@ class UserPages < Struct.new(:user)
 
   def duplicate_page(name)
     original_page = find_page_with_name(name)
-    if original_page
-      duplicator = UserPageDuplicator.new(self, user, original_page)
-      new_page = duplicator.duplicate
-      page_ids_or_names_have_changed
-      return new_page
-    end
-    nil
+    return nil unless original_page
+
+    duplicator = UserPageDuplicator.new(self, user, original_page)
+    new_page = duplicator.duplicate
+    page_ids_or_names_have_changed
+    new_page
   end
 
   def rename_page(page, new_name)
