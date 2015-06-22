@@ -23,7 +23,7 @@ class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
   end
 
   private def propose_name_for(name, increment)
-    version_suffix_regex = %r{-(v?)(\d+)$}
+    version_suffix_regex = /-(v?)(\d+)$/
 
     version_suffix_contained_a_v = false
 

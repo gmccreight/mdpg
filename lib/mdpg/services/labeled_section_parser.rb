@@ -132,9 +132,9 @@ class LabeledSectionParser
       \\]\\]
     "
     if remove_space
-      %r{\s?#{internal}\s?}x
+      /\s?#{internal}\s?/x
     else
-      %r{#{internal}}x
+      /#{internal}/x
     end
 
   end

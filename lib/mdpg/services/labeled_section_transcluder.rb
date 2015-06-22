@@ -95,6 +95,6 @@ class LabeledSectionTranscluder
   end
 
   private def internal_link_regex
-    %r{\[\[mdpgpage:(\d+):(#{Token::TOKEN_REGEX_STR})\]\]}
+    /\[\[mdpgpage:(\d+):(#{Token::TOKEN_REGEX_STR})\]\]/
   end
 end
