@@ -242,18 +242,17 @@ def attr_for_request_payload(attr)
 end
 
 def current_user
-  if get_access_token
-    user = User.find_by_index(:access_token, get_access_token)
-    if user
-      return user
-    else
-      clear_access_token
-    end
+  return nil unless access_token
+
+  user = User.find_by_index(:access_token, access_token)
+  if user
+    return user
+  else
+    clear_access_token
   end
-  nil
 end
 
-def get_access_token
+def access_token
   request.cookies['access_token']
 end
 

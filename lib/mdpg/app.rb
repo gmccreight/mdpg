@@ -31,7 +31,7 @@ class App
     page, token_type =
       PageSharingTokens.find_page_by_token(page_sharing_token)
     if !page
-      set_redirect_to '/'
+      redirect_to_path '/'
     else
       page_view = PageView.new(nil, page, token_type)
       return { viewmodel: page_view, mode: :shared }
@@ -61,7 +61,7 @@ class App
 
   def page_delete(page)
     UserPages.new(current_user).delete_page page.name
-    set_redirect_to '/'
+    redirect_to_path '/'
   rescue PageCannotBeDeletedBecauseItHasReferringPages
     add_error 'the page cannot be deleted because other pages refer to it'
   end
@@ -71,7 +71,7 @@ class App
     if page && token_type == :readwrite
       page.text = new_text
       page.save
-      set_redirect_to "/s/#{readwrite_token}"
+      redirect_to_path "/s/#{readwrite_token}"
     end
   end
 
@@ -79,9 +79,9 @@ class App
     original_name = page.name
     if UserPages.new(current_user).rename_page(page, new_name)
       UserPages.new(current_user).page_was_updated page
-      set_redirect_to "/p/#{new_name}"
+      redirect_to_path "/p/#{new_name}"
     else
-      set_redirect_to "/p/#{original_name}"
+      redirect_to_path "/p/#{original_name}"
     end
   rescue PageAlreadyExistsException
     add_error 'a page with that name already exists'
@@ -92,7 +92,7 @@ class App
     user_pages.update_page_text_to(page, new_text)
     user_pages.page_was_updated page
 
-    set_redirect_to "/p/#{page.name}"
+    redirect_to_path "/p/#{page.name}"
   end
 
   def page_search(query)
@@ -101,7 +101,7 @@ class App
 
     if results[:redirect]
       maybe_edit_mode = results[:redirect_to_edit_mode] ? '/edit' : ''
-      set_redirect_to "/p/#{results[:redirect]}#{maybe_edit_mode}"
+      redirect_to_path "/p/#{results[:redirect]}#{maybe_edit_mode}"
       return
     end
 
@@ -115,10 +115,10 @@ class App
 
   def root
     unless current_user
-      set_redirect_to '/login'
+      redirect_to_path '/login'
       return
     end
-    set_redirect_to '/page/recent'
+    redirect_to_path '/page/recent'
   end
 
   def update_page_sharing_token(page, token_type, new_token, is_activated)
@@ -133,7 +133,7 @@ class App
         .rename_sharing_token(token_type, new_token)
       if error_message.nil?
         UserPages.new(current_user).page_was_updated page
-        set_redirect_to "/p/#{page.name}"
+        redirect_to_path "/p/#{page.name}"
       else
         add_error error_message.to_s
       end
@@ -157,12 +157,12 @@ class App
     user_pages = UserPages.new(current_user)
     page = user_pages.create_page name: name, text: ''
     path = page ? "/p/#{page.name}/edit" : '/'
-    set_redirect_to path
+    redirect_to_path path
   rescue PageAlreadyExistsException
     add_error 'a page with that name already exists'
   end
 
-  def set_redirect_to(path)
+  def redirect_to_path(path)
     @redirect_to = path
   end
 

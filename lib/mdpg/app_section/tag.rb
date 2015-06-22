@@ -19,7 +19,7 @@ module AppSection
     def rename(tag_name, new_name)
       UserPageTags.new(current_user, nil)
         .change_tag_for_all_pages(tag_name, new_name)
-      @app.set_redirect_to '/'
+      @app.redirect_to_path '/'
     rescue TagAlreadyExistsForPageException
       @app.add_error
       'a tag with that name already exists on some of the pages'
