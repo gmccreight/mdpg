@@ -68,12 +68,12 @@ describe PageSharingTokens do
       PageSharingTokens.new(other_page).activate_sharing_token :readonly
 
       page = create_page_with_name 'the-page'
-      assert_raises(SharingTokenAlreadyExistsException) {
+      assert_raises(SharingTokenAlreadyExistsException) do
         tokens = PageSharingTokens.new(page)
         tokens.activate_sharing_token :readonly
         tokens.rename_sharing_token(:readonly,
                                     other_page.readonly_sharing_token)
-      }
+      end
     end
 
     it 'should not throw exception if token is already taken by same page' do

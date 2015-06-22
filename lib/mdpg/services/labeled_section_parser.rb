@@ -34,7 +34,7 @@ class LabeledSectionParser
 
     text = @text
     list.each do |name|
-      identifier = get_new_identifier
+      identifier = create_identifier
       text = text.gsub(
         "[[##{name}]]",
         "[[##{name}:#{identifier}]]"
@@ -90,7 +90,7 @@ class LabeledSectionParser
     array.first
   end
 
-  private def get_new_identifier
+  private def create_identifier
     RandStringGenerator.rand_string_of_length(32)
   end
 

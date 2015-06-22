@@ -25,7 +25,7 @@ describe LabeledSectionParser do
       parser = LabeledSectionParser.new(text)
 
       # Make the new identifier be a known value
-      def parser.get_new_identifier
+      def parser.create_identifier
         'bbbegdababuwxxx'
       end
 

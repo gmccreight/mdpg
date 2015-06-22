@@ -20,21 +20,19 @@ describe 'auth' do
 
       result = RubyProf.stop
       printer = RubyProf::FlatPrinter.new(result)
-      if ENV['verbose']
-        printer.print(STDOUT)
-      end
+      printer.print(STDOUT) if ENV['verbose']
     end
   end
 
   it 'should move to the recent pages page after auth' do
-    post '/login', { email: 'jordan@example.com', password: 'cool' }
+    post '/login', email: 'jordan@example.com', password: 'cool'
     follow_redirect!
     follow_redirect!
     assert last_response.body.include? 'Edited'
   end
 
   it 'should stay logged in and logged out after moving to those states' do
-    post '/login', { email: 'jordan@example.com', password: 'cool' }
+    post '/login', email: 'jordan@example.com', password: 'cool'
     follow_redirect!
     follow_redirect!
     assert last_response.body.include? 'Edited'

@@ -1,9 +1,20 @@
-# We have one global variable that we need
+# We have one global variable that we need.
 Style/GlobalVars:
   AllowedVariables: [$data_store]
 
+# Let's re-enable this later and see if we can get it to play nicely with the
+# 80 char limit.
 Style/AlignParameters:
   Enabled: false
 
+# Let's re-enable this later and see if we can get it to play nicely with the
+# 80 char limit.
 Style/AlignHash:
+  Enabled: false
+
+# We do this pervasively.  I read the rationale at
+# https://github.com/bbatsov/ruby-style-guide#no-extend-struct-new
+# but it didn't resonate strongly enough to make the change.  Will look into
+# it more as we tighten up our style.
+Style/StructInheritance:
   Enabled: false

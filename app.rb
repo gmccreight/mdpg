@@ -264,11 +264,11 @@ def get_access_token
 end
 
 def set_access_token(token)
-  response.set_cookie 'access_token', { value: token, max_age: '2592000' }
+  response.set_cookie 'access_token', value: token, max_age: '2592000'
 end
 
 def clear_access_token
-  response.set_cookie 'access_token', { value: '', max_age: '0' }
+  response.set_cookie 'access_token', value: '', max_age: '0'
 end
 
 def authorize!

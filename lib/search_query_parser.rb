@@ -12,11 +12,11 @@ class SearchQueryParser < Struct.new(:query)
   end
 
   def should_force_full_search?
-    !!orig_search_str.match(/#{SHOULD_FORCE_FULL_SEARCH_REGEX_STR}/)
+    !orig_search_str.match(/#{SHOULD_FORCE_FULL_SEARCH_REGEX_STR}/).nil?
   end
 
   def should_open_in_edit_mode?
-    !!orig_search_str.match(/#{OPEN_RESULT_IN_EDIT_MODE_REGEX_STR}/)
+    !orig_search_str.match(/#{OPEN_RESULT_IN_EDIT_MODE_REGEX_STR}/).nil?
   end
 
   def tags

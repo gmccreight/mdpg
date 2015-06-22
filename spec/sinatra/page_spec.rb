@@ -27,7 +27,7 @@ describe 'page' do
   end
 
   def update_page_with_readwrite_token(token, text)
-    post "/s/#{token}/update", { text: text }
+    post "/s/#{token}/update", text: text
   end
 
   def delete_page(name)
