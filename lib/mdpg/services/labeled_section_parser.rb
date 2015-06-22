@@ -46,7 +46,7 @@ class LabeledSectionParser
 
   def replace_definitions_with
     @text.gsub(section_regex(remove_space: false)) do
-      name = $1
+      name = Regexp.last_match(1)
       yield name
     end
   end
@@ -99,8 +99,8 @@ class LabeledSectionParser
 
   private def process_text(text)
     text.gsub(section_regex(remove_space: false)).with_index do
-      name = $1
-      identifier = $2
+      name = Regexp.last_match(1)
+      identifier = Regexp.last_match(2)
 
       identifier = identifier[1..-1] if identifier
 
