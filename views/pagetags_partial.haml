@@ -2,15 +2,19 @@
 %div{"ng-controller" => "TagsCtrl"}
   %ul.unstyled
     %li{"ng-repeat" => "tag in tags"}
-      %a(href="/t/{{tag.text}}" class="this_tag_name_cls")
-        {{tag.text}}
+      {{tag.text}}
+
+      (
+      %a(href="/t/{{tag.text}}")
+        view
+      |
       %a(ng-click="destroy(tag)" href="")
         remove
+      )
 
       %span(ng-repeat="associated in tag.associated")
         &nbsp;
-        %a(ng-click="chooseSuggested(associated[0])" href=""
-        class="associated_tag_name_cls")
+        %a(ng-click="chooseSuggested(associated[0])" href="")
           {{associated[0]}}({{associated[1]}})
 
   %form{"ng-submit" => "addTag()"}
@@ -20,7 +24,6 @@
 
   .error{"ng-model" => "error", "ng-show" => "hasError()"}
     {{error}}
-
 
   %ul
     %li{"ng-repeat" => "tag in suggestedTags"}

@@ -32,7 +32,7 @@ body {
   width:300px;
 }
 
-a, a:visited {
+a, a:link, a:visited, a:active {
   color:#3f80b0;
   text-decoration:none;
 }
