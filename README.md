@@ -59,10 +59,6 @@ goal, but what's life without silly goals?
 This can't be overstated.  Nobody's paying me to work on this, so it had
 better be gosh-darn fun!
 
-## Consumable from multiple clients
-
-Readily consumable via command line and HTTP, as well as with a browser.
-
 ## Easily installable
 
 I'm going to try to get all of this done with Ruby 2 core and Sinatra.  We'll
@@ -102,7 +98,6 @@ Since this thing is highly experimental, it's possible that the quickest way
 of migrating the datastore will be to actually run macros on the datastore
 files themselves.  Their format and structure should facilitate that.
 
-
 ## Runs on EC2 micro instance (or the low-end DigitalOcean box)
 
 It should be able to run great on a $5-6/mo machine.
@@ -116,6 +111,8 @@ You join and leave clans.  Some things you create for the clan, others for
 yourself.  Some things you always want to be in charge of, other things you
 want to cede control of to others.  In other words, you and your clans are
 very fluid, but many systems are rigid.  I'm looking at you, Google Docs!
+
+That being said, mdpg punts on this for the moment.
 
 ### The public at large
 
@@ -184,7 +181,8 @@ is one.
 ## Ruby 2
 
 I'm actively looking for new features and functionality from Ruby 2 to use
-in the code.  I'll highlight them with the [tag:ruby2:gem] tag.
+in the code.  I'll highlight them with the [tag:ruby2:gem] tag.  I also want
+to see what kind of performance I can get with it.
 
 ## Minitest
 
@@ -193,20 +191,8 @@ of rspec.
 
 ## Angular
 
-I hear it's the new hotness.
-
-## Seattle Style
-
-Given that minitest is a seattlerb project, I figure why not also try out the
-Seattle style, too.  The Seattle style basically means don't use parens with
-def.  I'll try this on and see how it feels.
-
-## Keeping all lines 78 chars or less
-
-Why is this a learning goal?  Because I want to learn how to do this in a nice
-way.  For example, it might exert a design pressure for me to name things
-less verbosely.  I will also likely come to an understanding of how to best
-break up code onto multiple lines.
+I need some SPA islands in the pages, and Angular is very testable, so it
+seems like a good fit.
 
 ## Gaining a better understanding of what to test and how much to test
 
@@ -229,17 +215,10 @@ read Exceptional Ruby and apply the ideas here.
 
 # Coding conventions
 
-## Seattle Style
-
-As I mentioned above, don't use parens with def.  For that matter, I'm going
-to try to use parens as little as possible.
-
 ## Keyword Arguments
 
-Yes, I realize this conflicts with Seattle Style, but what can you do.  This
-is a newer convention than the Seattle Style convention, and I'm trying it on
-for size.  We'll see how it goes, and if it goes well, I'll remove the
-Seattle Style convention.
+I'm using these in some places to try them out, and to see how verbose they
+feel.
 
 ---
 

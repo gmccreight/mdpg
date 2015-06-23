@@ -20,4 +20,5 @@ arbitrarily.
 You might think you have a great name for a label, but then you come up with
 a better one.  You should be able to change the name of the label without
 causing any of the transclusions to break.  To accomplish this, we use
-an internal id-based format.
+an internal id-based format in addition to the label name, so you can change
+the label name at will.
