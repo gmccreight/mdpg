@@ -74,8 +74,10 @@ class ModelBase
     return unless validates?
 
     possibly_update_revision
+
+    pre_existing_data = data_store.get data_key
     data_store.set data_key, persistable_data
-    update_unique_id_indexes
+    update_unique_id_indexes(pre_existing_data, persistable_data)
   end
 
   private def attr_defaults
@@ -142,15 +144,23 @@ class ModelBase
     set_var("@#{type}_ids", val)
   end
 
-  private def update_unique_id_indexes
+  private def update_unique_id_indexes(pre_existing_data, new_data)
     unique_id_indexes.each do |attribute_symbol|
-      keyname = "#{data_prefix}-index-#{attribute_symbol}"
-      hash = data_store.get(keyname) || {}
-      value = get_var "@#{attribute_symbol}"
-      remove_any_preexisting_unique_indexes hash
-      hash[value] = id
-      data_store.set(keyname, hash)
+      if attribute_was_updated?(pre_existing_data, new_data, attribute_symbol)
+        keyname = "#{data_prefix}-index-#{attribute_symbol}"
+        hash = data_store.get(keyname) || {}
+        value = get_var "@#{attribute_symbol}"
+        remove_any_preexisting_unique_indexes hash
+        hash[value] = id
+        data_store.set(keyname, hash)
+      end
     end
+  end
+
+  private def attribute_was_updated?(pre_existing_data, new_data, attr)
+    return true unless pre_existing_data
+    return false if pre_existing_data[attr] == new_data[attr]
+    true
   end
 
   private def remove_any_preexisting_unique_indexes(hash)
