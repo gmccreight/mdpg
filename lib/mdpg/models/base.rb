@@ -146,14 +146,14 @@ class ModelBase
 
   private def update_unique_id_indexes(pre_existing_data, new_data)
     unique_id_indexes.each do |attribute_symbol|
-      if attribute_was_updated?(pre_existing_data, new_data, attribute_symbol)
-        keyname = "#{data_prefix}-index-#{attribute_symbol}"
-        hash = data_store.get(keyname) || {}
-        value = get_var "@#{attribute_symbol}"
-        remove_any_preexisting_unique_indexes hash
-        hash[value] = id
-        data_store.set(keyname, hash)
-      end
+      next unless attribute_was_updated?(pre_existing_data, new_data,
+                                         attribute_symbol)
+      keyname = "#{data_prefix}-index-#{attribute_symbol}"
+      hash = data_store.get(keyname) || {}
+      value = get_var "@#{attribute_symbol}"
+      remove_any_preexisting_unique_indexes hash
+      hash[value] = id
+      data_store.set(keyname, hash)
     end
   end
 
