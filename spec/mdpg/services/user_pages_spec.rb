@@ -183,6 +183,21 @@ describe UserPages do
       assert_equal 'hello-4', new_page.name
     end
 
+    describe 'where there are a bunch of tags' do
+      before do
+        (2..100).to_a.each do |num|
+          @user_page_tags.add_tag "tag#{num}"
+        end
+      end
+
+      it 'should duplicate the page very quickly' do
+        time_before = Time.now
+        new_page = @user_pages.duplicate_page 'hello'
+        assert @user_page_tags.tags_for_page(new_page).size == 100
+        assert_in_delta time_before, Time.now, 0.1
+      end
+    end
+
     describe 'where the name already ends in a -1 or -v1' do
       def page_should_duplicate_to(before, after)
         @page.name = before
