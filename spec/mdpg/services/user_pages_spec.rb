@@ -185,7 +185,7 @@ describe UserPages do
 
     describe 'where there are a bunch of tags' do
       before do
-        (2..100).to_a.each do |num|
+        (2..10).to_a.each do |num|
           @user_page_tags.add_tag "tag#{num}"
         end
       end
@@ -193,7 +193,7 @@ describe UserPages do
       it 'should duplicate the page very quickly' do
         time_before = Time.now
         new_page = @user_pages.duplicate_page 'hello'
-        assert @user_page_tags.tags_for_page(new_page).size == 100
+        assert @user_page_tags.tags_for_page(new_page).size == 10
         assert_in_delta time_before, Time.now, 0.1
       end
     end
