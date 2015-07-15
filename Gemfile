@@ -12,6 +12,7 @@ gem 'rack-test', require: 'rack/test'
 # We might be able to remove them later
 gem 'test-unit'
 gem 'minitest'
+gem 'minitest-profile'
 
 gem 'ruby-prof'
 gem 'rerun'

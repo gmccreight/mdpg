@@ -11,6 +11,11 @@ task :prof do
   exec 'ruby-prof --min_percent=1 ./bin/tests/spec.rb 2>/dev/null'
 end
 
+desc 'run the tests and print 10 slowest'
+task :slowest do
+  exec './bin/tests/spec.rb --profile 2>/dev/null'
+end
+
 desc 'run all the tests, including style and coverage ones'
 task :ta do
   exec './bin/tests/all.sh'
