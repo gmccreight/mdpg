@@ -1,21 +1,5 @@
 %h2 Tags
 %div{"ng-controller" => "TagsCtrl"}
-  %ul.unstyled
-    %li{"ng-repeat" => "tag in tags"}
-      {{tag.text}}
-
-      (
-      %a(href="/t/{{tag.text}}")
-        view
-      |
-      %a(ng-click="destroy(tag)" href="")
-        remove
-      )
-
-      %span(ng-repeat="associated in tag.associated")
-        &nbsp;
-        %a(ng-click="chooseSuggested(associated[0])" href="")
-          {{associated[0]}}({{associated[1]}})
 
   %form{"ng-submit" => "addTag()"}
     %input#tag_input_id{"ng-model" => "tagText",
@@ -29,3 +13,26 @@
     %li{"ng-repeat" => "tag in suggestedTags"}
       %a(ng-click="chooseSuggested(tag)" href="")
         {{tag}}
+
+  %ul.unstyled
+    %li{"ng-repeat" => "tag in tags"}
+      {{tag.text}}
+
+      (
+      %a(href="/t/{{tag.text}}")
+        view
+      |
+      %a(ng-click="destroy(tag)" href="")
+        remove
+      )
+
+      %span(ng-repeat="associated in associatedToDisplay(tag)")
+        &nbsp;
+        %a(ng-click="chooseSuggested(associated[0])" href="")
+          {{associated[0]}}({{associated[1]}})
+
+      %span(ng-show="hasMoreAssociatedToDisplay(tag)")
+        |
+      %span(ng-show="hasMoreAssociatedToDisplay(tag)")
+        %a(ng-click="showMore(tag)" href="")
+          more...

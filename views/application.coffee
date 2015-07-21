@@ -85,6 +85,22 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
     $scope.tagText = ""
     $scope.suggestedTags = []
 
+  $scope.associatedToDisplay = (tag) ->
+    maxToDisplay = 5
+    if tag.associated.length > maxToDisplay
+      if tag.showMore
+        return tag.associated
+      else
+        return tag.associated[0..maxToDisplay - 1]
+    else
+      tag.associated
+
+  $scope.hasMoreAssociatedToDisplay = (tag) ->
+    tag.associated.length != $scope.associatedToDisplay(tag).length
+
+  $scope.showMore = (tag) ->
+    tag.showMore = true
+
   $scope.destroy = (tag) ->
     tagToPossiblyRestore = angular.copy(tag)
     successFunc = (data) ->
