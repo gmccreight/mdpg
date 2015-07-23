@@ -53,6 +53,29 @@ describe Page do
     end
   end
 
+  describe 'revisions' do
+    it 'should be able to find with a specific revision' do
+      page = create_page_with_name 'good'
+      assert_equal 0, page.revision
+
+      page.text = 'new text 1'
+      page.save
+      page.text = 'new text 2'
+      page.save
+      page.text = 'new text 3'
+      page.save
+
+      revision_to_get = 1
+      page = Page.find(1, revision_to_get)
+      assert_equal "new text #{revision_to_get}", page.text
+      assert_equal revision_to_get, page.revision
+
+      page = Page.find(1)
+      assert_equal 'new text 3', page.text
+      assert_equal 3, page.revision
+    end
+  end
+
   describe 'pulling meta-data' do
     it 'should allow for meta-information' do
       text =

@@ -1,5 +1,5 @@
 class ModelBase
-  attr_accessor :data_store, :id
+  attr_accessor :data_store, :id, :revision_to_find
 
   def initialize
     @id = nil
@@ -10,8 +10,8 @@ class ModelBase
     new.create(opts)
   end
 
-  def self.find(id)
-    new.find(id)
+  def self.find(id, revision = nil)
+    new.find(id, revision)
   end
 
   def self.find_by_index(index_name, value)
@@ -30,9 +30,11 @@ class ModelBase
     nil
   end
 
-  def find(id)
+  def find(id, revision = nil)
     self.id = id
+    self.revision_to_find = revision if revision
     attrs = data_store.get(data_key)
+    self.revision_to_find = nil
     return unless attrs
 
     load(attrs)
@@ -215,7 +217,12 @@ class ModelBase
 
   private def data_key
     if versioned?
-      rev = max_revision
+      if revision_to_find
+        rev = revision_to_find
+      else
+        rev = max_revision
+      end
+
       revisionless_data_key + "-#{rev}"
     else
       revisionless_data_key
