@@ -73,6 +73,7 @@ get '/p/:name' do |page_name|
   # end
 
   page = get_user_page(page_name)
+  page = page.find(page.id, params[:revision].to_i) if params[:revision]
   if page
     app = _app_get
     haml :page, locals: app.page_get(page)

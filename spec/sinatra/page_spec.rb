@@ -14,6 +14,10 @@ describe 'page' do
     get "/p/#{name}", {}, authenticated_session(@user)
   end
 
+  def get_page_with_revision(name, revision)
+    get "/p/#{name}?revision=#{revision}", {}, authenticated_session(@user)
+  end
+
   def edit_page(name)
     get "/p/#{name}/edit", {}, authenticated_session(@user)
   end
@@ -43,6 +47,16 @@ describe 'page' do
     it 'should get a page that is owned by the user' do
       get_page 'original-good-page-name'
       expected = "<p>I have something <em>interesting</em> to say!</p>\n"
+      assert last_response.body.include? expected
+    end
+
+    it 'should get a specific revision of a page owned by the user' do
+      @page.text = 'revision 3'
+      @page.save
+      @page.text = 'revision 4'
+      @page.save
+      get_page_with_revision 'original-good-page-name', 3
+      expected = "<p>revision 3</p>\n"
       assert last_response.body.include? expected
     end
 
