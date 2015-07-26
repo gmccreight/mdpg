@@ -28,6 +28,10 @@ get '/application.js' do
   coffee :application
 end
 
+get '/keyboard.js' do
+  coffee :keyboard
+end
+
 get '/application_spec.js' do
   coffee :application_spec
 end
@@ -73,6 +77,7 @@ get '/p/:name' do |page_name|
   # end
 
   page = get_user_page(page_name)
+
   page = page.find(page.id, params[:revision].to_i) if params[:revision]
   if page
     app = _app_get
@@ -96,6 +101,12 @@ end
 
 get '/p/:name/edit' do |page_name|
   page = get_user_page(page_name)
+
+  # Hack to try out woofmark
+  page_tags = ObjectTags.new(page)
+  params[:woofmark] = 1 if
+    page_tags.sorted_tag_names.include?('mdpg-use-woofmark')
+
   if page
     app = _app_get
     haml :page_edit, locals: app.page_edit(page)

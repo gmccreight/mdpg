@@ -10,5 +10,11 @@
     :action => path, :method => "post"}
 
     %div
-      %textarea{:name => "text", :cols => "200", :rows => "56"}=page_text
-      %input{:type => "submit"}
+      %textarea{ :id => "ta",
+                 :name => "text", :cols => "200", :rows => "56" }=page_text
+    %input{:type => "submit"}
+
+%script(src="/woofmark/woofmark.js")
+%script(src="/woofmark/other/megamark.js")
+%script(src="/woofmark/other/domador.js")
+%script(src="/woofmark/other/example.js")
