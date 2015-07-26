@@ -28,6 +28,10 @@ get '/application.js' do
   coffee :application
 end
 
+get '/keyboard.js' do
+  coffee :keyboard
+end
+
 get '/application_spec.js' do
   coffee :application_spec
 end
