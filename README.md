@@ -59,10 +59,20 @@ goal, but what's life without silly goals?
 This can't be overstated.  Nobody's paying me to work on this, so it had
 better be gosh-darn fun!
 
-## Easily installable
+## Installation
 
 I'm going to try to get all of this done with Ruby 2 core and Sinatra.  We'll
 see how that goes.
+
+### Installation - Karma
+
+In order to run the full suite of tests, you will need to have `karma`
+installed (including support for CoffeeScript)
+
+    npm install karma -g
+    npm install karma-jasmine@0.1.6 -g
+    npm install karma-phantomjs-launcher -g
+    npm install karma-coffee-preprocessor -g
 
 ## Quick backup
 
