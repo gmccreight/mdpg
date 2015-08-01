@@ -13,7 +13,7 @@ require 'mdpg'
 $data_store = DataStore.new './.app_data' unless $data_store
 
 if ENV['mdpg_production']
-  set :port, 80
+  set :port, 8080
   set :environment, :production
 end
 

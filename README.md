@@ -235,6 +235,6 @@ feel.
 # Documentation
 
 To run on an actual production system, you can use:
-rvmsudo mdpg_production=1 ./bin/run_server
+mdpg_production=1 ./bin/run_server
 
 Ideally, you'd proxy it behind a *real* webserver
