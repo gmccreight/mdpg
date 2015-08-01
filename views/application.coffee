@@ -116,9 +116,3 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
     $scope.tags = _.without($scope.tags, tag)
 
 ]
-
-$ ->
-  # On production, upgrade to https
-  href = window.location.href
-  if href.match(/mdpg\.co/) && ! href.match(/https/)
-    window.location = window.location.href.replace(/http:/, "https:")
