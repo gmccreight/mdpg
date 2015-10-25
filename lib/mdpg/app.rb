@@ -99,12 +99,6 @@ class App
     searcher = Search.new current_user
     results = searcher.search query
 
-    if results[:redirect]
-      maybe_edit_mode = results[:redirect_to_edit_mode] ? '/edit' : ''
-      redirect_to_path "/p/#{results[:redirect]}#{maybe_edit_mode}"
-      return
-    end
-
     {
       pages_where_name_matches: results[:names],
       pages_where_text_matches: results[:texts],

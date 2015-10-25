@@ -15,9 +15,7 @@ class Search
     {
       names: names,
       texts: search_texts,
-      tags: search_tags,
-      redirect: redirect_to_perfect_match(names),
-      redirect_to_edit_mode: @search_parser.should_open_in_edit_mode?
+      tags: search_tags
     }
   end
 
@@ -27,16 +25,6 @@ class Search
 
   private def search_string
     search_strings[0]
-  end
-
-  private def redirect_to_perfect_match(names)
-    return nil if @search_parser.should_force_full_search?
-
-    if names.size > 0 && names.map(&:name).include?(search_string)
-      return search_string
-    end
-
-    nil
   end
 
   private def search_names

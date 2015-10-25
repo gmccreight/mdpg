@@ -58,34 +58,6 @@ describe Search do
     end
   end
 
-  describe 'redirecting to single page that matches by name' do
-    def search_redirects(query, pagename_or_nil)
-      results = @searcher.search query
-      assert_equal pagename_or_nil, results[:redirect]
-    end
-
-    it 'should redirect if only one page matches by name exactly' do
-      search_redirects 'good-page-name', 'good-page-name'
-    end
-
-    it 'should not redirect if off by even one character' do
-      search_redirects 'good-page-fame', nil
-    end
-
-    it 'should not redirect if exact match but has ! at end' do
-      search_redirects 'good-page-name!', nil
-    end
-
-    it 'should give normal results with the forcing-full-search syntax' do
-      search_gets 'good-page-name', 1, 0, 0
-    end
-
-    it 'should not redirect to the page after it is deleted' do
-      UserPages.new(@user).delete_page 'good-page-name'
-      search_redirects 'good-page-name', nil
-    end
-  end
-
   describe 'tags' do
     before do
       UserPageTags.new(@user, @page_1).add_tag 'wishing'

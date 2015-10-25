@@ -24,16 +24,4 @@ describe 'page_search' do
     assert text.include? 'good-page-name'
     assert text.include? '0 pages with matching text'
   end
-
-  it 'should go directly to the page if a direct match without !' do
-    search_pages 'good-page-name'
-    follow_redirect_with_authenticated_user!(@user)
-    assert last_response.body.include? 'I wish I'
-  end
-
-  it 'should not go directly to the page if query had a ! at the end' do
-    search_pages 'good-page-name!'
-    text = last_response.body
-    assert text.include? '1 pages with matching name'
-  end
 end
