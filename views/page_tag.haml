@@ -1,4 +1,6 @@
 #page_tag_ns_id
 
+  = haml :header_partial, :locals => {:page_name => nil}
+
   = haml :tag_row_partial,
     locals:{tag:tag_name, user:user, newline_per_tag:true}
