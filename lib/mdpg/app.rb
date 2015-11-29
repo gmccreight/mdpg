@@ -137,7 +137,8 @@ class App
   end
 
   def recent_pages(how_many = 25)
-    created = _recent_pages_for(current_user.recent_created_page_ids, how_many)
+    created =
+      _recent_pages_for(current_user.recent_created_page_ids, how_many)
     edited = _recent_pages_for(current_user.recent_edited_page_ids, how_many)
     viewed = _recent_pages_for(current_user.recent_viewed_page_ids, how_many)
     { created_pages: created, edited_pages: edited, viewed_pages: viewed }
