@@ -23,6 +23,7 @@ class UserPages < Struct.new(:user)
     if page
       update_page_text_to(page, page.text)
       user.add_page page
+      page_was_created(page)
       page_ids_or_names_have_changed
     end
     page
@@ -63,6 +64,7 @@ class UserPages < Struct.new(:user)
 
     duplicator = UserPageDuplicator.new(self, user, original_page)
     new_page = duplicator.duplicate
+    page_was_created(new_page)
     page_ids_or_names_have_changed
     new_page
   end
@@ -80,6 +82,10 @@ class UserPages < Struct.new(:user)
 
   def page_was_updated(page)
     UserRecentPages.new(user).add_to_recent_edited_pages_list(page)
+  end
+
+  def page_was_created(page)
+    UserRecentPages.new(user).add_to_recent_created_pages_list(page)
   end
 
   def find_page_with_name(name)
