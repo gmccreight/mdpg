@@ -3,14 +3,17 @@ require 'rand_string_generator'
 class User < ModelBase
   ATTRS = [:name, :email, :salt, :hashed_password, :access_token, :page_ids,
            :recent_edited_page_ids, :recent_viewed_page_ids,
-           :recent_created_page_ids, :clan_ids, :page_tags, :is_admin]
+           :recent_created_page_ids, :clan_ids, :page_tags, :is_admin,
+           :cache_page_name_to_id, :cache_page_id_to_name]
 
   attr_accessor(*ATTRS)
 
   private def attr_defaults
     {
       access_token: proc { RandStringGenerator.rand_string_of_length(32) },
-      salt: proc { RandStringGenerator.rand_string_of_length(32) }
+      salt: proc { RandStringGenerator.rand_string_of_length(32) },
+      cache_page_name_to_id: proc { {} },
+      cache_page_id_to_name: proc { {} }
     }
   end
 
@@ -41,12 +44,24 @@ class User < ModelBase
 
   def add_page(page)
     add_associated_object page
+    add_page_name_and_id_caching(page.name, page.id)
     UserRecentPages.new(self).add_to_recent_edited_pages_list(page)
     save
   end
 
+  def add_page_name_and_id_caching(page_name, page_id)
+    self.cache_page_name_to_id[page_name] = page_id
+    self.cache_page_id_to_name[page_id] = page_name
+  end
+
+  def remove_page_name_and_id_from_caching(page_name, page_id)
+    self.cache_page_name_to_id.delete(page_name)
+    self.cache_page_id_to_name.delete(page_id)
+  end
+
   def remove_page(page)
     remove_associated_object page
+    remove_page_name_and_id_from_caching(page.name, page.id)
     UserRecentPages.new(self).remove_from_all_recent_pages_lists(page)
     save
   end

@@ -73,9 +73,14 @@ class UserPages < Struct.new(:user)
     if find_page_with_name new_name
       fail PageAlreadyExistsException
     else
+      old_name = page.name
       page.name = new_name
       worked = page.save
-      page_ids_or_names_have_changed if worked
+      if worked
+        page_ids_or_names_have_changed
+        user.remove_page_name_and_id_from_caching(old_name, page.id)
+        user.save
+      end
       return worked
     end
   end
@@ -89,9 +94,18 @@ class UserPages < Struct.new(:user)
   end
 
   def find_page_with_name(name)
-    matching_pages = pages.select { |page| page.name == name }
-    return nil unless matching_pages
-    matching_pages.first
+    if user.cache_page_name_to_id[name]
+      page_id = user.cache_page_name_to_id[name]
+      return Page.find(page_id)
+    else
+      matching_pages = pages.select { |page| page.name == name }
+      return nil unless matching_pages
+      matching_pages.each do |page|
+        user.add_page_name_and_id_caching(page.name, page.id)
+        user.save
+      end
+      return matching_pages.first
+    end
   end
 
   def pages_with_names_containing_text(query)
@@ -100,10 +114,6 @@ class UserPages < Struct.new(:user)
 
   def pages_with_text_containing_text(query)
     pages.select { |page| page.text_contains?(query) }
-  end
-
-  def page_ids_and_names_sorted_by_name
-    page_ids_and_names.sort { |a, b| a[1] <=> b[1] }
   end
 
   def pages
@@ -119,10 +129,6 @@ class UserPages < Struct.new(:user)
   private def page_text_with_links_escaped(new_text)
     page_links = PageLinks.new(user)
     page_links.page_name_links_to_ids(new_text)
-  end
-
-  private def page_ids_and_names
-    pages.map { |x| [x.id, x.name] }
   end
 
   private def page_ids_or_names_have_changed

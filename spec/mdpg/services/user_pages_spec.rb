@@ -79,14 +79,6 @@ describe UserPages do
     end
   end
 
-  it 'should list the page ids and names sorted by name' do
-    expected = [
-      [@alaska_page.id, 'alaska-crab'],
-      [@zebra_page.id, 'zebra-training']
-    ]
-    assert_equal expected, @user_pages.page_ids_and_names_sorted_by_name
-  end
-
   describe 'page with name' do
     it 'should return a page with a matching name' do
       assert_equal 'alaska-crab',
