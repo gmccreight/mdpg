@@ -50,13 +50,13 @@ class User < ModelBase
   end
 
   def add_page_name_and_id_caching(page_name, page_id)
-    self.cache_page_name_to_id[page_name] = page_id
-    self.cache_page_id_to_name[page_id] = page_name
+    cache_page_name_to_id[page_name] = page_id
+    cache_page_id_to_name[page_id] = page_name
   end
 
   def remove_page_name_and_id_from_caching(page_name, page_id)
-    self.cache_page_name_to_id.delete(page_name)
-    self.cache_page_id_to_name.delete(page_id)
+    cache_page_name_to_id.delete(page_name)
+    cache_page_id_to_name.delete(page_id)
   end
 
   def remove_page(page)

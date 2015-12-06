@@ -10,7 +10,9 @@ require 'profiler' if ENV['profiler']
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 require 'mdpg'
 
-$data_store = DataStore.new('./.app_data', lru_gc_size_threshold: 2_000) unless $data_store
+unless $data_store
+  $data_store = DataStore.new('./.app_data', lru_gc_size_threshold: 2_000)
+end
 
 if ENV['mdpg_production']
   set :port, 8080

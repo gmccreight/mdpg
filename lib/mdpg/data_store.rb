@@ -67,15 +67,12 @@ class DataStore < Struct.new(:data_dir_or_memory)
   private def set_in_memory_value(key, data)
     @data ||= {}
     @data[key] = data
-    if data_dir_or_memory != :memory
-      garbage_collect_lru_in_memory_data()
-    end
+    garbage_collect_lru_in_memory_data if data_dir_or_memory != :memory
   end
 
   private def garbage_collect_lru_in_memory_data
-    if @data && @data.size > @lru_gc_size_threshold
-      @data.delete(@data.first[0])
-    end
+    return if @data.size <= @lru_gc_size_threshold
+    @data.delete(@data.first[0])
   end
 
   private def full_path_for_key(key)
