@@ -1,9 +1,10 @@
 require 'yaml'
 
 class DataStore < Struct.new(:data_dir_or_memory)
-  def initialize(data_dir_or_memory)
+  def initialize(data_dir_or_memory, lru_gc_size_threshold: 1000)
     @disk_gets = []
     @disk_sets = []
+    @lru_gc_size_threshold = lru_gc_size_threshold
     super(data_dir_or_memory)
   end
 
@@ -54,6 +55,10 @@ class DataStore < Struct.new(:data_dir_or_memory)
     { disk_gets: @disk_gets, disk_sets: @disk_sets }
   end
 
+  def data_in_memory
+    @data
+  end
+
   private def get_in_memory_value(key)
     @data ||= {}
     @data[key]
@@ -62,6 +67,15 @@ class DataStore < Struct.new(:data_dir_or_memory)
   private def set_in_memory_value(key, data)
     @data ||= {}
     @data[key] = data
+    if data_dir_or_memory != :memory
+      garbage_collect_lru_in_memory_data()
+    end
+  end
+
+  private def garbage_collect_lru_in_memory_data
+    if @data && @data.size > @lru_gc_size_threshold
+      @data.delete(@data.first[0])
+    end
   end
 
   private def full_path_for_key(key)
