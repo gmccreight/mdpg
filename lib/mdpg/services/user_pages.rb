@@ -94,18 +94,18 @@ class UserPages < Struct.new(:user)
   end
 
   def find_page_with_name(name)
-    if user.cache_page_name_to_id[name]
-      page_id = user.cache_page_name_to_id[name]
-      return Page.find(page_id)
-    else
+    # if user.cache_page_name_to_id[name]
+    #   page_id = user.cache_page_name_to_id[name]
+    #   return Page.find(page_id)
+    # else
       matching_pages = pages.select { |page| page.name == name }
       return nil unless matching_pages
-      matching_pages.each do |page|
-        user.add_page_name_and_id_caching(page.name, page.id)
-        user.save
-      end
+      # matching_pages.each do |page|
+      #   user.add_page_name_and_id_caching(page.name, page.id)
+      #   user.save
+      # end
       return matching_pages.first
-    end
+    # end
   end
 
   def pages_with_names_containing_text(query)
