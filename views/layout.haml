@@ -7,7 +7,10 @@
     %link(rel="stylesheet" type="text/css" href="/style.css")
 
   %body
-    = yield
+    - result = yield
+    - if params[:debug] == "1"
+      = $data_store.report
+    = result
 
   %script(src="/angular/angular.min.js")
   %script(src="/angular/angular-resource.min.js")

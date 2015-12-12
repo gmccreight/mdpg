@@ -19,6 +19,10 @@ if ENV['mdpg_production']
   set :environment, :production
 end
 
+before do
+  $data_store.reset_reporting_data
+end
+
 get '/' do
   app = authorize!
   results = app.root
