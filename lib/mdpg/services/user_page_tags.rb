@@ -4,6 +4,18 @@ class TagAlreadyExistsForPageException < Exception
 end
 
 class UserPageTags < Struct.new(:user, :page)
+
+  def initialize(user, page)
+    reset_caches
+    super(user, page)
+  end
+
+  def reset_caches
+    @tags_for_page_id = {}
+    @page_for_id = {}
+    @associated_tags_counts = {}
+  end
+
   def add_tag(tag_name)
     return false if Token.new(tag_name).validate
 
@@ -103,10 +115,18 @@ class UserPageTags < Struct.new(:user, :page)
   def get_pages_for_tag_with_name(tag_name)
     hash = tags_hash
     if hash.key?(tag_name)
-      hash[tag_name].keys.map { |id_string| Page.find(id_string.to_i) }
+      hash[tag_name].keys.map { |id_string| page_for_id(id_string.to_i) }
     else
       return []
     end
+  end
+
+  def page_for_id(id)
+    if @page_for_id.key(id)
+      return @page_for_id[id]
+    end
+    @page_for_id[id] = Page.find(id)
+    @page_for_id[id]
   end
 
   def tag_count(tag)
@@ -115,8 +135,12 @@ class UserPageTags < Struct.new(:user, :page)
     h[tag].keys.size
   end
 
-  def tags_for_page(x)
-    ObjectTags.new(x).tags
+  def tags_for_page(page)
+    if @tags_for_page_id.key(page.id)
+      return @tags_for_page_id[page.id]
+    end
+    @tags_for_page_id[page.id] = ObjectTags.new(page).tags
+    @tags_for_page_id[page.id]
   end
 
   private def tags_hash
@@ -131,26 +155,31 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   private def _associated_tags_counts(tag_name)
+    if @associated_tags_counts.key?(tag_name)
+      return @associated_tags_counts[tag_name]
+    end
+
     count_for = {}
     count_for.default = 0
 
-    tags_on_current_page = []
+    tagnames_on_current_page = []
 
     pages = get_pages_for_tag_with_name tag_name
 
     pages.each do |page_in_loop|
       tags_for_page(page_in_loop).each do |tag|
         if page_in_loop.id == page.id
-          tags_on_current_page << tag.name
+          tagnames_on_current_page << tag.name
         else
           count_for[tag.name] += 1
         end
       end
     end
 
-    tags_on_current_page.each do |current_page_tag_name|
-      count_for.delete(current_page_tag_name)
-    end
+    # Don't show the tags that are already on the current page
+    tagnames_on_current_page.each{|x| count_for.delete(x)}
+
+    @associated_tags_counts[tag_name] = count_for
 
     count_for
   end
