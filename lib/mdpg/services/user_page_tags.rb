@@ -4,7 +4,6 @@ class TagAlreadyExistsForPageException < Exception
 end
 
 class UserPageTags < Struct.new(:user, :page)
-
   def initialize(user, page)
     reset_caches
     super(user, page)
@@ -122,9 +121,7 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   def page_for_id(id)
-    if @page_for_id.key?(id)
-      return @page_for_id[id]
-    end
+    return @page_for_id[id] if @page_for_id.key?(id)
     @page_for_id[id] = Page.find(id)
     @page_for_id[id]
   end
@@ -136,9 +133,7 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   def tags_for_page(page)
-    if @tags_for_page_id.key?(page.id)
-      return @tags_for_page_id[page.id]
-    end
+    return @tags_for_page_id[page.id] if @tags_for_page_id.key?(page.id)
     @tags_for_page_id[page.id] = ObjectTags.new(page).tags
     @tags_for_page_id[page.id]
   end

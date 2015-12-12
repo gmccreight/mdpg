@@ -1,7 +1,6 @@
 require 'mdpg/token'
 
 class ObjectTags < Struct.new(:object)
-
   def initialize(object)
     reset_caches
     super(object)
@@ -45,9 +44,8 @@ class ObjectTags < Struct.new(:object)
   end
 
   def tag_with_name(name)
-    if @tag_with_name.key?(name)
-      return @tag_with_name[name]
-    end
+    return @tag_with_name[name] if @tag_with_name.key?(name)
+
     tags_with_name = tags.select { |tag| tag.name == name }
     if tags_with_name.size > 0
       @tag_with_name[name] = tags_with_name.first
