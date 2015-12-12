@@ -122,7 +122,7 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   def page_for_id(id)
-    if @page_for_id.key(id)
+    if @page_for_id.key?(id)
       return @page_for_id[id]
     end
     @page_for_id[id] = Page.find(id)
@@ -136,7 +136,7 @@ class UserPageTags < Struct.new(:user, :page)
   end
 
   def tags_for_page(page)
-    if @tags_for_page_id.key(page.id)
+    if @tags_for_page_id.key?(page.id)
       return @tags_for_page_id[page.id]
     end
     @tags_for_page_id[page.id] = ObjectTags.new(page).tags
@@ -177,7 +177,7 @@ class UserPageTags < Struct.new(:user, :page)
     end
 
     # Don't show the tags that are already on the current page
-    tagnames_on_current_page.each{|x| count_for.delete(x)}
+    tagnames_on_current_page.each { |x| count_for.delete(x) }
 
     @associated_tags_counts[tag_name] = count_for
 

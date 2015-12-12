@@ -23,6 +23,10 @@ before do
   $data_store.reset_reporting_data
 end
 
+# after do
+#   puts $data_store.report
+# end
+
 get '/' do
   app = authorize!
   results = app.root
