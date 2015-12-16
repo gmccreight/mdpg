@@ -96,28 +96,11 @@ class UserPages < Struct.new(:user)
   end
 
   def find_page_with_name(name)
-    ensure_page_names_and_ids_caches_transition
-
     if user.cache_page_name_to_id[name]
       page_id = user.cache_page_name_to_id[name]
       return Page.find(page_id)
     else
       return nil
-    end
-  end
-
-  def ensure_page_names_and_ids_caches_transition
-    unless user.data_transitions
-      user.data_transitions = []
-      user.save
-    end
-
-    unless user.data_transitions.include?(:page_names_and_ids)
-      pages.each do |page|
-        user.add_page_name_and_id_caching(page.name, page.id)
-      end
-      user.data_transitions << :page_names_and_ids
-      user.save
     end
   end
 
