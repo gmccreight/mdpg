@@ -64,6 +64,7 @@ class UserPages < Struct.new(:user)
 
     duplicator = UserPageDuplicator.new(self, user, original_page)
     new_page = duplicator.duplicate
+    user.add_page_name_and_id_caching(new_page.name, new_page.id)
     page_was_created(new_page)
     page_ids_or_names_have_changed
     new_page
@@ -79,6 +80,7 @@ class UserPages < Struct.new(:user)
       if worked
         page_ids_or_names_have_changed
         user.remove_page_name_and_id_from_caching(old_name, page.id)
+        user.add_page_name_and_id_caching(new_name, page.id)
         user.save
       end
       return worked
@@ -94,17 +96,28 @@ class UserPages < Struct.new(:user)
   end
 
   def find_page_with_name(name)
+    ensure_page_names_and_ids_caches_transition
+
     if user.cache_page_name_to_id[name]
       page_id = user.cache_page_name_to_id[name]
       return Page.find(page_id)
     else
-      matching_pages = pages.select { |page| page.name == name }
-      return nil unless matching_pages
-      matching_pages.each do |page|
+      return nil
+    end
+  end
+
+  def ensure_page_names_and_ids_caches_transition
+    unless user.data_transitions
+      user.data_transitions = []
+      user.save
+    end
+
+    unless user.data_transitions.include?(:page_names_and_ids)
+      pages.each do |page|
         user.add_page_name_and_id_caching(page.name, page.id)
-        user.save
       end
-      return matching_pages.first
+      user.data_transitions << :page_names_and_ids
+      user.save
     end
   end
 

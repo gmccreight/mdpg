@@ -191,11 +191,10 @@ describe UserPages do
     end
 
     describe 'where the name already ends in a -1 or -v1' do
-      def page_should_duplicate_to(before, after)
-        @page.name = before
-        @page.save
-        new_page = @user_pages.duplicate_page before
-        assert_equal after, new_page.name
+      def page_should_duplicate_to(before_name, after_name)
+        @user_pages.rename_page(@page, before_name)
+        new_page = @user_pages.duplicate_page before_name
+        assert_equal after_name, new_page.name
       end
 
       describe 'without a v' do
