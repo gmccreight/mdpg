@@ -35,10 +35,12 @@ get '/' do
 end
 
 get '/application.js' do
+  cache_control :public, max_age: 600
   coffee :application
 end
 
 get '/keyboard.js' do
+  cache_control :public, max_age: 600
   coffee :keyboard
 end
 
