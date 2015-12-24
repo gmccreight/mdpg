@@ -51,18 +51,16 @@ class User < ModelBase
   end
 
   def add_page_name_and_id_caching(page_name, page_id)
-    cache_page_name_to_id[page_name] = page_id
-    cache_page_id_to_name[page_id] = page_name
+    UserPageNameToIdMapping.new(id).add(page_name, page_id)
   end
 
-  def remove_page_name_and_id_from_caching(page_name, page_id)
-    cache_page_name_to_id.delete(page_name)
-    cache_page_id_to_name.delete(page_id)
+  def remove_page_name_and_id_from_caching(page_name)
+    UserPageNameToIdMapping.new(id).delete(page_name)
   end
 
   def remove_page(page)
     remove_associated_object page
-    remove_page_name_and_id_from_caching(page.name, page.id)
+    remove_page_name_and_id_from_caching(page.name)
     UserRecentPages.new(self).remove_from_all_recent_pages_lists(page)
     save
   end

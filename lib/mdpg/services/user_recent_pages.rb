@@ -31,7 +31,7 @@ class UserRecentPages < Struct.new(:user)
   private def get_list_with_page_added(page, pre_existing_ids)
     ids = remove_from_recent_pages_lists(page, pre_existing_ids)
     ids.unshift page.id
-    ids[0..MAX_HISTORY-1]
+    ids[0..MAX_HISTORY - 1]
   end
 
   private def remove_from_recent_pages_lists(page, pre_existing_ids)

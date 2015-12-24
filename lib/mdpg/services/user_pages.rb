@@ -79,7 +79,7 @@ class UserPages < Struct.new(:user)
       worked = page.save
       if worked
         page_ids_or_names_have_changed
-        user.remove_page_name_and_id_from_caching(old_name, page.id)
+        user.remove_page_name_and_id_from_caching(old_name)
         user.add_page_name_and_id_caching(new_name, page.id)
         user.save
       end
@@ -96,11 +96,31 @@ class UserPages < Struct.new(:user)
   end
 
   def find_page_with_name(name)
-    if user.cache_page_name_to_id[name]
-      page_id = user.cache_page_name_to_id[name]
+    ensure_page_names_to_ids_transition_2
+    page_name_to_id_mapping = UserPageNameToIdMapping.new(user.id)
+    if page_name_to_id_mapping.get_id_for_page_name(name)
+      page_id = page_name_to_id_mapping.get_id_for_page_name(name)
       return Page.find(page_id)
     else
       return nil
+    end
+  end
+
+  def ensure_page_names_to_ids_transition_2
+    unless user.data_transitions
+      user.data_transitions = []
+      user.save
+    end
+
+    unless user.data_transitions.include?(:page_names_to_ids_part_2)
+      page_name_to_id_mapping = UserPageNameToIdMapping.new(user.id)
+      pages.each do |page|
+        page_name_to_id_mapping.add(page.name, page.id)
+      end
+      user.cache_page_name_to_id = {}
+      user.cache_page_id_to_name = {}
+      user.data_transitions << :page_names_to_ids_part_2
+      user.save
     end
   end
 
