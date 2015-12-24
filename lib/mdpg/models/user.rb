@@ -4,7 +4,7 @@ class User < ModelBase
   ATTRS = [:name, :email, :salt, :hashed_password, :access_token, :page_ids,
            :recent_edited_page_ids, :recent_viewed_page_ids,
            :recent_created_page_ids, :clan_ids, :page_tags, :is_admin,
-           :cache_page_name_to_id, :cache_page_id_to_name, :data_transitions]
+           :data_transitions]
 
   attr_accessor(*ATTRS)
 
@@ -12,8 +12,6 @@ class User < ModelBase
     {
       access_token: proc { RandStringGenerator.rand_string_of_length(32) },
       salt: proc { RandStringGenerator.rand_string_of_length(32) },
-      cache_page_name_to_id: proc { {} },
-      cache_page_id_to_name: proc { {} },
       data_transitions: proc { [] }
     }
   end

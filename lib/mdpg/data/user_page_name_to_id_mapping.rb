@@ -1,5 +1,4 @@
 class UserPageNameToIdMapping
-
   def initialize(user_id)
     @user_id = user_id
     @data_store = $data_store
