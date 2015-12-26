@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PageLinks < Struct.new(:user)
   def initialize(user)
     @user_pages = UserPages.new(user)

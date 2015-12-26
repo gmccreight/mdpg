@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ModelBase
   attr_accessor :data_store, :id, :revision_to_find
 

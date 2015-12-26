@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'mdpg/token'
 
 class ObjectTags < Struct.new(:object)

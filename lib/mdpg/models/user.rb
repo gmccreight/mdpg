@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rand_string_generator'
 
 class User < ModelBase

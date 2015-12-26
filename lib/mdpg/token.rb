@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Token < Struct.new(:text)
   TOKEN_REGEX_STR = '[a-z0-9-]+'
 

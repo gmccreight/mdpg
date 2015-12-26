@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'similar_token_finder'
 
 class TagAlreadyExistsForPageException < Exception

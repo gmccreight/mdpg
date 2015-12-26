@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PageDeleter
   def initialize(user, page)
     @user = user

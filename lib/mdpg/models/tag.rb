@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Tag < ModelBase
   ATTRS = [:name, :page_ids, :user_ids]
 

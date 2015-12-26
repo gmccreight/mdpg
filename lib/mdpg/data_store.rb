@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 
 class DataStore < Struct.new(:data_dir_or_memory)

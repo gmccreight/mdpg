@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserPagePermission < Struct.new(:user, :page)
   def can_read?
     owned_by?

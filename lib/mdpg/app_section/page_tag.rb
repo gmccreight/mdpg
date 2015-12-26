@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AppSection
   class PageTag
     def initialize(app, user = nil)

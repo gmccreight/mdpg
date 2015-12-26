@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
   def duplicate
     new_page_name = new_name(original_page.name)

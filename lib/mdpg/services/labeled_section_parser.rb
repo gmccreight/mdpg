@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Section < Struct.new(:start_char, :end_char, :name, :identifier, :count)
 end
 

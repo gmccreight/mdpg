@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'mdpg/app_section/tag'
 require 'mdpg/app_section/page_tag'
 

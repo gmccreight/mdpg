@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LabeledSectionTranscluder
   def get_page_ids(text)
     ids = []

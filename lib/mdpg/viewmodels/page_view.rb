@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'redcarpet'
 
 class PageView < Struct.new(:user, :page, :token_type)

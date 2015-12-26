@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PageReferrersUpdater
   def add_page_id_to_referrers(page_id, target_page)
     unless target_page.any_referring_pages?

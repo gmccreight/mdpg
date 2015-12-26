@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SearchQueryParser < Struct.new(:query)
   TAGS_REGEX_STR = '\\s+tags:([a-z\\-][a-z\\-,*]+)'
 

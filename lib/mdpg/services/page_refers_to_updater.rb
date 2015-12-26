@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PageRefersToUpdater
   def initialize(page, user)
     page_links = PageLinks.new(user)

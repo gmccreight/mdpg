@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserRecentPages < Struct.new(:user)
   MAX_HISTORY = 250
 
