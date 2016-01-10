@@ -4,7 +4,8 @@
   %form{"ng-submit" => "addTag()"}
     %input#tag_input_id{"ng-model" => "tagText",
       "ng-change" => "suggest(tagText)",
-      :placeholder => "add new tag here", :size => "30", :type => "text"}/
+      :placeholder => "add new tag here", :size => "30", :type => "text",
+      :autocomplete => "off"}/
 
   .error{"ng-model" => "error", "ng-show" => "hasError()"}
     {{error}}
