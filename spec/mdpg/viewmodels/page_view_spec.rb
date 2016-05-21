@@ -39,6 +39,9 @@ describe PageView do
   describe 'rendered html for page' do
     describe 'which transcludes labeled sections from other pages' do
       it 'should work' do
+
+        first_page = Page.create name: 'first-page', text: 'first-page'
+
         ident = 'abababababababab'
 
         other_text = (<<-EOF).gsub(/^[ ]{10}/, '')
@@ -51,6 +54,8 @@ describe PageView do
           John James said: "this is an important command:"
 
               ls -l
+
+          [[mdpgpage:#{first_page.id}]]
 
           [[#important-idea:#{ident}]]
         EOF
@@ -82,6 +87,8 @@ describe PageView do
           John James said: "this is an important command:"
 
               ls -l
+
+          [first-page](/p/first-page)
 
           <div class='transcluded-section-header bottom-header'>&nbsp;</div>
 

@@ -35,5 +35,4 @@ class UserPageNameToIdMapping
   def data_key
     "userpagenametoiddata-#{@user_id}"
   end
-
 end
