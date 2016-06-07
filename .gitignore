@@ -13,4 +13,6 @@ bin/seeder
 bin/hack
 bin/ops/_shared_local_config.sh
 
+local
+
 .rubocop_result
