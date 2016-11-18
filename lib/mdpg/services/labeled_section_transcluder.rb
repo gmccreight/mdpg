@@ -17,7 +17,7 @@ class LabeledSectionTranscluder
 
       page = Page.find(page_id)
 
-      parser = LabeledSectionParser.new(Page.find(page_id).text)
+      parser = LabeledSectionParser.new(page.text)
       parser.process
 
       section_name = parser.name_for(section_identifier)
