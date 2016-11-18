@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class LabeledSectionTranscluder
+  OPTS_REGEX_STR = '[a-z0-9-]+[a-z0-9-,]*'
   def get_page_ids(text)
     ids = []
     text.gsub(internal_link_regex) do
@@ -10,10 +11,22 @@ class LabeledSectionTranscluder
     ids
   end
 
+  def process_opts(maybe_raw_opts)
+    if ! maybe_raw_opts
+      return nil
+    end
+
+    result = maybe_raw_opts
+    result = result.sub(/^:/, '')
+    result = result.split(/,/)
+    result
+  end
+
   def transclude_the_sections(text)
     text.gsub(internal_link_regex) do
       page_id = Regexp.last_match(1).to_i
       section_identifier = Regexp.last_match(2)
+      maybe_opts = process_opts(Regexp.last_match(3))
 
       page = Page.find(page_id)
 
@@ -22,21 +35,30 @@ class LabeledSectionTranscluder
 
       section_name = parser.name_for(section_identifier)
 
-      yield page, parser, section_name, section_identifier
+      yield page, parser, section_name, section_identifier, maybe_opts
     end
   end
 
+  def link_text(str, maybe_opts)
+    if maybe_opts
+      str = str + ":" + maybe_opts.join(",")
+    end
+    "[[" + str + "]]"
+  end
+
   def user_facing_links_to_internal_links(text, user_pages)
+    t = Token::TOKEN_REGEX_STR
     text = text.gsub(
-      /\[\[(#{Token::TOKEN_REGEX_STR})#(#{Token::TOKEN_REGEX_STR})\]\]/
+      /\[\[(#{t})#(#{t})(:#{OPTS_REGEX_STR})?\]\]/
     ) do
       page_name = Regexp.last_match(1)
       section_name = Regexp.last_match(2)
+      maybe_opts = process_opts(Regexp.last_match(3))
 
       result = ''
 
       if page_name == 'mdpgpage'
-        result = "[[#{page_name}:#{section_name}]]"
+        result = link_text("#{page_name}:#{section_name}", maybe_opts)
       else
         page = user_pages.find_page_with_name(page_name)
 
@@ -44,11 +66,15 @@ class LabeledSectionTranscluder
           parser = parser_with_processed_text_for(page.text)
           identifier = parser.identifier_for(section_name)
 
-          result = "[[mdpgpage:#{page.id}:#{identifier}]]" if identifier
+          if identifier
+            result = link_text("mdpgpage:#{page.id}:#{identifier}", maybe_opts)
+          end
         end
       end
 
-      result = "[[#{page_name}##{section_name}]]" if result == ''
+      if result == ''
+        result = link_text("#{page_name}##{section_name}", maybe_opts)
+      end
 
       result
     end
@@ -60,6 +86,7 @@ class LabeledSectionTranscluder
     text = text.gsub(internal_link_regex) do
       page_id = Regexp.last_match(1).to_i
       section_id = Regexp.last_match(2)
+      maybe_opts = process_opts(Regexp.last_match(3))
 
       result = ''
 
@@ -69,10 +96,14 @@ class LabeledSectionTranscluder
         parser = parser_with_processed_text_for(page.text)
         section_name = parser.name_for(section_id)
 
-        result = "[[#{page.name}##{section_name}]]" if section_name
+        if section_name
+          result = link_text("#{page.name}##{section_name}", maybe_opts)
+        end
       end
 
-      result = "[[mdpgpage:#{page_id}##{section_id}]]" if result == ''
+      if result == ''
+        result = link_text("mdpgpage:#{page_id}##{section_id}", maybe_opts)
+      end
 
       result
     end
@@ -87,6 +118,6 @@ class LabeledSectionTranscluder
   end
 
   private def internal_link_regex
-    /\[\[mdpgpage:(\d+):(#{Token::TOKEN_REGEX_STR})\]\]/
+    /\[\[mdpgpage:(\d+):(#{Token::TOKEN_REGEX_STR})(:#{OPTS_REGEX_STR})?\]\]/
   end
 end
