@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class LabeledSectionTranscluder
-  OPTS_REGEX_STR = '[a-z0-9-]+[a-z0-9-,]*'
+  OPTS_REGEX_STR = '[a-z0-9-]+[a-z0-9,-]*'
   def get_page_ids(text)
     ids = []
     text.gsub(internal_link_regex) do
