@@ -39,18 +39,26 @@ class PageView < Struct.new(:user, :page, :token_type)
 
   private def text_with_labeled_sections_transcluded(text)
     LabeledSectionTranscluder.new
-      .transclude_the_sections(text) do |page, sec, sec_name, sec_id|
-      transcluded_text = PageLinks.new(user)
-        .internal_links_to_user_clickable_links(sec.text_for(sec_id))
-      "
-      <div class='transcluded-section-header top-header'>
-        <a href='/p/#{page.name}'>#{page.name}</a>##{sec_name}
-      </div>
+      .transclude_the_sections(text) do
+        |page, sec, sec_name, sec_id, maybe_opts|
 
-      #{transcluded_text}
+        transcluded_text = PageLinks.new(user)
+          .internal_links_to_user_clickable_links(sec.text_for(sec_id))
 
-      <div class='transcluded-section-header bottom-header'>&nbsp;</div>
-      ".gsub(/^[ ]{6}/, '')
+      if maybe_opts and maybe_opts.include?('short')
+        link = "<a href='/p/#{page.name}##{sec_name}'>#</a>"
+        "<span class='transcluded-short'>#{transcluded_text}</span>(#{link})"
+      else
+        "
+        <div class='transcluded-section-header top-header'>
+          <a href='/p/#{page.name}'>#{page.name}</a>##{sec_name}
+        </div>
+
+        #{transcluded_text}
+
+        <div class='transcluded-section-header bottom-header'>&nbsp;</div>
+        ".gsub(/^[ ]{8}/, '')
+      end
     end
   end
 

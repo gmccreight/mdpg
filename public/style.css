@@ -67,6 +67,10 @@ table.tag_table_cls, table.tag_table_cls td {
   padding:2px;
 }
 
+.transcluded-short {
+  background-color:#eee;
+}
+
 .transcluded-section-header {
   background-color:#eee;
   padding:4px;

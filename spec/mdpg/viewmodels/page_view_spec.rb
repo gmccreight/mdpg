@@ -37,7 +37,7 @@ describe PageView do
   end
 
   describe 'rendered html for page' do
-    describe 'which transcludes labeled sections from other pages' do
+    describe 'transcludes labeled sections in from other pages' do
       it 'should work' do
 
         first_page = Page.create name: 'first-page', text: 'first-page'
@@ -97,6 +97,30 @@ describe PageView do
         EOF
 
         assert_equal expected_text, page_vm.text_before_markdown_parsing
+      end
+    end
+    describe 'transcludes labeled sections in short mode' do
+      it 'should work' do
+        ident = 'abababababababab'
+        target_text = (<<-EOF).gsub(/^[ ]{10}/, '')
+          something that we're talking about
+          with [[#idea:#{ident}]]some short idea[[#idea:#{ident}]]
+          yep, that's it
+        EOF
+        target_page = Page.create name: 'target-page', text: target_text
+
+        text = "From the other "
+        text += "page: [[mdpgpage:#{target_page.id}:#{ident}:short]] yo"
+
+        this_page = Page.create name: 'this-page', text: text
+
+        page_vm = PageView.new(@user, this_page, nil)
+
+        link = "<a href='/p/target-page#idea'>#</a>"
+        expected = "From the other page: <span class"
+        expected += "='transcluded-short'>some short idea</span>(#{link}) yo"
+
+        assert_equal expected, page_vm.text_before_markdown_parsing
       end
     end
 
