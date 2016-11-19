@@ -12,7 +12,7 @@ class LabeledSectionTranscluder
   end
 
   def process_opts(maybe_raw_opts)
-    if ! maybe_raw_opts
+    if !maybe_raw_opts
       return nil
     end
 
@@ -41,9 +41,9 @@ class LabeledSectionTranscluder
 
   def link_text(str, maybe_opts)
     if maybe_opts
-      str = str + ":" + maybe_opts.join(",")
+      str = str + ':' + maybe_opts.join(',')
     end
-    "[[" + str + "]]"
+    '[[' + str + ']]'
   end
 
   def user_facing_links_to_internal_links(text, user_pages)

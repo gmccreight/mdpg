@@ -42,15 +42,13 @@ class PageView < Struct.new(:user, :page, :token_type)
     max_tries.times do
       before = text
       text = LabeledSectionTranscluder.new
-        .transclude_the_sections(text) do
-          |page, sec, sec_name, sec_id, maybe_opts|
+        .transclude_the_sections(text) do |page, sec, sec_name, sec_id, opts|
+        transcluded_text = PageLinks.new(user)
+          .internal_links_to_user_clickable_links(sec.text_for(sec_id))
 
-          transcluded_text = PageLinks.new(user)
-            .internal_links_to_user_clickable_links(sec.text_for(sec_id))
-
-        if maybe_opts and maybe_opts.include?('short')
+        if opts && opts.include?('short')
           link = "<a href='/p/#{page.name}##{sec_name}'>#</a>"
-          "<span class='transcluded-short'>#{transcluded_text}</span>\n" +
+          "<span class='transcluded-short'>#{transcluded_text}</span>\n" \
           "(#{link})"
         else
           "

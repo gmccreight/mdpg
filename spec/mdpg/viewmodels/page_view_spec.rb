@@ -39,7 +39,6 @@ describe PageView do
   describe 'rendered html for page' do
     describe 'transcludes labeled sections in from other pages' do
       it 'should work' do
-
         first_page = Page.create name: 'first-page', text: 'first-page'
 
         ident = 'abababababababab'
@@ -109,7 +108,7 @@ describe PageView do
         EOF
         target_page = Page.create name: 'target-page', text: target_text
 
-        text = "From the other "
+        text = 'From the other '
         text += "page: [[mdpgpage:#{target_page.id}:#{ident}:short]] yo"
 
         this_page = Page.create name: 'this-page', text: text
@@ -117,7 +116,7 @@ describe PageView do
         page_vm = PageView.new(@user, this_page, nil)
 
         link = "<a href='/p/target-page#idea'>#</a>"
-        expected = "From the other page: <span class"
+        expected = 'From the other page: <span class'
         expected += "='transcluded-short'>some short idea</span>\n"
         expected += "(#{link}) yo"
 

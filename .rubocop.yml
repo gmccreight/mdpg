@@ -40,6 +40,14 @@ Style/StructInheritance:
 Style/Documentation:
   Enabled: false
 
+# I don't agree with this one
+Style/IfUnlessModifier:
+  Enabled: false
+
+# I don't agree with this one
+Style/NegatedIf:
+  Enabled: false
+
 # We rely on Code Climate to enforce this, currently.  Possibly we can be
 # more aggressive and turn this back on.
 Metrics/MethodLength:
