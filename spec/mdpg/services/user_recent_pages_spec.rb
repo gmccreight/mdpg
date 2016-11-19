@@ -14,12 +14,12 @@ describe UserRecentPages do
     end
 
     def add_some_recent_pages
-      @page1 = create_page
-      UserRecentPages.new(@user).add_to_recent_edited_pages_list @page1
-      @page2 = create_page
-      UserRecentPages.new(@user).add_to_recent_edited_pages_list @page2
-      @page3 = create_page
-      UserRecentPages.new(@user).add_to_recent_edited_pages_list @page3
+      @page_1 = create_page
+      UserRecentPages.new(@user).add_to_recent_edited_pages_list @page_1
+      @page_2 = create_page
+      UserRecentPages.new(@user).add_to_recent_edited_pages_list @page_2
+      @page_3 = create_page
+      UserRecentPages.new(@user).add_to_recent_edited_pages_list @page_3
     end
 
     def page_ids_should_be(expected)
@@ -27,12 +27,12 @@ describe UserRecentPages do
     end
 
     it 'should add a second recent page after the first one' do
-      page_ids_should_be [@page3.id, @page2.id, @page1.id]
+      page_ids_should_be [@page_3.id, @page_2.id, @page_1.id]
     end
 
     it 'should move a newly added repeat page to beginning of the list' do
-      UserRecentPages.new(@user).add_to_recent_edited_pages_list @page2
-      page_ids_should_be [@page2.id, @page3.id, @page1.id]
+      UserRecentPages.new(@user).add_to_recent_edited_pages_list @page_2
+      page_ids_should_be [@page_2.id, @page_3.id, @page_1.id]
     end
   end
 end

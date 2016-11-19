@@ -25,11 +25,11 @@ describe User do
     end
 
     it 'should increment the id' do
-      u1 = create_user_with_name 'John'
-      assert_equal 1, u1.id
+      u_1 = create_user_with_name 'John'
+      assert_equal 1, u_1.id
 
-      u2 = create_user_with_name 'Tim'
-      assert_equal 2, u2.id
+      u_2 = create_user_with_name 'Tim'
+      assert_equal 2, u_2.id
     end
   end
 
@@ -115,17 +115,17 @@ describe User do
     end
 
     it 'should add, remove, and persist pages' do
-      page1 = create_page
-      page2 = create_page
-      page3 = create_page
-      @user.add_page page1
-      @user.add_page page2
-      @user.add_page page3
-      assert_equal [page1.id, page2.id, page3.id], @user.page_ids
-      @user.remove_page page2
-      assert_equal [page1.id, page3.id], @user.page_ids
+      page_1 = create_page
+      page_2 = create_page
+      page_3 = create_page
+      @user.add_page page_1
+      @user.add_page page_2
+      @user.add_page page_3
+      assert_equal [page_1.id, page_2.id, page_3.id], @user.page_ids
+      @user.remove_page page_2
+      assert_equal [page_1.id, page_3.id], @user.page_ids
       @user.save
-      assert_equal [page1.id, page3.id], User.find(1).page_ids
+      assert_equal [page_1.id, page_3.id], User.find(1).page_ids
     end
   end
 
@@ -136,17 +136,17 @@ describe User do
     end
 
     it 'should add, remove, and persist clans' do
-      clan1 = create_clan
-      clan2 = create_clan
-      clan3 = create_clan
-      @user.add_clan clan1
-      @user.add_clan clan2
-      @user.add_clan clan3
-      assert_equal [clan1.id, clan2.id, clan3.id], @user.clan_ids
-      @user.remove_clan clan2
-      assert_equal [clan1.id, clan3.id], @user.clan_ids
+      clan_1 = create_clan
+      clan_2 = create_clan
+      clan_3 = create_clan
+      @user.add_clan clan_1
+      @user.add_clan clan_2
+      @user.add_clan clan_3
+      assert_equal [clan_1.id, clan_2.id, clan_3.id], @user.clan_ids
+      @user.remove_clan clan_2
+      assert_equal [clan_1.id, clan_3.id], @user.clan_ids
       @user.save
-      assert_equal [clan1.id, clan3.id], User.find(1).clan_ids
+      assert_equal [clan_1.id, clan_3.id], User.find(1).clan_ids
     end
   end
 end

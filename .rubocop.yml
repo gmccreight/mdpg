@@ -48,6 +48,10 @@ Style/IfUnlessModifier:
 Style/NegatedIf:
   Enabled: false
 
+# I like guard clauses, but rubocop's a bit too aggressive about them
+Style/GuardClause:
+  Enabled: false
+
 Style/VariableNumber:
   EnforcedStyle: 'snake_case'
 

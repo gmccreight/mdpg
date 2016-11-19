@@ -12,7 +12,7 @@ class SimilarTokenFinder
       .map { |x| x[0] }
   end
 
-  private def with_matchingness(w1, w2)
-    [w2, Align::SmithWaterman.new(w1, w2).max_score]
+  private def with_matchingness(w_1, w_2)
+    [w_2, Align::SmithWaterman.new(w_1, w_2).max_score]
   end
 end

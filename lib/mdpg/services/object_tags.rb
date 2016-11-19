@@ -64,11 +64,8 @@ class ObjectTags < Struct.new(:object)
     if @tags_cached_ids != object.tag_ids
       @tags = object.tag_ids.map { |x| Tag.find(x) }
       @tags_cached_ids = object.tag_ids
-      return @tags
-    else
-      # use the cached value
-      return @tags
     end
+    @tags
   end
 
   def sorted_tag_names
