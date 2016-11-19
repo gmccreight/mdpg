@@ -17,7 +17,8 @@ describe PageSharingTokens do
       PageSharingTokens.new(page).activate_sharing_token :readonly
 
       found_page, _token_type = PageSharingTokens.find_page_by_token(
-        page.readonly_sharing_token)
+        page.readonly_sharing_token
+      )
       assert_equal page.id, found_page.id
     end
 
@@ -35,7 +36,8 @@ describe PageSharingTokens do
       page = create_page_with_name 'the-page'
       assert_equal page.readwrite_sharing_token.size, 32
       found_page, _token_type = PageSharingTokens.find_page_by_token(
-        page.readwrite_sharing_token)
+        page.readwrite_sharing_token
+      )
       assert found_page.nil?
     end
   end
@@ -72,7 +74,8 @@ describe PageSharingTokens do
         tokens = PageSharingTokens.new(page)
         tokens.activate_sharing_token :readonly
         tokens.rename_sharing_token(:readonly,
-                                    other_page.readonly_sharing_token)
+                                    other_page.readonly_sharing_token
+                                   )
       end
     end
 
@@ -87,7 +90,8 @@ describe PageSharingTokens do
     it 'should return an error if you try to modify a bogus token type' do
       create_page_with_name 'the-page'
       result = PageSharingTokens.new(@page).rename_sharing_token(
-        :bogus, 'too')
+        :bogus, 'too'
+      )
       assert_equal :token_type_does_not_exist, result
     end
   end

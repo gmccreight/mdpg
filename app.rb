@@ -271,11 +271,9 @@ def current_user
   return nil unless access_token
 
   user = User.find_by_index(:access_token, access_token)
-  if user
-    return user
-  else
-    clear_access_token
-  end
+  return user if user
+
+  clear_access_token
 end
 
 def access_token

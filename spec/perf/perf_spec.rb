@@ -18,8 +18,8 @@ if ENV['perf']
       it 'should persist and retrieve a large array quickly' do
         array_length = 10_000
         @data.set 'somekey', (1..array_length).to_a
-        array2 = @data.get 'somekey'
-        assert_equal array_length, array2.length
+        array_2 = @data.get 'somekey'
+        assert_equal array_length, array_2.length
       end
 
       it 'should persist and retrieve a large hash quickly' do
@@ -29,9 +29,9 @@ if ENV['perf']
           hash[key.to_s.to_sym] = 'hello'
         end
         @data.set 'somekey', hash
-        hash2 = @data.get 'somekey'
-        assert_equal hash_length, hash2.length
-        assert_equal 'hello', hash2['3'.to_sym]
+        hash_2 = @data.get 'somekey'
+        assert_equal hash_length, hash_2.length
+        assert_equal 'hello', hash_2['3'.to_sym]
       end
     end
   end
