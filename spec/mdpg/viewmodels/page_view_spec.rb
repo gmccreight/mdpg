@@ -43,7 +43,7 @@ describe PageView do
 
         ident = 'abababababababab'
 
-        other_text = (<<-EOF).gsub(/^[ ]{10}/, '')
+        other_text = <<-EOF.gsub(/^[ ]{10}/, '')
           something that we're talking about
           with [[#important-idea:#{ident}]]
 
@@ -60,7 +60,7 @@ describe PageView do
         EOF
         other_page = Page.create name: 'other-page', text: other_text
 
-        this_text = (<<-EOF).gsub(/^ +/, '')
+        this_text = <<-EOF.gsub(/^ +/, '')
           From the other page:
 
           [[mdpgpage:#{other_page.id}:#{ident}]]
@@ -72,7 +72,7 @@ describe PageView do
 
         page_vm = PageView.new(@user, this_page, nil)
 
-        expected_text = (<<-EOF).gsub(/^[ ]{10}/, '')
+        expected_text = <<-EOF.gsub(/^[ ]{10}/, '')
           From the other page:
 
 
@@ -101,7 +101,7 @@ describe PageView do
     describe 'transcludes labeled sections in short mode' do
       it 'should work' do
         ident = 'abababababababab'
-        target_text = (<<-EOF).gsub(/^[ ]{10}/, '')
+        target_text = <<-EOF.gsub(/^[ ]{10}/, '')
           something that we're talking about
           with [[#idea:#{ident}]]some short idea[[#idea:#{ident}]]
           yep, that's it
@@ -126,7 +126,7 @@ describe PageView do
     describe 'transcludes works with a double-transclusion' do
       it 'should work' do
         first_ident = 'cccbababababaccc'
-        first_page_text = (<<-EOF).gsub(/^[ ]{10}/, '')
+        first_page_text = <<-EOF.gsub(/^[ ]{10}/, '')
           some stuff
 
           [[#quote:#{first_ident}]]"Crazy in love!"[[#quote:#{first_ident}]]
@@ -136,7 +136,7 @@ describe PageView do
         first_page = Page.create name: 'first-page', text: first_page_text
 
         second_ident = 'abababababababab'
-        second_text = (<<-EOF).gsub(/^[ ]{10}/, '')
+        second_text = <<-EOF.gsub(/^[ ]{10}/, '')
           something that we're talking about
           with [[#important-idea:#{second_ident}]]
 
@@ -153,7 +153,7 @@ describe PageView do
         EOF
         second_page = Page.create name: 'second-page', text: second_text
 
-        this_text = (<<-EOF).gsub(/^ +/, '')
+        this_text = <<-EOF.gsub(/^ +/, '')
           From the second page:
 
           [[mdpgpage:#{second_page.id}:#{second_ident}]]
@@ -165,7 +165,7 @@ describe PageView do
 
         page_vm = PageView.new(@user, this_page, nil)
 
-        expected_text = (<<-EOF).gsub(/^[ ]{10}/, '')
+        expected_text = <<-EOF.gsub(/^[ ]{10}/, '')
           From the second page:
 
 

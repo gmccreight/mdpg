@@ -7,7 +7,7 @@ describe LabeledSectionParser do
 
   describe 'adding unique identifiers to section definitions' do
     it 'should add missing identifier to section definition without one' do
-      text = (<<-EOF).gsub(/^ +/, '')
+      text = <<-EOF.gsub(/^ +/, '')
         start of the text
 
         [[#quote1:aaaxxxbbb]]
@@ -31,7 +31,7 @@ describe LabeledSectionParser do
 
       new_text = parser.add_any_missing_identifiers
 
-      expected_text = (<<-EOF).gsub(/^ +/, '')
+      expected_text = <<-EOF.gsub(/^ +/, '')
         start of the text
 
         [[#quote1:aaaxxxbbb]]
@@ -52,7 +52,7 @@ describe LabeledSectionParser do
 
   describe 'success' do
     it 'should list fully opened and closed sections' do
-      text = (<<-EOF).gsub(/^ +/, '')
+      text = <<-EOF.gsub(/^ +/, '')
         here is some text
         with [[#coolname]] in it
         and also
@@ -64,7 +64,7 @@ describe LabeledSectionParser do
     end
 
     it 'should list fully opened and closed sections using uniq id syntax' do
-      text = (<<-EOF).gsub(/^ +/, '')
+      text = <<-EOF.gsub(/^ +/, '')
         here is some text
         with [[#coolname:axzegdababuwxnc]] in it
         and also
@@ -77,7 +77,7 @@ describe LabeledSectionParser do
     end
 
     it 'should give the uniq id for a name' do
-      text = (<<-EOF).gsub(/^ +/, '')
+      text = <<-EOF.gsub(/^ +/, '')
         here is some text
         with [[#coolname:axzegdababuwxnc]] in it
         and also
@@ -91,7 +91,7 @@ describe LabeledSectionParser do
 
     describe 'text for a given section' do
       it 'should give the text for a section' do
-        text = (<<-EOF).gsub(/^ +/, '')
+        text = <<-EOF.gsub(/^ +/, '')
           here is some text
           with [[#coolname:axzegdababuwxnc]] in it
           and also
@@ -104,7 +104,7 @@ describe LabeledSectionParser do
       end
 
       it 'should not include other section tags' do
-        text = (<<-EOF).gsub(/^ +/, '')
+        text = <<-EOF.gsub(/^ +/, '')
           here is some text
           with [[#coolname:axzegdababuwxnc]] in it
 
@@ -124,7 +124,7 @@ describe LabeledSectionParser do
 
   describe 'errors' do
     it 'should not have any for well formatted sections' do
-      text = (<<-EOF).gsub(/^ +/, '')
+      text = <<-EOF.gsub(/^ +/, '')
         here is some text
         with [[#coolname]] in it
         and also
@@ -136,7 +136,7 @@ describe LabeledSectionParser do
     end
 
     it 'should have an error for an un-closed section' do
-      text = (<<-EOF).gsub(/^ +/, '')
+      text = <<-EOF.gsub(/^ +/, '')
         here is some text
         with [[#coolname]] in it
         and also
@@ -150,7 +150,7 @@ describe LabeledSectionParser do
     end
 
     it 'should have an error for a section with too many starts' do
-      text = (<<-EOF).gsub(/^ +/, '')
+      text = <<-EOF.gsub(/^ +/, '')
         here is some text
         with [[#coolname]] in it
         and also

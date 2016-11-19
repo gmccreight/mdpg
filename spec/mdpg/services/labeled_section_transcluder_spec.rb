@@ -11,7 +11,7 @@ describe LabeledSectionTranscluder do
 
     ident = 'abababababababab'
 
-    other_text = (<<-EOF).gsub(/^ +/, '')
+    other_text = <<-EOF.gsub(/^ +/, '')
       something that we're talking about
       with [[#important-idea:#{ident}]]
       John James said: "this is an important idea"
@@ -19,7 +19,7 @@ describe LabeledSectionTranscluder do
     EOF
     other_page = user_pages.create_page name: 'other-page', text: other_text
 
-    this_text = (<<-EOF).gsub(/^ +/, '')
+    this_text = <<-EOF.gsub(/^ +/, '')
       From the other page:
 
       [[other-page#important-idea]]
@@ -29,7 +29,7 @@ describe LabeledSectionTranscluder do
 
     this_page = user_pages.create_page name: 'this-page', text: this_text
 
-    expected_text = (<<-EOF).gsub(/^ +/, '')
+    expected_text = <<-EOF.gsub(/^ +/, '')
       From the other page:
 
       [[mdpgpage:#{other_page.id}:#{ident}]]
@@ -46,7 +46,7 @@ describe LabeledSectionTranscluder do
 
     ident = 'abababababababab'
 
-    other_text = (<<-EOF).gsub(/^ +/, '')
+    other_text = <<-EOF.gsub(/^ +/, '')
       something that we're talking about
       with [[#important-idea:#{ident}]]
       John James said: "this is an important idea"
@@ -54,7 +54,7 @@ describe LabeledSectionTranscluder do
     EOF
     other_page = user_pages.create_page name: 'other-page', text: other_text
 
-    this_text = (<<-EOF).gsub(/^ +/, '')
+    this_text = <<-EOF.gsub(/^ +/, '')
       From the other page:
 
       [[other-page#important-idea:short]]
@@ -64,7 +64,7 @@ describe LabeledSectionTranscluder do
 
     this_page = user_pages.create_page name: 'this-page', text: this_text
 
-    expected_text = (<<-EOF).gsub(/^ +/, '')
+    expected_text = <<-EOF.gsub(/^ +/, '')
       From the other page:
 
       [[mdpgpage:#{other_page.id}:#{ident}:short]]

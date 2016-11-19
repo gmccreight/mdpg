@@ -131,7 +131,8 @@ describe 'page' do
         follow_redirect_with_authenticated_user!(@user)
         assert last_request.url.include? '/p/original-good-page-name'
         assert last_response.body.include?(
-          '<a href="/p/other-page-1">other-page-1</a>')
+          '<a href="/p/other-page-1">other-page-1</a>'
+        )
 
         assert_equal [other_page_1.id], @page.reload.refers_to_page_ids
         assert_equal [@page.id], other_page_1.reload.referring_page_ids
@@ -148,7 +149,8 @@ describe 'page' do
         follow_redirect_with_authenticated_user!(@user)
         assert last_request.url.include? '/p/original-good-page-name'
         assert last_response.body.include?(
-          '<a href="/p/other-page-1">other-page-1</a>')
+          '<a href="/p/other-page-1">other-page-1</a>'
+        )
 
         assert_equal [other_page_1.id], @page.reload.refers_to_page_ids
         assert_equal [@page.id], other_page_1.reload.referring_page_ids

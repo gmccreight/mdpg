@@ -11,7 +11,7 @@ describe PageRefersToUpdater do
     it 'should set up referrals between included pages' do
       ident = 'alsdkjfwijalkfjlsdkfj'
 
-      other_text = (<<-EOF).gsub(/^ +/, '')
+      other_text = <<-EOF.gsub(/^ +/, '')
         something that we're talking about
         with [[#important-idea:#{ident}]]
         John James said: "this is an important idea"
@@ -20,7 +20,7 @@ describe PageRefersToUpdater do
       other_page = @user_pages.create_page name: 'other-page',
                                            text: other_text
 
-      this_text = (<<-EOF).gsub(/^ +/, '')
+      this_text = <<-EOF.gsub(/^ +/, '')
         I'm including this:
         [[other-page#important-idea]]
         because it is so important
@@ -36,7 +36,7 @@ describe PageRefersToUpdater do
     it 'should work with both types of referrals to other pages' do
       ident = 'alsdkjfwijalkfjlsdkfj'
 
-      other_page_1_text = (<<-EOF).gsub(/^ +/, '')
+      other_page_1_text = <<-EOF.gsub(/^ +/, '')
         something that we're talking about
         with [[#important-idea:#{ident}]]
         John James said: "this is an important idea"
@@ -48,7 +48,7 @@ describe PageRefersToUpdater do
       other_page_2 = @user_pages.create_page name: 'other-page-2',
         text: 'just some text'
 
-      this_text = (<<-EOF).gsub(/^ +/, '')
+      this_text = <<-EOF.gsub(/^ +/, '')
         I'm including this:
         [[other-page-1#important-idea]]
         because it is so important.

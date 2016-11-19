@@ -48,6 +48,9 @@ Style/IfUnlessModifier:
 Style/NegatedIf:
   Enabled: false
 
+Style/VariableNumber:
+  EnforcedStyle: 'snake_case'
+
 # We rely on Code Climate to enforce this, currently.  Possibly we can be
 # more aggressive and turn this back on.
 Metrics/MethodLength:

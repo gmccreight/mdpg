@@ -20,7 +20,7 @@ describe PageEditView do
 
       ident = 'abababababababab'
 
-      other_text = (<<-EOF).gsub(/^ +/, '')
+      other_text = <<-EOF.gsub(/^ +/, '')
         something that we're talking about
         with [[#important-idea:#{ident}]]
         John James said: "this is an important idea"
@@ -28,7 +28,7 @@ describe PageEditView do
       EOF
       other_page = user_pages.create_page name: 'other-page', text: other_text
 
-      this_text = (<<-EOF).gsub(/^ +/, '')
+      this_text = <<-EOF.gsub(/^ +/, '')
         From the other page:
 
         [[other-page#important-idea]]
@@ -38,7 +38,7 @@ describe PageEditView do
 
       this_page = user_pages.create_page name: 'this-page', text: this_text
 
-      expected_internal_text = (<<-EOF).gsub(/^ +/, '')
+      expected_internal_text = <<-EOF.gsub(/^ +/, '')
         From the other page:
 
         [[mdpgpage:#{other_page.id}:#{ident}]]
@@ -48,7 +48,7 @@ describe PageEditView do
 
       assert_equal expected_internal_text, this_page.text
 
-      expected_editing_text = (<<-EOF).gsub(/^ +/, '')
+      expected_editing_text = <<-EOF.gsub(/^ +/, '')
         From the other page:
 
         [[other-page#important-idea]]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Only actually run coveralls in a CI environment.  The code slows down
 # tests by 0.4 seconds otherwise.
 # This code was copied/pasted from /lib/coveralls.rb in the coveralls-ruby gem
