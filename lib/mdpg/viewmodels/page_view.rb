@@ -31,7 +31,7 @@ class PageView < Struct.new(:user, :page, :token_type)
 
   def text_before_markdown_parsing
     text = PageLinks.new(user)
-      .internal_links_to_user_clickable_links(page.text)
+                    .internal_links_to_user_clickable_links(page.text)
     text = text_with_stylized_labeled_section_definitions(text, name)
     text = text_with_labeled_sections_transcluded(text)
     text
@@ -42,9 +42,9 @@ class PageView < Struct.new(:user, :page, :token_type)
     max_tries.times do
       before = text
       text = LabeledSectionTranscluder.new
-        .transclude_the_sections(text) do |page, sec, sec_name, sec_id, opts|
+                                      .transclude_the_sections(text) do |page, sec, sec_name, sec_id, opts|
         transcluded_text = PageLinks.new(user)
-          .internal_links_to_user_clickable_links(sec.text_for(sec_id))
+                                    .internal_links_to_user_clickable_links(sec.text_for(sec_id))
 
         if opts && opts.include?('short')
           link = "<a href='/p/#{page.name}##{sec_name}'>#</a>"

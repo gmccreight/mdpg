@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../../spec_helper'
 
 describe UserPageTags do
@@ -91,15 +92,15 @@ describe UserPageTags do
     end
 
     it 'should find all tags that are relatively closely related' do
-      assert_equal %w(color colour), @user_page_tags.search('color')
+      assert_equal %w(color colour), @user_page_tags.search('color'.dup)
     end
 
     it 'should even find tags that are not too closely related' do
-      assert_equal ['green'], @user_page_tags.search('great')
+      assert_equal ['green'], @user_page_tags.search('great'.dup)
     end
 
     it 'should not return any results if no matches' do
-      assert_equal [], @user_page_tags.search('what')
+      assert_equal [], @user_page_tags.search('what'.dup)
     end
   end
 

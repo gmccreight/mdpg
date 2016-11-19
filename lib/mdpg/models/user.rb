@@ -6,7 +6,7 @@ class User < ModelBase
   ATTRS = [:name, :email, :salt, :hashed_password, :access_token, :page_ids,
            :recent_edited_page_ids, :recent_viewed_page_ids,
            :recent_created_page_ids, :clan_ids, :page_tags, :is_admin,
-           :data_transitions]
+           :data_transitions].freeze
 
   attr_accessor(*ATTRS)
 

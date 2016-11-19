@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-class SharingTokenAlreadyExistsException < Exception
+class SharingTokenAlreadyExistsException < RuntimeError
 end
 
 class PageSharingTokens < Struct.new(:page)
-  TOKEN_TYPES = [:readonly, :readwrite]
+  TOKEN_TYPES = [:readonly, :readwrite].freeze
 
   def self.find_page_by_token(token)
     TOKEN_TYPES.each do |type|
@@ -28,7 +28,7 @@ class PageSharingTokens < Struct.new(:page)
     else
       found_page, _token_type = self.class.find_page_by_token(new_token)
       if found_page
-        fail SharingTokenAlreadyExistsException if found_page.id != page.id
+        raise SharingTokenAlreadyExistsException if found_page.id != page.id
       end
       page.send :"#{type}_sharing_token=", new_token
       page.save

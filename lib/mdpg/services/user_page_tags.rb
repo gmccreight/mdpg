@@ -2,7 +2,7 @@
 
 require 'similar_token_finder'
 
-class TagAlreadyExistsForPageException < Exception
+class TagAlreadyExistsForPageException < RuntimeError
 end
 
 class UserPageTags < Struct.new(:user, :page)
@@ -50,7 +50,7 @@ class UserPageTags < Struct.new(:user, :page)
     return unless h[tag_name].key?(page_id_string)
 
     h[tag_name].delete(page_id_string)
-    h.delete(tag_name) if h[tag_name].keys.size == 0
+    h.delete(tag_name) if h[tag_name].keys.empty?
 
     _set_tags_hash h
   end
@@ -69,7 +69,7 @@ class UserPageTags < Struct.new(:user, :page)
     pages.each do |x|
       user_page_tags = UserPageTags.new(user, x)
       if user_page_tags.tag_with_name?(new)
-        fail TagAlreadyExistsForPageException
+        raise TagAlreadyExistsForPageException
       end
     end
 

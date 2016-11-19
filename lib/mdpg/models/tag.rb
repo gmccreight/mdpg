@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Tag < ModelBase
-  ATTRS = [:name, :page_ids, :user_ids]
+  ATTRS = [:name, :page_ids, :user_ids].freeze
 
   attr_accessor(*ATTRS)
 

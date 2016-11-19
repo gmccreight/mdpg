@@ -17,13 +17,13 @@ class PageDeleter
 
   private def ensure_not_being_referred_to
     return if @page.referring_page_ids.nil? ||
-      @page.referring_page_ids.size == 0
-    fail PageCannotBeDeletedBecauseItHasReferringPages
+      @page.referring_page_ids.empty?
+    raise PageCannotBeDeletedBecauseItHasReferringPages
   end
 
   private def remove_referrals
     return if @page.refers_to_page_ids.nil? ||
-      @page.refers_to_page_ids.size == 0
+      @page.refers_to_page_ids.empty?
 
     @page.refers_to_page_ids.each do |page_id_referred_to|
       PageReferrersUpdater.new.remove_page_id_from_referrers(

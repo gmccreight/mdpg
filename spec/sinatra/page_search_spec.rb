@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require File.expand_path '../sinatra_helper.rb', __FILE__
 
 describe 'page_search' do

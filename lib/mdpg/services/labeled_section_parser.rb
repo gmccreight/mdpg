@@ -54,7 +54,7 @@ class LabeledSectionParser
   end
 
   def had_error?
-    section_names_with_errors.size > 0
+    !section_names_with_errors.empty?
   end
 
   def section_names_with_errors
@@ -82,10 +82,10 @@ class LabeledSectionParser
 
   private def section_with_name_or_identifier(name, identifier)
     array = @sections
-      .select do|x|
-        x.name == name ||
-          (x.identifier == identifier && !identifier.nil?)
-      end
+            .select do |x|
+      x.name == name ||
+        (x.identifier == identifier && !identifier.nil?)
+    end
 
     return nil unless array
     array.first

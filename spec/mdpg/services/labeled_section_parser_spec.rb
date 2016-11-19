@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../../spec_helper'
 
 describe LabeledSectionParser do
@@ -99,7 +100,7 @@ describe LabeledSectionParser do
         EOF
         parser = LabeledSectionParser.new(text)
         parser.process
-        result_with_no_newlines = parser.text_for('coolname').gsub(/\n/, ' ')
+        result_with_no_newlines = parser.text_for('coolname').tr("\n", ' ')
         assert_equal 'in it and also with', result_with_no_newlines
       end
 
@@ -116,7 +117,7 @@ describe LabeledSectionParser do
         EOF
         parser = LabeledSectionParser.new(text)
         parser.process
-        result_with_no_newlines = parser.text_for('coolname').gsub(/\n/, ' ')
+        result_with_no_newlines = parser.text_for('coolname').tr("\n", ' ')
         assert_equal 'in it and also with', result_with_no_newlines
       end
     end

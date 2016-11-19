@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../../spec_helper'
 
 describe PageSharingTokens do
@@ -28,7 +29,8 @@ describe PageSharingTokens do
       PageSharingTokens.new(page).activate_sharing_token :readwrite
 
       found_page, _token_type = PageSharingTokens.find_page_by_token(
-        page.readwrite_sharing_token)
+        page.readwrite_sharing_token
+      )
       assert_equal page.id, found_page.id
     end
 
@@ -74,8 +76,7 @@ describe PageSharingTokens do
         tokens = PageSharingTokens.new(page)
         tokens.activate_sharing_token :readonly
         tokens.rename_sharing_token(:readonly,
-                                    other_page.readonly_sharing_token
-                                   )
+                                    other_page.readonly_sharing_token)
       end
     end
 

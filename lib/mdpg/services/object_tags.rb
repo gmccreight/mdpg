@@ -49,7 +49,7 @@ class ObjectTags < Struct.new(:object)
     return @tag_with_name[name] if @tag_with_name.key?(name)
 
     tags_with_name = tags.select { |tag| tag.name == name }
-    if tags_with_name.size > 0
+    if !tags_with_name.empty?
       @tag_with_name[name] = tags_with_name.first
       return @tag_with_name[name]
     else

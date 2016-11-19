@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../../spec_helper'
 
 describe PageView do
@@ -258,7 +259,7 @@ describe PageView do
     end
 
     it 'should find a similar tag from other pages but not this one' do
-      assert_equal ['greed'], @page_1_vm.tag_suggestions_for('greet')
+      assert_equal ['greed'], @page_1_vm.tag_suggestions_for('greet'.dup)
     end
   end
 end

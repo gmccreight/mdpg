@@ -24,7 +24,7 @@ module AppSection
 
     def suggestions(page, tag_typed)
       tags = PageView.new(current_user, page, nil)
-        .tag_suggestions_for(tag_typed)
+                     .tag_suggestions_for(tag_typed)
       { tags: tags }.to_json
     end
 

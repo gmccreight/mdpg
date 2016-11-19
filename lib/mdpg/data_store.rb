@@ -69,8 +69,7 @@ class DataStore < Struct.new(:data_dir_or_memory)
     { gets: @gets.sort_by { |_, v| v }.reverse,
       sets: @sets.sort_by { |_, v| v }.reverse,
       disk_gets: @disk_gets.sort_by { |_, v| v }.reverse,
-      disk_sets: @disk_sets.sort_by { |_, v| v }.reverse
-    }
+      disk_sets: @disk_sets.sort_by { |_, v| v }.reverse }
   end
 
   def data_in_memory

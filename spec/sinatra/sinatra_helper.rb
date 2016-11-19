@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 ENV['RACK_ENV'] = 'test'
 
-class LastResponseWasNotRedirectException < Exception
+class LastResponseWasNotRedirectException < RuntimeError
 end
 
 require 'rack/test'
@@ -20,7 +21,7 @@ def authenticated_session(user)
 end
 
 def follow_redirect_with_authenticated_user!(user)
-  fail LastResponseWasNotRedirectException unless last_response.redirect?
+  raise LastResponseWasNotRedirectException unless last_response.redirect?
   auth_cookie = authenticated_session(user)
   get(last_response['Location'], {},
       { 'HTTP_REFERER' => last_request.url }.merge(auth_cookie))

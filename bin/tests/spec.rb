@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # The point of using this script is that it runs about 0.2 seconds faster than
 # running "rake"

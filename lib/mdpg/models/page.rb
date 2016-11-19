@@ -4,7 +4,7 @@ class Page < ModelBase
   ATTRS = [:name, :text, :revision, :tag_ids, :readonly_sharing_token,
            :readwrite_sharing_token, :readonly_sharing_token_activated,
            :readwrite_sharing_token_activated, :referring_page_ids,
-           :refers_to_page_ids]
+           :refers_to_page_ids].freeze
 
   attr_accessor(*ATTRS)
 
@@ -25,7 +25,7 @@ class Page < ModelBase
   end
 
   def any_referring_pages?
-    referring_page_ids && referring_page_ids.size > 0
+    referring_page_ids && !referring_page_ids.empty?
   end
 
   def meta

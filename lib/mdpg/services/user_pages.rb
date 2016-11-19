@@ -2,10 +2,10 @@
 
 require 'securerandom'
 
-class PageAlreadyExistsException < Exception
+class PageAlreadyExistsException < RuntimeError
 end
 
-class PageCannotBeDeletedBecauseItHasReferringPages < Exception
+class PageCannotBeDeletedBecauseItHasReferringPages < RuntimeError
 end
 
 class UserPages < Struct.new(:user)
@@ -16,7 +16,7 @@ class UserPages < Struct.new(:user)
 
   def create_page(opts)
     if opts[:name]
-      fail PageAlreadyExistsException if find_page_with_name(opts[:name])
+      raise PageAlreadyExistsException if find_page_with_name(opts[:name])
     end
 
     opts[:name] = SecureRandom.hex if opts[:name].empty?
@@ -74,7 +74,7 @@ class UserPages < Struct.new(:user)
 
   def rename_page(page, new_name)
     if find_page_with_name new_name
-      fail PageAlreadyExistsException
+      raise PageAlreadyExistsException
     else
       old_name = page.name
       page.name = new_name
@@ -85,7 +85,7 @@ class UserPages < Struct.new(:user)
         user.add_page_name_and_id_caching(new_name, page.id)
         user.save
       end
-      return worked
+      worked
     end
   end
 
@@ -117,11 +117,11 @@ class UserPages < Struct.new(:user)
 
   def pages
     return @pages_cache if @pages_cache
-    if !user.page_ids
-      @pages_cache = []
-    else
-      @pages_cache = user.page_ids.map { |x| Page.find(x) }
-    end
+    @pages_cache = if !user.page_ids
+                     []
+                   else
+                     user.page_ids.map { |x| Page.find(x) }
+                   end
     @pages_cache
   end
 

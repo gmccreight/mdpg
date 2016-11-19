@@ -219,11 +219,11 @@ class ModelBase
 
   private def data_key
     if versioned?
-      if revision_to_find
-        rev = revision_to_find
-      else
-        rev = max_revision
-      end
+      rev = if revision_to_find
+              revision_to_find
+            else
+              max_revision
+            end
 
       revisionless_data_key + "-#{rev}"
     else

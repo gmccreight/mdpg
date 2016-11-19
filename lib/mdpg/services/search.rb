@@ -48,11 +48,11 @@ class Search
       found_pages = yield string
       found_page_ids = found_pages.map(&:id)
 
-      if pages.nil?
-        pages = found_pages
-      else
-        pages = pages.select { |x| found_page_ids.include?(x.id) }
-      end
+      pages = if pages.nil?
+                found_pages
+              else
+                pages.select { |x| found_page_ids.include?(x.id) }
+              end
     end
 
     pages_containing_one_of_the_tags(pages)
@@ -63,10 +63,10 @@ class Search
   end
 
   private def pages_containing_one_of_the_tags(pages)
-    return pages if @search_parser.tags.size == 0
+    return pages if @search_parser.tags.empty?
 
-    pages.select do|page|
-      (ObjectTags.new(page).sorted_tag_names & @search_parser.tags).size > 0
+    pages.select do |page|
+      !(ObjectTags.new(page).sorted_tag_names & @search_parser.tags).empty?
     end
   end
 end
