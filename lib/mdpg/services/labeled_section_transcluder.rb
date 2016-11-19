@@ -22,7 +22,7 @@ class LabeledSectionTranscluder
     result
   end
 
-  def transclude_the_sections(text)
+  def transclude_sections(text)
     text.gsub(internal_link_regex) do
       page_id = Regexp.last_match(1).to_i
       section_identifier = Regexp.last_match(2)

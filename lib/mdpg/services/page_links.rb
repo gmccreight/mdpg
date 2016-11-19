@@ -12,11 +12,11 @@ class PageLinks < Struct.new(:user)
     page_names.map { |x| user_page_for_name(x) }.compact.map(&:id)
   end
 
-  def internal_links_to_user_clickable_links(text)
+  def internal_to_user_clickable_links(text)
     alter_text(text) { |name| "[#{name}](/p/#{name})" }
   end
 
-  def internal_links_to_page_name_links_for_editing(text)
+  def internal_links_to_links_for_editing(text)
     alter_text(text) { |name| "[[#{name}]]" }
   end
 

@@ -31,24 +31,26 @@ class PageView < Struct.new(:user, :page, :token_type)
 
   def text_before_markdown_parsing
     text = PageLinks.new(user)
-                    .internal_links_to_user_clickable_links(page.text)
+                    .internal_to_user_clickable_links(page.text)
     text = text_with_stylized_labeled_section_definitions(text, name)
     text = text_with_labeled_sections_transcluded(text)
     text
   end
 
-  private def text_with_labeled_sections_transcluded(text)
+  private def text_with_labeled_sections_transcluded(t)
     max_tries = 10
+    trans = LabeledSectionTranscluder.new
+    page_links = PageLinks.new(user)
     max_tries.times do
-      before = text
-      text = LabeledSectionTranscluder.new
-                                      .transclude_the_sections(text) do |page, sec, sec_name, sec_id, opts|
-        transcluded_text = PageLinks.new(user)
-                                    .internal_links_to_user_clickable_links(sec.text_for(sec_id))
+      before = t
+      t = trans.transclude_sections(t) do |page, sec, sec_name, sec_id, opts|
+        transcluded = page_links.internal_to_user_clickable_links(
+          sec.text_for(sec_id)
+        )
 
         if opts && opts.include?('short')
           link = "<a href='/p/#{page.name}##{sec_name}'>#</a>"
-          "<span class='transcluded-short'>#{transcluded_text}</span>\n" \
+          "<span class='transcluded-short'>#{transcluded}</span>\n" \
           "(#{link})"
         else
           "
@@ -56,17 +58,17 @@ class PageView < Struct.new(:user, :page, :token_type)
             <a href='/p/#{page.name}'>#{page.name}</a>##{sec_name}
           </div>
 
-          #{transcluded_text}
+          #{transcluded}
 
           <div class='transcluded-section-header bottom-header'>&nbsp;</div>
           ".gsub(/^[ ]{10}/, '')
         end
       end
-      if text == before
+      if t == before
         break
       end
     end
-    text
+    t
   end
 
   private def text_with_stylized_labeled_section_definitions(text, page_name)

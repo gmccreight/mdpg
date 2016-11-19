@@ -22,7 +22,7 @@ describe PageLinks do
   describe 'internal links to user-clickable link' do
     it 'should work' do
       assert_equal('link to [zebra-training](/p/zebra-training)',
-        @page_links.internal_links_to_user_clickable_links(@alaska_page.text))
+        @page_links.internal_to_user_clickable_links(@alaska_page.text))
     end
   end
 
@@ -30,7 +30,7 @@ describe PageLinks do
     it 'should work' do
       link_text = "hey there [[mdpgpage:#{@zebra_page.id}]] foo"
       assert_equal('hey there [[zebra-training]] foo',
-        @page_links.internal_links_to_page_name_links_for_editing(link_text))
+        @page_links.internal_links_to_links_for_editing(link_text))
     end
   end
 

@@ -56,7 +56,7 @@ class App
     return if !page || token_type != :readwrite
 
     page_text = PageLinks.new(nil)
-                         .internal_links_to_page_name_links_for_editing(page.text)
+                         .internal_links_to_links_for_editing(page.text)
     { page: page, page_text: page_text,
       readwrite_token: readwrite_token }
   end
@@ -126,7 +126,9 @@ class App
 
     begin
       error_message = PageSharingTokens.new(page)
-                                       .rename_sharing_token(token_type, new_token)
+                                       .rename_sharing_token(
+                                         token_type, new_token
+                                       )
       if error_message.nil?
         UserPages.new(current_user).page_was_updated page
         redirect_to_path "/p/#{page.name}"
