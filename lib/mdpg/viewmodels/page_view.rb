@@ -40,6 +40,7 @@ class PageView < Struct.new(:user, :page, :token_type)
   private def text_with_labeled_sections_transcluded(text)
     max_tries = 10
     max_tries.times do
+      before = text
       text = LabeledSectionTranscluder.new
         .transclude_the_sections(text) do
           |page, sec, sec_name, sec_id, maybe_opts|
@@ -62,6 +63,9 @@ class PageView < Struct.new(:user, :page, :token_type)
           <div class='transcluded-section-header bottom-header'>&nbsp;</div>
           ".gsub(/^[ ]{10}/, '')
         end
+      end
+      if text == before
+        break
       end
     end
     text
