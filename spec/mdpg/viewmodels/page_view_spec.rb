@@ -118,9 +118,79 @@ describe PageView do
 
         link = "<a href='/p/target-page#idea'>#</a>"
         expected = "From the other page: <span class"
-        expected += "='transcluded-short'>some short idea</span>(#{link}) yo"
+        expected += "='transcluded-short'>some short idea</span>\n"
+        expected += "(#{link}) yo"
 
         assert_equal expected, page_vm.text_before_markdown_parsing
+      end
+    end
+    describe 'transcludes works with a double-transclusion' do
+      it 'should work' do
+        first_ident = 'cccbababababaccc'
+        first_page_text = (<<-EOF).gsub(/^[ ]{10}/, '')
+          some stuff
+
+          [[#quote:#{first_ident}]]"Crazy in love!"[[#quote:#{first_ident}]]
+
+          some more stuff
+        EOF
+        first_page = Page.create name: 'first-page', text: first_page_text
+
+        second_ident = 'abababababababab'
+        second_text = (<<-EOF).gsub(/^[ ]{10}/, '')
+          something that we're talking about
+          with [[#important-idea:#{second_ident}]]
+
+          * check this
+              * indented
+
+          John James said: "this is an important command:"
+
+              ls -l
+
+          [[mdpgpage:#{first_page.id}:#{first_ident}:short]]
+
+          [[#important-idea:#{second_ident}]]
+        EOF
+        second_page = Page.create name: 'second-page', text: second_text
+
+        this_text = (<<-EOF).gsub(/^ +/, '')
+          From the second page:
+
+          [[mdpgpage:#{second_page.id}:#{second_ident}]]
+
+          is what it was talking about
+        EOF
+
+        this_page = Page.create name: 'this-page', text: this_text
+
+        page_vm = PageView.new(@user, this_page, nil)
+
+        expected_text = (<<-EOF).gsub(/^[ ]{10}/, '')
+          From the second page:
+
+
+          <div class='transcluded-section-header top-header'>
+            <a href='/p/second-page'>second-page</a>#important-idea
+          </div>
+
+          * check this
+              * indented
+
+          John James said: "this is an important command:"
+
+              ls -l
+
+          <span class='transcluded-short'>"Crazy in love!"</span>
+          (<a href='/p/first-page#quote'>#</a>)
+
+          <div class='transcluded-section-header bottom-header'>&nbsp;</div>
+
+
+          is what it was talking about
+        EOF
+
+        assert_equal expected_text, page_vm.text_before_markdown_parsing
       end
     end
 
