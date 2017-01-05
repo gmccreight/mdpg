@@ -67,9 +67,16 @@ end
 
 get '/s/:name' do |page_sharing_token|
   app = _app_get
-  result = app.get_page_from_sharing_token page_sharing_token
-  _app_handle_result app
-  haml :page, locals: result
+  format = params[:format]
+  if format == 'plain'
+    page, _token_type =
+      PageSharingTokens.find_page_by_token(page_sharing_token)
+    app.page_plain(page)
+  else
+    result = app.get_page_from_sharing_token page_sharing_token
+    _app_handle_result app
+    haml :page, locals: result
+  end
 end
 
 get '/s/:readwrite_token/edit' do |readwrite_token|
@@ -95,7 +102,12 @@ get '/p/:name' do |page_name|
   page = page.find(page.id, params[:revision].to_i) if params[:revision]
   if page
     app = _app_get
-    haml :page, locals: app.page_get(page)
+    format = params[:format]
+    if format == 'plain'
+      app.page_plain(page)
+    else
+      haml :page, locals: app.page_get(page)
+    end
   end
 
   # p $data_store.report

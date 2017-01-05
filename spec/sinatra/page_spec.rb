@@ -11,8 +11,8 @@ describe 'page' do
       text: 'I have something *interesting* to say!'
   end
 
-  def get_page(name)
-    get "/p/#{name}", {}, authenticated_session(@user)
+  def get_page(name, opts = {})
+    get "/p/#{name}", opts, authenticated_session(@user)
   end
 
   def get_page_with_revision(name, revision)
@@ -51,6 +51,12 @@ describe 'page' do
       assert last_response.body.include? expected
     end
 
+    it 'should get the raw data for page that is owned by the user' do
+      get_page 'original-good-page-name', format: 'plain'
+      expected = 'I have something *interesting* to say!'
+      assert last_response.body.include? expected
+    end
+
     it 'should get a specific revision of a page owned by the user' do
       @page.text = 'revision 3'
       @page.save
@@ -74,18 +80,27 @@ describe 'page' do
   end
 
   describe 'viewing via the public share link' do
-    def get_shared_page(long_readonly_token)
-      get "/s/#{long_readonly_token}", {}, authenticated_session(@user)
+    def get_shared_page(long_readonly_token, opts = {})
+      get "/s/#{long_readonly_token}", opts, authenticated_session(@user)
     end
 
-    it 'should be able to see the page with the right token' do
+    def token
       page = Page.find(1)
       PageSharingTokens.new(page).activate_sharing_token :readonly
       token = page.readonly_sharing_token
       assert_equal token.size, 32
+      token
+    end
 
+    it 'should be able to see the page with the right token' do
       get_shared_page token
       expected = "<p>I have something <em>interesting</em> to say!</p>\n"
+      assert last_response.body.include? expected
+    end
+
+    it 'should be able to view it plain' do
+      get_shared_page token, format: 'plain'
+      expected = 'I have something *interesting* to say!'
       assert last_response.body.include? expected
     end
 

@@ -51,6 +51,10 @@ class App
     { page: page, page_text: page_text, readwrite_token: nil }
   end
 
+  def page_plain(page)
+    PageEditView.new(current_user, page).text_for_editing
+  end
+
   def edit_page_from_readwrite_token(readwrite_token)
     page, token_type = PageSharingTokens.find_page_by_token(readwrite_token)
     return if !page || token_type != :readwrite
