@@ -17,13 +17,21 @@ class LabeledSectionParser
   def identifier_for(section_name)
     return nil if had_error?
     section = section_with_name_or_identifier(section_name, section_name)
-    section.identifier
+    if section
+      section.identifier
+    else
+      nil
+    end
   end
 
   def name_for(section_id)
     return nil if had_error?
     section = section_with_name_or_identifier(section_id, section_id)
-    section.name
+    if section
+      section.name
+    else
+      ""
+    end
   end
 
   def add_any_missing_identifiers
@@ -68,8 +76,12 @@ class LabeledSectionParser
   def text_for(section_name)
     return nil if had_error?
     section = section_with_name_or_identifier(section_name, section_name)
-    internal_text = @text[section.start_char..section.end_char].strip
-    internal_text.gsub(section_regex(remove_space: true), '')
+    if section
+      internal_text = @text[section.start_char..section.end_char].strip
+      internal_text.gsub(section_regex(remove_space: true), '')
+    else
+      ""
+    end
   end
 
   private def any_section_definitions?
