@@ -134,6 +134,14 @@ describe 'page' do
       assert last_response.body.include? 'some <em>new</em> text'
     end
 
+    it 'should apply shortcut normalizing when updating page' do
+      # See AdapterInputShortcutsNormalizer
+      update_page 'original-good-page-name', 'vvnew blah blahvvhello therevvvv'
+      follow_redirect_with_authenticated_user!(@user)
+      assert last_request.url.include? '/p/original-good-page-name'
+      assert last_response.body.include? 'new-blah-blah'
+    end
+
     it 'should fail to update a page if the page does not exist' do
       update_page 'not-original-good-page-name', 'some text'
       assert_equal 'could not find that page', last_response.body

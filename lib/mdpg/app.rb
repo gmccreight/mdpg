@@ -95,6 +95,7 @@ class App
 
   def page_update_text(page, new_text)
     user_pages = UserPages.new(current_user)
+    new_text = AdapterInputShortcutsNormalizer.new.normalize(new_text)
     user_pages.update_page_text_to(page, new_text)
     user_pages.page_was_updated page
 
