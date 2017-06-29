@@ -64,10 +64,10 @@ class LabeledSectionTranscluder
 
         if page
           parser = parser_with_processed_text_for(page.text)
-          identifier = parser.identifier_for(section_name)
+          id = parser.identifier_for(section_name)
 
-          if identifier
-            result = link_text("mdpgpage:#{page.id}:#{identifier}", maybe_opts)
+          if id
+            result = link_text("mdpgpage:#{page.id}:#{id}", maybe_opts)
           end
         end
       end

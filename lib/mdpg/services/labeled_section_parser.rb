@@ -19,8 +19,6 @@ class LabeledSectionParser
     section = section_with_name_or_identifier(section_name, section_name)
     if section
       section.identifier
-    else
-      nil
     end
   end
 
@@ -30,7 +28,7 @@ class LabeledSectionParser
     if section
       section.name
     else
-      ""
+      ''
     end
   end
 
@@ -80,7 +78,7 @@ class LabeledSectionParser
       internal_text = @text[section.start_char..section.end_char].strip
       internal_text.gsub(section_regex(remove_space: true), '')
     else
-      ""
+      ''
     end
   end
 
