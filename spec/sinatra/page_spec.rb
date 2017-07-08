@@ -136,7 +136,7 @@ describe 'page' do
 
     it 'should apply shortcut normalizing when updating page' do
       # See AdapterInputShortcutsNormalizer
-      update_page 'original-good-page-name', 'vvnew blah blahvvhellovvvv'
+      update_page 'original-good-page-name', 'vv new blah blah vv hello vvvv'
       follow_redirect_with_authenticated_user!(@user)
       assert last_request.url.include? '/p/original-good-page-name'
       assert last_response.body.include? 'new-blah-blah'
