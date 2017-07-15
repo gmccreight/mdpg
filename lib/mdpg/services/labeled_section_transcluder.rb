@@ -111,6 +111,18 @@ class LabeledSectionTranscluder
     text
   end
 
+  def internal_link_data(text)
+    result = []
+    text.gsub(internal_link_regex) do
+      page_id = Regexp.last_match(1).to_i
+      section_id = Regexp.last_match(2)
+      maybe_opts = process_opts(Regexp.last_match(3))
+      result << { page_id: page_id, section_id: section_id, maybe_opts: maybe_opts }
+    end
+
+    result
+  end
+
   private def parser_with_processed_text_for(text)
     parser = LabeledSectionParser.new(text)
     parser.process
