@@ -72,18 +72,18 @@ class PageView < Struct.new(:user, :page, :token_type)
   end
 
   private def text_with_stylized_labeled_section_definitions(text, page_name)
-    includers_info = LabeledSectionIncludersInfo.new(page).get_info
+    includers_info = LabeledSectionIncludersInfo.new(page).run
     LabeledSectionParser.new(text).replace_definitions_with do |name, id|
       page_ids = includers_info.select { |x| x[:section] == id }
                                .map { |x| x[:page_id] }
       page_names = page_ids.map { |x| Page.find(x).name }
       page_names_links = []
-      page_names.each_with_index do |name, index|
-        l = %Q~<a href="/p/#{name}"~
-        l += %Q~ class="labeled-sec-inc-page">#{index + 1}</a>~
+      page_names.each_with_index do |inc_name, index|
+        l = %(<a href="/p/#{inc_name}")
+        l += %( class="labeled-sec-inc-page">#{index + 1}</a>)
         page_names_links << l
       end
-      page_names_links = page_names_links.join(" ")
+      page_names_links = page_names_links.join(' ')
 
       %(<span class="labeled-sec-wrap"> #{page_name}##{name}) +
         page_names_links +

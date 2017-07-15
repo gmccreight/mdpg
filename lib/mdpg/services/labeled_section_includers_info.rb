@@ -5,7 +5,7 @@ class LabeledSectionIncludersInfo
     @page = page
   end
 
-  def get_info
+  def run
     result = []
     transcluder = LabeledSectionTranscluder.new
     pages_that_link_to_or_include_this_page.each do |p|
@@ -22,5 +22,4 @@ class LabeledSectionIncludersInfo
   def pages_that_link_to_or_include_this_page
     @page.referring_page_ids.map { |x| Page.find(x) }
   end
-
 end

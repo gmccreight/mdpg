@@ -17,9 +17,7 @@ class LabeledSectionParser
   def identifier_for(section_name)
     return nil if had_error?
     section = section_with_name_or_identifier(section_name, section_name)
-    if section
-      section.identifier
-    end
+    section&.identifier
   end
 
   def name_for(section_id)

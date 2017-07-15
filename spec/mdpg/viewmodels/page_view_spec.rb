@@ -193,7 +193,7 @@ describe PageView do
         assert_equal expected_text, page_vm.text_before_markdown_parsing
       end
 
-      describe "labeled sections show where they were transcluded to" do
+      describe 'labeled sections show where they were transcluded to' do
         it 'gives information about who includes sections from this page' do
           user_pages = UserPages.new @user
 
@@ -209,7 +209,8 @@ describe PageView do
             Flea said: "this is a fleeting idea"
             [[#fleeting:#{id_2}]]
           EOF
-          target_page = user_pages.create_page name: 'tpage', text: target_text
+          target_page = user_pages.create_page name: 'tpage',
+            text: target_text
 
           other_ident = 'cccccccccccccccc'
           other_text = <<-EOF.gsub(/^ +/, '')
@@ -230,7 +231,7 @@ describe PageView do
 
             is what it was talking about
           EOF
-          i_page_1 = user_pages.create_page name: 'inc-page-1', text: i_text_1
+          user_pages.create_page name: 'inc-page-1', text: i_text_1
 
           i_text_2 = <<-EOF.gsub(/^ +/, '')
             This was an rad idea:
@@ -241,22 +242,22 @@ describe PageView do
 
             for sure
           EOF
-          i_page_2 = user_pages.create_page name: 'inc-page-2', text: i_text_2
+          user_pages.create_page name: 'inc-page-2', text: i_text_2
 
           page_vm = PageView.new(@user, Page.find(target_page.id), nil)
 
-          l1 = '<a href="/p/inc-page-1" class="labeled-sec-inc-page">1</a>'
-          l2 = '<a href="/p/inc-page-2" class="labeled-sec-inc-page">2</a>'
-          l3 = '<a href="/p/inc-page-2" class="labeled-sec-inc-page">1</a>'
+          l_1 = '<a href="/p/inc-page-1" class="labeled-sec-inc-page">1</a>'
+          l_2 = '<a href="/p/inc-page-2" class="labeled-sec-inc-page">2</a>'
+          l_3 = '<a href="/p/inc-page-2" class="labeled-sec-inc-page">1</a>'
 
           expected_text = <<-EOF.gsub(/^[ ]{12}/, '')
             something that we're talking about
-            with <span class="labeled-sec-wrap"> tpage#rad#{l1} #{l2}</span>
+            with <span class="labeled-sec-wrap"> tpage#rad#{l_1} #{l_2}</span>
             John James said: "this is an rad idea"
-            <span class="labeled-sec-wrap"> tpage#rad#{l1} #{l2}</span>
-            <span class="labeled-sec-wrap"> tpage#fleeting#{l3}</span>
+            <span class="labeled-sec-wrap"> tpage#rad#{l_1} #{l_2}</span>
+            <span class="labeled-sec-wrap"> tpage#fleeting#{l_3}</span>
             Flea said: "this is a fleeting idea"
-            <span class="labeled-sec-wrap"> tpage#fleeting#{l3}</span>
+            <span class="labeled-sec-wrap"> tpage#fleeting#{l_3}</span>
           EOF
 
           result = page_vm.text_before_markdown_parsing

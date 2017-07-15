@@ -115,9 +115,9 @@ class LabeledSectionTranscluder
     result = []
     text.gsub(internal_link_regex) do
       page_id = Regexp.last_match(1).to_i
-      section_id = Regexp.last_match(2)
-      maybe_opts = process_opts(Regexp.last_match(3))
-      result << { page_id: page_id, section_id: section_id, maybe_opts: maybe_opts }
+      sec_id = Regexp.last_match(2)
+      opts = process_opts(Regexp.last_match(3))
+      result << { page_id: page_id, section_id: sec_id, maybe_opts: opts }
     end
 
     result

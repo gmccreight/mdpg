@@ -22,7 +22,8 @@ describe LabeledSectionIncludersInfo do
       Flea said: "this is a fleeting idea"
       [[#fleeting-idea:#{id_2}]]
     EOF
-    target_page = user_pages.create_page name: 'target-page', text: target_text
+    target_page = user_pages.create_page name: 'target-page',
+      text: target_text
 
     other_ident = 'cccccccccccccccc'
     other_text = <<-EOF.gsub(/^ +/, '')
@@ -57,7 +58,7 @@ describe LabeledSectionIncludersInfo do
     i_page_2 = user_pages.create_page name: 'inc-page-2', text: i_text_2
 
     target_page = Page.find(target_page.id)
-    includers_info = LabeledSectionIncludersInfo.new(target_page).get_info
+    includers_info = LabeledSectionIncludersInfo.new(target_page).run
     expected = [
       { page_id: i_page_1.id, section: id_1 },
       { page_id: i_page_2.id, section: id_1 },
