@@ -55,7 +55,9 @@ class LabeledSectionParser
   def replace_definitions_with
     @text.gsub(section_regex(remove_space: false)) do
       name = Regexp.last_match(1)
-      yield name
+      identifier = Regexp.last_match(2)
+      identifier = identifier[1..-1] if identifier
+      yield name, identifier
     end
   end
 

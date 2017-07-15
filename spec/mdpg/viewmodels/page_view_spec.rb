@@ -107,7 +107,7 @@ describe PageView do
           with [[#idea:#{ident}]]some short idea[[#idea:#{ident}]]
           yep, that's it
         EOF
-        target_page = Page.create name: 'target-page', text: target_text
+        target_page = Page.create name: 'tpage', text: target_text
 
         text = 'From the other '
         text += "page: [[mdpgpage:#{target_page.id}:#{ident}:short]] yo"
@@ -116,7 +116,7 @@ describe PageView do
 
         page_vm = PageView.new(@user, this_page, nil)
 
-        link = "<a href='/p/target-page#idea'>#</a>"
+        link = "<a href='/p/tpage#idea'>#</a>"
         expected = 'From the other page: <span class'
         expected += "='transcluded-short'>some short idea</span>\n"
         expected += "(#{link}) yo"
@@ -191,6 +191,77 @@ describe PageView do
         EOF
 
         assert_equal expected_text, page_vm.text_before_markdown_parsing
+      end
+
+      describe "labeled sections show where they were transcluded to" do
+        it 'gives information about who includes sections from this page' do
+          user_pages = UserPages.new @user
+
+          id_1 = 'aaaaaaaaaaaaaaaa'
+          id_2 = 'bbbbbbbbbbbbbbbb'
+
+          target_text = <<-EOF.gsub(/^ +/, '')
+            something that we're talking about
+            with [[#rad:#{id_1}]]
+            John James said: "this is an rad idea"
+            [[#rad:#{id_1}]]
+            [[#fleeting:#{id_2}]]
+            Flea said: "this is a fleeting idea"
+            [[#fleeting:#{id_2}]]
+          EOF
+          target_page = user_pages.create_page name: 'tpage', text: target_text
+
+          other_ident = 'cccccccccccccccc'
+          other_text = <<-EOF.gsub(/^ +/, '')
+            yo [[#other-thing:#{other_ident}]]
+            H said: "this is some other thing"
+            [[#other-thing:#{other_ident}]]
+          EOF
+          user_pages.create_page name: 'other-page', text: other_text
+
+          i_text_1 = <<-EOF.gsub(/^ +/, '')
+            From the main page:
+
+            [[tpage#rad:short]]
+
+            and the other thing
+
+            [[other-page#other-thing]]
+
+            is what it was talking about
+          EOF
+          i_page_1 = user_pages.create_page name: 'inc-page-1', text: i_text_1
+
+          i_text_2 = <<-EOF.gsub(/^ +/, '')
+            This was an rad idea:
+
+            [[tpage#rad:short]]
+
+            [[tpage#fleeting:short]]
+
+            for sure
+          EOF
+          i_page_2 = user_pages.create_page name: 'inc-page-2', text: i_text_2
+
+          page_vm = PageView.new(@user, Page.find(target_page.id), nil)
+
+          l1 = '<a href="/p/inc-page-1" class="labeled-sec-inc-page">1</a>'
+          l2 = '<a href="/p/inc-page-2" class="labeled-sec-inc-page">2</a>'
+          l3 = '<a href="/p/inc-page-2" class="labeled-sec-inc-page">1</a>'
+
+          expected_text = <<-EOF.gsub(/^[ ]{12}/, '')
+            something that we're talking about
+            with <span class="labeled-sec-wrap"> tpage#rad#{l1} #{l2}</span>
+            John James said: "this is an rad idea"
+            <span class="labeled-sec-wrap"> tpage#rad#{l1} #{l2}</span>
+            <span class="labeled-sec-wrap"> tpage#fleeting#{l3}</span>
+            Flea said: "this is a fleeting idea"
+            <span class="labeled-sec-wrap"> tpage#fleeting#{l3}</span>
+          EOF
+
+          result = page_vm.text_before_markdown_parsing
+          assert_equal expected_text, result
+        end
       end
     end
 
