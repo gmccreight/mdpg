@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class Section < Struct.new(:start_char, :end_char, :name, :identifier, :count)
+class Section < Struct.new(
+  :start_char, :end_char, :name, :ident, :count, :opts
+)
 end
 
 class LabeledSectionParser
@@ -17,7 +19,7 @@ class LabeledSectionParser
   def identifier_for(section_name)
     return nil if had_error?
     section = section_with_name_or_identifier(section_name, section_name)
-    section&.identifier
+    section&.ident
   end
 
   def name_for(section_id)
@@ -45,18 +47,36 @@ class LabeledSectionParser
         "[[##{name}]]",
         "[[##{name}:#{identifier}]]"
       )
+
+      opts_regex = LabeledSectionTranscluder::OPTS_REGEX_STR
+      text = text.gsub(/\[\[##{name}::(#{opts_regex})\]\]/) do
+        opts = Regexp.last_match(1)
+        "[[##{name}:#{identifier}:#{opts}]]"
+      end
     end
 
     text
   end
 
-  def replace_definitions_with
+  def replace_target_with
     @text.gsub(section_regex(remove_space: false)) do
       name = Regexp.last_match(1)
       identifier = Regexp.last_match(2)
       identifier = identifier[1..-1] if identifier
-      yield name, identifier
+      opts = self.class.process_opts(Regexp.last_match(3))
+      yield name, identifier, opts
     end
+  end
+
+  def self.process_opts(maybe_raw_opts)
+    if !maybe_raw_opts
+      return []
+    end
+
+    result = maybe_raw_opts
+    result = result.sub(/^:/, '')
+    result = result.split(/,/)
+    result
   end
 
   def had_error?
@@ -87,14 +107,14 @@ class LabeledSectionParser
   end
 
   private def any_missing_identifiers?
-    @sections.map(&:identifier)
+    @sections.map(&:ident)
   end
 
   private def section_with_name_or_identifier(name, identifier)
     array = @sections
             .select do |x|
       x.name == name ||
-        (x.identifier == identifier && !identifier.nil?)
+        (x.ident == identifier && !identifier.nil?)
     end
 
     return nil unless array
@@ -113,6 +133,7 @@ class LabeledSectionParser
     text.gsub(section_regex(remove_space: false)).with_index do
       name = Regexp.last_match(1)
       identifier = Regexp.last_match(2)
+      opts = self.class.process_opts(Regexp.last_match(3))
 
       identifier = identifier[1..-1] if identifier
 
@@ -126,7 +147,7 @@ class LabeledSectionParser
         section.count += 1
       else
         offset = Regexp.last_match.offset(0)[1]
-        @sections << Section.new(offset, nil, name, identifier, 1)
+        @sections << Section.new(offset, nil, name, identifier, 1, opts)
       end
     end
   end
@@ -136,6 +157,7 @@ class LabeledSectionParser
       \\[\\[
       [#](#{Token::TOKEN_REGEX_STR})
       (:#{Token::TOKEN_REGEX_STR})?
+      ((?::|::)#{LabeledSectionTranscluder::OPTS_REGEX_STR})?
       \\]\\]
     "
     if remove_space

@@ -263,6 +263,37 @@ describe PageView do
           result = page_vm.text_before_markdown_parsing
           assert_equal expected_text, result
         end
+        it 'shows only limited information if put into only-includes mode' do
+          user_pages = UserPages.new @user
+
+          id_1 = 'aaaaaaaaaaaaaaaa'
+
+          target_text = <<-EOF.gsub(/^ +/, '')
+            [[#rad:#{id_1}:only-includes]]
+            John James said: "this is an rad idea"
+            [[#rad:#{id_1}:only-includes]]
+          EOF
+          target_page = user_pages.create_page name: 'tpage',
+            text: target_text
+
+          i_text_1 = <<-EOF.gsub(/^ +/, '')
+            [[tpage#rad:short]]
+          EOF
+          user_pages.create_page name: 'inc-page-1', text: i_text_1
+
+          page_vm = PageView.new(@user, Page.find(target_page.id), nil)
+
+          l_1 = '<a href="/p/inc-page-1" class="labeled-sec-inc-page">1</a>'
+
+          expected_text = <<-EOF.gsub(/^[ ]{12}/, '')
+
+            John James said: "this is an rad idea"
+            <span>#{l_1}</span>
+          EOF
+
+          result = page_vm.text_before_markdown_parsing
+          assert_equal expected_text, result
+        end
       end
     end
 

@@ -49,6 +49,49 @@ describe LabeledSectionParser do
       EOF
       assert_equal expected_text, new_text
     end
+
+    it 'should add missing identifier to section definition that has opts' do
+      text = <<-EOF.gsub(/^ +/, '')
+        start of the text
+
+        [[#quote1:aaaxxxbbb]]
+        here is a quote
+        [[#quote1:aaaxxxbbb]]
+
+        and then some additional content
+
+        [[#quote2::only-includes]]
+        here is another quote
+        [[#quote2::only-includes]]
+
+        end of text
+      EOF
+      parser = LabeledSectionParser.new(text)
+
+      # Make the new identifier be a known value
+      def parser.create_identifier
+        'bbbegdababuwxxx'
+      end
+
+      new_text = parser.add_any_missing_identifiers
+
+      expected_text = <<-EOF.gsub(/^ +/, '')
+        start of the text
+
+        [[#quote1:aaaxxxbbb]]
+        here is a quote
+        [[#quote1:aaaxxxbbb]]
+
+        and then some additional content
+
+        [[#quote2:bbbegdababuwxxx:only-includes]]
+        here is another quote
+        [[#quote2:bbbegdababuwxxx:only-includes]]
+
+        end of text
+      EOF
+      assert_equal expected_text, new_text
+    end
   end
 
   describe 'success' do
