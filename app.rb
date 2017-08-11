@@ -258,7 +258,12 @@ end
 
 def post_or_get_search
   app = authorize!
-  results = app.page_search(params[:query])
+  only = []
+  if params[:only]
+    only = params[:only].split(/,/)
+    only = only.map { |x| x.strip.to_sym }
+  end
+  results = app.page_search(params[:query], only: only)
   _app_handle_result app
   haml :page_search, locals: results
 end

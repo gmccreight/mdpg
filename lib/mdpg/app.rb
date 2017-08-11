@@ -102,9 +102,9 @@ class App
     redirect_to_path "/p/#{page.name}"
   end
 
-  def page_search(query)
+  def page_search(query, only)
     searcher = Search.new current_user
-    results = searcher.search query
+    results = searcher.search(query, only)
 
     {
       pages_where_name_matches: results[:names],

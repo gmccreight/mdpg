@@ -12,8 +12,8 @@ describe Search do
     @searcher = Search.new(@user)
   end
 
-  def search_gets(query, names, texts, tags)
-    results = @searcher.search query
+  def search_gets(query, names, texts, tags, only: [])
+    results = @searcher.search(query, only: only)
     assert_equal names, results[:names].size
     assert_equal texts, results[:texts].size
     assert_equal tags, results[:tags].size
@@ -107,6 +107,11 @@ describe Search do
 
         it 'should not find text if text matches but tags do not' do
           search_gets 'cars tags:nope', 0, 0, 0
+        end
+
+        it 'should not get text if it does not search for it' do
+          search_gets 'cars tags:vehicular', 0, 1, 0, only: []
+          search_gets 'cars tags:vehicular', 0, 0, 0, only: [:names, :tags]
         end
       end
     end

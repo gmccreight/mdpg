@@ -13,16 +13,30 @@ describe 'page_search' do
       text: 'Fast cars'
   end
 
-  def search_pages(query)
-    post '/page/search', { query: query }, authenticated_session(@user)
+  def search_pages(query, only:)
+    params = { query: query }
+    if !only.nil?
+      params[:only] = only
+    end
+    post '/page/search', params, authenticated_session(@user)
   end
 
   it 'should integrate the search ok' do
-    search_pages 'good'
+    search_pages 'good', only: nil
     text = last_response.body
 
     assert text.include? '1 pages with matching name'
     assert text.include? 'good-page-name'
     assert text.include? '0 pages with matching text'
+  end
+
+  it 'should be able to pass only' do
+    search_pages 'good', only: 'names,tags,texts'
+    text = last_response.body
+    assert text.include? '1 pages with matching name'
+
+    search_pages 'good', only: 'tags,texts'
+    text = last_response.body
+    assert text.include? '0 pages with matching name'
   end
 end

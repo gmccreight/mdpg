@@ -9,16 +9,22 @@ class Search
     @search_parser = SearchQueryParser.new
   end
 
-  def search(query)
+  def search(query, only: [])
     @search_parser.query = query
 
-    names = search_names
+    keys = [:names, :tags, :texts]
 
-    {
-      names: names,
-      texts: search_texts,
-      tags: search_tags
-    }
+    result = {}
+
+    keys.each do |key|
+      result[key] = if only.size.zero? || only.include?(key)
+                      send('search_' + key.to_s)
+                    else
+                      []
+                    end
+    end
+
+    result
   end
 
   private def search_strings
