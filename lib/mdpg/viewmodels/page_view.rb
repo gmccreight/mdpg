@@ -52,6 +52,8 @@ class PageView < Struct.new(:user, :page, :token_type)
           link = "<a href='/p/#{page.name}##{sec_name}'>#</a>"
           "<span class='transcluded-short'>#{transcluded}</span>\n" \
           "(#{link})"
+        elsif opts && opts.include?('no-headers')
+          transcluded.gsub(/^[ ]{10}/, '')
         else
           "
           <div class='transcluded-section-header top-header'>
