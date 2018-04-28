@@ -23,6 +23,9 @@
       %a(href="/t/{{tag.text}}")
         view
       |
+      %a(ng-show="{{tag.has_tag_page}}" href="/p/tag-page-{{tag.text}}")
+        page
+        |
       %a(ng-click="destroy(tag)" href="")
         remove
       )

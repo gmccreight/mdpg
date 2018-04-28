@@ -67,7 +67,7 @@ WnpApp.controller 'TagsCtrl', ['$scope', 'Tag', ($scope, Tag) ->
 
     normalizedText = $scope.normalizeTagText($scope.tagText)
 
-    newTag = new Tag({text:normalizedText, associated:[]})
+    newTag = new Tag({text:normalizedText, has_tag_page:false, associated:[]})
     tagToAdd = angular.copy(newTag)
 
     successFunc = (data) ->

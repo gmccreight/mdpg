@@ -136,6 +136,24 @@ describe UserPageTags do
     end
   end
 
+  describe 'has a page tag' do
+    before do
+      @user_page_tags.add_tag('swimming')
+    end
+
+    it 'should not have an associated page by default' do
+      refute @user_page_tags.tag_has_associated_page?('swimming')
+    end
+
+    it 'should know when it has an associated page' do
+      another_page = UserPages.new(@user).create_page(name: 'tag-page-swimming')
+      user_another_page_tags = UserPageTags.new(@user, another_page)
+      user_another_page_tags.add_tag('tag-page')
+      assert @user_page_tags.tag_has_associated_page?('swimming')
+    end
+
+  end
+
   describe 'getting the pages that have been tagged' do
     before do
       %w(color jazz green colour).each { |x| @user_page_tags.add_tag x }

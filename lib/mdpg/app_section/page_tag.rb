@@ -16,6 +16,7 @@ module AppSection
       results = sorted_tag_names.map do |tagname|
         {
           text: tagname,
+          has_tag_page: user_page_tags.tag_has_associated_page?(tagname),
           associated: user_page_tags.sorted_associated_tags(tagname)
         }
       end

@@ -94,6 +94,12 @@ class UserPageTags < Struct.new(:user, :page)
     end
   end
 
+  def tag_has_associated_page?(tag_name)
+    page_name = 'tag-page-' + tag_name
+    page = UserPages.new(user).find_page_with_name(page_name)
+    !page.nil?
+  end
+
   def search(query)
     query.downcase!
     SimilarTokenFinder.new.get_similar_tokens(query, tag_names)
