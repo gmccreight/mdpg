@@ -11,11 +11,17 @@ class AdapterInputShortcutsNormalizer
     result
   end
 
-  # 'vv what a test vv Testing Testing vvvv'
+  # 'vv what a test vv Testing Testing'
   # becomes
   # '[[#what-a-test]]Testing Testing[[#what-a-test]]'
+  #
+  # or an explicit end
+  #
+  # 'vv what a test vv Testing Testing vvvv is good'
+  # becomes
+  # '[[#what-a-test]]Testing Testing[[#what-a-test]] is good'
   def normalize_labeled_section_creation(input)
-    input.gsub(/vv ([^ ].*?[^ ]) vv (.*?)vvvv/i) do
+    input.gsub(/vv ([^ ].*?[^ ]) vv (.*?)\s?(vvvv|$)/i) do
       name = Regexp.last_match(1)
       text = Regexp.last_match(2)
       text = text.strip

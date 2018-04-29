@@ -4,18 +4,23 @@ require_relative '../../spec_helper'
 describe AdapterInputShortcutsNormalizer do
   describe 'labeled section creation' do
     it 'should follow the format' do
-      t = 'vv what a test vv Testing Testing vvvv'
+      t = 'vv what a test vv Testing Testing'
       expected = '[[#what-a-test]]Testing Testing[[#what-a-test]]'
       assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
     end
     it 'should allow capitalization at the start' do
-      t = 'Vv what a test vv Testing Testing vvvv'
+      t = 'Vv what a test vv Testing Testing'
       expected = '[[#what-a-test]]Testing Testing[[#what-a-test]]'
       assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
     end
     it 'should shrink multiple spaces to single hyphen' do
-      t = 'vv what a    test vv Testing Testing vvvv'
+      t = 'vv what a    test vv Testing Testing'
       expected = '[[#what-a-test]]Testing Testing[[#what-a-test]]'
+      assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
+    end
+    it 'should break on a newline' do
+      t = "vv what a test vv Testing Testing \n\nother"
+      expected = "[[#what-a-test]]Testing Testing[[#what-a-test]]\n\nother"
       assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
     end
     it 'should do multiple' do
