@@ -158,7 +158,7 @@ end
 
 post '/p/:name/duplicate' do |page_name|
   if get_user_page(page_name)
-    new_page = UserPages.new(current_user).duplicate_page page_name
+    new_page = UserPages.new(current_user).duplicate_page page_name, Date.today
     redirect '/p/' + new_page.name
   end
 end

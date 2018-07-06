@@ -8,6 +8,9 @@ end
 class PageCannotBeDeletedBecauseItHasReferringPages < RuntimeError
 end
 
+class DuplicatorDatePageAlreadyExists < RuntimeError
+end
+
 class UserPages < Struct.new(:user)
   def initialize(user)
     @pages_cache = nil
@@ -60,12 +63,12 @@ class UserPages < Struct.new(:user)
     page_ids_or_names_have_changed
   end
 
-  def duplicate_page(name)
+  def duplicate_page(name, date)
     original_page = find_page_with_name(name)
     return nil unless original_page
 
     duplicator = UserPageDuplicator.new(self, user, original_page)
-    new_page = duplicator.duplicate
+    new_page = duplicator.duplicate(date)
     user.add_page_name_and_id_caching(new_page.name, new_page.id)
     page_was_created(new_page)
     page_ids_or_names_have_changed

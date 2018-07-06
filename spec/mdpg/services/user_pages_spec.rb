@@ -142,7 +142,7 @@ describe UserPages do
     end
 
     it 'should duplicate a page, including the text and tags' do
-      new_page = @user_pages.duplicate_page 'hello'
+      new_page = @user_pages.duplicate_page 'hello', Date.today
       assert_equal 'hello-2', new_page.name
       assert_equal 'world', new_page.text
 
@@ -156,23 +156,37 @@ describe UserPages do
       user_a_different_page_tags = UserPageTags.new(@user, different_page)
       user_a_different_page_tags.add_tag 'tag-on-different-page'
 
-      new_page = @user_pages.duplicate_page 'hello'
+      new_page = @user_pages.duplicate_page 'hello', Date.today
 
       user_page_tags = UserPageTags.new @user, new_page
       assert_equal ['cool-house'], user_page_tags
         .tags_for_page(new_page).map(&:name)
     end
 
+    it 'should change the date in the page title to current date' do
+      @user_pages.create_page name: 'hello-2016-07-12'
+      new_page = @user_pages.duplicate_page 'hello-2016-07-12', Date.parse('2017-01-01')
+      assert_equal 'hello-2017-01-01', new_page.name
+    end
+
+    it 'should fail if the proposed page already exist' do
+      @user_pages.create_page name: 'hello-2016-07-12'
+      @user_pages.create_page name: 'hello-2017-01-01'
+      assert_raises DuplicatorDatePageAlreadyExists do
+        @user_pages.duplicate_page 'hello-2016-07-12', Date.parse('2017-01-01')
+      end
+    end
+
     it 'should increment if page name taken' do
       @user_pages.create_page name: 'hello-2'
-      new_page = @user_pages.duplicate_page 'hello'
+      new_page = @user_pages.duplicate_page 'hello', Date.today
       assert_equal 'hello-3', new_page.name
     end
 
     it 'should increment if page name taken - multiple times' do
       @user_pages.create_page name: 'hello-2'
       @user_pages.create_page name: 'hello-3'
-      new_page = @user_pages.duplicate_page 'hello'
+      new_page = @user_pages.duplicate_page 'hello', Date.today
       assert_equal 'hello-4', new_page.name
     end
 
@@ -185,7 +199,7 @@ describe UserPages do
 
       it 'should duplicate the page very quickly' do
         time_before = Time.now
-        new_page = @user_pages.duplicate_page 'hello'
+        new_page = @user_pages.duplicate_page 'hello', Date.today
         assert @user_page_tags.tags_for_page(new_page).size == 10
         assert_in_delta time_before, Time.now, 0.1
       end
@@ -194,7 +208,7 @@ describe UserPages do
     describe 'where the name already ends in a -1 or -v1' do
       def page_should_duplicate_to(before_name, after_name)
         @user_pages.rename_page(@page, before_name)
-        new_page = @user_pages.duplicate_page before_name
+        new_page = @user_pages.duplicate_page before_name, Date.today
         assert_equal after_name, new_page.name
       end
 
