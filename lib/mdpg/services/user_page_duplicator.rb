@@ -13,7 +13,7 @@ class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
       text.gsub(/^\s*(#+.+)$/) do
         to_keep << Regexp.last_match(1)
       end
-      user_pages.update_page_text_to(new_page, to_keep.join("\n"))
+      user_pages.update_page_text_to(new_page, to_keep.join("\n\n"))
     end
 
     user_page_tags = UserPageTags.new(user, original_page)
