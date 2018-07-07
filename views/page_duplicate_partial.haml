@@ -1,3 +1,8 @@
 %form{:action => "/p/#{page.name}/duplicate", :method => "post"}
-
+  %select{:name => "text_options"}
+    text
+    %option{:value => "full", selected: "selected"}
+      all
+    %option{:value => "headings"}
+      headings
   %input{:type => "submit", :value => "duplicate this page"}
