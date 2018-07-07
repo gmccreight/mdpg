@@ -141,6 +141,23 @@ describe UserPages do
       assert_equal 'hello', Page.find(@page_id).name
     end
 
+    it 'should duplicate a page\'s text' do
+      new_page = @user_pages.duplicate_page 'hello', Date.today
+      assert_equal 'world', new_page.text
+    end
+
+    it 'should duplicate a page\'s text' do
+      new_page = @user_pages.duplicate_page('hello', Date.today, text_options: :full)
+      assert_equal 'world', new_page.text
+    end
+
+    it 'should duplicate a page\'s text - headings only' do
+      @page.text = "### heading 3\nfoo\nbar\n#### heading 4"
+      @page.save
+      new_page = @user_pages.duplicate_page('hello', Date.today, text_options: :headings)
+      assert_equal "### heading 3\n#### heading 4", new_page.text
+    end
+
     it 'should duplicate a page, including the text and tags' do
       new_page = @user_pages.duplicate_page 'hello', Date.today
       assert_equal 'hello-2', new_page.name

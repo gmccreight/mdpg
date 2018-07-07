@@ -1,14 +1,20 @@
 # frozen_string_literal: true
 
-class DuplicatorDatePageAlreadyExists < RuntimeError
-end
-
 class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
-  def duplicate(current_date)
+  def duplicate(current_date, text_options: nil)
     new_page_name = new_name(original_page.name, current_date)
     new_page = user_pages.create_page(name: new_page_name)
 
-    user_pages.update_page_text_to(new_page, original_page.text)
+    if text_options.nil? || text_options == :full
+      user_pages.update_page_text_to(new_page, original_page.text)
+    elsif text_options == :headings
+      text = original_page.text
+      to_keep = []
+      text.gsub(/^\s*(#+.+)$/) do
+        to_keep << Regexp.last_match(1)
+      end
+      user_pages.update_page_text_to(new_page, to_keep.join("\n"))
+    end
 
     user_page_tags = UserPageTags.new(user, original_page)
     user_page_tags.duplicate_tags_to_other_page(new_page)
