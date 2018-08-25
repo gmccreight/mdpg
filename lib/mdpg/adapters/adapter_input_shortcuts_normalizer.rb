@@ -8,6 +8,8 @@ class AdapterInputShortcutsNormalizer
   def normalize(input)
     result = normalize_labeled_section_creation(input)
     result = normalize_new_page_creation(result)
+    result = normalize_spaced_repetition_automatic_back_creation(result)
+    result = normalize_spaced_repetition_card_front_back(result)
     result
   end
 
@@ -38,6 +40,52 @@ class AdapterInputShortcutsNormalizer
       token = normalize_name_into_token(Regexp.last_match(1))
       "[[new-#{token}]]"
     end
+  end
+
+  # 'mutable xx default yy values are xx persistent yy'
+  # becomes
+  # 'sr:: mutable **default** values are **persistent** ::rs'
+  def normalize_spaced_repetition_automatic_back_creation(input)
+    result = []
+    input.lines.each do |line|
+      if line =~ / xx .+ yy/
+        transformed = line.gsub(/xx (.*?) yy/) do
+          text = Regexp.last_match(1)
+          "**#{text}**"
+        end
+        result << "sr:: #{transformed.chomp} ::rs"
+        if transformed.chomp != transformed
+          result << "\n"
+        end
+      else
+        result << line
+      end
+    end
+    result = result.join
+  end
+
+  # typed on mobile keyboard:
+  # 'what are is the name of X? ssrrr some answer'
+  #
+  # and spoken, with the words "back separator" as the split string:
+  # 'what are is the name of X? back separator some answer'
+  #
+  # becomes
+  # 'sr:: what are is the name of X? || some answer ::rs'
+  def normalize_spaced_repetition_card_front_back(input)
+    result = []
+    input.lines.each do |line|
+      if line =~ / (ssrrr|back separator) /
+        transformed = line.sub(/ (ssrrr|back separator) /, ' || ')
+        result << "sr:: #{transformed.chomp} ::rs"
+        if transformed.chomp != transformed
+          result << "\n"
+        end
+      else
+        result << line
+      end
+    end
+    result = result.join
   end
 
   def normalize_name_into_token(name)
