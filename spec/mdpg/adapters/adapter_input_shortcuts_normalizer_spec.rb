@@ -42,6 +42,11 @@ describe AdapterInputShortcutsNormalizer do
       expected = "sr:: mutable **default** values are **persistent** ::rs"
       assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
     end
+    it 'should replace it right at the start of the line' do
+      t = "xx mutable default yy values are xx persistent yy"
+      expected = "sr:: **mutable default** values are **persistent** ::rs"
+      assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
+    end
     it 'should be ok with other newlines' do
       t = "mutable xx default yy values are xx persistent yy\n\ntesting"
       expected = "sr:: mutable **default** values are **persistent** ::rs\n\ntesting"

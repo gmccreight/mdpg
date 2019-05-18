@@ -48,10 +48,11 @@ class AdapterInputShortcutsNormalizer
   def normalize_spaced_repetition_automatic_back_creation(input)
     result = []
     input.lines.each do |line|
-      if line =~ / xx .+ yy/
-        transformed = line.gsub(/xx (.*?) yy/) do
-          text = Regexp.last_match(1)
-          "**#{text}**"
+      if line =~ /(^| )xx .+ yy/
+        transformed = line.gsub(/(^| )xx (.*?) yy/) do
+          before = Regexp.last_match(1)
+          text = Regexp.last_match(2)
+          "#{before}**#{text}**"
         end
         result << "sr:: #{transformed.chomp} ::rs"
         if transformed.chomp != transformed
