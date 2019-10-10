@@ -10,6 +10,7 @@ class AdapterInputShortcutsNormalizer
     result = normalize_new_page_creation(result)
     result = normalize_spaced_repetition_automatic_back_creation(result)
     result = normalize_spaced_repetition_card_front_back(result)
+    result = replace_with_uuids(result)
     result
   end
 
@@ -43,8 +44,7 @@ class AdapterInputShortcutsNormalizer
   end
 
   def make_sr_chunk(transformed)
-    # "sr:: #{SecureRandom.uuid} #{transformed.chomp} ::rs"
-    "sr:: #{transformed.chomp} ::rs"
+    "sr:: #{SecureRandom.uuid} #{transformed.chomp} ::rs"
   end
 
   # 'mutable xx default yy values are xx persistent yy'
@@ -90,6 +90,20 @@ class AdapterInputShortcutsNormalizer
       else
         result << line
       end
+    end
+    result = result.join
+  end
+
+  # typed on mobile keyboard:
+  # 'foo bar make the id.'
+  #
+  # becomes
+  # 'foo bar 2d931510-d99f-494a-8c67-87feb05e1594'
+  def replace_with_uuids(input)
+    result = []
+    input.lines.each do |line|
+      transformed = line.gsub(/make the id\./i, SecureRandom.uuid)
+      result << transformed
     end
     result = result.join
   end

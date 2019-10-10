@@ -36,10 +36,25 @@ describe AdapterInputShortcutsNormalizer do
       assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
     end
   end
+  describe 'replace with UUID' do
+    it 'should replace with UUID' do
+      t = 'testing foo bar Make the ID. Hello'
+      transformed = AdapterInputShortcutsNormalizer.new.normalize(t)
+      uuid = %r{[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}}
+      assert transformed =~ uuid
+      transformed = transformed.sub(uuid, '')
+      assert_equal "testing foo bar  Hello", transformed
+    end
+  end
 
   def expect_sr_match(raw, expected_core, prefix: '', suffix: '')
     expected = prefix + "sr:: #{expected_core} ::rs" + suffix
-    assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(raw)
+    transformed = AdapterInputShortcutsNormalizer.new.normalize(raw)
+    uuid = %r{[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}}
+    assert transformed =~ uuid
+    transformed = transformed.sub(uuid, '')
+    transformed = transformed.sub(/sr::  /, 'sr:: ')
+    assert_equal expected, transformed
   end
 
   describe 'spaced repetition' do
