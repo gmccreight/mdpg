@@ -36,36 +36,42 @@ describe AdapterInputShortcutsNormalizer do
       assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
     end
   end
+
+  def expect_sr_match(raw, expected_core, prefix: '', suffix: '')
+    expected = prefix + "sr:: #{expected_core} ::rs" + suffix
+    assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(raw)
+  end
+
   describe 'spaced repetition' do
     it 'should replace shorthand with longer-hand' do
       t = "mutable xx default yy values are xx persistent yy"
-      expected = "sr:: mutable **default** values are **persistent** ::rs"
-      assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
+      expected_core = "mutable **default** values are **persistent**"
+      expect_sr_match(t, expected_core)
     end
     it 'should replace it right at the start of the line' do
       t = "xx mutable default yy values are xx persistent yy"
-      expected = "sr:: **mutable default** values are **persistent** ::rs"
-      assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
+      expected_core = "**mutable default** values are **persistent**"
+      expect_sr_match(t, expected_core)
     end
     it 'should be ok with other newlines' do
       t = "mutable xx default yy values are xx persistent yy\n\ntesting"
-      expected = "sr:: mutable **default** values are **persistent** ::rs\n\ntesting"
-      assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
+      expected_core = "mutable **default** values are **persistent**"
+      expect_sr_match(t, expected_core, suffix: "\n\ntesting")
     end
     it 'should with with front and back both defined' do
       t = "what are is the name of X? ssrrr some answer"
-      expected = "sr:: what are is the name of X? || some answer ::rs"
-      assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
+      expected_core = "what are is the name of X? || some answer"
+      expect_sr_match(t, expected_core)
     end
     it 'should with with front and back both defined - spoken' do
       t = "what are is the name of X? back separator some answer"
-      expected = "sr:: what are is the name of X? || some answer ::rs"
-      assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
+      expected_core = "what are is the name of X? || some answer"
+      expect_sr_match(t, expected_core)
     end
     it 'should with with front and back both defined - spoken - with multiple lines' do
       t = "what are is the name of X? back separator some answer\n\ntesting"
-      expected = "sr:: what are is the name of X? || some answer ::rs\n\ntesting"
-      assert_equal expected, AdapterInputShortcutsNormalizer.new.normalize(t)
+      expected_core = "what are is the name of X? || some answer"
+      expect_sr_match(t, expected_core, suffix: "\n\ntesting")
     end
   end
 end

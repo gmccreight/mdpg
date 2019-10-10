@@ -42,6 +42,11 @@ class AdapterInputShortcutsNormalizer
     end
   end
 
+  def make_sr_chunk(transformed)
+    # "sr:: #{SecureRandom.uuid} #{transformed.chomp} ::rs"
+    "sr:: #{transformed.chomp} ::rs"
+  end
+
   # 'mutable xx default yy values are xx persistent yy'
   # becomes
   # 'sr:: mutable **default** values are **persistent** ::rs'
@@ -54,7 +59,7 @@ class AdapterInputShortcutsNormalizer
           text = Regexp.last_match(2)
           "#{before}**#{text}**"
         end
-        result << "sr:: #{transformed.chomp} ::rs"
+        result << make_sr_chunk(transformed)
         if transformed.chomp != transformed
           result << "\n"
         end
@@ -78,7 +83,7 @@ class AdapterInputShortcutsNormalizer
     input.lines.each do |line|
       if line =~ / (ssrrr|back separator) /
         transformed = line.sub(/ (ssrrr|back separator) /i, ' || ')
-        result << "sr:: #{transformed.chomp} ::rs"
+        result << make_sr_chunk(transformed)
         if transformed.chomp != transformed
           result << "\n"
         end
