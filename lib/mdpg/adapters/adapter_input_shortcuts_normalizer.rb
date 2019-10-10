@@ -77,7 +77,7 @@ class AdapterInputShortcutsNormalizer
     result = []
     input.lines.each do |line|
       if line =~ / (ssrrr|back separator) /
-        transformed = line.sub(/ (ssrrr|back separator) /, ' || ')
+        transformed = line.sub(/ (ssrrr|back separator) /i, ' || ')
         result << "sr:: #{transformed.chomp} ::rs"
         if transformed.chomp != transformed
           result << "\n"
