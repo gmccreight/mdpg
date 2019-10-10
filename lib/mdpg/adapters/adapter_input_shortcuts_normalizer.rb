@@ -44,12 +44,12 @@ class AdapterInputShortcutsNormalizer
   end
 
   def make_sr_chunk(transformed)
-    "sr:: #{SecureRandom.uuid} #{transformed.chomp} ::rs"
+    "sr:: #{guid}: #{transformed.chomp} ::rs"
   end
 
   # 'mutable xx default yy values are xx persistent yy'
   # becomes
-  # 'sr:: mutable **default** values are **persistent** ::rs'
+  # 'sr:: 2d931510xz: mutable **default** values are **persistent** ::rs'
   def normalize_spaced_repetition_automatic_back_creation(input)
     result = []
     input.lines.each do |line|
@@ -77,7 +77,7 @@ class AdapterInputShortcutsNormalizer
   # 'what are is the name of X? back separator some answer'
   #
   # becomes
-  # 'sr:: what are is the name of X? || some answer ::rs'
+  # 'sr:: 2d931510xz: what are is the name of X? || some answer ::rs'
   def normalize_spaced_repetition_card_front_back(input)
     result = []
     input.lines.each do |line|
@@ -98,11 +98,11 @@ class AdapterInputShortcutsNormalizer
   # 'foo bar make the id.'
   #
   # becomes
-  # 'foo bar 2d931510-d99f-494a-8c67-87feb05e1594'
+  # 'foo bar 2d931510xz'
   def replace_with_uuids(input)
     result = []
     input.lines.each do |line|
-      transformed = line.gsub(/make the id\./i, SecureRandom.uuid)
+      transformed = line.gsub(/make the id\./i, guid())
       result << transformed
     end
     result = result.join
@@ -114,5 +114,13 @@ class AdapterInputShortcutsNormalizer
     result = result.gsub(/ +/, ' ')
     result = result.tr(' ', '-')
     result
+  end
+
+  def guid
+    result = []
+    10.times do
+      result << (('a'..'z').to_a + (0..9).to_a).sample
+    end
+    result.join
   end
 end

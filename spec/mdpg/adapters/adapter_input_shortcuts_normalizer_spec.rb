@@ -40,9 +40,9 @@ describe AdapterInputShortcutsNormalizer do
     it 'should replace with UUID' do
       t = 'testing foo bar Make the ID. Hello'
       transformed = AdapterInputShortcutsNormalizer.new.normalize(t)
-      uuid = %r{[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}}
-      assert transformed =~ uuid
-      transformed = transformed.sub(uuid, '')
+      guid_without_colon = %r{[0-9a-z]{10}}
+      assert transformed =~ guid_without_colon
+      transformed = transformed.sub(guid_without_colon, '')
       assert_equal "testing foo bar  Hello", transformed
     end
   end
@@ -50,9 +50,9 @@ describe AdapterInputShortcutsNormalizer do
   def expect_sr_match(raw, expected_core, prefix: '', suffix: '')
     expected = prefix + "sr:: #{expected_core} ::rs" + suffix
     transformed = AdapterInputShortcutsNormalizer.new.normalize(raw)
-    uuid = %r{[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}}
-    assert transformed =~ uuid
-    transformed = transformed.sub(uuid, '')
+    guid_with_colon = %r{[0-9a-z]{10}:}
+    assert transformed =~ guid_with_colon
+    transformed = transformed.sub(guid_with_colon, '')
     transformed = transformed.sub(/sr::  /, 'sr:: ')
     assert_equal expected, transformed
   end
