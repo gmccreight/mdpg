@@ -87,7 +87,7 @@ describe AdapterInputShortcutsNormalizer do
       expect_sr_match(t, expected_core)
     end
     it 'should with with front and back both defined - spoken' do
-      t = "what are is the name of X? back separator some answer"
+      t = "what are is the name of X? Back separator some answer"
       expected_core = "what are is the name of X? || some answer"
       expect_sr_match(t, expected_core)
     end

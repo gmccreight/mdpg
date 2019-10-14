@@ -81,7 +81,7 @@ class AdapterInputShortcutsNormalizer
   def normalize_spaced_repetition_card_front_back(input)
     result = []
     input.lines.each do |line|
-      if line =~ / (ssrrr|back separator) /
+      if line =~ / (ssrrr|back separator) /i
         transformed = line.sub(/ (ssrrr|back separator) /i, ' || ')
         result << make_sr_chunk(transformed)
         if transformed.chomp != transformed
