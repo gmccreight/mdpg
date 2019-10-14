@@ -37,13 +37,21 @@ describe AdapterInputShortcutsNormalizer do
     end
   end
   describe 'replace with UUID' do
-    it 'should replace with UUID' do
+    it 'should replace "make the id." with UUID and colon' do
       t = 'testing foo bar Make the ID. Hello'
       transformed = AdapterInputShortcutsNormalizer.new.normalize(t)
       guid_without_colon = %r{[0-9a-z]{10}}
       assert transformed =~ guid_without_colon
       transformed = transformed.sub(guid_without_colon, '')
-      assert_equal "testing foo bar  Hello", transformed
+      assert_equal "testing foo bar : Hello", transformed
+    end
+    it 'should replace mmmiii with UUID and colon' do
+      t = 'testing foo bar mmmiii Hello'
+      transformed = AdapterInputShortcutsNormalizer.new.normalize(t)
+      guid_without_colon = %r{[0-9a-z]{10}}
+      assert transformed =~ guid_without_colon
+      transformed = transformed.sub(guid_without_colon, '')
+      assert_equal "testing foo bar : Hello", transformed
     end
   end
 

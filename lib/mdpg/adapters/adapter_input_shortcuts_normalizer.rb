@@ -102,7 +102,8 @@ class AdapterInputShortcutsNormalizer
   def replace_with_uuids(input)
     result = []
     input.lines.each do |line|
-      transformed = line.gsub(/make the id\./i, guid())
+      transformed = line.gsub(/make the id\.[ ]*/i, guid() + ": ")
+      transformed = transformed.gsub(/mmmiii[ ]*/i, guid() + ": ")
       result << transformed
     end
     result = result.join
