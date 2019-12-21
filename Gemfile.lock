@@ -76,6 +76,7 @@ GEM
 
 PLATFORMS
   ruby
+  x86_64-darwin-17
 
 DEPENDENCIES
   align
@@ -94,4 +95,4 @@ DEPENDENCIES
   test-unit
 
 BUNDLED WITH
-   1.13.6
+   1.17.2
