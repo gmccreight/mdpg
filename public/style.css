@@ -104,9 +104,18 @@ table.tag_table_cls, table.tag_table_cls td {
 
 textarea {
   width:90%;
+  height:800px;
   border:1px solid #999999;
   font-family:Consolas,Monaco,Lucida Console,Liberation Mono,
   DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+}
+
+/* This works... ok... but not really what I want.  Leaving in to show how to
+ * do it, though. */
+@media only screen and (max-width: 600px) {
+  textarea {
+    height:600px;
+  }
 }
 
 .wk-hide {
