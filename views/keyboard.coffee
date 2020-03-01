@@ -36,7 +36,7 @@ $ ->
   $("#page_edit_ns_id").find("textarea").focus()
 
   $("#page_edit_ns_id").find("textarea").keydown (e) ->
-    if (e.keyCode == 13 && e.shiftKey)
+    if (e.keyCode == 13 && e.metaKey)
       e.preventDefault()
       e.stopPropagation()
       $("#page_edit_ns_id #editing_form_id").submit()
