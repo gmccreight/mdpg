@@ -1,0 +1,28 @@
+#!/bin/bash
+
+source `dirname $0`/_shared.sh
+
+if [ ! -d .app_data_git/.git ]; then
+  echo "need .app_data_git/.git to exist before running this."
+  echo "Make it, and also set up a remote."
+  exit 1
+fi
+
+if [ $has_local_config ]; then
+  rsync -av --exclude '.git' --delete $shared_mdpg_server:$shared_mdpg_remote_path/.app_data/ \
+    .app_data_git
+
+  (
+    cd .app_data_git
+
+    echo "commiting changes"
+    git add .
+    git commit -m "changes from running gitsave"
+
+    echo "pushing to origin"
+    git push origin master
+  )
+else
+  echo "need local configuration for this to work"
+  exit 1
+fi

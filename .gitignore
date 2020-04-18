@@ -3,6 +3,7 @@
 .app_data
 .app_data_at_*
 .app_data_
+.app_data_git
 .DS_Store
 .bundle
 .coveralls.yml

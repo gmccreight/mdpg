@@ -52,6 +52,11 @@ task :sync do
   exec './bin/ops/sync_production_data'
 end
 
+desc 'sync production data to .app_data_git then commit and push'
+task :gitsave do
+  exec './bin/ops/sync_and_git_save_production_data'
+end
+
 desc 'run the server'
 task :server do
   exec './bin/run_server'
