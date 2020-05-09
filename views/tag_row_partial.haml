@@ -6,8 +6,8 @@
       :method => "post",
       "ng-controller" => "TokenNameCtrl", "ng-init" => "init('#{tag}')"}
 
-      %input.new_name_cls{:type => "text", :name => "new_name",
-        "ng-model" => "tokenName", "ng-change" => "normalize()"}
+      %input.new_name_cls{:type => "text", :name => "new_name", :size => "64",
+      :maxlength => "64", "ng-model" => "tokenName", "ng-change" => "normalize()"}
 
   %td
     - x = UserPageTags.new(user, nil)

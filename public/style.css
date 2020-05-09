@@ -29,7 +29,7 @@ body {
 }
 
 #page_ns_id .new_name_cls {
-  width:300px;
+  font-family: monospace;
 }
 
 a, a:link, a:visited, a:active {

@@ -13,8 +13,8 @@
         "ng-controller" => "TokenNameCtrl",
         "ng-init" => "init('#{viewmodel.name}')"}
 
-        %input.new_name_cls{:type => "text", :name => "new_name",
-          "ng-model" => "tokenName", "ng-change" => "normalize()"}
+        %input.new_name_cls{:type => "text", :name => "new_name", :size => "64",
+        :maxlength => "64", "ng-model" => "tokenName", "ng-change" => "normalize()"}
   - else
     - if viewmodel.should_show_edit_button?
       - token = viewmodel.page.readwrite_sharing_token
