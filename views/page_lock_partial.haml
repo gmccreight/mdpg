@@ -1,0 +1,6 @@
+%form{:action => "/p/#{page.name}/toggle_lock", :method => "post"}
+
+  - if page.is_locked
+    %input{:type => "submit", :value => "unlock this page"}
+  - else
+    %input{:type => "submit", :value => "lock this page"}

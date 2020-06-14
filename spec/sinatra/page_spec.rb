@@ -44,6 +44,10 @@ describe 'page' do
       authenticated_session(@user)
   end
 
+  def toggle_lock(name)
+    post "/p/#{name}/toggle_lock", {}, authenticated_session(@user)
+  end
+
   describe 'viewing' do
     it 'should get a page that is owned by the user' do
       get_page 'original-good-page-name'
@@ -230,6 +234,24 @@ describe 'page' do
                                        text: ''
       rename_page 'original-good-page-name', 'already-taken-page-name'
       assert_equal 'a page with that name already exists', last_response.body
+    end
+  end
+
+  describe 'locking' do
+    it 'should make a page locked if it is not already locked' do
+      toggle_lock 'original-good-page-name'
+      follow_redirect_with_authenticated_user!(@user)
+      assert last_response.body.include? 'This page is locked'
+    end
+
+    it 'should unlock a page that is locked' do
+      toggle_lock 'original-good-page-name'
+      follow_redirect_with_authenticated_user!(@user)
+      assert last_response.body.include? 'This page is locked'
+
+      toggle_lock 'original-good-page-name'
+      follow_redirect_with_authenticated_user!(@user)
+      assert_equal last_response.body.include?('This page is locked'), false
     end
   end
 

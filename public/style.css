@@ -102,6 +102,10 @@ table.tag_table_cls, table.tag_table_cls td {
   text-decoration:none;
 }
 
+.page_locked_cls {
+  background-color: #fee;
+}
+
 textarea {
   width:90%;
   height:800px;

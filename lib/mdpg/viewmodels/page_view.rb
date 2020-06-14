@@ -15,8 +15,21 @@ class PageView < Struct.new(:user, :page, :token_type)
     user_page_tags.remove_tag tag
   end
 
+  def should_show_locked_message?
+    page_is_locked?
+  end
+
+  def page_is_locked?
+    !!page.is_locked
+  end
+
   def should_show_edit_button?
+    return false if page_is_locked?
     token_type.nil? || token_type == :readwrite
+  end
+
+  def should_show_delete_button?
+    !page_is_locked?
   end
 
   def tag_suggestions_for(partial_or_full_tag_name)

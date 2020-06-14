@@ -156,6 +156,15 @@ post '/p/:name/delete' do |page_name|
   end
 end
 
+post '/p/:name/toggle_lock' do |page_name|
+  page = get_user_page(page_name)
+  if page
+    app = _app_get
+    app.page_toggle_lock page
+    _app_handle_result app
+  end
+end
+
 post '/p/:name/duplicate' do |page_name|
   if get_user_page(page_name)
     text_options = params[:text_options]

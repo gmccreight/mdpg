@@ -4,7 +4,7 @@ class Page < ModelBase
   ATTRS = [:name, :text, :revision, :tag_ids, :readonly_sharing_token,
            :readwrite_sharing_token, :readonly_sharing_token_activated,
            :readwrite_sharing_token_activated, :referring_page_ids,
-           :refers_to_page_ids].freeze
+           :refers_to_page_ids, :is_locked].freeze
 
   attr_accessor(*ATTRS)
 
@@ -33,6 +33,14 @@ class Page < ModelBase
     return nil unless meta_line
     json_data = meta_line.sub(/^mdpg-meta:/, '')
     JSON.parse(json_data, symbolize_names: true)
+  end
+
+  def toggle_lock
+    if is_locked
+      self.is_locked = false
+    else
+      self.is_locked = true
+    end
   end
 
   private def string_contains?(string, query)

@@ -63,6 +63,13 @@ class UserPages < Struct.new(:user)
     page_ids_or_names_have_changed
   end
 
+  def toggle_lock(name)
+    page = find_page_with_name(name)
+    return nil unless page
+    page.toggle_lock
+    page.save
+  end
+
   def duplicate_page(name, date, text_options: nil)
     original_page = find_page_with_name(name)
     return nil unless original_page

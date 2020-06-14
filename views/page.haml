@@ -7,27 +7,34 @@
 
     = haml :header_partial, :locals => {:page_name => viewmodel.name}
 
-    %h3
-      %form{:action => "/p/#{viewmodel.name}/rename",
-        :method => "post",
-        "ng-controller" => "TokenNameCtrl",
-        "ng-init" => "init('#{viewmodel.name}')"}
+    - if ! viewmodel.page_is_locked?
+      %h3
+        %form{:action => "/p/#{viewmodel.name}/rename",
+          :method => "post",
+          "ng-controller" => "TokenNameCtrl",
+          "ng-init" => "init('#{viewmodel.name}')"}
 
-        %input.new_name_cls{:type => "text", :name => "new_name", :size => "64",
-        :maxlength => "64", "ng-model" => "tokenName", "ng-change" => "normalize()"}
+          %input.new_name_cls{:type => "text", :name => "new_name", :size => "64",
+          :maxlength => "64", "ng-model" => "tokenName", "ng-change" => "normalize()"}
   - else
     - if viewmodel.should_show_edit_button?
       - token = viewmodel.page.readwrite_sharing_token
       %a.edit_link_cls{:href => "/s/#{token}/edit"}
         edit
 
+  - if viewmodel.should_show_locked_message?
+    .page_locked_cls
+      This page is locked
+
   .rendered_markdown_cls
     ~ viewmodel.fully_rendered_text()
 
   - if mode == :normal
-    = haml :pagetags_partial
+    = haml :pagetags_partial, :locals => {:is_editable => !viewmodel.page_is_locked?}
     = haml :page_referers_partial, :locals => {:page => viewmodel.page}
-    = haml :page_delete_partial, :locals => {:page => viewmodel.page}
+    - if viewmodel.should_show_delete_button?
+      = haml :page_delete_partial, :locals => {:page => viewmodel.page}
+    = haml :page_lock_partial, :locals => {:page => viewmodel.page}
     = haml :page_duplicate_partial, :locals => {:page => viewmodel.page}
 
     #sharing_tokens_id
@@ -41,17 +48,18 @@
           %strong
             #{token_type}
           sharing token ( think before changing! )
-          %form{:action => "/p/#{viewmodel.name}/update_sharing_token",
-            :method => "post"}
-            %input{:type => "hidden", :name => "token_type",
-              :value => token_type}
-            %input.new_name_cls{:type => "text", :name => "new_token",
-              :value => token_value}
-            %input{:type => "checkbox", :name => "is_activated",
-              :checked => token_activated}
-            %input{:type => "submit", :name => "submit", :value => "submit"}
-          %a{:href => "/s/#{token_value}"}
-            link
+          - if ! viewmodel.page_is_locked?
+            %form{:action => "/p/#{viewmodel.name}/update_sharing_token",
+              :method => "post"}
+              %input{:type => "hidden", :name => "token_type",
+                :value => token_type}
+              %input.new_name_cls{:type => "text", :name => "new_token",
+                :value => token_value}
+              %input{:type => "checkbox", :name => "is_activated",
+                :checked => token_activated}
+              %input{:type => "submit", :name => "submit", :value => "submit"}
+            %a{:href => "/s/#{token_value}"}
+              link
 
     #revision_id
       revision #{viewmodel.page.revision}

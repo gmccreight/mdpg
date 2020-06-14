@@ -72,6 +72,11 @@ class App
     add_error 'the page cannot be deleted because other pages refer to it'
   end
 
+  def page_toggle_lock(page)
+    UserPages.new(current_user).toggle_lock page.name
+    redirect_to_path "/p/#{page.name}"
+  end
+
   def update_page_from_readwrite_token(readwrite_token, new_text)
     page, token_type = PageSharingTokens.find_page_by_token(readwrite_token)
     return if !page || token_type != :readwrite
