@@ -20,6 +20,7 @@ class LabeledSectionIncludersInfo
   end
 
   def pages_that_link_to_or_include_this_page
+    return [] unless @page.any_referring_pages?
     @page.referring_page_ids.map { |x| Page.find(x) }
   end
 end
