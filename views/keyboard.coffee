@@ -35,13 +35,20 @@ $ ->
 
   $("#page_edit_ns_id").find("textarea").focus()
 
-  $("#page_prepend_append_ns_id").find("textarea").focus()
-
   $("#page_edit_ns_id").find("textarea").keydown (e) ->
     if (e.keyCode == 13 && e.metaKey)
       e.preventDefault()
       e.stopPropagation()
       $("#page_edit_ns_id #editing_form_id").submit()
+      return false
+
+  $("#page_prepend_append_ns_id").find("textarea").focus()
+
+  $("#page_prepend_append_ns_id").find("textarea").keydown (e) ->
+    if (e.keyCode == 13 && e.metaKey)
+      e.preventDefault()
+      e.stopPropagation()
+      $("#page_prepend_append_ns_id #prepend_append_form_id").submit()
       return false
 
   $("table.tag_table_cls .name_cls").click ->
