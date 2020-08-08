@@ -139,6 +139,27 @@ get '/p/:name/edit' do |page_name|
   end
 end
 
+get '/p/:name/prepend_append' do |page_name|
+  page = get_user_page(page_name)
+  if page
+    app = _app_get
+    prepend_or_append = params[:prepend_or_append]
+    haml :page_prepend_append, locals: app.page_prepend_append(page, prepend_or_append)
+  end
+end
+
+post '/p/:name/prepend_append' do |page_name|
+  page = get_user_page(page_name)
+  if page
+    app = _app_get
+    app = authorize!
+    text = params[:text]
+    prepend_or_append = params[:prepend_or_append]
+    app.page_prepend_or_append_text page, text, prepend_or_append
+    haml :page_prepend_append, locals: app.page_prepend_append(page, prepend_or_append)
+  end
+end
+
 get '/p/:name/tags' do |page_name|
   page = get_user_page(page_name)
   if page

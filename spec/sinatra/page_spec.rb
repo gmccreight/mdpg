@@ -31,6 +31,11 @@ describe 'page' do
     post "/p/#{name}/update", { text: text }, authenticated_session(@user)
   end
 
+  def prepend_or_append_page(name, text, prepend_append)
+    post "/p/#{name}/prepend_append", { text: text, prepend_or_append: prepend_append },
+      authenticated_session(@user)
+  end
+
   def update_page_with_readwrite_token(token, text)
     post "/s/#{token}/update", text: text
   end
@@ -127,6 +132,18 @@ describe 'page' do
       add_page 'page-that-will-already-exist'
       add_page 'page-that-will-already-exist'
       assert_equal 'a page with that name already exists', last_response.body
+    end
+  end
+
+  describe 'prepend_append' do
+    it 'should update the text of a page and redirect back to the page' do
+      prepend_or_append_page 'original-good-page-name', 'append1', 'append'
+      prepend_or_append_page 'original-good-page-name', 'append2', 'append'
+      prepend_or_append_page 'original-good-page-name', 'prepend1', 'prepend'
+
+      edit_page 'original-good-page-name'
+      body_text = last_response.body
+      assert body_text.scan(/(prepend\d|append\d)/).join("") == "prepend1append1append2"
     end
   end
 

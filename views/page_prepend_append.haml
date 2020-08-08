@@ -1,0 +1,12 @@
+#page_prepend_append_ns_id
+
+  - path = "/p/#{page.name}/prepend_append"
+
+  %form{:id => "prepend_append_form_id",
+    :action => path, :method => "post"}
+    %input{:type => "hidden", :name => "prepend_or_append", :value => prepend_or_append}
+
+    %div
+      %textarea{ :id => "ta",
+                 :name => "text", :cols => "100" }
+    %input{:type => "submit"}

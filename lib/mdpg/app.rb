@@ -51,6 +51,10 @@ class App
     { page: page, page_text: page_text, readwrite_token: nil }
   end
 
+  def page_prepend_append(page, prepend_or_append)
+    { page: page, prepend_or_append: prepend_or_append }
+  end
+
   def page_plain(page)
     PageEditView.new(current_user, page).text_for_editing
   end
@@ -99,12 +103,26 @@ class App
   end
 
   def page_update_text(page, new_text)
+    page_update_text_internals(page, new_text)
+    redirect_to_path "/p/#{page.name}"
+  end
+
+  def page_prepend_or_append_text(page, new_text, prepend_or_append)
+    page_text = PageEditView.new(current_user, page).text_for_editing
+    text_to_save = ""
+    if prepend_or_append == "prepend"
+      text_to_save = new_text + "\n\n" + page_text
+    elsif prepend_or_append == "append"
+      text_to_save = page_text + "\n\n" + new_text
+    end
+    page_update_text_internals(page, text_to_save)
+  end
+
+  def page_update_text_internals(page, new_text)
     user_pages = UserPages.new(current_user)
     new_text = AdapterInputShortcutsNormalizer.new.normalize(new_text)
     user_pages.update_page_text_to(page, new_text)
     user_pages.page_was_updated page
-
-    redirect_to_path "/p/#{page.name}"
   end
 
   def page_search(query, only)

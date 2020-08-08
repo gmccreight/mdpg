@@ -63,3 +63,9 @@
 
     #revision_id
       revision #{viewmodel.page.revision}
+
+    #prepend_append_id
+      %a.edit_link_cls{:href => "/p/#{viewmodel.name}/prepend_append?prepend_or_append=prepend"}
+        prepend
+      %a.edit_link_cls{:href => "/p/#{viewmodel.name}/prepend_append?prepend_or_append=append"}
+        append
