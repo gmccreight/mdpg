@@ -35,6 +35,8 @@ $ ->
 
   $("#page_edit_ns_id").find("textarea").focus()
 
+  $("#page_prepend_append_ns_id").find("textarea").focus()
+
   $("#page_edit_ns_id").find("textarea").keydown (e) ->
     if (e.keyCode == 13 && e.metaKey)
       e.preventDefault()

@@ -115,8 +115,8 @@ textarea {
 }
 
 #prepend_append_form_id textarea {
-  width:50%;
-  height:200px;
+  width:60%;
+  height:160px;
   border:1px solid #999999;
   font-family:Consolas,Monaco,Lucida Console,Liberation Mono,
   DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
