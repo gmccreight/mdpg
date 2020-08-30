@@ -6,6 +6,7 @@ if [ $has_local_config ]; then
 
   rsync -av --exclude ".git" --exclude ".app_data" \
   --exclude ".app_data_git" --exclude ".app_data_at_*" \
+  --exclude ".ruby-version" \ # keep the one on production
   --delete . $shared_mdpg_server:$shared_mdpg_remote_path
 
 fi
