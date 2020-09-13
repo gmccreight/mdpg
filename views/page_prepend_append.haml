@@ -10,3 +10,10 @@
       %textarea{ :id => "ta",
                  :name => "text", :cols => "100" }
     %input{:type => "submit"}
+    %input{:type => "checkbox", :name => "add_timestamp", :checked => add_timestamp || false}
+    add_timestamp
+
+
+  - path = "/p/#{page.name}"
+  %a.edit_link_cls{:href => path}
+    = page.name

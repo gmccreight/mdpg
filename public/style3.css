@@ -122,7 +122,7 @@ textarea {
   DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
 }
 
-#prepend_append_form_id input {
+#prepend_append_form_id input[type=submit] {
   width: 300px;
   height: 300px;
 }

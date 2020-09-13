@@ -144,7 +144,8 @@ get '/p/:name/prepend_append' do |page_name|
   if page
     app = _app_get
     prepend_or_append = params[:prepend_or_append]
-    haml :page_prepend_append, locals: app.page_prepend_append(page, prepend_or_append)
+    add_timestamp = params[:add_timestamp]
+    haml :page_prepend_append, locals: app.page_prepend_append(page, prepend_or_append, add_timestamp)
   end
 end
 
@@ -153,10 +154,11 @@ post '/p/:name/prepend_append' do |page_name|
   if page
     app = _app_get
     app = authorize!
+    add_timestamp = params[:add_timestamp] || false
     text = params[:text]
     prepend_or_append = params[:prepend_or_append]
-    app.page_prepend_or_append_text page, text, prepend_or_append
-    haml :page_prepend_append, locals: app.page_prepend_append(page, prepend_or_append)
+    app.page_prepend_or_append_text page, text, prepend_or_append, add_timestamp
+    haml :page_prepend_append, locals: app.page_prepend_append(page, prepend_or_append, add_timestamp)
   end
 end
 

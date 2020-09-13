@@ -51,8 +51,8 @@ class App
     { page: page, page_text: page_text, readwrite_token: nil }
   end
 
-  def page_prepend_append(page, prepend_or_append)
-    { page: page, prepend_or_append: prepend_or_append }
+  def page_prepend_append(page, prepend_or_append, add_timestamp)
+    { page: page, prepend_or_append: prepend_or_append, add_timestamp: add_timestamp}
   end
 
   def page_plain(page)
@@ -107,8 +107,12 @@ class App
     redirect_to_path "/p/#{page.name}"
   end
 
-  def page_prepend_or_append_text(page, new_text, prepend_or_append)
+  def page_prepend_or_append_text(page, new_text, prepend_or_append, add_timestamp)
     page_text = PageEditView.new(current_user, page).text_for_editing
+    if add_timestamp
+      timestamp = Time.now.strftime("%Y-%m-%d %k:%M")
+      new_text = timestamp + " " + new_text
+    end
     text_to_save = ""
     if prepend_or_append == "prepend"
       text_to_save = new_text + "\n\n" + page_text

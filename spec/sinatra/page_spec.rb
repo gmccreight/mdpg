@@ -31,8 +31,8 @@ describe 'page' do
     post "/p/#{name}/update", { text: text }, authenticated_session(@user)
   end
 
-  def prepend_or_append_page(name, text, prepend_append)
-    post "/p/#{name}/prepend_append", { text: text, prepend_or_append: prepend_append },
+  def prepend_or_append_page(name, text, prepend_append, add_timestamp)
+    post "/p/#{name}/prepend_append", { text: text, prepend_or_append: prepend_append , add_timestamp: add_timestamp},
       authenticated_session(@user)
   end
 
@@ -137,13 +137,21 @@ describe 'page' do
 
   describe 'prepend_append' do
     it 'should update the text of a page and redirect back to the page' do
-      prepend_or_append_page 'original-good-page-name', 'append1', 'append'
-      prepend_or_append_page 'original-good-page-name', 'append2', 'append'
-      prepend_or_append_page 'original-good-page-name', 'prepend1', 'prepend'
+      prepend_or_append_page 'original-good-page-name', 'append1', 'append', false
+      prepend_or_append_page 'original-good-page-name', 'append2', 'append', false
+      prepend_or_append_page 'original-good-page-name', 'prepend1', 'prepend', false
 
       edit_page 'original-good-page-name'
       body_text = last_response.body
       assert body_text.scan(/(prepend\d|append\d)/).join("") == "prepend1append1append2"
+    end
+
+    it 'should add a timestamp to the line if the timestamp is passed' do
+      prepend_or_append_page 'original-good-page-name', 'appended', 'append', true
+
+      edit_page 'original-good-page-name'
+      body_text = last_response.body
+      assert body_text.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2} appended/)
     end
   end
 
