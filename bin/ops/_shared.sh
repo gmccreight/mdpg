@@ -7,4 +7,5 @@ else
   echo please create a file at $shared_local_config_path with variables like:
   echo shared_mdpg_server=mdpg.co
   echo shared_mdpg_remote_path=\"~/mdpg\"
+  echo shared_mdpg_restart_script=\"~/mdpg/restart_script\"
 fi
