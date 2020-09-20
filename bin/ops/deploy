@@ -9,6 +9,8 @@ if [ $has_local_config ]; then
   --exclude ".ruby-version" \
   --delete . $shared_mdpg_server:$shared_mdpg_remote_path
 
+  ssh $shared_mdpg_server "$shared_mdpg_remote_path/bin/ops/on_server_post_deploy_code_changes.sh"
+
   ssh $shared_mdpg_server "nohup $shared_mdpg_restart_script 1>/dev/null 2>/dev/null &"
 
 fi
