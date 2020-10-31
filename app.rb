@@ -128,11 +128,6 @@ end
 get '/p/:name/edit' do |page_name|
   page = get_user_page(page_name)
 
-  # Hack to try out woofmark
-  page_tags = ObjectTags.new(page)
-  params[:woofmark] = 1 if
-    page_tags.sorted_tag_names.include?('mdpg-use-woofmark')
-
   if page
     app = _app_get
     haml :page_edit, locals: app.page_edit(page)
