@@ -1,6 +1,3 @@
-[![Code Climate](https://codeclimate.com/github/gmccreight/mdpg.png)](
-https://codeclimate.com/github/gmccreight/mdpg
-)
 [![Build Status](https://travis-ci.org/gmccreight/mdpg.png?branch=master)](
 https://travis-ci.org/gmccreight/mdpg
 )
@@ -22,8 +19,8 @@ integration tests.  This is the primary design goal; all else is secondary.
 If the tests take more than a second to run on a top-of-the-line computer,
 then we're not meeting our goal.
 
-As of this writing (June 2015), the tests run in 0.6 seconds on my Macbook
-Pro.  There are 345 assertions, many of which are high-level in Rack::Test.
+As of this writing (Oct 2020), the tests run in 0.7 seconds on my Macbook
+Pro.  There are 440 assertions, many of which are high-level in Rack::Test.
 
 ### Fast Deploys
 
@@ -31,7 +28,7 @@ I also want to be able to deploy in less than a second.  This is, again, all
 about lowering the barrier to making changes in the system.  If I can run
 all the tests and deploy in two seconds, I'm likely to do it often.
 
-As of this writing (June 2015) it takes less than a second to deploy to
+As of this writing (Oct 2020) it takes less than a second to deploy to
 production.
 
 ## Readily Refactorable
@@ -48,11 +45,6 @@ In his book, "The Clean Coder", Uncle Bob Martin says:
 "TDD is another big help. I you have a failing test, that test holds the
 context of where you are. You can return to it after an interruption and
 continue to make that failing test pass."
-
-## 4.0!
-
-I wanna maintain a 4.0 on Code Climate.  Of course I realize this is a silly
-goal, but what's life without silly goals?
 
 ## Fun!
 
@@ -89,8 +81,8 @@ is a hash of the data's key.
 
 Another nice side-effect of the quick backup is that it makes it easy to
 quickly load the production data into the development environment.  As of this
-writing (Jun 2015) it takes less than a second to load the incremental changes
-to the > 20,000 files of production data into the development environment.
+writing (Oct 2020) it takes about 10 seconds to load the incremental changes
+to the > 110,000 files of production data into the development environment.
 
 The command to run the sync of production data to development is:
 
@@ -108,21 +100,11 @@ Since this thing is highly experimental, it's possible that the quickest way
 of migrating the datastore will be to actually run macros on the datastore
 files themselves.  Their format and structure should facilitate that.
 
-## Runs on EC2 micro instance (or the low-end DigitalOcean box)
+## Runs on a cheap machine
 
-It should be able to run great on a $5-6/mo machine.
+It should be able to run great on a $5-6/mo cloud machine.
 
 ## Collaboration
-
-### You and clans
-
-You are you.  You are also part of a clan.  You are part of *many* clans.
-You join and leave clans.  Some things you create for the clan, others for
-yourself.  Some things you always want to be in charge of, other things you
-want to cede control of to others.  In other words, you and your clans are
-very fluid, but many systems are rigid.  I'm looking at you, Google Docs!
-
-That being said, mdpg punts on this for the moment.
 
 ### The public at large
 
@@ -137,16 +119,6 @@ The best way to share is an easy-to-remember URL (like on pageoftext.com)
 
 If you really want to force people to type in something long, you can use this
 option, too.
-
-## Round-trip Markdown
-
-The web front end should have round-trip Markdown.  In other words, you should
-be able to use Markdown markup, or actually type in the rendered text, and
-have it update the Markdown.
-
-## Realtime clan editing
-
-We're gonna punt on this one for now, I think.  Too much to think through.
 
 ## Very flexible tagging
 
@@ -215,11 +187,6 @@ So, piles of pages where piling by creation date and modification date.
 
 Also, I wonder if there's merit in having a page with a huge number of things
 directly in the page.
-
-## Exceptions
-
-I've never felt in the past that I've been using exceptions effectively.  I'll
-read Exceptional Ruby and apply the ideas here.
 
 ---
 
