@@ -110,7 +110,7 @@ class App
   def page_prepend_or_append_text(page, new_text, prepend_or_append, add_timestamp)
     page_text = PageEditView.new(current_user, page).text_for_editing
     if add_timestamp
-      timestamp = Time.now.strftime("%Y-%m-%d %k:%M")
+      timestamp = Time.now.strftime("%Y-%m-%d %H:%M")
       new_text = timestamp + " " + new_text
     end
     text_to_save = ""
