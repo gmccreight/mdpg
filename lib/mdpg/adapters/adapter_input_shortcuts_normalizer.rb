@@ -5,13 +5,43 @@
 # expected long-form format before the page content is saved.
 
 class AdapterInputShortcutsNormalizer
-  def normalize(input)
-    result = normalize_labeled_section_creation(input)
+  def normalize(input, user_pages)
+    result = input
+    result = add_labeled_section_transclusion_syntax(result, user_pages)
+    result = normalize_labeled_section_creation(result)
     result = normalize_new_page_creation(result)
     result = normalize_spaced_repetition_automatic_back_creation(result)
     result = normalize_spaced_repetition_card_front_back(result)
     result = replace_with_uuids(result)
     result
+  end
+
+  # page#section
+  # becomes
+  # [[page#section:short]]
+  # if the user has pages with sections that make that work
+  def add_labeled_section_transclusion_syntax(input, user_pages)
+    result = []
+    min = Token::TOKEN_MIN_LENGTH
+    max = Token::TOKEN_MAX_LENGTH
+    input.lines.each do |line|
+      transformed = line.gsub(/(?<!\w)([a-z0-9-]{#{min},#{max}})#([a-z0-9-]{#{min},#{max}})/) do
+        page_name = Regexp.last_match(1)
+        section = Regexp.last_match(2)
+        page = user_pages.find_page_with_name(page_name)
+        if page
+          if page.text =~ /\[\[##{section}:/
+            "[[#{page_name}##{section}:short]]"
+          else
+            "#{page_name}##{section}"
+          end
+        else
+          "#{page_name}##{section}"
+        end
+      end
+      result << transformed
+    end
+    result = result.join
   end
 
   # 'vv what a test vv Testing Testing'
@@ -124,4 +154,5 @@ class AdapterInputShortcutsNormalizer
     end
     result.join
   end
+
 end
