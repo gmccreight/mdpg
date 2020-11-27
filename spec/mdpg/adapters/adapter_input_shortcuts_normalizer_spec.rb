@@ -35,6 +35,11 @@ describe AdapterInputShortcutsNormalizer do
       expected = 'here is a [[foo#bar:short]] cool eh?'
       assert_equal expected, normalize_it(t)
     end
+    it 'should not modify an already existing link' do
+      t = 'here is a [[foo#bar:short]] cool eh?'
+      expected = t
+      assert_equal expected, normalize_it(t)
+    end
     it 'should not modify if the page does not exist' do
       t = 'here is a not-the-page#bar cool eh?'
       expected = t

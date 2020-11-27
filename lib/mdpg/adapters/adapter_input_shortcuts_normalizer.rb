@@ -25,7 +25,7 @@ class AdapterInputShortcutsNormalizer
     min = Token::TOKEN_MIN_LENGTH
     max = Token::TOKEN_MAX_LENGTH
     input.lines.each do |line|
-      transformed = line.gsub(/(?<!\w)([a-z0-9-]{#{min},#{max}})#([a-z0-9-]{#{min},#{max}})/) do
+      transformed = line.gsub(/(?<![\w|\[])([a-z0-9-]{#{min},#{max}})#([a-z0-9-]{#{min},#{max}})/) do
         page_name = Regexp.last_match(1)
         section = Regexp.last_match(2)
         page = user_pages.find_page_with_name(page_name)
