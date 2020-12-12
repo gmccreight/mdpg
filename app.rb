@@ -50,6 +50,11 @@ get '/application_spec.js' do
   coffee :application_spec
 end
 
+get '/other.js' do
+  cache_control :public, max_age: 600
+  coffee :other
+end
+
 get '/login' do
   haml :login
 end
@@ -150,9 +155,10 @@ post '/p/:name/prepend_append' do |page_name|
     app = _app_get
     app = authorize!
     add_timestamp = params[:add_timestamp] || false
+    timezone_offset_minutes = params[:timezone_offset_minutes] || 0
     text = params[:text]
     prepend_or_append = params[:prepend_or_append]
-    app.page_prepend_or_append_text page, text, prepend_or_append, add_timestamp
+    app.page_prepend_or_append_text page, text, prepend_or_append, add_timestamp, timezone_offset_minutes
     haml :page_prepend_append, locals: app.page_prepend_append(page, prepend_or_append, add_timestamp)
   end
 end

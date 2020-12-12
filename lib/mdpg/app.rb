@@ -107,10 +107,11 @@ class App
     redirect_to_path "/p/#{page.name}"
   end
 
-  def page_prepend_or_append_text(page, new_text, prepend_or_append, add_timestamp)
+  def page_prepend_or_append_text(page, new_text, prepend_or_append, add_timestamp, timezone_offset_minutes)
     page_text = PageEditView.new(current_user, page).text_for_editing
     if add_timestamp
-      timestamp = Time.now.strftime("%Y-%m-%d %H:%M")
+      t = Time.now - (Integer(timezone_offset_minutes) * 60)
+      timestamp = t.strftime("%Y-%m-%d %H:%M")
       new_text = timestamp + " " + new_text
     end
     text_to_save = ""

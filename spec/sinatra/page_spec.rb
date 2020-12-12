@@ -31,8 +31,9 @@ describe 'page' do
     post "/p/#{name}/update", { text: text }, authenticated_session(@user)
   end
 
-  def prepend_or_append_page(name, text, prepend_append, add_timestamp)
-    post "/p/#{name}/prepend_append", { text: text, prepend_or_append: prepend_append , add_timestamp: add_timestamp},
+  def prepend_or_append_page(name, text, prepend_append, add_timestamp, timezone_offset_minutes=0)
+    post "/p/#{name}/prepend_append",
+      { text: text, prepend_or_append: prepend_append , add_timestamp: add_timestamp, timezone_offset_minutes: 0},
       authenticated_session(@user)
   end
 
@@ -148,6 +149,14 @@ describe 'page' do
 
     it 'should add a timestamp to the line if the timestamp is passed' do
       prepend_or_append_page 'original-good-page-name', 'appended', 'append', true
+
+      edit_page 'original-good-page-name'
+      body_text = last_response.body
+      assert body_text.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2} appended/)
+    end
+
+    it 'should still be ok, even when a timezone_offset_minutes is passed' do
+      prepend_or_append_page 'original-good-page-name', 'appended', 'append', true, 480
 
       edit_page 'original-good-page-name'
       body_text = last_response.body
