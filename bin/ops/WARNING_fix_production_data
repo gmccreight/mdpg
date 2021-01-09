@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Use the data saved in the git directory to fix production's data
+
+source `dirname $0`/_shared.sh
+rootdir="`dirname $0`/../.."
+
+if [ ! -d $rootdir/.app_data_git/.git ]; then
+  echo "need .app_data_git/.git to exist before running this."
+  echo "Make it, and also set up a remote."
+  exit 1
+fi
+
+if [ $has_local_config ]; then
+  rsync -av --exclude '.git' --delete \
+    $rootdir/.app_data_git/ \
+    $shared_mdpg_server:$shared_mdpg_remote_path/.app_data
+else
+  echo "need local configuration for this to work"
+  exit 1
+fi
