@@ -1,4 +1,5 @@
 %form{:action => "/p/#{page.name}/duplicate", :method => "post"}
+  %input{:type => "text", :name => "proposed_name", :value => "#{page.name}", :size => 64}
   %select{:name => "text_options"}
     text
     %option{:value => "full", selected: "selected"}

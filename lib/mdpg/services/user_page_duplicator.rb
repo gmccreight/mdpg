@@ -2,9 +2,11 @@
 
 class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
   def duplicate(current_date, proposed_name: nil, text_options: nil)
-      new_page_name = proposed_name ?
-        proposed_name :
-        new_name(original_page.name, current_date)
+    if proposed_name && proposed_name != original_page.name
+      new_page_name = proposed_name
+    else
+      new_page_name = new_name(original_page.name, current_date)
+    end
 
     new_page = user_pages.create_page(name: new_page_name)
 
