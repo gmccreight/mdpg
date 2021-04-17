@@ -207,6 +207,11 @@ describe UserPages do
       assert_equal 'hello-4', new_page.name
     end
 
+    it 'should duplicate a page, taking the proposed name, ignoring the date' do
+      new_page = @user_pages.duplicate_page 'hello', Date.today, proposed_name: 'good-name'
+      assert_equal 'good-name', new_page.name
+    end
+
     describe 'where there are a bunch of tags' do
       before do
         (2..10).to_a.each do |num|

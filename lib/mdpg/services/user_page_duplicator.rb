@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class UserPageDuplicator < Struct.new(:user_pages, :user, :original_page)
-  def duplicate(current_date, text_options: nil)
-    new_page_name = new_name(original_page.name, current_date)
+  def duplicate(current_date, proposed_name: nil, text_options: nil)
+      new_page_name = proposed_name ?
+        proposed_name :
+        new_name(original_page.name, current_date)
+
     new_page = user_pages.create_page(name: new_page_name)
 
     if text_options.nil? || text_options == :full
