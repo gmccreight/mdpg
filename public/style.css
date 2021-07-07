@@ -28,7 +28,11 @@ body {
   color:#333;
 }
 
-#page_ns_id .new_name_cls {
+.new_name_cls {
+  font-family: monospace;
+}
+
+.proposed_name_cls {
   font-family: monospace;
 }
 
