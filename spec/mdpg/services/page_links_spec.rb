@@ -20,8 +20,15 @@ describe PageLinks do
   end
 
   describe 'internal links to user-clickable link' do
-    it 'should work' do
+    it 'should take the name of the page by default' do
       assert_equal('link to [zebra-training](/p/zebra-training)',
+        @page_links.internal_to_user_clickable_links(@alaska_page.text))
+    end
+
+    it 'should be able to override the page name' do
+      @alaska_page.text = "link to [[mdpgpage:#{@zebra_page.id}]]((YO, Zebras!))"
+      @alaska_page.save
+      assert_equal('link to [YO, Zebras!](/p/zebra-training)',
         @page_links.internal_to_user_clickable_links(@alaska_page.text))
     end
   end
