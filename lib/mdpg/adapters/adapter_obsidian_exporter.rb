@@ -13,7 +13,7 @@ class AdapterObsidianExporter
 
   # [[video-bullet-proof-nest-egg#breakdown-of-allocations-by-ray-dalio:short]]
   # becomes
-  # ![[video-bullet-proof-nest-egg^breakdown-of-allocations-by-ray-dalio]]
+  # ![[video-bullet-proof-nest-egg#^breakdown-of-allocations-by-ray-dalio]]
   def transform_transclusion_links(input)
     result = []
     min = Token::TOKEN_MIN_LENGTH
@@ -22,7 +22,7 @@ class AdapterObsidianExporter
       transformed = line.gsub(/\[\[([a-z0-9-]{#{min},#{max}})#([a-z0-9-]{#{min},#{max}}):short\]\]/) do
         page_name = Regexp.last_match(1)
         section = Regexp.last_match(2)
-        "![[#{page_name}^#{section}]]"
+        "![[#{page_name}#^#{section}]]"
       end
       result << transformed
     end
